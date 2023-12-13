@@ -42,6 +42,10 @@ public class Festival {
 	// 끝나는 기간
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
+	
+	// 태그
+	@Column(length=100)
+	private String Tag;
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -49,7 +53,7 @@ public class Festival {
 
 	public Festival(
 		String name, String content, String location,
-		String startDate, String endDate
+		String startDate, String endDate, String Tag
 	) {
 		super();
 		this.name = name;
@@ -57,6 +61,7 @@ public class Festival {
 		this.location = location;
 		this.startDate = LocalDate.parse(startDate);
 		this.endDate = LocalDate.parse(endDate);
+		this.Tag = Tag;
 	}
 	
 }
