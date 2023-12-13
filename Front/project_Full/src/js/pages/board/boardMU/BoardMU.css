@@ -1,0 +1,33 @@
+.board-detail-container {
+  width: 750px;
+  margin: 0;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff7a;
+}
+
+.board-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.board-div {
+  flex: 1;
+}
+
+.btn {
+  margin: 10px;
+}
+
+.board-content {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.board-file-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

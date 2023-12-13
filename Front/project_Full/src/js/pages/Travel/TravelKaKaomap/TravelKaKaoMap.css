@@ -1,0 +1,24 @@
+#map{
+    margin-left:10%;
+}
+
+#btnGroup{
+    position: relative;
+    
+}
+
+#btn0{
+    color:white;
+}
+.btn1{
+    position: absolute;
+  color:blueviolet;
+  margin-left: 0px;
+  margin-top: 100px;
+}
+
+.btn2{
+    position: absolute;
+    margin-left: 0%;
+    margin-top: 130px;
+}

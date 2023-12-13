@@ -1,0 +1,16 @@
+.list-container {
+  margin-top: 20px;
+}
+
+.btn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-container {
+  background-color: "lightgray";
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
