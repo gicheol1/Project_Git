@@ -257,10 +257,9 @@ export function useBoardDetail() {
             method: 'GET'
 
         }).then((response) => {
-            if (response.ok) {
-                return response.json();
+            if (response.ok) { return true; }
 
-            }
+            return false;
 
         }).catch((e) => {
             console.log(e);

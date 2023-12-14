@@ -1,0 +1,17 @@
+.reply {
+  background-color: lightslategray;
+}
+
+.commentList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comments {
+  flex: 1;
+}
+
+.btnComment {
+  flex: 2;
+}

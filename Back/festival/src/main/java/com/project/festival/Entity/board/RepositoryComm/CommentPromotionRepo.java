@@ -1,6 +1,7 @@
 package com.project.festival.Entity.board.RepositoryComm;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,11 @@ public interface CommentPromotionRepo extends CrudRepository<CommentPromotion, L
 	List<CommentPromotion> findByBoardNumAndRecoNumIsNullOrderByCoNum(Long boardNum);
 	List<CommentPromotion> findByBoardNumAndRecoNumOrderByCoNum(Long boardNum, Long recoNum);
 	
+	Optional<CommentPromotion> findByBoardNumAndCoNum(Long boardNum, Long recoNum);
+	
+	boolean findIsDeletedByCoNum(Long coNum);
+	
 	void deleteByBoardNum(Long boardNum);
-	void deleteByBoardNumAndCoNum(Long boardNum, Long recoNum);
+	void deleteByBoardNumAndCoNum(Long boardNum, Long coNum);
 
 }
