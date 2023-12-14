@@ -1,0 +1,18 @@
+/* ViewerContainer.css */
+.viewers-container {
+    display: flex; /* Flexbox를 사용하여 가로로 나란히 배치합니다. */
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    height: 100vh; /* 화면 전체 높이를 기준으로 정렬 */
+    background-color: gray;
+}
+
+  
+  .viewer {
+    flex: 1;
+    margin: 50px; /* 각 Viewer 사이의 간격을 조절합니다. */
+    padding: 15px;
+    border: 1px solid red;
+    background-color: orange; /* 내부 배경 색상을 orange로 설정 */
+  }
+  

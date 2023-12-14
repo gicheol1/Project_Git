@@ -1,8 +1,11 @@
 import './LayOut.css';
 
 import Header from "./header/Header";
+import Sidebar from './sidebar/Sidebar';
+import Footer from './footer/Footer';
 
 import { Outlet } from "react-router-dom";
+
 
 const LayOut = ({ isLogin, setIsLogin }) => {
 
@@ -19,7 +22,7 @@ const LayOut = ({ isLogin, setIsLogin }) => {
             }}>
                 <Header isLogin={isLogin} setIsLogin={setIsLogin} />
             </header>
-
+            
             {/* 자식 Route의 element가 위치하는 곳 */}
             <main style={{
 
@@ -29,8 +32,20 @@ const LayOut = ({ isLogin, setIsLogin }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
+                
                 <Outlet />
+                
             </main>
+
+
+            {/* 사이드바 */}
+            <sidebar style={{
+
+            }}>
+                <Sidebar />
+            </sidebar>
+
+
 
             {/* 푸터 */}
             <footer style={{
@@ -42,6 +57,7 @@ const LayOut = ({ isLogin, setIsLogin }) => {
                 /* 페이지 아래로 고정하기 위해 marginTop을 auto로 설정 */
                 marginTop: 'auto',
             }}>
+                <Footer />
             </footer>
         </div>
     );
