@@ -13,6 +13,7 @@ import com.project.festival.Entity.TravalPack.Repo.PaymentRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,12 +47,12 @@ public class PaymentService {
 
 /* ------------------------------------------------------------------------------------------- */
 	
-//	@Transactional
-//	public void creatDefaultPaymemt() {
-//		List<PaymentDto> paymentDtos = PaymentDto.createPayment();
-//		for (PaymentDto paymentDto: paymentDtos) {
-//			addPayment(paymentDto);
-//		}
-//	}
+	@Transactional
+	public void creatDefaultPaymemt() {
+		List<PaymentDto> paymentDtos = PaymentDto.createPayment();
+		for (PaymentDto paymentDto: paymentDtos) {
+			addPayment(paymentDto);
+		}
+	}
 	
 }

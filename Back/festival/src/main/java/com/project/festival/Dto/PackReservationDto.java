@@ -1,6 +1,11 @@
 package com.project.festival.Dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Random;
+
+import com.project.festival.Entity.User;
+import com.project.festival.Entity.TravalPack.TravalPack;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -52,52 +57,55 @@ public class PackReservationDto { /* 패키지 여행 예약 DTO */
 //		return travalPack;
 //	}
 
-//	static public ArrayList<PackReservationDto> createPackReservations() {
-//		ArrayList<PackReservationDto> PackReservation = new ArrayList<PackReservationDto>();
-//
-//		Random random = new Random();
-//		LocalDate start = LocalDate.of(2023, 12, random.nextInt(14) + 1); // test용 기간 입력(시작일) 
-//		LocalDate end = LocalDate.of(2023, 12, random.nextInt(14) + 15); // test용 기간 입력(종료일)
-//		
+	static public ArrayList<PackReservationDto> createPackReservations() {
+		ArrayList<PackReservationDto> PackReservation = new ArrayList<PackReservationDto>();
+
+		Random random = new Random();
+		LocalDate start = LocalDate.of(2023, 12, random.nextInt(14) + 1); // test용 기간 입력(시작일) 
+		LocalDate end = LocalDate.of(2023, 12, random.nextInt(14) + 15); // test용 기간 입력(종료일)
+		
 //		User member1 = new User();
 //		member1.setMemId("admin");
 //		TravalPack travalPack1 = new TravalPack();
 //		travalPack1.setPackNum(1L);
-//		PackReservationDto PackReservationDto1 = new PackReservationDto();
-//		PackReservationDto1.setUser(member1);
-//		PackReservationDto1.setTravalPack(travalPack1);
-//		PackReservationDto1.setStartDate(LocalDate.now());
-//		PackReservationDto1.setDateCnt(start + "~" + end);
-//		PackReservationDto1.setCount(random.nextInt(30));
-//
-//		PackReservation.add(PackReservationDto1);
-//
+		
+		PackReservationDto PackReservationDto1 = new PackReservationDto();
+		PackReservationDto1.setMemId("admin");
+		PackReservationDto1.setPackNum(1L);
+		PackReservationDto1.setStartDate(LocalDate.now());
+		PackReservationDto1.setDateCnt(start + "~" + end);
+		PackReservationDto1.setCount(random.nextInt(30));
+
+		PackReservation.add(PackReservationDto1);
+
 //		User member2 = new User();
 //		member2.setMemId("user1");
 //		TravalPack travalPack2 = new TravalPack();
 //		travalPack2.setPackNum(2L);
-//		PackReservationDto PackReservationDto2 = new PackReservationDto();
-//		PackReservationDto2.setUser(member2);
-//		PackReservationDto2.setTravalPack(travalPack2);
-//		PackReservationDto2.setStartDate(LocalDate.of(2023, 10, 11));
-//		PackReservationDto2.setDateCnt(start + "~" + end);
-//		PackReservationDto2.setCount(random.nextInt(30));
-//
-//		PackReservation.add(PackReservationDto2);
-//
+		
+		PackReservationDto PackReservationDto2 = new PackReservationDto();
+		PackReservationDto2.setMemId("user1");
+		PackReservationDto2.setPackNum(2L);
+		PackReservationDto2.setStartDate(LocalDate.of(2023, 10, 11));
+		PackReservationDto2.setDateCnt(start + "~" + end);
+		PackReservationDto2.setCount(random.nextInt(30));
+
+		PackReservation.add(PackReservationDto2);
+
 //		User member3 = new User();
 //		member3.setMemId("user2");
 //		TravalPack travalPack3 = new TravalPack();
 //		travalPack3.setPackNum(3L);
-//		PackReservationDto PackReservationDto3 = new PackReservationDto();
-//		PackReservationDto3.setUser(member3);
-//		PackReservationDto3.setTravalPack(travalPack3);
-//		PackReservationDto3.setStartDate(LocalDate.of(2023, 10, 11));
-//		PackReservationDto3.setDateCnt(start + "~" + end);
-//		PackReservationDto3.setCount(random.nextInt(30));
-//		
-//		PackReservation.add(PackReservationDto3);
-//		return PackReservation;
-//	}
+		
+		PackReservationDto PackReservationDto3 = new PackReservationDto();
+		PackReservationDto3.setMemId("user2");
+		PackReservationDto3.setPackNum(3L);
+		PackReservationDto3.setStartDate(LocalDate.of(2023, 10, 11));
+		PackReservationDto3.setDateCnt(start + "~" + end);
+		PackReservationDto3.setCount(random.nextInt(30));
+		
+		PackReservation.add(PackReservationDto3);
+		return PackReservation;
+	}
 
 }
