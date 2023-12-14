@@ -64,7 +64,7 @@ const Header = ({ isLogin, setIsLogin }) => {
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value="/">게시판</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/TravelKaKaoMap">여행지도</Button>
+                <Button onClick={move} value="/travelKaKaoMap">여행지도</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value="/">여행달력</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>

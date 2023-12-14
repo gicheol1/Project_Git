@@ -74,7 +74,7 @@ function App() {
 				<Route path="/payment/:resNum" element={<Proceedpayment />} />
 
 				{/* 태그, 지역별 여행 지도 */}
-				<Route path="/TravelKaKaoMap" element={<TravelKaKaoMap />} />
+				<Route path="/travelKaKaoMap" element={<TravelKaKaoMap />} />
 
 				{/* 여행 달력 */}
 				{/* <Route path="/payment/:resNum" element={<Proceedpayment />} /> */}

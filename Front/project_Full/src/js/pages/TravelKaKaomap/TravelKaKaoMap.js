@@ -237,51 +237,48 @@ const TravelKaKaoMap = () => {
 	return (
 
 		<div>
-
 			<div id="btnGroup">
+				<div>
 
-				<input className="캠핑" type='checkbox' name="check"
-					onChange={(e) => {
-						onCheckedItem(e.target.checked, e.target.className, e.target);
-					}} />캠핑
-				<input className="문화" type='checkbox' name="check"
-					onChange={(e) => {
-						onCheckedItem(e.target.checked, e.target.className, e.target);
-					}} />문화
-				<input className="축제" type='checkbox' name="check"
-					onChange={(e) => {
-						onCheckedItem(e.target.checked, e.target.className, e.target);
-					}} />축제
-				<input className="공연" type='checkbox' name="check"
-					onChange={(e) => {
-						onCheckedItem(e.target.checked, e.target.className, e.target);
-					}} />공연/행사
-				<input className="checkBox5" type='checkbox' />태그
-				<input className="checkBox6" type='checkbox' />태그
-				<input className="checkBox7" type='checkbox' />태그
-				<input className="checkBox8" type='checkbox' />태그
+					<input className="캠핑" type='checkbox' name="check"
+						onChange={(e) => {
+							onCheckedItem(e.target.checked, e.target.className, e.target);
+						}} />캠핑
+					<input className="문화" type='checkbox' name="check"
+						onChange={(e) => {
+							onCheckedItem(e.target.checked, e.target.className, e.target);
+						}} />문화
+					<input className="축제" type='checkbox' name="check"
+						onChange={(e) => {
+							onCheckedItem(e.target.checked, e.target.className, e.target);
+						}} />축제
+					<input className="공연" type='checkbox' name="check"
+						onChange={(e) => {
+							onCheckedItem(e.target.checked, e.target.className, e.target);
+						}} />공연/행사
+					<input className="checkBox5" type='checkbox' />태그
+					<input className="checkBox6" type='checkbox' />태그
+					<input className="checkBox7" type='checkbox' />태그
+					<input className="checkBox8" type='checkbox' />태그
+				</div>
+				<div>
+					<select className="selectInput" onChange={(e) => {
+						onSelectedItem(e.target.value);
+					}}>
+						<option name="select" className="selectBox1" key="X" value="X">선택 안함</option>
+						<option name="select" className="selectBox2" key="Seoul" value="서울">서울</option>
+						<option name="select" className="selectBox3" key="Daejeon" value="대전">대전</option>
+						<option name="select" className="selectBox4" key="Daegu" value="대구">대구</option>
+						<option name="select" className="selectBox5" key="Busan" value="부산">부산</option>
+					</select>
+					<button onClick={() => { result(); }}>지도 표시</button>
+
+					<input maxLength='20' placeholder='검색어를 입력해주세요.' onChange={handleChange} value={text || ""} />
+					<button className="Search" onClick={onTextBox} >검색</button>
+				</div>
 			</div>
-			<div>
-				<select className="selectInput" onChange={(e) => {
-					onSelectedItem(e.target.value);
-				}}>
-					<option name="select" className="selectBox1" key="X" value="X">선택 안함</option>
-					<option name="select" className="selectBox2" key="Seoul" value="서울">서울</option>
-					<option name="select" className="selectBox3" key="Daejeon" value="대전">대전</option>
-					<option name="select" className="selectBox4" key="Daegu" value="대구">대구</option>
-					<option name="select" className="selectBox5" key="Busan" value="부산">부산</option>
-				</select>
-				<button onClick={() => { result(); }}>지도 표시</button>
 
-				<input maxLength='20' placeholder='검색어를 입력해주세요.' onChange={handleChange} value={text || ""} />
-				<button className="Search" onClick={onTextBox} >검색</button>
-			</div>
-
-
-
-			<div id="map" style={{}}>
-
-			</div>
+			<div id="map"></div>
 
 		</div>
 
