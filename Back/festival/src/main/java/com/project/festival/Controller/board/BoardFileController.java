@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.festival.Entity.board.FileDetail;
+import com.project.festival.Entity.board.FileDto;
 import com.project.festival.Entity.board.File.FileEvent;
 import com.project.festival.Entity.board.File.FileFree;
 import com.project.festival.Entity.board.File.FileNotic;
@@ -53,7 +53,7 @@ public class BoardFileController {
 		@RequestParam Long boardNum // 번호
 	){
 		
-		List<FileDetail> fileDetail = new ArrayList<>();
+		List<FileDto> fileDetail = new ArrayList<>();
 		
 		switch(target) {
 			case "free": 
@@ -62,7 +62,7 @@ public class BoardFileController {
 				for(FileFree files : fileService.getFileFree(boardNum)) {
 					try {
 						
-						FileDetail fd = storageService.getImageFile(target, files.getFileName());
+						FileDto fd = storageService.getImageFile(target, files.getFileName());
 						fd.setOrgName(files.getOrgName());
 						
 						fileDetail.add(fd);
@@ -76,7 +76,7 @@ public class BoardFileController {
 				for(FileNotic files : fileService.getFileNotic(boardNum)) {
 					try {
 						
-						FileDetail fd = storageService.getImageFile(target, files.getFileName());
+						FileDto fd = storageService.getImageFile(target, files.getFileName());
 						fd.setOrgName(files.getOrgName());
 						
 						fileDetail.add(fd);
@@ -90,7 +90,7 @@ public class BoardFileController {
 				for(FilePromotion files : fileService.getFilePromotion(boardNum)) {
 					try {
 						
-						FileDetail fd = storageService.getImageFile(target, files.getFileName());
+						FileDto fd = storageService.getImageFile(target, files.getFileName());
 						fd.setOrgName(files.getOrgName());
 						
 						fileDetail.add(fd);
@@ -104,7 +104,7 @@ public class BoardFileController {
 				for(FileEvent files : fileService.getFileEvent(boardNum)) {
 					try {
 						
-						FileDetail fd = storageService.getImageFile(target, files.getFileName());
+						FileDto fd = storageService.getImageFile(target, files.getFileName());
 						fd.setOrgName(files.getOrgName());
 						
 						fileDetail.add(fd);
@@ -118,7 +118,7 @@ public class BoardFileController {
 				for(FileQA files : fileService.getFileQA(boardNum)) {
 					try {
 						
-						FileDetail fd = storageService.getImageFile(target, files.getFileName());
+						FileDto fd = storageService.getImageFile(target, files.getFileName());
 						fd.setOrgName(files.getOrgName());
 						
 						fileDetail.add(fd);
@@ -144,13 +144,13 @@ public class BoardFileController {
 		@RequestBody MultipartFile[] files
 	){
 		
-		List<FileDetail> fileDetail = new ArrayList<>();
+		List<FileDto> fileDetail = new ArrayList<>();
 		
 		if(files != null && files.length != 0) {
 			for(MultipartFile file : files) {
 				
 				try { 
-					FileDetail fd = storageService.uploadImage(target, file);
+					FileDto fd = storageService.uploadImage(target, file);
 					fd.setOrgName(file.getName().toString());
 					fileDetail.add(fd);
 					
@@ -166,7 +166,7 @@ public class BoardFileController {
 	public ResponseEntity<?> submitFile(
 		@RequestParam String target, // 대상
 		@RequestParam Long boardNum, // 번호
-		@RequestBody List<FileDetail> fileDetail
+		@RequestBody List<FileDto> fileDetail
 	){
 		
 		switch(target) {
@@ -175,7 +175,7 @@ public class BoardFileController {
 				// 이전에 저장된 DB는 제거
 				fileService.deleteAllFileFree(boardNum);
 				
-				for(FileDetail fd : fileDetail) {
+				for(FileDto fd : fileDetail) {
 					FileFree fileFree = new FileFree(
 						boardNum,
 						fd.getFileName(),
@@ -191,7 +191,7 @@ public class BoardFileController {
 				
 				fileService.deleteAllFileNotic(boardNum);
 				
-				for(FileDetail fd : fileDetail) {
+				for(FileDto fd : fileDetail) {
 					FileNotic fileNotic = new FileNotic(
 						boardNum,
 						fd.getFileName(),
@@ -207,7 +207,7 @@ public class BoardFileController {
 				
 				fileService.deleteAllFilePromotion(boardNum);
 				
-				for(FileDetail fd : fileDetail) {
+				for(FileDto fd : fileDetail) {
 					FilePromotion filePromotion = new FilePromotion(
 						boardNum,
 						fd.getFileName(),
@@ -223,7 +223,7 @@ public class BoardFileController {
 				
 				fileService.deleteAllFileEvent(boardNum);
 				
-				for(FileDetail fd : fileDetail) {
+				for(FileDto fd : fileDetail) {
 					FileEvent fileEvent = new FileEvent(
 						boardNum,
 						fd.getFileName(),
@@ -239,7 +239,7 @@ public class BoardFileController {
 				
 				fileService.deleteAllFileQA(boardNum);
 				
-				for(FileDetail fd : fileDetail) {
+				for(FileDto fd : fileDetail) {
 					FileQA fileQA = new FileQA(
 						boardNum,
 						fd.getFileName(),
@@ -264,7 +264,7 @@ public class BoardFileController {
 	@DeleteMapping("/deleteFile")
 	public ResponseEntity<?> deleteFile(
 		@RequestParam String target, // 대상
-		@RequestBody FileDetail fileDetail
+		@RequestBody FileDto fileDetail
 	){
 		
 		try {

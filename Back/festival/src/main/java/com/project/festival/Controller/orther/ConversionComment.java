@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.project.festival.Entity.board.CommentDetail;
+import com.project.festival.Entity.board.CommentDto;
 import com.project.festival.Entity.board.Comm.CommentEvent;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Comm.CommentNotic;
@@ -15,12 +15,12 @@ import com.project.festival.Entity.board.Comm.CommentQA;
 @Component
 public class ConversionComment {
 	
-	public List<CommentDetail> returnFree(List<CommentFree> c) {
+	public List<CommentDto> returnFree(List<CommentFree> c) {
 		
-		List<CommentDetail> commList = new ArrayList<>();
+		List<CommentDto> commList = new ArrayList<>();
 		
 		for(CommentFree cFree : c) {
-			CommentDetail commDetail = new CommentDetail();
+			CommentDto commDetail = new CommentDto();
 			
 			commDetail.setCoNum(cFree.getCoNum());
 //			commDetail.setRecoNum(cFree.getRecoNum());
@@ -36,12 +36,12 @@ public class ConversionComment {
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	public List<CommentDetail> returnNotic(List<CommentNotic> c) {
+	public List<CommentDto> returnNotic(List<CommentNotic> c) {
 		
-		List<CommentDetail> commList = new ArrayList<>();
+		List<CommentDto> commList = new ArrayList<>();
 		
 		for(CommentNotic cNotic : c) {
-			CommentDetail commDetail = new CommentDetail();
+			CommentDto commDetail = new CommentDto();
 			
 			commDetail.setCoNum(cNotic.getCoNum());
 //			commDetail.setRecoNum(cNotic.getRecoNum());
@@ -57,12 +57,12 @@ public class ConversionComment {
 	
 	// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 		
-	public List<CommentDetail> returnPromotion(List<CommentPromotion> c) {
+	public List<CommentDto> returnPromotion(List<CommentPromotion> c) {
 		
-		List<CommentDetail> commList = new ArrayList<>();
+		List<CommentDto> commList = new ArrayList<>();
 		
 		for(CommentPromotion cPromotion : c) {
-			CommentDetail commDetail = new CommentDetail();
+			CommentDto commDetail = new CommentDto();
 			
 			commDetail.setCoNum(cPromotion.getCoNum());
 //			commDetail.setRecoNum(cPromotion.getRecoNum());
@@ -78,12 +78,12 @@ public class ConversionComment {
 	
 	// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 		
-	public List<CommentDetail> returnEvent(List<CommentEvent> c) {
+	public List<CommentDto> returnEvent(List<CommentEvent> c) {
 		
-		List<CommentDetail> commList = new ArrayList<>();
+		List<CommentDto> commList = new ArrayList<>();
 		
 		for(CommentEvent cEvent : c) {
-			CommentDetail commDetail = new CommentDetail();
+			CommentDto commDetail = new CommentDto();
 			
 			commDetail.setCoNum(cEvent.getCoNum());
 //			commDetail.setRecoNum(cEvent.getRecoNum());
@@ -99,12 +99,12 @@ public class ConversionComment {
 	
 	// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 		
-	public List<CommentDetail> returnQA(List<CommentQA> c) {
+	public List<CommentDto> returnQA(List<CommentQA> c) {
 		
-		List<CommentDetail> commList = new ArrayList<>();
+		List<CommentDto> commList = new ArrayList<>();
 		
 		for(CommentQA cQA : c) {
-			CommentDetail commDetail = new CommentDetail();
+			CommentDto commDetail = new CommentDto();
 			
 			commDetail.setCoNum(cQA.getCoNum());
 //			commDetail.setRecoNum(cQA.getRecoNum());

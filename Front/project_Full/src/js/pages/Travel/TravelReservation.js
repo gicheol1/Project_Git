@@ -1,5 +1,5 @@
 import { DataGrid } from '@mui/x-data-grid';
-import { SERVER_URL, TravelCalendar, TravelKaKaoMap } from 'js';
+import { SERVER_URL, TravelCalendar, TravelPackMap } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
@@ -169,7 +169,7 @@ function TravelReservation() {
                 backgroundColor: 'white',
                 border: '1px solid'
             }}>
-                <TravelKaKaoMap packNum={packNum} />
+                <TravelPackMap packNum={packNum} />
             </div>
 
             {/* 여행 예약 정보 입력 */}

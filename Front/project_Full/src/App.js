@@ -73,14 +73,14 @@ function App() {
 				{/* 여행 결제 페이지 */}
 				<Route path="/payment/:resNum" element={<Proceedpayment />} />
 
-				{/* 여행 지도*/}
-				<Route path="/TravelKaKaoMap" element={<TravelKaKaoMap />} />
+				{/* 태그, 지역별 여행 지도 */}
+				<Route path="/travelKaKaoMap" element={<TravelKaKaoMap />} />
 
 				{/* 여행 달력 */}
-				<Route path="/payment/:resNum" element={<Proceedpayment />} />
+				{/* <Route path="/payment/:resNum" element={<Proceedpayment />} /> */}
 
 				{/* 여행 축제 */}
-				<Route path="/payment/:resNum" element={<Proceedpayment />} />
+				{/* <Route path="/payment/:resNum" element={<Proceedpayment />} /> */}
 
 				{/* ===== ===== ===== ===== ===== */}
 

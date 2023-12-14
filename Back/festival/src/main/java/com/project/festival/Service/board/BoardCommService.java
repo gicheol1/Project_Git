@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.festival.Entity.board.CommentDetail;
+import com.project.festival.Entity.board.CommentDto;
 import com.project.festival.Entity.board.Comm.CommentEvent;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Comm.CommentPromotion;
@@ -95,7 +95,7 @@ public class BoardCommService {
         return comm;
     }
 	
-	public void setFree(CommentDetail comm) {
+	public void setFree(CommentDto comm) {
 		
 		CommentFree commFree = new CommentFree();
 		
@@ -176,7 +176,7 @@ public class BoardCommService {
         return comm;
     }
 	
-	public void setNotic(CommentDetail comm) {
+	public void setNotic(CommentDto comm) {
 		
 		CommentPromotion commNotic = new CommentPromotion();
 		
@@ -257,7 +257,7 @@ public class BoardCommService {
         return comm;
     }
 	
-	public void setPromotion(CommentDetail comm) {
+	public void setPromotion(CommentDto comm) {
 		
 		CommentPromotion commPromotion = new CommentPromotion();
 		
@@ -338,7 +338,7 @@ public class BoardCommService {
         return comm;
     }
 	
-	public void setEvent(CommentDetail comm) {
+	public void setEvent(CommentDto comm) {
 		
 		CommentEvent commEvent = new CommentEvent();
 		
@@ -419,7 +419,7 @@ public class BoardCommService {
         return comm;
     }
 	
-	public void setQA(CommentDetail comm) {
+	public void setQA(CommentDto comm) {
 		
 		CommentQA commQA = new CommentQA();
 		

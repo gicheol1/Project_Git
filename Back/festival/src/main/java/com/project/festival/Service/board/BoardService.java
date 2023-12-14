@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.project.festival.Entity.Repo.UserRepo;
-import com.project.festival.Entity.board.BoardDetail;
+import com.project.festival.Entity.board.BoardDto;
 import com.project.festival.Entity.board.Entity.BoardEvent;
 import com.project.festival.Entity.board.Entity.BoardFree;
 import com.project.festival.Entity.board.Entity.BoardNotic;
@@ -51,7 +51,7 @@ public class BoardService {
     }
     
     // 게시판 생성, 수정
-    public Long setFreeDetail(BoardDetail boardDetail) {
+    public Long setFreeDetail(BoardDto boardDetail) {
     	
     	BoardFree bf = new BoardFree();
     	
@@ -103,7 +103,7 @@ public class BoardService {
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
     
-    public long setNoticDetail(BoardDetail boardDetail) {
+    public long setNoticDetail(BoardDto boardDetail) {
     	
     	BoardNotic bn = new BoardNotic();
     	
@@ -153,7 +153,7 @@ public class BoardService {
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
     
-    public long setPromotionDetail(BoardDetail boardDetail) {
+    public long setPromotionDetail(BoardDto boardDetail) {
     	
     	BoardPromotion bp = new BoardPromotion();
     	
@@ -203,7 +203,7 @@ public class BoardService {
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
     
-    public long setEventDetail(BoardDetail boardDetail) {
+    public long setEventDetail(BoardDto boardDetail) {
     	
     	BoardEvent be = new BoardEvent();
     	
@@ -253,7 +253,7 @@ public class BoardService {
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
     
-    public long setQADetail(BoardDetail boardDetail) {
+    public long setQADetail(BoardDto boardDetail) {
     	
     	BoardQA bQA = new BoardQA();
     	

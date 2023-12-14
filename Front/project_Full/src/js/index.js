@@ -39,12 +39,15 @@ export { default as TravelCalendar } from './pages/Travel/TravelCalendar'; // 2-
 export { default as Reservationlist } from './pages/Travel/Reservationlist'; // 3. 패키지 여행 예약 목록 페이지
 
 // > Travel(여행) 폴더 > KaKaomap(카카오 지도) 폴더
-export { default as TravelKaKaoMap } from './pages/Travel/TravelKaKaomap/TravelKaKaoMap'; // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
+export { default as TravelPackMap } from './pages/Travel/TravelPackMap/TravelPackMap'; // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
 
 // > Payment(결제) 폴더: 결제 기능에 대한 JS 파일 모음
 export { default as Proceedpayment } from './pages/Payment/Proceedpayment'; // 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)
 
 // -------------------------------------------------------------------------------- //
+
+// > Travel(여행) 폴더 > KaKaomap(카카오 지도) 폴더
+export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap';
 
 
 

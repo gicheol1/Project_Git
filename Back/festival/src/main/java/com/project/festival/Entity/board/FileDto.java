@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FileDetail {
+public class FileDto {
 	
 	// FireBase에서 생성한 원본 파일을 Base64로 인코딩
 	private String imgFile;
