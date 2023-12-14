@@ -46,6 +46,9 @@ public class Festival {
 	// 태그
 	@Column(length=100)
 	private String Tag;
+	
+	@Column(length=100)
+	private String Region;
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -53,7 +56,7 @@ public class Festival {
 
 	public Festival(
 		String name, String content, String location,
-		String startDate, String endDate, String Tag
+		String startDate, String endDate, String Tag, String Region
 	) {
 		super();
 		this.name = name;
@@ -62,6 +65,7 @@ public class Festival {
 		this.startDate = LocalDate.parse(startDate);
 		this.endDate = LocalDate.parse(endDate);
 		this.Tag = Tag;
+		this.Region = Region;
 	}
 	
 }
