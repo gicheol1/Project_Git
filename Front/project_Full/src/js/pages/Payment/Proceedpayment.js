@@ -24,11 +24,19 @@ function Proceedpayment() {
             .then((data) => { setMember(data); })
             .catch(err => console.error(err));
 
+        // - 패키지 여행에 대한 상세 정보
         fetch(SERVER_URL + `packreservation/${resNum}`)
             .then(response => response.json())
             .then(data => {
 
-                console.log(data)
+                console.log(data) // 패키지여행의 데이터를 잘가져오는지 확인
+
+                // data에서 "travalPack"을 추출하고 그 안의 "price"를 출력
+                const packreservation = data.price;
+                console.log(packreservation)
+
+                // 패키지 여행의 가격값을 입력폼에 출력
+                setPaymentInfo({ payamount: packreservation,});
 
                 // 패키지 여행 예약 목록 state 업데이트
                 setPackreservation([data]);
@@ -62,17 +70,20 @@ function Proceedpayment() {
         };
 
         try {
-            const response =
-                fetch(`${SERVER_URL}payment`, {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                }).then(res => { return res.json(); });
+            const response = fetch(`${SERVER_URL}payment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            // .then(res => res.json());
 
             // 콘솔창에 성공했다는 내용을 표시
             console.log('POST 요청 성공:', response);
 
             // 결제가 성공적으로 완료되면 alert으로 메시지 표시
-            alert(member[0]?.name + '님의 결제이 완료되었습니다.');
+            alert(member.name + '님의 결제이 완료되었습니다.');
 
             // 패키지 여행 예약 목록으로 리다이렉트
             navigate(`/packreservationList`);
@@ -84,7 +95,7 @@ function Proceedpayment() {
     /* ----------------------------------------------------------- */
 
 
-    /* 결재 금액과 카드번호 직접 입력 */
+    /* 결재 금액과 카드번호 입력 */
     /* ----------------------------------------------------------- */
     const [paymentInfo, setPaymentInfo] = useState({
         payamount: 0, // 초기값은 0으로 설정하거나 다른 값으로 초기화
@@ -108,17 +119,20 @@ function Proceedpayment() {
     };
 
     return (
-        <div>
+        <div style={{
+            textAlign: 'center'
+            }}>
             <h1> - 패키지 여행 결제 - </h1>
 
             {/* 패키지 여행 결제 목록 스타일 */}
             <div style={{
-                marginLeft: "25%",
-                marginRight: "25%",
+                marginLeft: "0%",
+                marginRight: "0%",
                 marginBottom: "3%",
                 marginTop: "1%",
                 backgroundColor: 'white',
-                border: '1px solid'
+                border: '1px solid',
+
             }}>
                 <DataGrid
                     rows={Packreservation}
@@ -135,7 +149,7 @@ function Proceedpayment() {
                             name="payamount"
                             value={paymentInfo.payamount}
                             onChange={handleInputChange}
-                            readOnly
+                            // readOnly
                         />
                     </label>
                 </div>

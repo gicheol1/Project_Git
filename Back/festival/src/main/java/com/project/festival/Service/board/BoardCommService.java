@@ -3,62 +3,61 @@ package com.project.festival.Service.board;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.project.festival.Entity.board.CommentDetail;
+import com.project.festival.Entity.board.CommentDto;
 import com.project.festival.Entity.board.Comm.CommentEvent;
 import com.project.festival.Entity.board.Comm.CommentFree;
+import com.project.festival.Entity.board.Comm.CommentNotic;
 import com.project.festival.Entity.board.Comm.CommentPromotion;
 import com.project.festival.Entity.board.Comm.CommentQA;
 import com.project.festival.Entity.board.RepositoryComm.CommentEventRepo;
 import com.project.festival.Entity.board.RepositoryComm.CommentFreeRepo;
+import com.project.festival.Entity.board.RepositoryComm.CommentNoticRepo;
 import com.project.festival.Entity.board.RepositoryComm.CommentPromotionRepo;
 import com.project.festival.Entity.board.RepositoryComm.CommentQARepo;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class BoardCommService {
 	
-	@Autowired
-	private CommentFreeRepo commFreeRepo;
+	private final CommentFreeRepo commFreeRepo;
+	private final CommentNoticRepo commNoticRepo;
+	private final CommentPromotionRepo commPromotionRepo;
+	private final CommentEventRepo commEventRepo;
+	private final CommentQARepo commQARepo;
 	
-	@Autowired
-	private CommentPromotionRepo commNoticRepo;
-	
-	@Autowired
-	private CommentPromotionRepo commPromotionRepo;
-	
-	@Autowired
-	private CommentEventRepo commEventRepo;
-	
-	@Autowired
-	private CommentQARepo commQARepo;
+	private final ModelMapper modelMapper;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 댓글 출력
-	public List<CommentFree> getCommentsFree(Long boardNum) {
+	public List<CommentDto> getCommentsFree(Long boardNum) {
 		
 		// 저장된 댓글들
         List<CommentFree> commFree = commFreeRepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
 
         // 댓글이 없는 경우
-        if(commFree==null || commFree.size()==0) {
-        	return null;
-        }
+        if(commFree==null || commFree.size()==0) { return null; }
         
         // 계층 정렬된 댓글
-        List<CommentFree> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
     	for (CommentFree c : commFree) {
-    		comm.add(c);
+    		
+    		// 표시할 댓글을 맨 앞에 추가
+    		comm.add(modelMapper.map(c, CommentDto.class));
 
-    		List<CommentFree> commTemp = new ArrayList<>();
-    		commTemp = getReCommentFree(boardNum, c.getCoNum());
+    		// 답글을 받아올 리스트
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentFree(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
@@ -66,80 +65,72 @@ public class BoardCommService {
     }
 	
 	// 답글 붙여넣기
-	public List<CommentFree> getReCommentFree(Long boardNum, Long recoNum) {
+	public List<CommentDto> getReCommentFree(Long boardNum, Long recoNum, String memId) {
 		
 		// 저장된 답글들
         List<CommentFree> reComm = commFreeRepo.findByBoardNumAndRecoNumOrderByCoNum(boardNum, recoNum);
-
-        // 댓글이 없는 경우
-        if(reComm==null || reComm.size()==0) {
-        	return null;
-        }
         
         // 계층 정렬된 답글
-        List<CommentFree> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
     	for (CommentFree c : reComm) {
-    		comm.add(c);
     		
-    		// 더이상 답글이 없는 경우 건너뛰기
-    		if(c.getRecoNum()!=null) { continue; }
+    		CommentDto dto = modelMapper.map(c, CommentDto.class);
+    		
+    		// 답글 대상의 이름 추가
+    		dto.setRecoMemId(memId);
+    		comm.add(dto);
 
-    		List<CommentFree> commTemp = new ArrayList<>();
-    		commTemp = getReCommentFree(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentFree(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
         return comm;
     }
 	
-	public void setFree(CommentDetail comm) {
-		
-		CommentFree commFree = new CommentFree();
-		
-		commFree.setCoNum(comm.getCoNum());
-		commFree.setRecoNum(comm.getRecoNum());
-		commFree.setMemId(comm.getMemId());
-		commFree.setBoardNum(comm.getBoardNum());
-		commFree.setContent(comm.getContent());
-		
+	/* ========== ========== ========== ========== ========== ========== ========== */
+	
+	// 댓글 추가, 수정
+	public void addFree(CommentDto comm) {
+		CommentFree commFree = modelMapper.map(comm, CommentFree.class);
 		commFreeRepo.save(commFree);
-		
 	}
 	
+	// 댓글 삭제
 	public void deleteCommFreeByCoNum(Long boardNum, Long CoNum) {
-		commFreeRepo.deleteByBoardNumAndCoNum(boardNum, CoNum);
+		CommentFree commFree = commFreeRepo.findById(CoNum).get();
+		commFree.setDeleted(true);
+		commFreeRepo.save(commFree);
 	}
 	
-	public void deleteAllCommFree(Long boardNum) {
-		commFreeRepo.deleteByBoardNum(boardNum);
-	}
+	public void deleteAllCommFree(Long boardNum) {commFreeRepo.deleteByBoardNum(boardNum);}
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 댓글 출력
-	public List<CommentPromotion> getCommentsNotic(Long boardNum) {
+	public List<CommentDto> getCommentsNotic(Long boardNum) {
 		
 		// 저장된 댓글들
-        List<CommentPromotion> commFree = commNoticRepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
+        List<CommentNotic> commNotic = commNoticRepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
 
         // 댓글이 없는 경우
-        if(commFree==null || commFree.size()==0) {
-        	return null;
-        }
+        if(commNotic==null || commNotic.size()==0) { return null; }
         
         // 계층 정렬된 댓글
-        List<CommentPromotion> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
-    	for (CommentPromotion c : commFree) {
-    		comm.add(c);
+    	for (CommentNotic c : commNotic) {
+    		comm.add(modelMapper.map(c, CommentDto.class));
 
-    		List<CommentPromotion> commTemp = new ArrayList<>();
-    		commTemp = getReCommentPromotion(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentNotic(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
@@ -147,80 +138,70 @@ public class BoardCommService {
     }
 	
 	// 답글 붙여넣기
-	public List<CommentPromotion> getReCommentNotic(Long boardNum, Long recoNum) {
+	public List<CommentDto> getReCommentNotic(Long boardNum, Long recoNum, String memId) {
 		
 		// 저장된 답글들
-        List<CommentPromotion> reComm = commNoticRepo.findByBoardNumAndRecoNumOrderByCoNum(boardNum, recoNum);
-
-        // 댓글이 없는 경우
-        if(reComm==null || reComm.size()==0) {
-        	return null;
-        }
+        List<CommentNotic> reComm = commNoticRepo.findByBoardNumAndRecoNumOrderByCoNum(boardNum, recoNum);
         
         // 계층 정렬된 답글
-        List<CommentPromotion> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
-    	for (CommentPromotion c : reComm) {
-    		comm.add(c);
+    	for (CommentNotic c : reComm) {
     		
-    		// 더이상 답글이 없는 경우 건너뛰기
-    		if(c.getRecoNum()!=null) { continue; }
+    		CommentDto dto = modelMapper.map(c, CommentDto.class);
+    		
+    		// 답글 대상의 이름 추가
+    		dto.setRecoMemId(memId);
+    		comm.add(dto);
 
-    		List<CommentPromotion> commTemp = new ArrayList<>();
-    		commTemp = getReCommentPromotion(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentNotic(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
         return comm;
     }
 	
-	public void setNotic(CommentDetail comm) {
-		
-		CommentPromotion commNotic = new CommentPromotion();
-		
-		commNotic.setCoNum(comm.getCoNum());
-		commNotic.setRecoNum(comm.getRecoNum());
-		commNotic.setMemId(comm.getMemId());
-		commNotic.setBoardNum(comm.getBoardNum());
-		commNotic.setContent(comm.getContent());
-		
+	/* ========== ========== ========== ========== ========== ========== ========== */
+	
+	public void addNotic(CommentDto comm) {
+		CommentNotic commNotic = modelMapper.map(comm, CommentNotic.class);
 		commNoticRepo.save(commNotic);
-		
 	}
 	
 	public void deleteCommNoticByCoNum(Long boardNum, Long CoNum) {
-		commNoticRepo.deleteByBoardNumAndCoNum(boardNum, CoNum);
+		CommentNotic commNotic = commNoticRepo.findById(CoNum).get();
+		commNotic.setDeleted(true);
+		commNoticRepo.save(commNotic);
 	}
 	
-	public void deleteAllCommNotic(Long boardNum) {
-		commNoticRepo.deleteByBoardNum(boardNum);
-	}
+	public void deleteAllCommNotic(Long boardNum) {commNoticRepo.deleteByBoardNum(boardNum);}
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 댓글 출력
-	public List<CommentPromotion> getCommentsPromotion(Long boardNum) {
+	public List<CommentDto> getCommentsPromotion(Long boardNum) {
 		
 		// 저장된 댓글들
-        List<CommentPromotion> commFree = commPromotionRepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
+        List<CommentPromotion> commPromotion = commPromotionRepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
 
         // 댓글이 없는 경우
-        if(commFree==null || commFree.size()==0) {
-        	return null;
-        }
+        if(commPromotion==null || commPromotion.size()==0) { return null; }
         
         // 계층 정렬된 댓글
-        List<CommentPromotion> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
-    	for (CommentPromotion c : commFree) {
-    		comm.add(c);
+    	for (CommentPromotion c : commPromotion) {
+    		comm.add(modelMapper.map(c, CommentDto.class));
 
-    		List<CommentPromotion> commTemp = new ArrayList<>();
-    		commTemp = getReCommentPromotion(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentPromotion(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
@@ -228,80 +209,72 @@ public class BoardCommService {
     }
 	
 	// 답글 붙여넣기
-	public List<CommentPromotion> getReCommentPromotion(Long boardNum, Long recoNum) {
+	public List<CommentDto> getReCommentPromotion(Long boardNum, Long recoNum, String memId) {
 		
 		// 저장된 답글들
         List<CommentPromotion> reComm = commPromotionRepo.findByBoardNumAndRecoNumOrderByCoNum(boardNum, recoNum);
-
-        // 댓글이 없는 경우
-        if(reComm==null || reComm.size()==0) {
-        	return null;
-        }
         
         // 계층 정렬된 답글
-        List<CommentPromotion> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
     	for (CommentPromotion c : reComm) {
-    		comm.add(c);
     		
-    		// 더이상 답글이 없는 경우 건너뛰기
-    		if(c.getRecoNum()!=null) { continue; }
+    		CommentDto dto = modelMapper.map(c, CommentDto.class);
+    		
+    		// 답글 대상의 이름 추가
+    		dto.setRecoMemId(memId);
+    		comm.add(dto);
 
-    		List<CommentPromotion> commTemp = new ArrayList<>();
-    		commTemp = getReCommentPromotion(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentPromotion(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
         return comm;
     }
 	
-	public void setPromotion(CommentDetail comm) {
+	/* ========== ========== ========== ========== ========== ========== ========== */
+	
+	public void addPromotion(CommentDto comm) {
 		
-		CommentPromotion commPromotion = new CommentPromotion();
-		
-		commPromotion.setCoNum(comm.getCoNum());
-		commPromotion.setRecoNum(comm.getRecoNum());
-		commPromotion.setMemId(comm.getMemId());
-		commPromotion.setBoardNum(comm.getBoardNum());
-		commPromotion.setContent(comm.getContent());
-		
+		CommentPromotion commPromotion = modelMapper.map(comm, CommentPromotion.class);
 		commPromotionRepo.save(commPromotion);
 		
 	}
 	
 	public void deleteCommPromotionByCoNum(Long boardNum, Long CoNum) {
-		commPromotionRepo.deleteByBoardNumAndCoNum(boardNum, CoNum);
+		CommentPromotion commPromotion = commPromotionRepo.findById(CoNum).get();
+		commPromotion.setDeleted(true);
+		commPromotionRepo.save(commPromotion);
 	}
 	
-	public void deleteAllCommPromotion(Long boardNum) {
-		commPromotionRepo.deleteByBoardNum(boardNum);
-	}
+	public void deleteAllCommPromotion(Long boardNum) {commPromotionRepo.deleteByBoardNum(boardNum);}
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 댓글 출력
-	public List<CommentEvent> getCommentsEvent(Long boardNum) {
+	public List<CommentDto> getCommentsEvent(Long boardNum) {
 		
 		// 저장된 댓글들
-        List<CommentEvent> commFree = commEventRepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
+        List<CommentEvent> commEvent = commEventRepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
 
         // 댓글이 없는 경우
-        if(commFree==null || commFree.size()==0) {
-        	return null;
-        }
+        if(commEvent==null || commEvent.size()==0) { return null; }
         
         // 계층 정렬된 댓글
-        List<CommentEvent> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
-    	for (CommentEvent c : commFree) {
-    		comm.add(c);
+    	for (CommentEvent c : commEvent) {
+    		comm.add(modelMapper.map(c, CommentDto.class));
 
-    		List<CommentEvent> commTemp = new ArrayList<>();
-    		commTemp = getReCommentEvnet(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentEvent(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
@@ -309,80 +282,70 @@ public class BoardCommService {
     }
 	
 	// 답글 붙여넣기
-	public List<CommentEvent> getReCommentEvnet(Long boardNum, Long recoNum) {
+	public List<CommentDto> getReCommentEvent(Long boardNum, Long recoNum, String memId) {
 		
 		// 저장된 답글들
         List<CommentEvent> reComm = commEventRepo.findByBoardNumAndRecoNumOrderByCoNum(boardNum, recoNum);
-
-        // 댓글이 없는 경우
-        if(reComm==null || reComm.size()==0) {
-        	return null;
-        }
         
         // 계층 정렬된 답글
-        List<CommentEvent> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
     	for (CommentEvent c : reComm) {
-    		comm.add(c);
     		
-    		// 더이상 답글이 없는 경우 건너뛰기
-    		if(c.getRecoNum()!=null) { continue; }
+    		CommentDto dto = modelMapper.map(c, CommentDto.class);
+    		
+    		// 답글 대상의 이름 추가
+    		dto.setRecoMemId(memId);
+    		comm.add(dto);
 
-    		List<CommentEvent> commTemp = new ArrayList<>();
-    		commTemp = getReCommentEvnet(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentEvent(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
         return comm;
     }
 	
-	public void setEvent(CommentDetail comm) {
-		
-		CommentEvent commEvent = new CommentEvent();
-		
-		commEvent.setCoNum(comm.getCoNum());
-		commEvent.setRecoNum(comm.getRecoNum());
-		commEvent.setMemId(comm.getMemId());
-		commEvent.setBoardNum(comm.getBoardNum());
-		commEvent.setContent(comm.getContent());
-		
+	/* ========== ========== ========== ========== ========== ========== ========== */
+	
+	public void addEvent(CommentDto comm) {
+		CommentEvent commEvent = modelMapper.map(comm, CommentEvent.class);
 		commEventRepo.save(commEvent);
-		
 	}
 	
 	public void deleteCommEventByCoNum(Long boardNum, Long CoNum) {
-		commEventRepo.deleteByBoardNumAndCoNum(boardNum, CoNum);
+		CommentEvent commEvent = commEventRepo.findById(CoNum).get();
+		commEvent.setDeleted(true);
+		commEventRepo.save(commEvent);
 	}
 	
-	public void deleteAllCommEvent(Long boardNum) {
-		commEventRepo.deleteByBoardNum(boardNum);
-	}
+	public void deleteAllCommEvent(Long boardNum) {commEventRepo.deleteByBoardNum(boardNum);}
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 댓글 출력
-	public List<CommentQA> getCommentsQA(Long boardNum) {
+	public List<CommentDto> getCommentsQA(Long boardNum) {
 		
 		// 저장된 댓글들
-        List<CommentQA> commFree = commQARepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
+        List<CommentQA> commQA = commQARepo.findByBoardNumAndRecoNumIsNullOrderByCoNum(boardNum);
 
         // 댓글이 없는 경우
-        if(commFree==null || commFree.size()==0) {
-        	return null;
-        }
+        if(commQA==null || commQA.size()==0) { return null; }
         
         // 계층 정렬된 댓글
-        List<CommentQA> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
-    	for (CommentQA c : commFree) {
-    		comm.add(c);
+    	for (CommentQA c : commQA) {
+    		comm.add(modelMapper.map(c, CommentDto.class));
 
-    		List<CommentQA> commTemp = new ArrayList<>();
-    		commTemp = getReCommentQA(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentQA(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
@@ -390,56 +353,48 @@ public class BoardCommService {
     }
 	
 	// 답글 붙여넣기
-	public List<CommentQA> getReCommentQA(Long boardNum, Long recoNum) {
+	public List<CommentDto> getReCommentQA(Long boardNum, Long recoNum, String memId) {
 		
 		// 저장된 답글들
         List<CommentQA> reComm = commQARepo.findByBoardNumAndRecoNumOrderByCoNum(boardNum, recoNum);
-
-        // 댓글이 없는 경우
-        if(reComm==null || reComm.size()==0) {
-        	return null;
-        }
         
         // 계층 정렬된 답글
-        List<CommentQA> comm = new ArrayList<>();
+        List<CommentDto> comm = new ArrayList<>();
         
     	for (CommentQA c : reComm) {
-    		comm.add(c);
     		
-    		// 더이상 답글이 없는 경우 건너뛰기
-    		if(c.getRecoNum()!=null) { continue; }
+    		CommentDto dto = modelMapper.map(c, CommentDto.class);
+    		
+    		// 답글 대상의 이름 추가
+    		dto.setRecoMemId(memId);
+    		comm.add(dto);
 
-    		List<CommentQA> commTemp = new ArrayList<>();
-    		commTemp = getReCommentQA(boardNum, c.getCoNum());
+    		List<CommentDto> commTemp = new ArrayList<>();
+    		commTemp = getReCommentQA(boardNum, c.getCoNum(), c.getMemId());
+    		
     		if(commTemp!=null && !commTemp.isEmpty()) {
-    			// 해당 댓글 번호에 답글을 한 댓글을 추가
                 comm.addAll(commTemp);
     		}
         }
         return comm;
     }
 	
-	public void setQA(CommentDetail comm) {
+	/* ========== ========== ========== ========== ========== ========== ========== */
+	
+	public void addQA(CommentDto comm) {
 		
-		CommentQA commQA = new CommentQA();
-		
-		commQA.setCoNum(comm.getCoNum());
-		commQA.setRecoNum(comm.getRecoNum());
-		commQA.setMemId(comm.getMemId());
-		commQA.setBoardNum(comm.getBoardNum());
-		commQA.setContent(comm.getContent());
-		
+		CommentQA commQA = modelMapper.map(comm, CommentQA.class);
 		commQARepo.save(commQA);
 		
 	}
 	
 	public void deleteCommQAByCoNum(Long boardNum, Long CoNum) {
-		commQARepo.deleteByBoardNumAndCoNum(boardNum, CoNum);
+		CommentQA commQA = commQARepo.findById(CoNum).get();
+		commQA.setDeleted(true);
+		commQARepo.save(commQA);
 	}
 	
-	public void deleteAllCommQA(Long boardNum) {
-		commQARepo.deleteByBoardNum(boardNum);
-	}
+	public void deleteAllCommQA(Long boardNum) {commQARepo.deleteByBoardNum(boardNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	

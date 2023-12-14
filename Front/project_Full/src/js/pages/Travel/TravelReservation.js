@@ -1,5 +1,5 @@
 import { DataGrid } from '@mui/x-data-grid';
-import { SERVER_URL, TravelCalendar, TravelKaKaoMap } from 'js';
+import { SERVER_URL, TravelCalendar, TravelPackMap } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
@@ -133,13 +133,14 @@ function TravelReservation() {
 
     return (
         <div>
-            {/* 회원, 패키지 정보 */}
-            <div style={{ marginLeft: "10%" }}>
+            {/* 패키지 정보 */}
+            <div>
                 {/* 패키지 여행 목록 스타일 */}
                 <div style={{
-                    marginRight: "20%",
-                    marginLeft: "20%",
+                    marginRight: "0%",
+                    marginLeft: "0%",
                     marginBottom: "1%",
+                    marginTop: "1%",
                     backgroundColor: 'white',
                     border: '1px solid'
                 }}>
@@ -168,7 +169,7 @@ function TravelReservation() {
                 backgroundColor: 'white',
                 border: '1px solid'
             }}>
-                <TravelKaKaoMap packNum={packNum} />
+                <TravelPackMap packNum={packNum} />
             </div>
 
             {/* 여행 예약 정보 입력 */}
@@ -178,7 +179,8 @@ function TravelReservation() {
                 marginBottom: "1%",
                 backgroundColor: 'white',
                 justifyContent: 'center',
-                border: '1px solid'
+                border: '1px solid',
+                textAlign: 'center'
             }}>
                 {/* count 입력 폼 */}
                 <div>
@@ -195,7 +197,7 @@ function TravelReservation() {
                 <br />
 
                 {/* dateCnt 입력 폼 */}
-                <div style={{ textAlign: 'center' }}>
+                <div>
                     <label>
                         패키지 여행기간:
                         <input

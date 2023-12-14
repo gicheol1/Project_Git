@@ -31,7 +31,7 @@ public class Payment { /* 결제 테이블(엔티티) */
 
 	/* 결제한 날짜 */
 	@Column(nullable = false)
-	private LocalDate paydate;
+	private LocalDate paydate = LocalDate.now();
 	
 	/* 카드 번호 */
 	@Column(nullable = false, length = 16)

@@ -14,7 +14,7 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import com.project.festival.Entity.board.FileDetail;
+import com.project.festival.Entity.board.FileDto;
 
 @Service
 public class FireBaseService {
@@ -24,7 +24,7 @@ public class FireBaseService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 이미지를 FireBase에 업로드하는 메서드
-    public FileDetail uploadImage(
+    public FileDto uploadImage(
     	String target,
 		MultipartFile file
     ) throws IOException {
@@ -58,7 +58,7 @@ public class FireBaseService {
         Blob blob = storage.get(blobId);
         
         // 원본과 이름을 반환하기 위한 객체
-        FileDetail fd = new FileDetail();
+        FileDto fd = new FileDto();
         
         fd.setImgFile(Base64.getEncoder().encodeToString(blob.getContent()));
         fd.setFileName(fileName);
@@ -103,7 +103,7 @@ public class FireBaseService {
 //    }
     
 	// FireBase에서 이미지 파일을 받아옴
-    public FileDetail getImageFile(
+    public FileDto getImageFile(
     	String target,
     	String fileName
 	) throws IOException {
@@ -127,7 +127,7 @@ public class FireBaseService {
         Blob blob = storage.get(blobId);
 
         // 원본과 이름 반환
-        FileDetail fd = new FileDetail();
+        FileDto fd = new FileDto();
         
         fd.setImgFile(Base64.getEncoder().encodeToString(blob.getContent()));
         fd.setFileName(fileName);

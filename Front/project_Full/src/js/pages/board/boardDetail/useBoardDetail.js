@@ -1,4 +1,4 @@
-import { SERVER_URL } from "constants";
+import { SERVER_URL } from "js";
 import { useCallback } from "react";
 
 export function useBoardDetail() {
@@ -257,10 +257,9 @@ export function useBoardDetail() {
             method: 'GET'
 
         }).then((response) => {
-            if (response.ok) {
-                return response.json();
+            if (response.ok) { return true; }
 
-            }
+            return false;
 
         }).catch((e) => {
             console.log(e);

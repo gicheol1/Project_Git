@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 
 import { useEffect, useState } from 'react';
 
-import { BoardDetail, BoardList, BoardMU, Home, Proceedpayment, Reservationlist, TravelPackList, TravelReservation } from 'js';
+import { BoardDetail, BoardList, BoardMU, Calendar, Home, Proceedpayment, Reservationlist, TravelCalendar, TravelKaKaoMap, TravelPackList, TravelReservation } from 'js';
 
 import { LayOut } from 'js';
 import { Login } from 'js';
@@ -72,6 +72,15 @@ function App() {
 
 				{/* 여행 결제 페이지 */}
 				<Route path="/payment/:resNum" element={<Proceedpayment />} />
+
+				{/* 태그, 지역별 여행 지도 */}
+				<Route path="/travelKaKaoMap" element={<TravelKaKaoMap />} />
+
+				{/* 여행 달력 */}
+			 	<Route path="/Calendar" element={<Calendar />} /> 
+
+				{/* 여행 축제 */}
+				{/* <Route path="/payment/:resNum" element={<Proceedpayment />} /> */}
 
 				{/* ===== ===== ===== ===== ===== */}
 

@@ -16,18 +16,20 @@ import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Entity.BoardFree;
 import com.project.festival.Entity.board.Entity.BoardQA;
-import com.project.festival.Entity.board.Repository.BoardEventRepo;
 import com.project.festival.Entity.board.Repository.BoardFreeRepo;
-import com.project.festival.Entity.board.Repository.BoardNoticRepo;
-import com.project.festival.Entity.board.Repository.BoardPromotionRepo;
 import com.project.festival.Entity.board.Repository.BoardQARepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentEventRepo;
 import com.project.festival.Entity.board.RepositoryComm.CommentFreeRepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentNoticRepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentPromotionRepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentQARepo;
+import com.project.festival.Service.TravalPack.PackReservationService;
+import com.project.festival.Service.TravalPack.PaymentService;
+
+import lombok.RequiredArgsConstructor;
 
 @SpringBootApplication
+@RequiredArgsConstructor
+/* @RequiredArgsConstructor 
+ * - @Autowired를 사용하지 않고 의존성 주입 
+ * - 초기화 되지않은 final 필드나, @NonNull 이 붙은 필드에 대해 생성자를 생성
+ */
 public class FestivalApplication implements CommandLineRunner {
 	
 	@Autowired
@@ -41,30 +43,36 @@ public class FestivalApplication implements CommandLineRunner {
     @Autowired
     private CommentFreeRepo CFRepo;
 
-    @Autowired
-    private BoardNoticRepo BNRepo;
-    @Autowired
-    private CommentNoticRepo CNRepo;
-
-    @Autowired
-    private BoardPromotionRepo BPRepo;
-    @Autowired
-    private CommentPromotionRepo CPRepo;
-
-    @Autowired
-    private BoardEventRepo BERepo;
-    @Autowired
-    private CommentEventRepo CERepo;
+//    @Autowired
+//    private BoardNoticRepo BNRepo;
+//    @Autowired
+//    private CommentNoticRepo CNRepo;
+//
+//    @Autowired
+//    private BoardPromotionRepo BPRepo;
+//    @Autowired
+//    private CommentPromotionRepo CPRepo;
+//
+//    @Autowired
+//    private BoardEventRepo BERepo;
+//    @Autowired
+//    private CommentEventRepo CERepo;
 
     @Autowired
     private BoardQARepo BQARepo;
-    @Autowired
-    private CommentQARepo CQARepo;
+//    @Autowired
+//    private CommentQARepo CQARepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	Random rand = new Random();
+	
+	/* 테스트용 결제 내역 생성 */
+	private final PaymentService paymentService;
+	
+	/* 패키지 여행 예약(예약 내역) 생성 */
+	private final PackReservationService packReservationService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(FestivalApplication.class, args);
@@ -163,8 +171,8 @@ public class FestivalApplication implements CommandLineRunner {
 		
 	// ========== ========== ========== ========== ==========
 		
-		rand.setSeed(System.currentTimeMillis());
-		
+//		rand.setSeed(System.currentTimeMillis());
+//		
 //		boardCnt = 1+rand.nextInt(10);
 //		
 //		for(int i=1; i<boardCnt; i++) {
@@ -228,5 +236,10 @@ public class FestivalApplication implements CommandLineRunner {
 		CFRepo.save(new CommentFree(1L, user.get(1+rand.nextInt(user.size()-2)).getMemId(), 1L, "답글 1-4"));
 		CFRepo.save(new CommentFree(1L, user.get(1+rand.nextInt(user.size()-2)).getMemId(), 1L, "답글 1-5"));
 		
+		/* (테스트용) 패키지 여행 예약(예약 내역) 생성 */
+		packReservationService.createDefaultPackReservations();
+		
+		/* (테스트용) 결재내역 생성 */
+		paymentService.creatDefaultPaymemt();
 	}
 }

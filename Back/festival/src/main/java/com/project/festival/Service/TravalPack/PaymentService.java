@@ -1,6 +1,6 @@
 package com.project.festival.Service.TravalPack;
 
-import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class PaymentService {
 		PackReservation packReservation = packReservationRepository.findByResNum(paymentDto.getResNum()); // 패키지 예약 내역
 		payment.setResNum(packReservation.getResNum()); // 예약 내역 정보
 		payment.setPayamount(paymentDto.getPayamount()); // DTO에 결제 금액
-		payment.setPaydate(LocalDate.now()); // 현재 시간
+//		payment.setPaydate(LocalDate.now()); // 현재 시간
 		payment.setCardnumber(paymentDto.getCardnumber()); // DTO의 카드번호
 		
 		paymentRepository.save(payment);
@@ -46,12 +46,12 @@ public class PaymentService {
 
 /* ------------------------------------------------------------------------------------------- */
 	
-//	@Transactional
-//	public void creatDefaultPaymemt() {
-//		List<PaymentDto> paymentDtos = PaymentDto.createPayment();
-//		for (PaymentDto paymentDto: paymentDtos) {
-//			addPayment(paymentDto);
-//		}
-//	}
+	@Transactional
+	public void creatDefaultPaymemt() {
+		List<PaymentDto> paymentDtos = PaymentDto.createPayment();
+		for (PaymentDto paymentDto: paymentDtos) {
+			addPayment(paymentDto);
+		}
+	}
 	
 }

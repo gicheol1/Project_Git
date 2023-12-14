@@ -1,4 +1,4 @@
-import { SERVER_URL } from "constants";
+import { SERVER_URL } from "js";
 import { useCallback } from "react";
 
 export function useBoardList() {
