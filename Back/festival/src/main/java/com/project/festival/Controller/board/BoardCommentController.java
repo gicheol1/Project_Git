@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.festival.Entity.board.CommentDetail;
+import com.project.festival.Entity.board.CommentDto;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardCommService;
@@ -64,13 +64,13 @@ public class BoardCommentController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
     
-    // 댓글 저장하기
+    // 댓글 저장, 수정하기
     @GetMapping("/submitComm")
 	public ResponseEntity<?> setComment(
 		@RequestParam String target,
 		@RequestParam Long boardNum,
 		@RequestParam String jwt,
-		@RequestBody CommentDetail comment
+		@RequestBody CommentDto comment
 	) {
 		
 		Claims claims;
@@ -99,23 +99,23 @@ public class BoardCommentController {
 		try {
 			switch(target) {
 				case "free":
-					boardCommService.setFree(comment);
+					boardCommService.addFree(comment);
 					break;
 					
 				case "notic":
-					boardCommService.setNotic(comment);
+					boardCommService.addNotic(comment);
 					break;
 					
 				case "promotion":
-					boardCommService.setPromotion(comment);
+					boardCommService.addPromotion(comment);
 					break;
 					
 				case "event":
-					boardCommService.setEvent(comment);
+					boardCommService.addEvent(comment);
 					break;
 					
 				case "qa":
-					boardCommService.setQA(comment);
+					boardCommService.addQA(comment);
 					break;
 				
 				default:

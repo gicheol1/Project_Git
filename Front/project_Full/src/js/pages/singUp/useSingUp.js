@@ -1,4 +1,4 @@
-import { SERVER_URL } from "constants";
+import { SERVER_URL } from "js";
 
 export function useSingUp() {
 

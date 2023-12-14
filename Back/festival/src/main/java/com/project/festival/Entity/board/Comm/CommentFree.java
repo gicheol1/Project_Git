@@ -42,6 +42,9 @@ public class CommentFree {
 	@Column(length = 2500)
 	private String content;
 	
+	// 삭제 여부
+	private boolean isDeleted = false;
+	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	public CommentFree(

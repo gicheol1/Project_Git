@@ -157,7 +157,7 @@ function TravelCalendar({ packNum }) {
     return (
         /* 달력과 예약일 */
         <div>
-            <div style={{ marginRight: "10px", marginLeft: "10px", display: "flex", justifyContent: "center", marginBottom: "2%", border: '1px solid' }}>
+            <div style={{ marginRight: "0px", marginLeft: "0px", marginBottom: "1%", display: "flex", justifyContent: "center",  border: '1px solid' }}>
                 <Calendar
                     // 현지 시간 양식을 가져온다.
                     localizer={localizer}
@@ -166,7 +166,7 @@ function TravelCalendar({ packNum }) {
                     events={events}
 
                     // 캘린더 몸통 스타일
-                    style={{ height: 800, width: "60%", backgroundColor: 'white' }}
+                    style={{ height: 800, width: "100%", backgroundColor: 'white' }}
 
                     // toolbar:이전, 오늘, 다음 버튼과 년, 월 타이틀, event: 패키지 여행 이름과 날짜 정보
                     components={{ toolbar: CustomToolbar, event: customEventContent, }}

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Controller.orther.ConversionBoard;
-import com.project.festival.Entity.board.BoardDetail;
+import com.project.festival.Entity.board.BoardDto;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardService;
@@ -151,7 +151,7 @@ public class BoardController {
 		@RequestParam String target,
 		@RequestParam String jwt,
 		@RequestParam Long boardNum,
-		@RequestBody BoardDetail boardDetail
+		@RequestBody BoardDto boardDetail
 	){
 		
 		Claims claims;
@@ -262,23 +262,19 @@ public class BoardController {
 			return ResponseEntity.ok(false);
 		}
 		
-		boolean isOwner = false;
-		
 		switch(target) {
-			case "free": isOwner = borderService.isOwnerFree(boardNum, memId); break;
+			case "free": return ResponseEntity.ok(borderService.isOwnerFree(boardNum, memId));
 				
-			case "notic": isOwner = borderService.isOwnerNotic(boardNum, memId); break;
+			case "notic": return ResponseEntity.ok(borderService.isOwnerNotic(boardNum, memId));
 				
-			case "promotion": isOwner = borderService.isOwnerPromotion(boardNum, memId); break;
+			case "promotion": return ResponseEntity.ok(borderService.isOwnerPromotion(boardNum, memId));
 				
-			case "event": isOwner = borderService.isOwnerEvent(boardNum, memId); break;
+			case "event": return ResponseEntity.ok(borderService.isOwnerEvent(boardNum, memId));
 				
-			case "qa": isOwner = borderService.isOwnerQA(boardNum, memId); break;
+			case "qa": return ResponseEntity.ok(borderService.isOwnerQA(boardNum, memId));
 			
-			default: return ResponseEntity.ok(isOwner);
+			default: return ResponseEntity.ok(false);
 		}
-		
-		return ResponseEntity.ok(isOwner);
 		
 	}
 	
