@@ -14,6 +14,8 @@ function Reservationlist() {
 
     const { checkIsLogin, toLogin } = useCheckLogin();
 
+    const [userName, setUserName] = useState('');
+
     /* ----------------------------------------------------------------------- */
 
     /* 벡엔드에 Constructor에서 설정한 패키지여행 예약 목록 */
@@ -36,6 +38,11 @@ function Reservationlist() {
                     .then(response => response.json())
                     .then(data => { console.log(data); setPackreservation(data); })
                     .catch(err => { console.error(err); });
+
+                /* >로그인한 회원의 이름을 출력하기위한 코드 */
+                // 회원의 이름을 가져온다고 가정하고, data에 이름이 담겨있다고 가정합니다.
+                const memberName = data.name; // data에서 이름 필드를 가져온다
+                setUserName(memberName);
 
             }).catch(err => console.error(err));
 
@@ -82,14 +89,15 @@ function Reservationlist() {
 
             {/* 패키지 여행 목록 스타일 */}
             <div style={{
-                marginLeft: "23%",
-                marginRight: "23%",
+                marginLeft: "0%",
+                marginRight: "0%",
                 marginBottom: "3%",
                 marginTop: "1%",
                 backgroundColor: 'white',
-                border: '1px solid'
+                border: '1px solid',
+                textAlign: 'center'
             }}>
-                <h1>패키지 여행 예약 목록</h1>
+                <h1>{userName}님의 패키지 여행 예약 목록</h1>
                 <DataGrid
                     rows={Packreservation}
                     columns={columns}

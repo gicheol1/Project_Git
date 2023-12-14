@@ -90,8 +90,8 @@ function TravelPackList() {
         <div>
             {/* 패키지 여행 목록 스타일 */}
             <div style={{
-                marginLeft: "7%",
-                marginRight: "7%",
+                marginLeft: "0%",
+                marginRight: "0%",
                 marginBottom: "3%",
                 marginTop: "3%",
                 textAlign: 'center',
