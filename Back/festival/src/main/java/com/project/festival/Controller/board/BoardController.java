@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Controller.orther.ConversionBoard;
-import com.project.festival.Entity.board.BoardDetail;
+import com.project.festival.Entity.board.BoardDto;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardService;
@@ -151,7 +151,7 @@ public class BoardController {
 		@RequestParam String target,
 		@RequestParam String jwt,
 		@RequestParam Long boardNum,
-		@RequestBody BoardDetail boardDetail
+		@RequestBody BoardDto boardDetail
 	){
 		
 		Claims claims;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.festival.Entity.board.CommentDetail;
+import com.project.festival.Entity.board.CommentDto;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardCommService;
@@ -70,7 +70,7 @@ public class BoardCommentController {
 		@RequestParam String target,
 		@RequestParam Long boardNum,
 		@RequestParam String jwt,
-		@RequestBody CommentDetail comment
+		@RequestBody CommentDto comment
 	) {
 		
 		Claims claims;

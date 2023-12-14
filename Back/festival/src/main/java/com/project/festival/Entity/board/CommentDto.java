@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentDetail {
+public class CommentDto {
 	
 	// 댓글 번호
 	private Long coNum;

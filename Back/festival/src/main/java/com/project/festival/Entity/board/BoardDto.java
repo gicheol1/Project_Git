@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BoardDetail {
+public class BoardDto {
 	
 	// 계시판 번호
 	private Long boardNum;

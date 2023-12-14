@@ -1,0 +1,9 @@
+#map {
+  margin-left: 10%;
+  width: 70vh;
+  height: 70vh;
+}
+
+#btnGroup {
+  position: relative;
+}

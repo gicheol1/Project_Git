@@ -16,16 +16,9 @@ import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Entity.BoardFree;
 import com.project.festival.Entity.board.Entity.BoardQA;
-import com.project.festival.Entity.board.Repository.BoardEventRepo;
 import com.project.festival.Entity.board.Repository.BoardFreeRepo;
-import com.project.festival.Entity.board.Repository.BoardNoticRepo;
-import com.project.festival.Entity.board.Repository.BoardPromotionRepo;
 import com.project.festival.Entity.board.Repository.BoardQARepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentEventRepo;
 import com.project.festival.Entity.board.RepositoryComm.CommentFreeRepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentNoticRepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentPromotionRepo;
-import com.project.festival.Entity.board.RepositoryComm.CommentQARepo;
 import com.project.festival.Service.TravalPack.PackReservationService;
 import com.project.festival.Service.TravalPack.PaymentService;
 
@@ -50,25 +43,25 @@ public class FestivalApplication implements CommandLineRunner {
     @Autowired
     private CommentFreeRepo CFRepo;
 
-    @Autowired
-    private BoardNoticRepo BNRepo;
-    @Autowired
-    private CommentNoticRepo CNRepo;
-
-    @Autowired
-    private BoardPromotionRepo BPRepo;
-    @Autowired
-    private CommentPromotionRepo CPRepo;
-
-    @Autowired
-    private BoardEventRepo BERepo;
-    @Autowired
-    private CommentEventRepo CERepo;
+//    @Autowired
+//    private BoardNoticRepo BNRepo;
+//    @Autowired
+//    private CommentNoticRepo CNRepo;
+//
+//    @Autowired
+//    private BoardPromotionRepo BPRepo;
+//    @Autowired
+//    private CommentPromotionRepo CPRepo;
+//
+//    @Autowired
+//    private BoardEventRepo BERepo;
+//    @Autowired
+//    private CommentEventRepo CERepo;
 
     @Autowired
     private BoardQARepo BQARepo;
-    @Autowired
-    private CommentQARepo CQARepo;
+//    @Autowired
+//    private CommentQARepo CQARepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -178,8 +171,8 @@ public class FestivalApplication implements CommandLineRunner {
 		
 	// ========== ========== ========== ========== ==========
 		
-		rand.setSeed(System.currentTimeMillis());
-		
+//		rand.setSeed(System.currentTimeMillis());
+//		
 //		boardCnt = 1+rand.nextInt(10);
 //		
 //		for(int i=1; i<boardCnt; i++) {

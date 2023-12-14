@@ -1,6 +1,5 @@
 package com.project.festival.Service.TravalPack;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.festival.Dto.PackReservationDto;
-import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.TravalPack.PackReservation;
 import com.project.festival.Entity.TravalPack.Repo.PackReservationRepository;
-import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +18,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PackReservationService {
 	
-	private final TravalPackRepository packRepository;
-	private final UserRepo userRepository;
+//	private final TravalPackRepository packRepository;
+//	private final UserRepo userRepository;
 	
 	private final PackReservationRepository packReservationRepository;
 	private final ModelMapper modelMapper;

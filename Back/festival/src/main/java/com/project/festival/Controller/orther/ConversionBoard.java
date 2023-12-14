@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.project.festival.Entity.board.BoardDetail;
+import com.project.festival.Entity.board.BoardDto;
 import com.project.festival.Entity.board.Entity.BoardEvent;
 import com.project.festival.Entity.board.Entity.BoardFree;
 import com.project.festival.Entity.board.Entity.BoardNotic;
@@ -17,12 +17,12 @@ public class ConversionBoard {
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	public List<BoardDetail> returnFree(List<BoardFree> b) {
+	public List<BoardDto> returnFree(List<BoardFree> b) {
 		
-		List<BoardDetail> detailList = new ArrayList<>();
+		List<BoardDto> detailList = new ArrayList<>();
 		
 		for(BoardFree bFree : b) {
-			BoardDetail bDetail = new BoardDetail();
+			BoardDto bDetail = new BoardDto();
 			
 			bDetail.setBoardNum(bFree.getBoardNum());
 			bDetail.setMemId(bFree.getMemId());
@@ -36,7 +36,7 @@ public class ConversionBoard {
 		return detailList;
 	}
 	
-	public BoardFree intoFree(BoardDetail detail) {
+	public BoardFree intoFree(BoardDto detail) {
 		
 		BoardFree bFree = new BoardFree();
 		
@@ -48,12 +48,12 @@ public class ConversionBoard {
 	
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 	
-	public List<BoardDetail> returnNotic(List<BoardNotic> b) {
+	public List<BoardDto> returnNotic(List<BoardNotic> b) {
 		
-		List<BoardDetail> detailList = new ArrayList<>();
+		List<BoardDto> detailList = new ArrayList<>();
 		
 		for(BoardNotic bNotic : b) {
-			BoardDetail bDetail = new BoardDetail();
+			BoardDto bDetail = new BoardDto();
 			
 			bDetail.setBoardNum(bNotic.getBoardNum());
 			bDetail.setMemId(bNotic.getMemId());
@@ -69,12 +69,12 @@ public class ConversionBoard {
 	
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 	
-	public List<BoardDetail> returnPromotion(List<BoardPromotion> b) {
+	public List<BoardDto> returnPromotion(List<BoardPromotion> b) {
 		
-		List<BoardDetail> detailList = new ArrayList<>();
+		List<BoardDto> detailList = new ArrayList<>();
 		
 		for(BoardPromotion bPromotion : b) {
-			BoardDetail bDetail = new BoardDetail();
+			BoardDto bDetail = new BoardDto();
 			
 			bDetail.setBoardNum(bPromotion.getBoardNum());
 			bDetail.setMemId(bPromotion.getMemId());
@@ -90,12 +90,12 @@ public class ConversionBoard {
 	
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 	
-	public List<BoardDetail> returnEvent(List<BoardEvent> b) {
+	public List<BoardDto> returnEvent(List<BoardEvent> b) {
 		
-		List<BoardDetail> detailList = new ArrayList<>();
+		List<BoardDto> detailList = new ArrayList<>();
 		
 		for(BoardEvent bEvent : b) {
-			BoardDetail bDetail = new BoardDetail();
+			BoardDto bDetail = new BoardDto();
 			
 			bDetail.setBoardNum(bEvent.getBoardNum());
 			bDetail.setMemId(bEvent.getMemId());
@@ -111,12 +111,12 @@ public class ConversionBoard {
 	
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 	
-	public List<BoardDetail> returnQA(List<BoardQA> b) {
+	public List<BoardDto> returnQA(List<BoardQA> b) {
 		
-		List<BoardDetail> detailList = new ArrayList<>();
+		List<BoardDto> detailList = new ArrayList<>();
 		
 		for(BoardQA bQA : b) {
-			BoardDetail bDetail = new BoardDetail();
+			BoardDto bDetail = new BoardDto();
 			
 			bDetail.setBoardNum(bQA.getBoardNum());
 			bDetail.setMemId(bQA.getMemId());
@@ -135,25 +135,9 @@ public class ConversionBoard {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒ 단일 출력 ▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	public BoardDetail returnFree(BoardFree b) {
+	public BoardDto returnFree(BoardFree b) {
 		
-		BoardDetail bDetail = new BoardDetail();
-		
-		bDetail.setBoardNum(b.getBoardNum());
-		bDetail.setMemId(b.getMemId());
-		bDetail.setTitle(b.getTitle());
-		bDetail.setContent(b.getContent());
-		bDetail.setDate(b.getDate());
-		bDetail.setReview(b.getReview());
-		
-		return bDetail;
-	}
-	
-// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	
-	public BoardDetail returnNotic(BoardNotic b) {
-		
-		BoardDetail bDetail = new BoardDetail();
+		BoardDto bDetail = new BoardDto();
 		
 		bDetail.setBoardNum(b.getBoardNum());
 		bDetail.setMemId(b.getMemId());
@@ -167,25 +151,9 @@ public class ConversionBoard {
 	
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 	
-	public BoardDetail returnPromotion(BoardPromotion b) {
+	public BoardDto returnNotic(BoardNotic b) {
 		
-		BoardDetail bDetail = new BoardDetail();
-		
-		bDetail.setBoardNum(b.getBoardNum());
-		bDetail.setMemId(b.getMemId());
-		bDetail.setTitle(b.getTitle());
-		bDetail.setContent(b.getContent());
-		bDetail.setDate(b.getDate());
-		bDetail.setReview(b.getReview());
-		
-		return bDetail;
-	}
-	
-// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	
-	public BoardDetail returnEvent(BoardEvent b) {
-		
-		BoardDetail bDetail = new BoardDetail();
+		BoardDto bDetail = new BoardDto();
 		
 		bDetail.setBoardNum(b.getBoardNum());
 		bDetail.setMemId(b.getMemId());
@@ -199,9 +167,41 @@ public class ConversionBoard {
 	
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 	
-	public BoardDetail returnQA(BoardQA b) {
+	public BoardDto returnPromotion(BoardPromotion b) {
 		
-		BoardDetail bDetail = new BoardDetail();
+		BoardDto bDetail = new BoardDto();
+		
+		bDetail.setBoardNum(b.getBoardNum());
+		bDetail.setMemId(b.getMemId());
+		bDetail.setTitle(b.getTitle());
+		bDetail.setContent(b.getContent());
+		bDetail.setDate(b.getDate());
+		bDetail.setReview(b.getReview());
+		
+		return bDetail;
+	}
+	
+// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
+	
+	public BoardDto returnEvent(BoardEvent b) {
+		
+		BoardDto bDetail = new BoardDto();
+		
+		bDetail.setBoardNum(b.getBoardNum());
+		bDetail.setMemId(b.getMemId());
+		bDetail.setTitle(b.getTitle());
+		bDetail.setContent(b.getContent());
+		bDetail.setDate(b.getDate());
+		bDetail.setReview(b.getReview());
+		
+		return bDetail;
+	}
+	
+// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
+	
+	public BoardDto returnQA(BoardQA b) {
+		
+		BoardDto bDetail = new BoardDto();
 		
 		bDetail.setBoardNum(b.getBoardNum());
 		bDetail.setMemId(b.getMemId());
