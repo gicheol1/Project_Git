@@ -1,0 +1,45 @@
+/* Board.css */
+
+.board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 80%; /* 테이블의 폭을 조절해주세요. */
+  }
+  
+  thead th, tbody td {
+    border: 1px solid black; /* 테두리색을 검정으로 설정 */
+    padding: 8px;
+    text-align: center;
+  }
+  
+  thead th {
+    background-color: gray; /* 배경색을 회색으로 설정 */
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: lightgray; /* 짝수 행 배경색 설정 */
+  }
+  
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .pagination li {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .pagination li:hover {
+    text-decoration: underline;
+  }

@@ -1,0 +1,39 @@
+
+.app-container {
+    text-align: center;
+  }
+  
+  .product-list-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product {
+    width: 15%;
+    height: 48%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .pagination button.active {
+    background-color: #61dafb;
+    color: white;
+  }
