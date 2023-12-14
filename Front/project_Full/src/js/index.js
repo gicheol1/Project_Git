@@ -49,5 +49,9 @@ export { default as Proceedpayment } from './pages/Payment/Proceedpayment'; // 1
 // > Travel(여행) 폴더 > KaKaomap(카카오 지도) 폴더
 export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap';
 
+// > TravelCalendar 폴더 >  캘린더 폴더
+export { default as Calendar } from './pages/Calendar/Calendar';
+
+
 
 
