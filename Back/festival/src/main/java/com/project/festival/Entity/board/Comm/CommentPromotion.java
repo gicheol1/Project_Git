@@ -41,4 +41,7 @@ public class CommentPromotion {
     // 댓글 내용
 	@Column(length = 2500)
 	private String content;
+	
+	// 삭제 여부
+	private boolean isDeleted = false;
 }

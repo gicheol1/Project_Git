@@ -26,6 +26,8 @@ export { default as FindAccount } from './pages/findAccount/FindAccount';
 // 게시판
 export { default as BoardList } from './pages/board/boardList/BoardList';
 export { default as BoardDetail } from './pages/board/boardDetail/BoardDetail';
+export { default as Comment } from './pages/board/boardDetail/Comment';
+
 export { default as BoardMU } from './pages/board/boardMU/BoardMU';
 
 // -------------------------------------------------------------------------------- //
