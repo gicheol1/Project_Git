@@ -26,8 +26,6 @@ export { default as FindAccount } from './pages/findAccount/FindAccount';
 // 게시판
 export { default as BoardList } from './pages/board/boardList/BoardList';
 export { default as BoardDetail } from './pages/board/boardDetail/BoardDetail';
-export { default as Comment } from './pages/board/boardDetail/Comment';
-
 export { default as BoardMU } from './pages/board/boardMU/BoardMU';
 
 // -------------------------------------------------------------------------------- //
@@ -41,19 +39,57 @@ export { default as TravelCalendar } from './pages/Travel/TravelCalendar'; // 2-
 export { default as Reservationlist } from './pages/Travel/Reservationlist'; // 3. 패키지 여행 예약 목록 페이지
 
 // > Travel(여행) 폴더 > KaKaomap(카카오 지도) 폴더
-export { default as TravelPackMap } from './pages/Travel/TravelPackMap/TravelPackMap'; // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
+export { default as TravelKaKaoMap } from './pages/Travel/TravelKaKaomap/TravelKaKaoMap'; // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
 
 // > Payment(결제) 폴더: 결제 기능에 대한 JS 파일 모음
 export { default as Proceedpayment } from './pages/Payment/Proceedpayment'; // 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)
 
 // -------------------------------------------------------------------------------- //
 
-// > Travel(여행) 폴더 > KaKaomap(카카오 지도) 폴더
-export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap';
+// > Festivals 폴더: 축제관리
+export { default as Festivals } from './pages/Festivals/Festivals'; //  축제관리 페이지
 
-// > TravelCalendar 폴더 >  캘린더 폴더
-export { default as Calendar } from './pages/Calendar/Calendar';
+// > ConnectionLog 폴더: 최근 본 내역
+export { default as ConnectionLog } from './pages/ConnectionLog/ConnectionLog'; // 최근 본 내역
+
+//---------------------------------------------------------------------------------//
+
+// > MainPage 폴더: 메인 페이지
+export { default as MainPage } from './pages/MainPage/MainPage'; // 메인페이지
+
+// > Likeclick 폴더: 좋아요 누른 계시글 보기 페이지
+export { default as Likeclick } from './pages/Likeclick/Likeclick'; // 좋아요 누른 계시글 보기 페이지
+
+// > FestivalPage 폴더: 지역 페이지
+export { default as FestivalPage } from './pages/FestivalPage/FestivalPage'; // 지역 페이지
+
+// > Mymilize 폴더: 마일리지 페이지
+export { default as Mymilize } from './pages/Mymilize/Mymilize'; // 마일리지 페이지
+
+// --------------------------------------------------------------------------------//
+//Footer
+
+// > Privacy 폴더: 개인정보 처리방침
+export { default as Privacy } from './layout/footer/Footerlink/Privacy'; //  개인정보 처리방침 페이지
+
+// > Terms 폴더: 이용약관
+export { default as Terms } from './layout/footer/Footerlink/Terms'; //  이용약관 페이지
+
+// > Copyright 폴더: 저작권장
+export { default as Copyright } from './layout/footer/Footerlink/Copyright'; // 저작권장 페이지
 
 
+//--------------------------------------------------------------------------------//
+//Sidebar
 
+// > ReservationInfo 폴더: 예약 정보
+export { default as ReservationInfo } from './pages/ReservationInfo/ReservationInfo'; // 예약 정보
 
+// > SaleInfo 폴더: 판매 정보
+export { default as SaleInfo } from './pages/Sale/SaleInfo'; // 판매 정보
+
+// > MemberInfo 폴더: 회원 정보 수정
+export { default as MemberInfo } from './pages/MemberInfo/MemberInfo'; // 회원 정보 수정
+
+// > QnaStatus 폴더: 내 Q&A 현황
+export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황

@@ -7,6 +7,7 @@ const Home = ({ isLogin }) => {
     return (
 
         <div>
+            
             {isLogin === true ?
                 `This is Home (Login)`
                 :
