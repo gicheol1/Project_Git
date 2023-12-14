@@ -64,7 +64,7 @@ public class BoardCommentController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
     
-    // 댓글 저장하기
+    // 댓글 저장, 수정하기
     @GetMapping("/submitComm")
 	public ResponseEntity<?> setComment(
 		@RequestParam String target,
@@ -99,23 +99,23 @@ public class BoardCommentController {
 		try {
 			switch(target) {
 				case "free":
-					boardCommService.setFree(comment);
+					boardCommService.addFree(comment);
 					break;
 					
 				case "notic":
-					boardCommService.setNotic(comment);
+					boardCommService.addNotic(comment);
 					break;
 					
 				case "promotion":
-					boardCommService.setPromotion(comment);
+					boardCommService.addPromotion(comment);
 					break;
 					
 				case "event":
-					boardCommService.setEvent(comment);
+					boardCommService.addEvent(comment);
 					break;
 					
 				case "qa":
-					boardCommService.setQA(comment);
+					boardCommService.addQA(comment);
 					break;
 				
 				default:
