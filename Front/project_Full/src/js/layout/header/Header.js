@@ -53,39 +53,33 @@ const Header = ({ isLogin, setIsLogin }) => {
                             <Button onClick={move} value='/mycart'>🛒 장바구니</Button>
                             <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <Button onClick={move} value='/packreservation/memberpackreservation'>⏱ 예약 목록</Button>
-                            
+
                         </>
                         :
                         <Button onClick={move} value='/login'>로그인</Button>
-                        
-                        
+
+
                 }
             </div>
             <div className="bottom-memu"
                 onMouseEnter={() => setIsMenuVisible(true)}
             >
                 {/* 메뉴 링크들 */}
-                <a href="/Main"><img src={profileAImageA} alt="Profile" className="profileA-imageA"/></a>
+                <a href="/Main"><img src={profileAImageA} alt="Profile" className="profileA-imageA" /></a>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value="/board">게시판</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-<<<<<<< HEAD
-                <Button onClick={move} value="/map">여행지도</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/calendar">여행달력</Button>
-=======
                 <Button onClick={move} value="/travelKaKaoMap">여행지도</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/Calendar">여행달력</Button>
->>>>>>> 997c91d602d6235991df297698a7746aef79e405
+                <Button onClick={move} value="/calendar">여행달력</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value="/packreservationList">여행상품</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value="/festivals">축제관리</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value='/connectionlog'>⏱ 최근 본 내역</Button>
-                
-            </div>
+
+            </div >
 
             {isMenuVisible && (
                 <div className="bottom-subMenu"
@@ -100,7 +94,7 @@ const Header = ({ isLogin, setIsLogin }) => {
                     </ul>
                 </div>
             )}
-        </div>
+        </div >
     );
 }
 

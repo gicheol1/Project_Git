@@ -4,13 +4,24 @@ import { Route, Routes } from "react-router-dom";
 
 import { useEffect, useState } from 'react';
 
-import { BoardDetail, BoardList, BoardMU, Home, Proceedpayment, Reservationlist, TravelPackList, TravelReservation } from 'js';
+import {
+	BoardDetail,
+	BoardList,
+	BoardMU,
+	Calendar,
+	Home,
+	Proceedpayment,
+	Reservationlist,
+	TravelCalendar,
+	TravelKaKaoMap,
+	TravelPackList,
+	TravelReservation
+} from 'js';
 
-
-import { ConnectionLog, Festivals}from 'js';
-import { ReservationInfo, SaleInfo, MemberInfo, QnaStatus} from 'js';
-import { Likeclick, Mymilize, FestivalPage, MainPage} from 'js';
-import { Copyright, Privacy, Terms} from 'js';
+import { ConnectionLog, Festivals } from 'js';
+import { ReservationInfo, SaleInfo, MemberInfo, QnaStatus } from 'js';
+import { Likeclick, Mymilize, FestivalPage, MainPage } from 'js';
+import { Copyright, Privacy, Terms } from 'js';
 
 
 import { LayOut } from 'js';
@@ -43,7 +54,7 @@ function App() {
 
 	return (
 		<Routes>
-			
+
 			{/* 헤더, 푸터 레이아웃 지정 */}
 			<Route element={
 				<LayOut
@@ -51,7 +62,6 @@ function App() {
 					setIsLogin={setIsLogin}
 				/>
 			}>
-
 
 				{/* 기본 페이지('/') */}
 				<Route index element={<Home isLogin={isLogin} />} />
@@ -81,7 +91,13 @@ function App() {
 
 				{/* 여행 결제 페이지 */}
 				<Route path="/payment/:resNum" element={<Proceedpayment />} />
-				
+
+				{/* 여행 지도 */}
+				<Route path="/travelKaKaoMap" element={<TravelKaKaoMap />} />
+
+				{/* 여행 달력 */}
+				<Route path="/calendar" element={<Calendar />} />
+
 				{/* ===== ===== ===== ===== ===== */}
 
 				{/* 로그인 상태에 따른 경로 지정 */}
@@ -97,32 +113,32 @@ function App() {
 				}
 
 				{/* 헤더 경로 설정 */}
-			    <Route path="/festivals" element={<Festivals />} />
+				<Route path="/festivals" element={<Festivals />} />
 				<Route path="/connectionlog" element={<ConnectionLog />} />
 				<Route path="/Main" element={<MainPage />} />
 
 				{/* 메인페이지 경로 설정 */}
-			    <Route path="/likeclick" element={<Likeclick />} />
-          		<Route path="/mymilize" element={<Mymilize />} />
-          		<Route path="/festival" element={<FestivalPage />} /> 
+				<Route path="/likeclick" element={<Likeclick />} />
+				<Route path="/mymilize" element={<Mymilize />} />
+				<Route path="/festival" element={<FestivalPage />} />
 
 				{/* 사이드바 경로 설정 */}
 				<Route path="/info" element={<ReservationInfo />} />
-          		<Route path="/saleinfo" element={<SaleInfo />} />
+				<Route path="/saleinfo" element={<SaleInfo />} />
 				<Route path="/membercut" element={<MemberInfo />} />
 				<Route path="/Qna" element={<QnaStatus />} />
 
 				{/* 푸터 경로 설정 */}
 				<Route path="/privacy" element={<Privacy />} />
-          		<Route path="/terms" element={<Terms />} />
-          		<Route path="/copyright" element={<Copyright />} /> 
+				<Route path="/terms" element={<Terms />} />
+				<Route path="/copyright" element={<Copyright />} />
 
 
 
 			</Route>
 
 		</Routes>
-		
+
 	);
 }
 
