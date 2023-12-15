@@ -18,9 +18,19 @@ import {
 	TravelReservation
 } from 'js';
 
+//header
 import { ConnectionLog, Festivals } from 'js';
+
+//Sidebar
 import { ReservationInfo, SaleInfo, MemberInfo, QnaStatus } from 'js';
+
+//Sidebar(관리자) 추가내용
+import { Servicedown, Blacklist, Membercare, UserPage} from 'js';
+
+//main
 import { Likeclick, Mymilize, FestivalPage, MainPage } from 'js';
+
+//footer
 import { Copyright, Privacy, Terms } from 'js';
 
 
@@ -113,24 +123,47 @@ function App() {
 				}
 
 				{/* 헤더 경로 설정 */}
+				{/* 축제 관리 */}
 				<Route path="/festivals" element={<Festivals />} />
+				{/* 최근 본 내역 */}
 				<Route path="/connectionlog" element={<ConnectionLog />} />
+				{/* 메인 페이지 */}
 				<Route path="/Main" element={<MainPage />} />
 
 				{/* 메인페이지 경로 설정 */}
+				{/* 좋아요 누른 계시글 */}
 				<Route path="/likeclick" element={<Likeclick />} />
+				{/* OOO님의 마일리지 */}
 				<Route path="/mymilize" element={<Mymilize />} />
+				{/* 지역 */}
 				<Route path="/festival" element={<FestivalPage />} />
 
 				{/* 사이드바 경로 설정 */}
+				{/* 예약정보, 예약정보 관리 */}
 				<Route path="/info" element={<ReservationInfo />} />
+				{/* 판매 정보 */}
 				<Route path="/saleinfo" element={<SaleInfo />} />
+				{/* 회원 정보 수정 */}
 				<Route path="/membercut" element={<MemberInfo />} />
+				{/* 내Q&A 현황, Q&A관리 */}
 				<Route path="/Qna" element={<QnaStatus />} />
 
+				{/* 사이드바(관리자) 추가내용 경로 설정 */}
+				{/* 유저 관리 */}
+				<Route path="/user" element={<UserPage />} />
+				{/* 블랙 리스트 */}
+				<Route path="/blacklist" element={<Blacklist />} />
+				{/* 회원정보 수정(관리자) */}
+				<Route path="/memberinfo" element={<Membercare />} />
+				{/* 서비스 제한 */}
+				<Route path="/servicedown" element={<Servicedown />} />
+
 				{/* 푸터 경로 설정 */}
+				{/* 개인 정보 처리 방침 */}
 				<Route path="/privacy" element={<Privacy />} />
+				{/* 이용약관 */}
 				<Route path="/terms" element={<Terms />} />
+				{/* 저작권장 */}
 				<Route path="/copyright" element={<Copyright />} />
 
 

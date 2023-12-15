@@ -105,3 +105,17 @@ export { default as MemberInfo } from './pages/MemberInfo/MemberInfo'; // 회원
 
 // > QnaStatus 폴더: 내 Q&A 현황
 export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황
+
+//Sidebar(m) (추가)
+
+// > UserPage 폴더: 유저 관리
+export { default as UserPage } from './pages/UserPage/UserPage'; // 유저 관리
+
+// > Blacklist 폴더: 블랙 리스트
+export { default as Blacklist } from './pages/Blacklist/Blacklist'; // 블랙 리스트
+
+// > MemberInfo 폴더: 회원정보 수정(관리자)
+export { default as Membercare } from './pages/MemberInfo/Membercare'; // 회원정보 수정(관리자)
+
+// > Servicedown 폴더: 서비스 제한
+export { default as Servicedown } from './pages/Servicedown/Servicedown'; // 서비스 제한
