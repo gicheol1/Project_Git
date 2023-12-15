@@ -2,6 +2,7 @@ import './LayOut.css';
 
 import Header from "./header/Header";
 import Sidebar from './sidebar/Sidebar';
+import Sidecare from './sidebar/Sidecare';
 import Footer from './footer/Footer';
 
 import { Outlet } from "react-router-dom";
@@ -42,7 +43,10 @@ const LayOut = ({ isLogin, setIsLogin }) => {
             <sidebar style={{
 
             }}>
-                <Sidebar />
+                {/* 사이드바(회원) */}
+                {/* <Sidebar />  */}
+                {/* 사이드바(관리자) */}
+                <Sidecare />  
             </sidebar>
 
 
