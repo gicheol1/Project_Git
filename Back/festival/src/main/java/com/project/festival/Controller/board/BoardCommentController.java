@@ -315,7 +315,7 @@ public class BoardCommentController {
 				return ResponseEntity.notFound().build();
 		}
 		
-		System.out.println(boardNum + " " + coNum + " " + memId);
+		System.out.println(isOwner);
 		
 		if(isOwner) {
 			return ResponseEntity.ok().build();

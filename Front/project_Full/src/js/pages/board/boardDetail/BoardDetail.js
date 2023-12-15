@@ -26,6 +26,7 @@ const BoardDetail = ({ isLogin }) => {
 		boardNum: boardNum,
 	});
 
+	// 게시판 소유자 여부
 	const [isOwner, setIsOwner] = useState(false);
 
 	const {
@@ -48,13 +49,14 @@ const BoardDetail = ({ isLogin }) => {
 
 	useEffect(() => {
 
+		// 게시판 소유 여부
 		isOwnerBoard(target, boardNum).then(result => setIsOwner(result));
 
 		// 게시판 정보
 		getDetail(target, boardNum).then(result => setBoard(result));
 
 		// 댓글
-		getComment(target, boardNum).then(result => { console.log(result); setCommentList(result); });
+		getComment(target, boardNum).then(result => setCommentList(result));
 
 		// 이미지 파일
 		getFile(target, boardNum).then(result => result !== undefined && result.length !== 0 ? setFileList(result) : '');
@@ -86,11 +88,24 @@ const BoardDetail = ({ isLogin }) => {
 
 	}
 
-	const [recoTarget, setRecoTarget] = useState({});
+	const [recoMemId, setRecoMemId] = useState('');
+	const [recoIsDisabled, setRecoIsDisabled] = useState('');
 
-	// 답글대상 정보 가져오기
-	const getRecoTarget = (targetComment) => {
-		setRecoTarget(commentList.find((comments) => comments.coNum === targetComment.recoNum));
+	// 답글대상 삭제 여부 가져오기
+
+	// 답글대상 지정
+	const setRecoTarget = (recoNum) => {
+		setNewComment(prevComment => {
+			const updatedComment = { ...prevComment, recoNum: recoNum };
+			const recoTarget = commentList.find((comments) => comments.coNum === updatedComment.recoNum);
+			setRecoMemId(recoTarget.memId);
+			return updatedComment;
+		});
+	}
+
+	const cancleRecoTarget = () => {
+		setNewComment({ ...newComment, recoNum: '' })
+		setRecoMemId('');
 	}
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -100,7 +115,7 @@ const BoardDetail = ({ isLogin }) => {
 	return (
 		<div className="board-detail-container">
 
-			{/* 제목, 작성자, 일자 */}
+			{/* ===== 제목, 작성자, 일자 ===== */}
 			<div className="board-head">
 				<div className="board-info">
 					<h3>{board.title}</h3>
@@ -112,7 +127,7 @@ const BoardDetail = ({ isLogin }) => {
 					</span>
 				</div>
 
-				{(isLogin && isOwnerBoard(target, boardNum)) === true ?
+				{isLogin && isOwner === true ?
 					<div className="board-actions">
 
 						<Button
@@ -139,16 +154,18 @@ const BoardDetail = ({ isLogin }) => {
 
 			<hr />
 
-			{/* 글 이미지, 내용 */}
+			{/* ===== 글 이미지, 내용 ===== */}
 			<div className="boardContent">
 				{fileList !== null && fileList.length !== 0 ?
-					fileList.map((images, index) =>
-						<img
-							key={`image ${index}`}
-							alt={`image ${images.orgName}`}
-							src={`data:image/png;base64,${images.imgFile}`}
-						/>
-					)
+					fileList.map((images, index) => (
+						images.orgName != undefined ?
+							<img
+								key={`image ${index}`}
+								alt={`image ${images.orgName}`}
+								src={`data:image/png;base64,${images.imgFile}`}
+							/>
+							: <></>
+					))
 					:
 					<></>
 				}
@@ -157,36 +174,34 @@ const BoardDetail = ({ isLogin }) => {
 
 			<hr />
 
-			{/* 댓글 */}
+			{/* ===== 댓글 ===== */}
 			<div className="boardComment">
-				<div style={{ display: "flex", flex: "1" }}>
+				<div>
 
 					{/* 답글 대상 표시 */}
-					{recoTarget.memId !== '' && (
-						<>
+					{recoMemId !== '' && (
+						<div style={{ display: "flex" }}>
 							<input
 								type="text"
-								value={recoTarget.memId}
+								value={recoMemId}
 								readOnly
 							/>
-							<Button onClick={() => { setNewComment({ ...newComment, recoNum: '' }) }}> 취소</Button>
-						</>
+							<Button onClick={cancleRecoTarget}> 취소</Button>
+						</div>
 					)}
 
 					{/* 댓글 입력, 추가 */}
-					<div>
-						<Button disabled={!isLogin} onClick={() => { submitComment(target, boardNum, newComment) }}>댓글 달기</Button>
-						<textarea
-							disabled={!isLogin}
-							placeholder={isLogin ?
-								''
-								:
-								'로그인이 필요합니다.'}
-							style={{ resize: "none", width: "85%" }}
-							value={newComment.content}
-							onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
-						/>
-					</div>
+					<Button style={{ width: "50px" }} disabled={!isLogin} onClick={() => { submitComment(target, boardNum, newComment) }}>댓글 달기</Button>
+					<textarea
+						disabled={!isLogin}
+						placeholder={isLogin ?
+							''
+							:
+							'로그인이 필요합니다.'}
+						style={{ resize: "none", width: "100%", height: "100%" }}
+						value={newComment.content}
+						onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
+					/>
 				</div>
 
 				<hr />
@@ -201,6 +216,7 @@ const BoardDetail = ({ isLogin }) => {
 							boardNum={boardNum}
 							isOwner={isOwner}
 							comment={comment}
+							recoIsDisabled={recoIsDisabled}
 							setRecoTarget={setRecoTarget}
 						/>
 					))

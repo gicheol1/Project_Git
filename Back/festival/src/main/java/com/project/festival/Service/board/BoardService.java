@@ -33,9 +33,6 @@ public class BoardService {
     @Autowired
     private BoardQARepo BQARepo;
 
-	@Autowired
-	private UserRepo userRepo;
-
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -86,7 +83,20 @@ public class BoardService {
     
     // 소유자 확인
     public boolean isOwnerFree(Long boardNum, String memId) {
+
+//    	System.out.println();
+//    	System.out.println(BFRepo.existsByBoardNumAndMemId(boardNum, memId));
+//    	System.out.println();
+    	
     	return BFRepo.existsByBoardNumAndMemId(boardNum, memId);
+    	
+//    	BoardFree bf = BFRepo.findByBoardNumAndMemId(boardNum, memId);
+//    	
+//    	if(bf != null) {
+//    		return true;
+//    	} else {
+//    		return false;
+//    	}
     }
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -136,7 +146,16 @@ public class BoardService {
     }
     
     public boolean isOwnerNotic(Long boardNum, String memId) {
+    	
     	return BNRepo.existsByBoardNumAndMemId(boardNum, memId);
+    	
+//    	BoardNotic bn = BNRepo.findByBoardNumAndMemId(boardNum, memId);
+//    	
+//    	if(bn != null) {
+//    		return true;
+//    	} else {
+//    		return false;
+//    	}
     }
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -186,7 +205,16 @@ public class BoardService {
     }
     
     public boolean isOwnerPromotion(Long boardNum, String memId) {
+    	
     	return BPRepo.existsByBoardNumAndMemId(boardNum, memId);
+    	
+//    	BoardPromotion bp = BPRepo.findByBoardNumAndMemId(boardNum, memId);
+//    	
+//    	if(bp != null) {
+//    		return true;
+//    	} else {
+//    		return false;
+//    	}
     }
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -236,7 +264,16 @@ public class BoardService {
     }
     
     public boolean isOwnerEvent(Long boardNum, String memId) {
+    	
     	return BERepo.existsByBoardNumAndMemId(boardNum, memId);
+    	
+//    	BoardEvent be = BERepo.findByBoardNumAndMemId(boardNum, memId);
+//    	
+//    	if(be != null) {
+//    		return true;
+//    	} else {
+//    		return false;
+//    	}
     }
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -288,7 +325,16 @@ public class BoardService {
     }
     
     public boolean isOwnerQA(Long boardNum, String memId) {
+    	
     	return BQARepo.existsByBoardNumAndMemId(boardNum, memId);
+    	
+//    	BoardQA bqa = BQARepo.findByBoardNumAndMemId(boardNum, memId);
+//    	
+//    	if(bqa != null) {
+//    		return true;
+//    	} else {
+//    		return false;
+//    	}
     }
     
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

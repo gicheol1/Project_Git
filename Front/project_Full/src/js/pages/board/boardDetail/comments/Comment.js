@@ -3,7 +3,16 @@ import { useBoardDetail } from "../useBoardDetail";
 import { useEffect, useState } from "react";
 import './Comment.css';
 
-const Comment = ({ target, boardNum, isOwner, comment, recoDisable, setRecoTarget }) => {
+const Comment = ({
+	isLogin,
+	target,
+	boardNum,
+	isOwner,
+	comment,
+	recoIsDisabled,
+
+	setRecoTarget
+}) => {
 
 	// 댓글 수정 모드
 	const [changeMod, setChangeMod] = useState(false);
@@ -22,7 +31,6 @@ const Comment = ({ target, boardNum, isOwner, comment, recoDisable, setRecoTarge
 
 	useEffect(() => {
 		isOwnerComment(target, boardNum, comment.coNum).then(res => setIsOwnerComm(res));
-
 	}, [])
 
 	// ========== ========== ========== ========== ========== ========== ==========
@@ -86,7 +94,7 @@ const Comment = ({ target, boardNum, isOwner, comment, recoDisable, setRecoTarge
 					padding: '10px'
 				})}
 			>
-				{comment.isDeleted ?
+				{comment.deleted ?
 					// 삭제된 댓글인 경우
 					<p> ===== 삭제된 댓글입니다. ===== </p>
 					:
@@ -94,7 +102,7 @@ const Comment = ({ target, boardNum, isOwner, comment, recoDisable, setRecoTarge
 					<>
 						<div className="comments">
 							{comment.recoNum !== null && (
-								(recoDisable !== undefined && !recoDisable) ?
+								(recoIsDisabled !== null && !recoIsDisabled) ?
 
 									<p>답글대상 : {comment.recoMemId}</p>
 									:
@@ -105,33 +113,33 @@ const Comment = ({ target, boardNum, isOwner, comment, recoDisable, setRecoTarge
 							<p>{comment.content}</p>
 						</div>
 
+						{/* 수정 버튼(댓글 작성자 본인만 가능) */}
 						{isOwnerComm ?
-							<>
-								{/* 수정 버튼 */}
-								<Button
-									className="btn"
-									variant="contained"
-									onClick={onChangeMod}
-								>
-									수정
-								</Button>
-
-								{/* 답글 버튼 */}
-								<Button
-									className="btn"
-									variant="contained"
-									onClick={() => { setRecoTarget(comment.coNum) }}
-								>
-									답글
-								</Button>
-
-
-							</>
+							<Button
+								className="btn"
+								variant="contained"
+								onClick={onChangeMod}
+							>
+								수정
+							</Button>
 							: <></>
 						}
 
+						{/* 답글 버튼(로그인 필요) */}
+						{isLogin === true ?
+							<Button
+								className="btn"
+								variant="contained"
+								onClick={() => { setRecoTarget(comment.coNum) }}
+							>
+								답글
+							</Button>
+							:
+							<></>
+						}
+
 						{/* 삭제 버튼(작성자, 게시판 소유자인 경우) */}
-						{isOwner || isOwnerComm ?
+						{(isOwner || isOwnerComm) === true ?
 							<Button
 								className="btn"
 								variant="contained"

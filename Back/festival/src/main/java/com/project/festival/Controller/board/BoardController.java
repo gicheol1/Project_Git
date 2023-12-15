@@ -233,7 +233,7 @@ public class BoardController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	// 게시판 소유쥬 확인
+	// 게시판 소유주 확인
 	@GetMapping("/isOwner")
 	public ResponseEntity<?> isOwnerBoard(
 		@RequestParam String target,
@@ -262,19 +262,28 @@ public class BoardController {
 			return ResponseEntity.ok(false);
 		}
 		
+		boolean isOwner = false;
+		
 		switch(target) {
-			case "free": return ResponseEntity.ok(borderService.isOwnerFree(boardNum, memId));
+			case "free": isOwner = borderService.isOwnerFree(boardNum, memId); break;
 				
-			case "notic": return ResponseEntity.ok(borderService.isOwnerNotic(boardNum, memId));
+			case "notic": isOwner = borderService.isOwnerNotic(boardNum, memId); break;
 				
-			case "promotion": return ResponseEntity.ok(borderService.isOwnerPromotion(boardNum, memId));
+			case "promotion": isOwner = borderService.isOwnerPromotion(boardNum, memId); break;
 				
-			case "event": return ResponseEntity.ok(borderService.isOwnerEvent(boardNum, memId));
+			case "event": isOwner = borderService.isOwnerEvent(boardNum, memId); break;
 				
-			case "qa": return ResponseEntity.ok(borderService.isOwnerQA(boardNum, memId));
+			case "qa": isOwner = borderService.isOwnerQA(boardNum, memId); break;
 			
-			default: return ResponseEntity.ok(false);
+			default: return ResponseEntity.notFound().build();
 		}
+		
+		if(isOwner) {
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+		
 		
 	}
 	

@@ -44,7 +44,7 @@ const LayOut = ({ isLogin, setIsLogin }) => {
                 {/* 사이드바(회원) */}
                 {/* <Sidebar />  */}
                 {/* 사이드바(관리자) */}
-                <Sidecare />  
+                <Sidecare />
             </sidebar>
 
             {/* 푸터 */}
