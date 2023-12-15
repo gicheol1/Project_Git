@@ -13,9 +13,6 @@ const BoardDetail = ({ isLogin }) => {
 
 	const navigate = useNavigate();
 
-	// 소유자 여부
-	const [owner, setOwner] = useState(false);
-
 	// 게시판 종류와 글 번호
 	const { target, boardNum } = useParams();
 
@@ -24,17 +21,19 @@ const BoardDetail = ({ isLogin }) => {
 	const [commentList, setCommentList] = useState([{}]);
 	const [fileList, setFileList] = useState([{}]);
 
-	// 작성한 댓글
-	const [comment, setComment] = useState({
-		recoNum: '',
+	// 작성하고자 하는 새 댓글
+	const [newComment, setNewComment] = useState({
 		boardNum: boardNum,
-		content: ''
 	});
+
+	const [isOwner, setIsOwner] = useState(false);
 
 	const {
 		getDetail,
 		getComment,
 		getFile,
+
+		submitComment,
 
 		deleteBoard,
 
@@ -49,19 +48,15 @@ const BoardDetail = ({ isLogin }) => {
 
 	useEffect(() => {
 
-		// 로그인 상태인지 확인
-		if (isLogin !== true && board.private === 'Y') {
-			toLogin();
-			return;
-		}
+		isOwnerBoard(target, boardNum).then(result => setIsOwner(result));
 
-		isOwnerBoard(target, boardNum).then((res) => {
-			if (res !== undefined) { setOwner(res) }
-		});
-
+		// 게시판 정보
 		getDetail(target, boardNum).then(result => setBoard(result));
 
+		// 댓글
 		getComment(target, boardNum).then(result => { console.log(result); setCommentList(result); });
+
+		// 이미지 파일
 		getFile(target, boardNum).then(result => result !== undefined && result.length !== 0 ? setFileList(result) : '');
 
 	}, [boardNum]);
@@ -73,6 +68,7 @@ const BoardDetail = ({ isLogin }) => {
 	// 수정하기
 	const onMoveUpdate = () => {
 		if (isLogin) {
+			toLogin();
 			navigate(`/boardUpdate/${target}/${boardNum}`);
 		} else {
 			navigate(`/login`);
@@ -81,13 +77,20 @@ const BoardDetail = ({ isLogin }) => {
 	}
 
 	// 삭제하기
-	const onDelete = () => {
+	const onDeleteBoard = () => {
 		if (isLogin) {
-			navigate(`/boardUpdate/${target}/${boardNum}`);
+			deleteBoard(target, boardNum)
 		} else {
 			navigate(`/login`);
 		}
 
+	}
+
+	const [recoTarget, setRecoTarget] = useState({});
+
+	// 답글대상 정보 가져오기
+	const getRecoTarget = (targetComment) => {
+		setRecoTarget(commentList.find((comments) => comments.coNum === targetComment.recoNum));
 	}
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -109,7 +112,7 @@ const BoardDetail = ({ isLogin }) => {
 					</span>
 				</div>
 
-				{(isLogin && owner) === true ?
+				{(isLogin && isOwnerBoard(target, boardNum)) === true ?
 					<div className="board-actions">
 
 						<Button
@@ -123,7 +126,7 @@ const BoardDetail = ({ isLogin }) => {
 							className="btn"
 							variant="contained"
 							color="error"
-							onClick={() => { deleteBoard(target, boardNum) }}
+							onClick={onDeleteBoard}
 						>
 							삭제하기
 						</Button>
@@ -138,18 +141,17 @@ const BoardDetail = ({ isLogin }) => {
 
 			{/* 글 이미지, 내용 */}
 			<div className="boardContent">
-				{fileList !== undefined && (
-					fileList.length !== 0 ?
-						fileList.map((images, index) =>
-							<img
-								key={`image ${index}`}
-								alt={`image ${images.orgName}`}
-								src={`data:image/png;base64,${images.imgFile}`}
-							/>
-						)
-						:
-						<></>
-				)}
+				{fileList !== null && fileList.length !== 0 ?
+					fileList.map((images, index) =>
+						<img
+							key={`image ${index}`}
+							alt={`image ${images.orgName}`}
+							src={`data:image/png;base64,${images.imgFile}`}
+						/>
+					)
+					:
+					<></>
+				}
 				<p>{board.content}</p>
 			</div>
 
@@ -157,9 +159,23 @@ const BoardDetail = ({ isLogin }) => {
 
 			{/* 댓글 */}
 			<div className="boardComment">
-				<div>
-					<span style={{ display: "flex", flex: "2" }}>
-						<Button disabled={!isLogin}>댓글 달기</Button>
+				<div style={{ display: "flex", flex: "1" }}>
+
+					{/* 답글 대상 표시 */}
+					{recoTarget.memId !== '' && (
+						<>
+							<input
+								type="text"
+								value={recoTarget.memId}
+								readOnly
+							/>
+							<Button onClick={() => { setNewComment({ ...newComment, recoNum: '' }) }}> 취소</Button>
+						</>
+					)}
+
+					{/* 댓글 입력, 추가 */}
+					<div>
+						<Button disabled={!isLogin} onClick={() => { submitComment(target, boardNum, newComment) }}>댓글 달기</Button>
 						<textarea
 							disabled={!isLogin}
 							placeholder={isLogin ?
@@ -167,22 +183,25 @@ const BoardDetail = ({ isLogin }) => {
 								:
 								'로그인이 필요합니다.'}
 							style={{ resize: "none", width: "85%" }}
-							value={comment.content}
-							onChange={(e) => { setComment({ ...comment, content: e.target.value }) }}
+							value={newComment.content}
+							onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
 						/>
-					</span>
+					</div>
 				</div>
 
 				<hr />
 				{(commentList.length !== undefined && commentList.length !== 0) ?
 
 					// 댓글 표시
-					commentList.map(comment => (
+					commentList.map((comment, index) => (
 						<Comment
+							key={`Comments-${index}`}
+							isLogin={isLogin}
 							target={target}
 							boardNum={boardNum}
-							isLogin={isLogin}
+							isOwner={isOwner}
 							comment={comment}
+							setRecoTarget={setRecoTarget}
 						/>
 					))
 					:

@@ -69,38 +69,41 @@ export function useBoardDetail() {
         })
     }, []);
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
 
     // ----- 게시판 댓글 추가-----
-    const submitComment = useCallback(async (target, boardNum, comment) => {
+    const submitComment = useCallback(async (target, boardNum, newComment) => {
 
         const jwt = sessionStorage.getItem('jwt');
-
-        if (jwt === undefined || jwt === '') {
-            return;
-        }
+        if (jwt === undefined || jwt === '') { return; }
 
         return fetch(SERVER_URL + `submitComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
-            method: 'GET',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(comment)
+            body: JSON.stringify(newComment)
 
         }).then((response) => {
             if (response.status === 401) {
                 alert('로그인이 필요합니다.');
             }
-            if (response.status === 400) {
-                alert('저장에 실패했습니다.');
+            if (!response.ok) {
                 throw new Error(response.status);
             }
 
+            alert('댓글을 추가했습니다.');
+
         }).catch((e) => {
             console.log(e);
+            alert('저장에 실패했습니다.');
 
         })
     }, [])
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
 
     // ----- 게시판 완전 삭제 -----
     const deleteBoard = useCallback((target, boardNum) => {
@@ -108,29 +111,21 @@ export function useBoardDetail() {
         if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
 
         const jwt = sessionStorage.getItem('jwt');
-
-        if (jwt === undefined || jwt === '') {
-            return;
-        }
+        if (jwt === undefined || jwt === '') { return; }
 
         // 댓글 삭제
         if (!fetch(SERVER_URL + `deleteAllComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
             method: 'DELETE'
 
         }).then((response) => {
-            if (response.status === 404) {
-                return undefined;
-            } else if (response.status === 400) {
-                alert('삭제에 실패했습니다.');
-                throw new Error(response.status);
-
-            } else if (!response.ok) {
+            if (!response.ok) {
                 throw new Error(response.status);
 
             }
 
         }).catch((e) => {
             console.log(e);
+            return false;
 
         })) { alert('삭제에 실패했습니다.'); return; }
 
@@ -139,19 +134,15 @@ export function useBoardDetail() {
             method: 'DELETE'
 
         }).then((response) => {
-            if (response.status === 404) {
-                return undefined;
-            } else if (response.status === 400) {
-                alert('삭제에 실패했습니다.');
+            if (!response.ok) {
                 throw new Error(response.status);
-
-            } else if (!response.ok) {
-                throw new Error(response.status);
-
             }
+
+            return true;
 
         }).catch((e) => {
             console.log(e);
+            return false;
 
         })) { alert('삭제에 실패했습니다.'); return; }
 
@@ -160,16 +151,7 @@ export function useBoardDetail() {
             method: 'DELETE'
 
         }).then((response) => {
-            if (response.status === 404) {
-                return undefined;
-            } else if (response.status === 400) {
-
-                throw new Error(response.status);
-
-            } else if (!response.ok) {
-                throw new Error(response.status);
-
-            }
+            if (!response.ok) { throw new Error(response.status); }
 
             alert('성공적으로 삭제되었습니다.');
             window.location.href = `/boardList/${target}`;
@@ -182,64 +164,51 @@ export function useBoardDetail() {
     }, []);
 
     // ----- 댓글만 삭제 -----
-    const deleteComment = useCallback((target, boardNum) => {
+    const deleteComment = useCallback((target, boardNum, coNum) => {
 
         if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
 
         const jwt = sessionStorage.getItem('jwt');
+        if (jwt === undefined || jwt === '') { return; }
 
-        if (jwt === undefined || jwt === '') {
-            return;
-        }
-
-        fetch(SERVER_URL + `deleteComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
+        fetch(SERVER_URL + `deleteComm?target=${target}&boardNum=${boardNum}&coNum=${coNum}&jwt=${jwt}`, {
             method: 'DELETE'
 
         }).then((response) => {
-            if (response.status === 404) {
-                return undefined;
-            } else if (response.status === 400) {
-                alert('삭제에 실패했습니다.');
+            if (!response.ok) {
                 throw new Error(response.status);
-
-            } else if (!response.ok) {
-                throw new Error(response.status);
-
             }
 
-        }).then(() => {
             alert('성공적으로 삭제되었습니다.');
 
         }).catch((e) => {
             console.log(e);
+            alert('삭제에 실패했습니다.');
 
         })
 
     }, [])
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
 
     // ----- 게시판 소유자 확인(게시판 수정, 삭제 제공) -----
     const isOwnerBoard = useCallback(async (target, boardNum) => {
 
         const jwt = sessionStorage.getItem('jwt');
-
-        if (jwt === undefined || jwt === '') {
-            return;
-        }
+        if (jwt === null || jwt === '') { return false; }
 
         return fetch(SERVER_URL + `isOwner?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            method: 'GET'
 
         }).then((response) => {
-            if (response.ok) {
-                return response.json();
-
-            }
+            if (!response.ok) { throw new Error(response.status) }
+            return true;
 
         }).catch((e) => {
             console.log(e);
+            return false;
 
         })
     }, [])
@@ -248,31 +217,35 @@ export function useBoardDetail() {
     const isOwnerComment = useCallback(async (target, boardNum, coNum) => {
 
         const jwt = sessionStorage.getItem('jwt');
-
-        if (jwt === undefined || jwt === '') {
-            return;
-        }
+        if (jwt === null || jwt === '') { return false; }
 
         return fetch(SERVER_URL + `isOwnerComm?target=${target}&boardNum=${boardNum}&coNum=${coNum}&jwt=${jwt}`, {
             method: 'GET'
 
         }).then((response) => {
-            if (response.ok) { return true; }
-
-            return false;
+            if (!response.ok) { throw new Error(response.status) }
+            return true;
 
         }).catch((e) => {
             console.log(e);
+            return false;
 
         })
     }, [])
+
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ==========
 
     return {
         getDetail,
         getComment,
         getFile,
 
+        submitComment,
+
         deleteBoard,
+        deleteComment,
 
         isOwnerBoard,
         isOwnerComment

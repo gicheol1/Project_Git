@@ -14,15 +14,16 @@ const LayOut = ({ isLogin, setIsLogin }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="container">
+        <div className="container" style={{ width: "100vw" }}>
 
             {/* 헤더 */}
             <header style={{
-                backgroundColor: "greenyellow"
+                backgroundColor: "greenyellow",
+                width: "100vw"
             }}>
                 <Header isLogin={isLogin} setIsLogin={setIsLogin} />
             </header>
-            
+
             {/* 자식 Route의 element가 위치하는 곳 */}
             <main style={{
 
@@ -32,23 +33,20 @@ const LayOut = ({ isLogin, setIsLogin }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-                
                 <Outlet />
-                
             </main>
 
 
             {/* 사이드바 */}
             <sidebar style={{
-
             }}>
                 <Sidebar />
             </sidebar>
 
-
-
             {/* 푸터 */}
             <footer style={{
+                width: "100vw",
+
                 height: '120px',
                 background: 'lightgray',
                 padding: 16,

@@ -27,29 +27,36 @@ export { default as FindAccount } from './pages/findAccount/FindAccount';
 export { default as BoardList } from './pages/board/boardList/BoardList';
 export { default as BoardDetail } from './pages/board/boardDetail/BoardDetail';
 export { default as BoardMU } from './pages/board/boardMU/BoardMU';
-export { default as Comment } from './pages/board/boardDetail/Comment';
+export { default as Comment } from './pages/board/boardDetail/comments/Comment';
 
 // -------------------------------------------------------------------------------- //
 // [pages 폴더] //
 // > Travel(여행) 폴더: 여행 예약에 대한 기능
-export { default as TravelPackList } from './pages/Travel/TravelPackList'; // 1. 여행 패키지 목록 페이지
 
-export { default as TravelReservation } from './pages/Travel/TravelReservation'; // 2. 여행 패키지 예약 페이지(날짜와 상품갯수 선택)
-export { default as TravelCalendar } from './pages/Travel/TravelCalendar'; // 2-1. 패키지 여행 예약 달력(여행 패키지 예약 페이지)
+// 1. 여행 패키지 목록 페이지
+export { default as TravelPackList } from './pages/Travel/TravelPackList';
 
-export { default as Reservationlist } from './pages/Travel/Reservationlist'; // 3. 패키지 여행 예약 목록 페이지
+// 2. 여행 패키지 예약 페이지(날짜와 상품갯수 선택)
+export { default as TravelReservation } from './pages/Travel/TravelReservation';
 
-// > Travel(여행) 폴더 > KaKaomap(카카오 지도) 폴더
-export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap'; // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
+// 2-1. 패키지 여행 예약 달력(여행 패키지 예약 페이지)
+export { default as TravelCalendar } from './pages/Travel/TravelCalendar';
+// 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
+export { default as TravelPackMap } from './pages/Travel/TravelPackMap/TravelPackMap';
+
+// 3. 패키지 여행 예약 목록 페이지
+export { default as Reservationlist } from './pages/Travel/Reservationlist';
 
 // > Payment(결제) 폴더: 결제 기능에 대한 JS 파일 모음
-export { default as Proceedpayment } from './pages/Payment/Proceedpayment'; // 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)
+// 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)
+export { default as Proceedpayment } from './pages/Payment/Proceedpayment';
 
 export { default as Calendar } from './pages/Calendar/Calendar';
 
-// -------------------------------------------------------------------------------- //
+// 패키지 여행 지도
+export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap';
 
-export { default as TravelPackMap } from './pages/Travel/TravelPackMap/TravelPackMap'; // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
+// -------------------------------------------------------------------------------- //
 
 // > Festivals 폴더: 축제관리
 export { default as Festivals } from './pages/Festivals/Festivals'; //  축제관리 페이지

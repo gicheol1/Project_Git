@@ -93,6 +93,11 @@ public class BoardCommService {
 	
 	/* ========== ========== ========== ========== ========== ========== ========== */
 	
+	// 댓글 소유 확인
+	public boolean isOwnerCommentFree(Long boardNum, Long coNum, String memId) {
+		return commFreeRepo.existsByBoardNumAndCoNumAndMemId(boardNum, coNum, memId);
+	}
+	
 	// 댓글 추가, 수정
 	public void addFree(CommentDto comm) {
 		CommentFree commFree = modelMapper.map(comm, CommentFree.class);
@@ -166,6 +171,11 @@ public class BoardCommService {
 	
 	/* ========== ========== ========== ========== ========== ========== ========== */
 	
+	// 댓글 소유 확인
+	public boolean isOwnerCommentNotic(Long boardNum, Long coNum, String memId) {
+		return commNoticRepo.existsByBoardNumAndCoNumAndMemId(boardNum, coNum, memId);
+	}
+	
 	public void addNotic(CommentDto comm) {
 		CommentNotic commNotic = modelMapper.map(comm, CommentNotic.class);
 		commNoticRepo.save(commNotic);
@@ -236,6 +246,11 @@ public class BoardCommService {
     }
 	
 	/* ========== ========== ========== ========== ========== ========== ========== */
+	
+	// 댓글 소유 확인
+	public boolean isOwnerCommentPromotion(Long boardNum, Long coNum, String memId) {
+		return commPromotionRepo.existsByBoardNumAndCoNumAndMemId(boardNum, coNum, memId);
+	}
 	
 	public void addPromotion(CommentDto comm) {
 		
@@ -310,6 +325,11 @@ public class BoardCommService {
 	
 	/* ========== ========== ========== ========== ========== ========== ========== */
 	
+	// 댓글 소유 확인
+	public boolean isOwnerCommentEvent(Long boardNum, Long coNum, String memId) {
+		return commEventRepo.existsByBoardNumAndCoNumAndMemId(boardNum, coNum, memId);
+	}
+	
 	public void addEvent(CommentDto comm) {
 		CommentEvent commEvent = modelMapper.map(comm, CommentEvent.class);
 		commEventRepo.save(commEvent);
@@ -380,6 +400,11 @@ public class BoardCommService {
     }
 	
 	/* ========== ========== ========== ========== ========== ========== ========== */
+	
+	// 댓글 소유 확인
+	public boolean isOwnerCommentQA(Long boardNum, Long coNum, String memId) {
+		return commQARepo.existsByBoardNumAndCoNumAndMemId(boardNum, coNum, memId);
+	}
 	
 	public void addQA(CommentDto comm) {
 		

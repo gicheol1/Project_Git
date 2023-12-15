@@ -18,6 +18,8 @@ public interface CommentPromotionRepo extends CrudRepository<CommentPromotion, L
 	
 	boolean findIsDeletedByCoNum(Long coNum);
 	
+	boolean existsByBoardNumAndCoNumAndMemId(Long boardNum, Long coNum, String memId);
+	
 	void deleteByBoardNum(Long boardNum);
 	void deleteByBoardNumAndCoNum(Long boardNum, Long coNum);
 

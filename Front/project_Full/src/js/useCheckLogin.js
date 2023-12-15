@@ -12,9 +12,7 @@ export function useCheckLogin() {
         const jwt = sessionStorage.getItem('jwt');
 
         // 토큰이 비어있는 경우
-        if (jwt === undefined || jwt === '') {
-            return false;
-        }
+        if (jwt === null || jwt === '') { return false; }
 
         return fetch(SERVER_URL + `checkIsLogin?jwt=${jwt}`, {
             method: 'GET'

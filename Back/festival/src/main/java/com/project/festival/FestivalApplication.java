@@ -142,7 +142,7 @@ public class FestivalApplication implements CommandLineRunner {
 		int boardCnt = 1+rand.nextInt(10);
 		
 		BFRepo.save(new BoardFree(
-				"user1",
+				"user5",
 				"자유 제목 1",
 				"자유 내용 1"
 		));
@@ -154,9 +154,9 @@ public class FestivalApplication implements CommandLineRunner {
 					"자유 내용 "+i
 			));
 		}
-		
-	// ========== ========== ========== ========== ==========
-		
+//
+//	// ========== ========== ========== ========== ==========
+//
 //		rand.setSeed(System.currentTimeMillis());
 //		
 //		boardCnt = 1+rand.nextInt(10);
@@ -168,9 +168,9 @@ public class FestivalApplication implements CommandLineRunner {
 //					"공지 내용 "+i
 //			));
 //		}
-		
-	// ========== ========== ========== ========== ==========
-		
+//
+//	// ========== ========== ========== ========== ==========
+//
 //		rand.setSeed(System.currentTimeMillis());
 //		
 //		boardCnt = 1+rand.nextInt(10);
@@ -182,9 +182,9 @@ public class FestivalApplication implements CommandLineRunner {
 //					"행사 내용 "+i
 //			));
 //		}
-		
-	// ========== ========== ========== ========== ==========
-		
+//
+//	// ========== ========== ========== ========== ==========
+//
 //		rand.setSeed(System.currentTimeMillis());
 //		
 //		boardCnt = 1+rand.nextInt(10);
@@ -196,9 +196,9 @@ public class FestivalApplication implements CommandLineRunner {
 //					"이벤트 내용 "+i
 //			));
 //		}
-		
-	// ========== ========== ========== ========== ==========
-		
+//
+//	// ========== ========== ========== ========== ==========
+//
 		rand.setSeed(System.currentTimeMillis());
 		
 		boardCnt = 1+rand.nextInt(10);
