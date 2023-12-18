@@ -61,7 +61,11 @@ function TravelReservation() {
         // 로그인 상태(토큰 존재여부) 확인
         const jwt = sessionStorage.getItem('jwt');
 
-        if (jwt === undefined || jwt === '') { alert('로그인이 필요합니다'); navigate('/login'); }
+
+        // 로그인이 필요합니다. 에 대한 동작을 안해서 약간 코드 수정
+        // if (jwt === undefined || jwt === '') { alert('로그인이 필요합니다'); navigate('/login'); return;}
+        // ↓ 코드 수정 ↓
+        if (!jwt) { alert('로그인이 필요합니다'); navigate('/login'); return; }
 
         // 예약 정보 저장
         fetch(`${SERVER_URL}packreservation/reservation/${packNum}/${jwt}`, {

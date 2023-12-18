@@ -12,7 +12,7 @@ import {
 	Home,
 	Proceedpayment,
 	Reservationlist,
-	TravelCalendar,
+	SuccessPage,
 	TravelKaKaoMap,
 	TravelPackList,
 	TravelReservation
@@ -22,22 +22,19 @@ import {
 import { ConnectionLog, Festivals } from 'js';
 
 //Sidebar
-import { ReservationInfo, SaleInfo, MemberInfo, QnaStatus } from 'js';
+import { MemberInfo, QnaStatus, ReservationInfo, SaleInfo } from 'js';
 
 //Sidebar(관리자) 추가내용
-import { Servicedown, Blacklist, Membercare, UserPage} from 'js';
+import { Blacklist, Membercare, Servicedown, UserPage } from 'js';
 
 //main
-import { Likeclick, Mymilize, FestivalPage, MainPage } from 'js';
+import { FestivalPage, Likeclick, MainPage, Mymilize } from 'js';
 
 //footer
 import { Copyright, Privacy, Terms } from 'js';
 
 
-import { LayOut } from 'js';
-import { Login } from 'js';
-import { Agreement, SingUp } from 'js';
-import { FindAccount } from 'js';
+import { Agreement, FindAccount, LayOut, Login, SingUp } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
 
 function App() {
@@ -101,6 +98,7 @@ function App() {
 
 				{/* 여행 결제 페이지 */}
 				<Route path="/payment/:resNum" element={<Proceedpayment />} />
+				<Route path="/success" element={<SuccessPage />} />
 
 				{/* 여행 지도 */}
 				<Route path="/travelKaKaoMap" element={<TravelKaKaoMap />} />

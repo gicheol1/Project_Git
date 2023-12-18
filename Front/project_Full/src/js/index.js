@@ -51,10 +51,15 @@ export { default as Reservationlist } from './pages/Travel/Reservationlist';
 // 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)
 export { default as Proceedpayment } from './pages/Payment/Proceedpayment';
 
+// > Payment(결제) 폴더 > Tosspayments(토스 결제 위젯) 폴더
+export { SuccessPage } from './pages/Payment/Tosspayments/Success';
+
 export { default as Calendar } from './pages/Calendar/Calendar';
 
 // 패키지 여행 지도
 export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap';
+
+
 
 // -------------------------------------------------------------------------------- //
 
