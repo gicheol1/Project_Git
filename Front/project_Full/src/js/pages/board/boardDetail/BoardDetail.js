@@ -25,7 +25,6 @@ const BoardDetail = ({ isLogin }) => {
 	const [newComment, setNewComment] = useState({
 		recoNum: '',
 		recoMemId: '',
-		boardNum: boardNum,
 	});
 
 	// 게시판 소유자 여부
@@ -43,7 +42,7 @@ const BoardDetail = ({ isLogin }) => {
 		isOwnerBoard
 	} = useBoardDetail();
 
-	const { toLogin } = useCheckLogin();
+	const { checkIsAdmin, toLogin } = useCheckLogin();
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -62,6 +61,8 @@ const BoardDetail = ({ isLogin }) => {
 
 		// 이미지 파일
 		getFile(target, boardNum).then(result => result !== undefined && result.length !== 0 ? setFileList(result) : '');
+
+		checkIsAdmin().then((res) => { setIsOwner(res); })
 
 	}, [boardNum]);
 
@@ -198,7 +199,13 @@ const BoardDetail = ({ isLogin }) => {
 					)}
 
 					{/* 댓글 입력, 추가 */}
-					<Button style={{ width: "50px" }} disabled={!isLogin} onClick={() => { submitComment(target, boardNum, newComment) }}>댓글 달기</Button>
+					<Button
+						style={{ width: "50px" }}
+						disabled={!isLogin}
+						onClick={() => { submitComment(target, boardNum, newComment) }}
+					>
+						댓글 달기
+					</Button>
 					<textarea
 						disabled={!isLogin}
 						placeholder={isLogin ? '' : '로그인이 필요합니다.'}
@@ -211,7 +218,7 @@ const BoardDetail = ({ isLogin }) => {
 				<hr />
 
 				{/* 댓글 표시 */}
-				{(commentList.length !== undefined && commentList.length !== 0) ?
+				{(commentList !== undefined && commentList.length !== 0) ?
 					commentList.map((comment, index) => (
 						<Comment
 							key={`Comments-${index}`}

@@ -42,13 +42,17 @@ public class Festival {
 	// 끝나는 기간
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
+
+	// 공식 사이트
+	@Column(length=2500)
+	private String officialWebsite;
 	
 	// 태그
 	@Column(length=100)
-	private String Tag;
+	private String tag;
 	
 	@Column(length=100)
-	private String Region;
+	private String region;
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -64,8 +68,8 @@ public class Festival {
 		this.location = location;
 		this.startDate = LocalDate.parse(startDate);
 		this.endDate = LocalDate.parse(endDate);
-		this.Tag = Tag;
-		this.Region = Region;
+		this.tag = Tag;
+		this.region = Region;
 	}
 	
 }

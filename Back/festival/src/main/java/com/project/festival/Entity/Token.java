@@ -22,7 +22,7 @@ public class Token {
 
 	// 토큰 번호
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tokenNum;
     
     // 전용 식별자

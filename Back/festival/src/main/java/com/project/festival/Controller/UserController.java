@@ -156,29 +156,35 @@ public class UserController {
 	
 // ----- ----- ----- ----- ----- ----- ----- ----- -----
 	
-	// JWT로 로그인 상태 확인
-	@PostMapping("/isLogin")
-	public ResponseEntity<?> isLogin(
+	// JWT로 관리자 확인
+	@GetMapping("/isAdmin")
+	public ResponseEntity<?> isAdmin(
 		@RequestParam String jwt
 	) {
 		
 		// 토큰이 없는 경우(로그인X)
 		if(jwt == null) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(false);
 		}
 		
+		Claims claims;
+		
 		// 토큰으로 해쉬멥 세트 가져오기
-		Claims claims = jwtService.getAuthUser(jwt);
+		try {
+			claims = jwtService.getAuthUser(jwt);
+		}catch(Exception e) {
+			return ResponseEntity.ok(false);
+		}
 		
 		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
 		Optional<User> user = userService.findUser(claims.get("memId", String.class));
 		
 		// 없는 경우(로그인X or 토큰 만료)
-		if(user.isEmpty() || jwtService.isExexists(claims.get("jti", String.class))) {
-			return ResponseEntity.notFound().build();
-		}
+		if(user.isEmpty() || jwtService.isExexists(claims.get("jti", String.class))) { return ResponseEntity.ok(false); }
+		
+		if(claims.get("role", String.class)!="ADMIN") { return ResponseEntity.ok(false); }
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(true);
 	}
 
 // ===== ===== ===== ===== ===== ===== ===== ===== =====

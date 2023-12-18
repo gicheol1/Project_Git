@@ -273,24 +273,18 @@ public class BoardCommentController {
  		try {
  			claims = jwtService.getAuthUser(jwt);
  		} catch(Exception e) {
- 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+ 			return ResponseEntity.ok(false);
  		}
  		
  		// 토큰 만료시
  		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
- 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+ 			return ResponseEntity.ok(false);
  		}
  		
  		String memId = claims.get("memId", String.class);
  		
  		// 비회원인 경우
- 		if(userService.findUser(memId).isEmpty()) {
- 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-			
-		// 관리자인 경우
-		} else if(claims.get("role", String.class) == "ADMIN") {
-			return ResponseEntity.ok(true);
- 		}
+ 		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
  		
  		boolean isOwner = false;
 
@@ -319,13 +313,7 @@ public class BoardCommentController {
 				return ResponseEntity.notFound().build();
 		}
 		
-//		System.out.println(isOwner);
-		
-		if(isOwner) {
-			return ResponseEntity.ok().build();
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		return ResponseEntity.ok(isOwner);
  	}
     
 }

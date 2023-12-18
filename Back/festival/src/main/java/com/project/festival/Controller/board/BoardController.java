@@ -314,13 +314,7 @@ public class BoardController {
 		String memId = claims.get("memId", String.class);
 		
 		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
-			return ResponseEntity.ok(false);
-			
-		// 관리자인 경우
-		} else if(claims.get("role", String.class) == "ADMIN") {
-			return ResponseEntity.ok(true);
-		}
+		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
 		
 		boolean isOwner = false;
 		
@@ -338,12 +332,7 @@ public class BoardController {
 			default: return ResponseEntity.notFound().build();
 		}
 		
-		if(isOwner) {
-			return ResponseEntity.ok().build();
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-		
+		return ResponseEntity.ok(isOwner);
 		
 	}
 	

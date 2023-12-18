@@ -6,14 +6,20 @@
 }
 
 .top-memu {
-  right: 10%;
-  padding: 10px;
+  padding-top: 10px;
   display: flex;
   justify-content: flex-end;
 }
 
 .bottom-memu {
-  padding: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-subMenu {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
