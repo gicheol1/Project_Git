@@ -6,9 +6,16 @@ import Sidecare from './sidebar/Sidecare';
 import Footer from './footer/Footer';
 
 import { Outlet } from "react-router-dom";
+import { useState } from 'react';
 
 
 const LayOut = ({ isLogin, setIsLogin }) => {
+
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -41,10 +48,14 @@ const LayOut = ({ isLogin, setIsLogin }) => {
             {/* 사이드바 */}
             <sidebar style={{
             }}>
-                {/* 사이드바(회원) */}
-                {/* <Sidebar />  */}
-                {/* 사이드바(관리자) */}
-                <Sidecare />
+                {isLogin && (
+                    isAdmin ?
+                        // 사이드바(관리자)
+                        <Sidecare />
+                        :
+                        // 사이드바(회원)
+                        <Sidebar />
+                )}
             </sidebar>
 
             {/* 푸터 */}

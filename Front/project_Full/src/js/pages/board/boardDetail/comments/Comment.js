@@ -4,13 +4,22 @@ import { useEffect, useState } from "react";
 import './Comment.css';
 
 const Comment = ({
+
+	// 로그인, 종류, 게시판 번호
 	isLogin,
 	target,
 	boardNum,
+
+	// 게시판 작성자 여부
 	isOwner,
+
+	// 작성한 댓글
 	comment,
+
+	// 답글 대상 삭제 여부
 	recoIsDisabled,
 
+	// 답글 대상 지정
 	setRecoTarget
 }) => {
 
@@ -29,6 +38,7 @@ const Comment = ({
 	// ========== ========== ========== ========== ========== ========== ==========
 	// ========== ========== ========== ========== ========== ========== ==========
 
+	// 자신이 작성한 댓글인지 확인
 	useEffect(() => {
 		isOwnerComment(target, boardNum, comment.coNum).then(res => setIsOwnerComm(res));
 	}, [])
@@ -102,8 +112,9 @@ const Comment = ({
 					<>
 						<div className="comments">
 							{comment.recoNum !== null && (
-								(recoIsDisabled !== null && !recoIsDisabled) ?
+								!recoIsDisabled(comment.recoNum) ?
 
+									// 답글 대상 아이디 표시
 									<p>답글대상 : {comment.recoMemId}</p>
 									:
 									// 답글 대상의 글이 삭제된 경우
@@ -112,18 +123,6 @@ const Comment = ({
 							<span>작성자 : {comment.memId}<span> </span>날짜 : {comment.date}</span>
 							<p>{comment.content}</p>
 						</div>
-
-						{/* 수정 버튼(댓글 작성자 본인만 가능) */}
-						{isOwnerComm ?
-							<Button
-								className="btn"
-								variant="contained"
-								onClick={onChangeMod}
-							>
-								수정
-							</Button>
-							: <></>
-						}
 
 						{/* 답글 버튼(로그인 필요) */}
 						{isLogin === true ?
@@ -136,6 +135,18 @@ const Comment = ({
 							</Button>
 							:
 							<></>
+						}
+
+						{/* 수정 버튼(댓글 작성자 본인만 가능) */}
+						{isOwnerComm ?
+							<Button
+								className="btn"
+								variant="contained"
+								onClick={onChangeMod}
+							>
+								수정
+							</Button>
+							: <></>
 						}
 
 						{/* 삭제 버튼(작성자, 게시판 소유자인 경우) */}

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.board.BoardDto;
 import com.project.festival.Entity.board.Entity.BoardEvent;
 import com.project.festival.Entity.board.Entity.BoardFree;
@@ -44,8 +43,20 @@ public class BoardService {
     public long getFreeCnt() { return BFRepo.count(); }
     
     public BoardFree getFreeDetail(Long bNum) {
-		return BFRepo.findByBoardNum(bNum);
+    	BoardFree b = BFRepo.findByBoardNum(bNum);
+    	b.setReview(b.getReview()+1);
+    	BFRepo.save(b);
+		return b;
     }
+    
+    public void addFreeLike(Long bNum) {
+    	BoardFree b = BFRepo.findByBoardNum(bNum);
+    	b.setLikeCnt(b.getLikeCnt()+1);
+    	BFRepo.save(b);
+		return;
+    }
+    
+// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
     
     // 게시판 생성, 수정
     public Long setFreeDetail(BoardDto boardDetail) {
@@ -108,7 +119,17 @@ public class BoardService {
     public long getNoticCnt() { return BNRepo.count(); }
     
     public BoardNotic getNoticDetail(Long bNum) {
-		return BNRepo.findByBoardNum(bNum);
+    	BoardNotic b = BNRepo.findByBoardNum(bNum);
+    	b.setReview(b.getReview()+1);
+    	BNRepo.save(b);
+		return b;
+    }
+    
+    public void addNoticLike(Long bNum) {
+    	BoardNotic b = BNRepo.findByBoardNum(bNum);
+    	b.setLikeCnt(b.getLikeCnt()+1);
+    	BNRepo.save(b);
+		return;
     }
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -167,7 +188,17 @@ public class BoardService {
     public long getEventCnt() { return BPRepo.count(); }
     
     public BoardPromotion getPromotionDetail(Long bNum) {
-		return BPRepo.findByBoardNum(bNum);
+    	BoardPromotion b = BPRepo.findByBoardNum(bNum);
+    	b.setReview(b.getReview()+1);
+    	BPRepo.save(b);
+		return b;
+    }
+    
+    public void addPromotionLike(Long bNum) {
+    	BoardPromotion b = BPRepo.findByBoardNum(bNum);
+    	b.setLikeCnt(b.getLikeCnt()+1);
+    	BPRepo.save(b);
+		return;
     }
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -226,7 +257,17 @@ public class BoardService {
     public long getPromotionCnt() { return BERepo.count(); }
     
     public BoardEvent getEventDetail(Long bNum) {
-		return BERepo.findByBoardNum(bNum);
+    	BoardEvent b = BERepo.findByBoardNum(bNum);
+    	b.setReview(b.getReview()+1);
+    	BERepo.save(b);
+		return b;
+    }
+    
+    public void addEventLike(Long bNum) {
+    	BoardEvent b = BERepo.findByBoardNum(bNum);
+    	b.setLikeCnt(b.getLikeCnt()+1);
+    	BERepo.save(b);
+		return;
     }
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -285,7 +326,17 @@ public class BoardService {
     public long getQACnt() { return BQARepo.count(); }
     
     public BoardQA getQADetail(Long bNum) {
-		return BQARepo.findByBoardNum(bNum);
+    	BoardQA b = BQARepo.findByBoardNum(bNum);
+    	b.setReview(b.getReview()+1);
+    	BQARepo.save(b);
+		return b;
+    }
+    
+    public void addQALike(Long bNum) {
+    	BoardQA b = BQARepo.findByBoardNum(bNum);
+    	b.setLikeCnt(b.getLikeCnt()+1);
+    	BQARepo.save(b);
+		return;
     }
     
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====

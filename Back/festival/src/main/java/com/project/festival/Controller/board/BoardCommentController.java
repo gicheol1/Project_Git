@@ -286,6 +286,10 @@ public class BoardCommentController {
  		// 비회원인 경우
  		if(userService.findUser(memId).isEmpty()) {
  			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+			
+		// 관리자인 경우
+		} else if(claims.get("role", String.class) == "ADMIN") {
+			return ResponseEntity.ok(true);
  		}
  		
  		boolean isOwner = false;
@@ -315,7 +319,7 @@ public class BoardCommentController {
 				return ResponseEntity.notFound().build();
 		}
 		
-		System.out.println(isOwner);
+//		System.out.println(isOwner);
 		
 		if(isOwner) {
 			return ResponseEntity.ok().build();

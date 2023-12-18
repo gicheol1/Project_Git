@@ -1,7 +1,10 @@
 import { SERVER_URL } from "js";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function useBoardDetail() {
+
+    const navigate = useNavigate();
 
     // ----- 게시판 상세 정보 -----
     const getDetail = useCallback((target, boardNum) => {
@@ -79,7 +82,7 @@ export function useBoardDetail() {
         const jwt = sessionStorage.getItem('jwt');
         if (jwt === undefined || jwt === '') { return; }
 
-        return fetch(SERVER_URL + `submitComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
+        fetch(SERVER_URL + `submitComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newComment)
@@ -93,10 +96,12 @@ export function useBoardDetail() {
             }
 
             alert('댓글을 추가했습니다.');
+            navigate(`/boardDetail/${target}/${boardNum}`);
 
         }).catch((e) => {
             console.log(e);
             alert('저장에 실패했습니다.');
+            navigate(`/boardDetail/${target}/${boardNum}`);
 
         })
     }, [])
@@ -111,42 +116,31 @@ export function useBoardDetail() {
         if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
 
         const jwt = sessionStorage.getItem('jwt');
-        if (jwt === undefined || jwt === '') { return; }
+        if (jwt === undefined || jwt === '') {
+            alert('로그인이 필요합니다');
+            navigate(`/login`);
+            return;
+        }
 
-        // 댓글 삭제
-        if (!fetch(SERVER_URL + `deleteAllComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
+        // - 댓글 삭제 -
+        fetch(SERVER_URL + `deleteAllComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
             method: 'DELETE'
 
         }).then((response) => {
-            if (!response.ok) {
-                throw new Error(response.status);
+            if (!response.ok) { throw new Error(response.status); }
 
-            }
+        }).catch((e) => { console.log(e); })
 
-        }).catch((e) => {
-            console.log(e);
-            return false;
-
-        })) { alert('삭제에 실패했습니다.'); return; }
-
-        // 파일 삭제
-        if (!fetch(SERVER_URL + `deleteAllFile?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
+        // - 파일 삭제 -
+        fetch(SERVER_URL + `deleteAllFile?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
             method: 'DELETE'
 
         }).then((response) => {
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
+            if (!response.ok) { throw new Error(response.status); }
 
-            return true;
+        }).catch((e) => { console.log(e); })
 
-        }).catch((e) => {
-            console.log(e);
-            return false;
-
-        })) { alert('삭제에 실패했습니다.'); return; }
-
-        // 게시판 삭제
+        // - 게시판 삭제 -
         fetch(SERVER_URL + `deleteBoard?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
             method: 'DELETE'
 
@@ -154,12 +148,9 @@ export function useBoardDetail() {
             if (!response.ok) { throw new Error(response.status); }
 
             alert('성공적으로 삭제되었습니다.');
-            window.location.href = `/boardList/${target}`;
+            navigate(`/boardList/${target}`);
 
-        }).catch((e) => {
-            console.log(e);
-
-        })
+        }).catch((e) => { console.log(e); })
 
     }, []);
 
@@ -184,6 +175,7 @@ export function useBoardDetail() {
         }).catch((e) => {
             console.log(e);
             alert('삭제에 실패했습니다.');
+
 
         })
 

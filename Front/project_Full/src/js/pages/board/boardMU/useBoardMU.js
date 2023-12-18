@@ -153,10 +153,12 @@ export function useBoard() {
                 throw new Error(response.status);
             }
 
+            alert("삭제가 완료되었습니다.");
             navigate(`/boardList/${target}`);
 
         }).catch((e) => {
             console.log(e);
+            alert("삭제에 실패하였습니다.");
         })
     }, [])
 

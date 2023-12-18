@@ -14,6 +14,7 @@
 
 
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 
 class Festivals extends Component {
   constructor(props) {
@@ -83,21 +84,21 @@ class Festivals extends Component {
     }
   };
 
-//regurce
+  //regurce
 
-  
-render() {
+
+  render() {
     return (
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         border: '1px solid black', // 테두리 색
         background: 'gray',       // 배경 색
         padding: '15px',          // 내용과 테두리 간의 여백
       }}>
         <div className="form-group">
-        <h1>축제관리(추가/수정)</h1>
+          <h1>축제관리(추가/수정)</h1>
           <label>축제명:</label>
           <input
             type="text"
@@ -180,7 +181,7 @@ render() {
 
         <div style={{ margin: '10px' }}></div>
 
-        <button onClick={this.handleAdd}>추가</button>
+        <Button onClick={this.handleAdd}>추가</Button>
       </div>
     );
   }

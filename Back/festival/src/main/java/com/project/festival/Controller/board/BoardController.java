@@ -143,6 +143,62 @@ public class BoardController {
 	    }
 	}
 	
+	// 게시판 좋아요 추가
+	@GetMapping("/boardLike")
+	public void boardLike(
+		@RequestParam String target,
+		@RequestParam Long boardNum
+	){
+		
+	    switch(target) {
+			case "free":
+				borderService.addFreeLike(boardNum); return;
+				
+			case "notic":
+				borderService.addNoticLike(boardNum); return;
+				
+			case "promotion":
+				borderService.addPromotionLike(boardNum); return;
+				
+			case "event":
+				borderService.addEventLike(boardNum); return;
+				
+			case "qa":
+				borderService.addQALike(boardNum); return;
+				
+			default:
+				return;
+	    }
+	}
+	
+	// 게시판 좋아요 취소
+	@GetMapping("/cancelBoardLike")
+	public void cancelBoardLike(
+		@RequestParam String target,
+		@RequestParam Long boardNum
+	){
+		
+	    switch(target) {
+			case "free":
+				borderService.addFreeLike(boardNum); return;
+				
+			case "notic":
+				borderService.addNoticLike(boardNum); return;
+				
+			case "promotion":
+				borderService.addPromotionLike(boardNum); return;
+				
+			case "event":
+				borderService.addEventLike(boardNum); return;
+				
+			case "qa":
+				borderService.addQALike(boardNum); return;
+				
+			default:
+				return;
+	    }
+	}
+	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 게시판 저장, 수정
@@ -260,6 +316,10 @@ public class BoardController {
 		// 비회원인 경우
 		if(userService.findUser(memId).isEmpty()) {
 			return ResponseEntity.ok(false);
+			
+		// 관리자인 경우
+		} else if(claims.get("role", String.class) == "ADMIN") {
+			return ResponseEntity.ok(true);
 		}
 		
 		boolean isOwner = false;

@@ -60,7 +60,7 @@ const BoardMU = ({ isLogin }) => {
 
         // 게시판 번호가 존재하는 경우(수정)
         setBtnDisable(true);
-        if (boardNum !== undefined) {
+        if (boardNum !== undefined || boardNum !== null) {
             getDetail(target, boardNum).then((res) => { console.log(res); setBoard(res) });
             getFile(target, boardNum).then((res) => { setImageList(res); setBtnDisable(false); });
         }
@@ -161,7 +161,7 @@ const BoardMU = ({ isLogin }) => {
                         </div>
 
                         {/* 게시판 저장 버튼 */}
-                        {boardNum === undefined ?
+                        {boardNum === undefined || boardNum === '' ?
                             <>
                                 <Button
                                     className="btn"
@@ -228,8 +228,12 @@ const BoardMU = ({ isLogin }) => {
                                 multiple
                                 onChange={handleFileChange}
                                 style={{ display: 'none' }}
+
+                                // 해당 태그를 참조하는 변수 설정
                                 ref={inputRef}
                             />
+
+                            {/* 첨부한 파일들을 표시 */}
                             {imageList !== undefined && (
                                 imageList.map((image, index) => (
                                     <div>
@@ -246,7 +250,8 @@ const BoardMU = ({ isLogin }) => {
                                             취소
                                         </Button>
                                     </div>
-                                )))}
+                                ))
+                            )}
                         </div>
 
                         {/* 비공개 여부 */}
@@ -259,8 +264,7 @@ const BoardMU = ({ isLogin }) => {
                                     onChange={handlePrivateChange}
                                 />
                             </label>
-                            :
-                            <></>
+                            : <></>
                         }
                     </div>
                 </>

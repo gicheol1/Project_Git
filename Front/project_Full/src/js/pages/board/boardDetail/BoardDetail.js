@@ -23,6 +23,8 @@ const BoardDetail = ({ isLogin }) => {
 
 	// 작성하고자 하는 새 댓글
 	const [newComment, setNewComment] = useState({
+		recoNum: '',
+		recoMemId: '',
 		boardNum: boardNum,
 	});
 
@@ -67,7 +69,7 @@ const BoardDetail = ({ isLogin }) => {
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 
-	// 수정하기
+	// 게시판 수정하기
 	const onMoveUpdate = () => {
 		if (isLogin) {
 			toLogin();
@@ -78,7 +80,7 @@ const BoardDetail = ({ isLogin }) => {
 
 	}
 
-	// 삭제하기
+	// 게시판 삭제하기
 	const onDeleteBoard = () => {
 		if (isLogin) {
 			deleteBoard(target, boardNum)
@@ -88,24 +90,29 @@ const BoardDetail = ({ isLogin }) => {
 
 	}
 
-	const [recoMemId, setRecoMemId] = useState('');
-	const [recoIsDisabled, setRecoIsDisabled] = useState('');
+	// ---------- ---------- ---------- ---------- ----------
 
-	// 답글대상 삭제 여부 가져오기
+	// 답글 대상 삭제 여부
+	const getRecoCommIsDeleted = (recoNum) => {
+		if (recoNum === undefined || recoNum === '') { return false; }
+
+		const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
+		return recoTarget.disabled;
+
+	}
 
 	// 답글대상 지정
 	const setRecoTarget = (recoNum) => {
-		setNewComment(prevComment => {
-			const updatedComment = { ...prevComment, recoNum: recoNum };
-			const recoTarget = commentList.find((comments) => comments.coNum === updatedComment.recoNum);
-			setRecoMemId(recoTarget.memId);
+		setNewComment(() => {
+			const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
+			const updatedComment = { ...newComment, recoNum: recoTarget.coNum };
 			return updatedComment;
 		});
 	}
 
+	// 답글 취소
 	const cancleRecoTarget = () => {
 		setNewComment({ ...newComment, recoNum: '' })
-		setRecoMemId('');
 	}
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -176,14 +183,14 @@ const BoardDetail = ({ isLogin }) => {
 
 			{/* ===== 댓글 ===== */}
 			<div className="boardComment">
-				<div>
+				<div style={{ display: "flex", flex: "1" }}>
 
 					{/* 답글 대상 표시 */}
-					{recoMemId !== '' && (
-						<div style={{ display: "flex" }}>
+					{newComment.recoMemId !== '' && (
+						<div>
 							<input
 								type="text"
-								value={recoMemId}
+								value={newComment.recoMemId}
 								readOnly
 							/>
 							<Button onClick={cancleRecoTarget}> 취소</Button>
@@ -194,29 +201,36 @@ const BoardDetail = ({ isLogin }) => {
 					<Button style={{ width: "50px" }} disabled={!isLogin} onClick={() => { submitComment(target, boardNum, newComment) }}>댓글 달기</Button>
 					<textarea
 						disabled={!isLogin}
-						placeholder={isLogin ?
-							''
-							:
-							'로그인이 필요합니다.'}
-						style={{ resize: "none", width: "100%", height: "100%" }}
+						placeholder={isLogin ? '' : '로그인이 필요합니다.'}
+						style={{ resize: "none", width: "80%", height: "100%" }}
 						value={newComment.content}
 						onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
 					/>
 				</div>
 
 				<hr />
-				{(commentList.length !== undefined && commentList.length !== 0) ?
 
-					// 댓글 표시
+				{/* 댓글 표시 */}
+				{(commentList.length !== undefined && commentList.length !== 0) ?
 					commentList.map((comment, index) => (
 						<Comment
 							key={`Comments-${index}`}
+
+							// 로그인, 종류, 게시판 번호
 							isLogin={isLogin}
 							target={target}
 							boardNum={boardNum}
+
+							// 게시판 작성자 여부
 							isOwner={isOwner}
+
+							// 작성한 댓글
 							comment={comment}
-							recoIsDisabled={recoIsDisabled}
+
+							// 답글 대상 삭제 여부
+							recoIsDisabled={getRecoCommIsDeleted}
+
+							// 답글 대상 지정
 							setRecoTarget={setRecoTarget}
 						/>
 					))
