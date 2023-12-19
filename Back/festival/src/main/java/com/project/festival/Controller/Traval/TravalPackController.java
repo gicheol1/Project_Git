@@ -4,10 +4,15 @@ import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.festival.Dto.PaymentDto;
+import com.project.festival.Dto.PaymentStatus;
 import com.project.festival.Dto.TravalPackDto;
 import com.project.festival.Entity.TravalPack.TravalPack;
 import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
@@ -38,6 +43,12 @@ public class TravalPackController {
 	private void createTravalPack() {
 		ArrayList<TravalPackDto> TravalPackList = TravalPackDto.createTravalPack();
 		packService.createTravalPack(TravalPackList);
+	}
+	
+	@PostMapping("/travalpack/new")
+	public ResponseEntity<TravalPackService> addPack(@RequestBody TravalPackDto packDto) {
+		TravalPackService pack = packService.addPack(packDto);
+		return ResponseEntity.ok(pack);
 	}
 
 }
