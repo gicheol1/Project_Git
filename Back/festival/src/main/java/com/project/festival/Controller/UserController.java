@@ -119,24 +119,24 @@ public class UserController {
 		@RequestParam String jwt
 	) {
 		
+		// 토큰이 없는 경우(로그인X)
+		if(jwt == null) { return ResponseEntity.ok(false); }
+		
 		Claims claims;
 		
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+		try { claims = jwtService.getAuthUser(jwt); }
+		catch(Exception e) { return ResponseEntity.ok(false); }
 		
 		// 토큰 만료시
 		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+			return ResponseEntity.ok(false);
 		}
 		
 		String memId = claims.get("memId", String.class);
 		
 		// 비회원인 경우
 		if(userService.findUser(memId).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+			return ResponseEntity.ok(false);
 		}
 		
 		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
@@ -144,7 +144,7 @@ public class UserController {
 		
 		// 없는 경우
 		if(user.isEmpty()) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(false);
 		}
 		
 		// 비밀번호는 비공개
@@ -163,18 +163,13 @@ public class UserController {
 	) {
 		
 		// 토큰이 없는 경우(로그인X)
-		if(jwt == null) {
-			return ResponseEntity.ok(false);
-		}
+		if(jwt == null) { return ResponseEntity.ok(false); }
 		
 		Claims claims;
 		
 		// 토큰으로 해쉬멥 세트 가져오기
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		}catch(Exception e) {
-			return ResponseEntity.ok(false);
-		}
+		try { claims = jwtService.getAuthUser(jwt); }
+		catch(Exception e) { return ResponseEntity.ok(false); }
 		
 		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
 		Optional<User> user = userService.findUser(claims.get("memId", String.class));
@@ -182,7 +177,9 @@ public class UserController {
 		// 없는 경우(로그인X or 토큰 만료)
 		if(user.isEmpty() || jwtService.isExexists(claims.get("jti", String.class))) { return ResponseEntity.ok(false); }
 		
-		if(claims.get("role", String.class)!="ADMIN") { return ResponseEntity.ok(false); }
+		if(!claims.get("role", String.class).equals("ADMIN")) {
+			return ResponseEntity.ok(false);
+		}
 
 		return ResponseEntity.ok(true);
 	}

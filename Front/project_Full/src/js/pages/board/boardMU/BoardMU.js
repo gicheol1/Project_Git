@@ -59,11 +59,11 @@ const BoardMU = ({ isLogin }) => {
         }
 
         // 게시판 번호가 존재하는 경우(수정)
+        if (boardNum === undefined || boardNum === '') { setBtnDisable(false); return; }
+
         setBtnDisable(true);
-        if (boardNum !== undefined || boardNum !== null) {
-            getDetail(target, boardNum).then((res) => { console.log(res); setBoard(res) });
-            getFile(target, boardNum).then((res) => { setImageList(res); setBtnDisable(false); });
-        }
+        getDetail(target, boardNum).then((res) => { setBoard(res) });
+        getFile(target, boardNum).then((res) => { setImageList(res); setBtnDisable(false); });
 
     }, [])
 
@@ -152,7 +152,7 @@ const BoardMU = ({ isLogin }) => {
                             <span className="board-title">
                                 제목: <input
                                     type='text'
-                                    width={50}
+                                    width={20}
                                     placeholder='제목을 입력하세요'
                                     value={board.title}
                                     onChange={(e) => { setBoard({ ...board, title: e.target.value }) }}

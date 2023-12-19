@@ -34,6 +34,8 @@ export function useCheckLogin() {
 
                 // 정상
                 if (jwtToken !== undefined || jwtToken !== '') {
+
+                    // 새 토큰 저장
                     sessionStorage.setItem('jwt', jwtToken);
                     return true;
 
@@ -45,10 +47,7 @@ export function useCheckLogin() {
 
             return false;
 
-        }).catch((e) => {
-            return false;
-
-        })
+        }).catch((e) => { return false; })
 
     }, []);
 
@@ -60,23 +59,20 @@ export function useCheckLogin() {
     const checkIsAdmin = useCallback(async () => {
 
         const jwt = sessionStorage.getItem('jwt');
-
         let isAdmin = false;
 
         // 토큰이 비어있는 경우
-        if (jwt === null || jwt === '') { isAdmin = false; }
+        if (jwt === null || jwt === '') { return isAdmin; }
 
-        fetch(SERVER_URL + `isAdmin?jwt=${jwt}`, {
+        return fetch(SERVER_URL + `isAdmin?jwt=${jwt}`, {
             method: 'GET'
 
         }).then((res) => {
-            if (!res.ok) { isAdmin = false; }
+            if (!res.ok) { throw new Error(res.status) }
 
-            isAdmin = true;
+            return res.json();
 
-        }).catch((e) => { isAdmin = false; })
-
-        return isAdmin;
+        }).catch((e) => { console.log(e); isAdmin = false; })
 
     }, []);
 

@@ -40,6 +40,10 @@ const FestivalList = () => {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
+    const onNewFestival = (e) => {
+        navigate('/festivals');
+    }
+
     const handlePageChange = (event, page) => {
         setPage(page);
         getFestivalList(page - 1).then(res => setFestivals(res));
@@ -51,7 +55,10 @@ const FestivalList = () => {
 
     return (
         <div>
+            <Button onClick={onNewFestival}>축제 등록</Button>
+
             <TableContainer component={Paper} className="list-container">
+
                 <Table sx={{ minWidth: 750 }} aria-label="simple table">
 
                     {/* 테이블 헤더 */}

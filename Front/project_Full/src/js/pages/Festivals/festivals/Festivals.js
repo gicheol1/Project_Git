@@ -30,7 +30,7 @@ const Festivals = () => {
 		addrJibun: '', // 지번
 		addrCode: '' // 우편번호
 	})
-	const [selectedOption, setSelectedOption] = useState('');
+
 	const [btnEnable, setBtnEnable] = useState(false);
 
 	const open = useDaumPostcodePopup();
@@ -41,8 +41,10 @@ const Festivals = () => {
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
 	useEffect(() => {
-		if (festivalNum !== undefined) { getFestival().then(res => setFestival(res)); }
-	}, [festivalNum])
+		if (festivalNum !== undefined) {
+			getFestival().then(res => setFestival(res));
+		}
+	}, [])
 
 	useEffect(() => {
 		setBtnEnable(isFestivalComplete());
@@ -53,10 +55,10 @@ const Festivals = () => {
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
 	// 데이터 입력시
-	const handleChange = (e) => { setFestival({ [e.target.name]: e.target.value }); };
+	const handleChange = (e) => { setFestival({ ...festival, [e.target.name]: e.target.value }); };
 
 	// 시작 날짜 선택시
-	const handleDateChange = (e) => { setFestival({ [e.target.name]: e.target.value }); };
+	const handleDateChange = (e) => { setFestival({ ...festival, [e.target.name]: e.target.value }); };
 
 	// 태그 선택시
 	const handleTagChange = (e) => {
@@ -71,49 +73,36 @@ const Festivals = () => {
 		}
 	};
 
+	// 주소 입력 버튼 클릭시
 	const handlePopup = () => { open({ onComplete: handleComplete }); }
 
+	// 주소를 선택했을때
 	const handleComplete = (data) => {
-		setAddrFull({
-			addrR: data.roadAddress,
-			addrJ: data.jibunAddress,
-			zCode: data.zonecode
-		});
-
-		if (selectedOption !== '') {
-			if (selectedOption === "roadAddress") {
-				setFestival({ ...festival, location: addrFull.addrRoad });
-			} else {
-				setFestival({ ...festival, location: addrFull.addrJibun });
-			}
+		if (data.roadAddress !== undefined || data.roadAddress !== '') {
+			setFestival({ ...festival, location: data.roadAddress });
+		} else {
+			setFestival({ ...festival, location: data.jibunAddress });
 		}
 
 	}
 
-	// 주소 설정
-	const handleOptionChange = (e) => {
-		const checkedOption = e.target.value;
-		setSelectedOption(checkedOption);
-
-		if (selectedOption === "roadAddress") {
-			setFestival({ ...festival, location: addrFull.addrRoad });
-		} else {
-			setFestival({ ...festival, location: addrFull.addrJibun });
-		}
-	};
-
 	// 추가 버튼 클릭시
-	const handleAdd = () => { submitFestival(); };
+	const handleAdd = () => { return submitFestival(); };
 
 	// 모든 데이터가 있는지 확인
 	const isFestivalComplete = () => {
 		for (const key in festival) {
+			if (key === 'officialWebsite') { continue; }
 			if (festival[key] === '') {
 				return false; // 하나라도 비어있는 필드가 있다면 false 반환
 			}
 		}
 		return true; // 모든 필드가 채워져 있다면 true 반환
 	};
+
+	const showData = () => {
+		console.log(festival);
+	}
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -206,33 +195,11 @@ const Festivals = () => {
 				<label>축제 위치 : </label>
 				<div>
 					<p>
-						<input type='text' name='zonecode' placeholder='우편번호' value={addrFull.zCode} readOnly={true} />
-						<Button onClick={handlePopup}>우편번호 찾기</Button>
-					</p>
-					<p>
-						<input type='text' name='roadAddress' placeholder='도로명' value={addrFull.addrR} readOnly={true} />
-						<input type='text' name='jibunAddress' placeholder='지번주소' value={addrFull.addrJ} readOnly={true} />
-					</p>
-					<p>
+						<Button onClick={handlePopup}>주소 찾기</Button>
+						<input type='text' name='roadAddress' placeholder='도로명' value={festival.location} readOnly={true} />
 						<input type='text' name='' placeholder='상세주소' />
 					</p>
 				</div>
-				<label>
-					<input type="radio" value="roadAddress" checked={selectedOption === 'option1'}
-						onChange={handleOptionChange}
-					>
-						도로명 사용
-					</input>
-				</label>
-
-				<label>
-					<input type="radio" value="jibunAddress" checked={selectedOption === 'option2'}
-						onChange={handleOptionChange}
-					>
-						지번주소 사용
-					</input>
-				</label>
-
 			</div>
 
 			{/* ===== 축제 공식 홈페이지 ===== */}
@@ -250,30 +217,33 @@ const Festivals = () => {
 			{/* ===== 축제 태그 ===== */}
 			<div className="form-group">
 				<label>태그 : </label>
-				<input
-					value="축제"
-					type='checkbox'
-					name="tag"
-					onChange={handleTagChange}
-					checked={festival.tags.includes('축제')} // 해당 태그가 배열에 있는 경우 체크 상태로 설정
-				/>
-				축제
-				<input
-					value="공연/행사"
-					type='checkbox'
-					name="tag"
-					onChange={handleTagChange}
-					checked={festival.tags.includes('공연/행사')}
-				/>
-				공연/행사
+				<span>
+					<input
+						value="축제"
+						type='checkbox'
+						name="tag"
+						onChange={handleTagChange}
+						checked={festival.tags.includes('축제') ? true : false} // 해당 태그가 배열에 있는 경우 체크 상태로 설정
+					/>
+					축제
+				</span>
+				<span>
+					<input
+						value="공연/행사"
+						type='checkbox'
+						name="tag"
+						onChange={handleTagChange}
+						checked={festival.tags.includes('공연/행사') ? true : false}
+					/>
+					공연/행사
+				</span>
 			</div>
 
 			{/* ===== 축제 위치 지역 ===== */}
 			<div className="form-group">
 				<label>지역 : </label>
 				<select
-					name="Region"
-					value={festival.tags}
+					name="region"
 					onChange={handleChange}
 				>
 					<option value="">선택하세요</option>
@@ -289,7 +259,8 @@ const Festivals = () => {
 			<div style={{ margin: '10px' }}></div>
 
 			<Button variant="contained" onClick={handleAdd} disabled={!btnEnable}>추가</Button>
-		</div>
+			<Button variant="contained" onClick={showData} >데이터 확인</Button>
+		</div >
 	);
 }
 

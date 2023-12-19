@@ -37,31 +37,14 @@ public class FestivalApplication implements CommandLineRunner {
 	
 //    @Autowired
 //	private FestivalRepo festivalRepository;
-//
+
     @Autowired
     private BoardFreeRepo BFRepo;
     @Autowired
     private CommentFreeRepo CFRepo;
 
-//    @Autowired
-//    private BoardNoticRepo BNRepo;
-//    @Autowired
-//    private CommentNoticRepo CNRepo;
-//
-//    @Autowired
-//    private BoardPromotionRepo BPRepo;
-//    @Autowired
-//    private CommentPromotionRepo CPRepo;
-//
-//    @Autowired
-//    private BoardEventRepo BERepo;
-//    @Autowired
-//    private CommentEventRepo CERepo;
-
     @Autowired
     private BoardQARepo BQARepo;
-//    @Autowired
-//    private CommentQARepo CQARepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -154,48 +137,6 @@ public class FestivalApplication implements CommandLineRunner {
 					"자유 내용 "+i
 			));
 		}
-//
-//	// ========== ========== ========== ========== ==========
-//
-//		rand.setSeed(System.currentTimeMillis());
-//		
-//		boardCnt = 1+rand.nextInt(10);
-//		
-//		for(int i=1; i<boardCnt; i++) {
-//			BNRepo.save(new BoardNotic(
-//					user.get(0).getMemId(),
-//					"공지 제목 "+i,
-//					"공지 내용 "+i
-//			));
-//		}
-//
-//	// ========== ========== ========== ========== ==========
-//
-//		rand.setSeed(System.currentTimeMillis());
-//		
-//		boardCnt = 1+rand.nextInt(10);
-//		
-//		for(int i=1; i<boardCnt; i++) {
-//			BPRepo.save(new BoardPromotion(
-//					user.get(1+rand.nextInt(user.size()-2)).getMemId(),
-//					"행사 제목 "+i,
-//					"행사 내용 "+i
-//			));
-//		}
-//
-//	// ========== ========== ========== ========== ==========
-//
-//		rand.setSeed(System.currentTimeMillis());
-//		
-//		boardCnt = 1+rand.nextInt(10);
-//		
-//		for(int i=1; i<boardCnt; i++) {
-//			BERepo.save(new BoardEvent(
-//					user.get(1+rand.nextInt(user.size()-2)).getMemId(),
-//					"이벤트 제목 "+i,
-//					"이벤트 내용 "+i
-//			));
-//		}
 //
 //	// ========== ========== ========== ========== ==========
 //

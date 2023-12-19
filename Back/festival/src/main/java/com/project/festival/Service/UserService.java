@@ -20,8 +20,10 @@ public class UserService {
 	private final UserRepo userRepository;
 	private final BlackListRepo blackListRepository;
     private final PasswordEncoder passwordEncoder;
- 	
- // ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원가입
     public void saveUser(User newUser) {
@@ -35,8 +37,8 @@ public class UserService {
         // 객체를 DB에 저장
         userRepository.save(newUser);
     }
- 	
- // ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원 정보 수정
     public void updateUser(User newUser) {
@@ -58,8 +60,8 @@ public class UserService {
         
         userRepository.save(newUser);
     }
- 	
-// ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원 아이디 탐색
     public String findUserId(String email, String name) {
@@ -114,8 +116,8 @@ public class UserService {
     	return "";
     	
     }
- 	
-// ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
     
     // 회원 정보 조회
     public Optional<User> findUser(String memId) {
@@ -128,8 +130,8 @@ public class UserService {
     	
     	return blackListRepository.findByUser_MemId(memId);
     }
- 	
-// ----- ----- ----- ----- ----- ----- ----- ----- -----
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원탈퇴
     public void deleteUser(String memId) {

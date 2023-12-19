@@ -66,13 +66,8 @@ public class LoginController {
 		
 		Claims claims;
 		
-		try {
-			claims = jwtService.getAuthUser(jwt);
-			
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-			
-		}
+		try { claims = jwtService.getAuthUser(jwt); }
+		catch(Exception e) { return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); }
 		
 		
 		String memId = claims.get("memId", String.class);

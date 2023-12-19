@@ -4,7 +4,7 @@ import { useCallback } from "react";
 export function useFestivals() {
 
     // 축제 상세 정보
-    const getFestival = useCallback((festivalNum) => {
+    const getFestival = useCallback(async (festivalNum) => {
 
         return fetch(SERVER_URL + `getFeatival?festivalNum=${festivalNum}`, {
             method: 'GET'

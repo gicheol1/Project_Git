@@ -8,7 +8,7 @@ function Sidebar() {
     return (
         <aside className="sidebar">
             <img src={profileImage} alt="Profile" className="profile-image" />
-            <h2>OOO님</h2>
+            <h2>관리자님</h2>
             <header>
                 <Link to="/info">예약 정보 관리</Link>
                 <br></br>

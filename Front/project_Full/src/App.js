@@ -45,8 +45,9 @@ function App() {
 
 	// 로그인 여부
 	const [isLogin, setIsLogin] = useState();
+	const [isAdmin, setIsAdmin] = useState();
 
-	const { checkIsLogin } = useCheckLogin();
+	const { checkIsLogin, checkIsAdmin } = useCheckLogin();
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -54,9 +55,9 @@ function App() {
 
 	// 경로가 바뀔때마다 로그인 상태 확인
 	useEffect(() => {
-		checkIsLogin().then((res) => {
-			setIsLogin(res);
-		})
+		checkIsLogin().then((res) => { setIsLogin(res); })
+		checkIsAdmin().then((res) => { setIsAdmin(res); })
+
 	}, [window.location.href]);
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -70,6 +71,7 @@ function App() {
 			<Route element={
 				<LayOut
 					isLogin={isLogin}
+					isAdmin={isAdmin}
 					setIsLogin={setIsLogin}
 				/>
 			}>
@@ -128,6 +130,7 @@ function App() {
 				{/* 축제 관리 */}
 				<Route path="/festivalList" element={<FestivalList />} />
 				<Route path="/festivalDetail/:festivalNum" element={<FestivalDetail />} />
+				<Route path="/festivals" element={<Festivals />} />
 				<Route path="/festivals/:festivalNum" element={<Festivals />} />
 				{/* 최근 본 내역 */}
 				<Route path="/connectionlog" element={<ConnectionLog />} />

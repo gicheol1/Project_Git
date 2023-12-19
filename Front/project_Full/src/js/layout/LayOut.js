@@ -6,25 +6,9 @@ import Sidecare from './sidebar/Sidecare';
 import Footer from './footer/Footer';
 
 import { Outlet } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import { useCheckLogin } from 'js/useCheckLogin';
 
 
-const LayOut = ({ isLogin, setIsLogin }) => {
-
-    const [isAdmin, setIsAdmin] = useState();
-
-    const { checkIsAdmin } = useCheckLogin();
-
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-
-    useEffect(() => {
-
-        setIsAdmin(checkIsAdmin());
-
-    }, [isLogin]);
+const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====

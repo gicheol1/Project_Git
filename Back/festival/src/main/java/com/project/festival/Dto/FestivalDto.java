@@ -31,7 +31,7 @@ public class FestivalDto {
 	
 	// 등록한 기간
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate singDate;
+	private LocalDate singDate = LocalDate.now();
 
 	// 공식 사이트
 	private String officialWebsite;
