@@ -65,7 +65,7 @@ const Header = ({ isLogin, setIsLogin }) => {
                 onMouseEnter={() => setIsMenuVisible(true)}
             >
                 {/* 메뉴 링크들 */}
-                <a href="/Main"><img src={profileAImageA} alt="Profile" className="profileA-imageA" /></a>
+                <a href="/myPage"><img src={profileAImageA} alt="Profile" className="profileA-imageA" /></a>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value="/board">게시판</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>

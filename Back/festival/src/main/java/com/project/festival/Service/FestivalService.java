@@ -1,6 +1,7 @@
 package com.project.festival.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,16 @@ public class FestivalService {
 	
 	public long getFestivalCnt() {return festivalRepository.count(); }
 	
-	public Festival getFestival(Long festivalNum) { return festivalRepository.findByFestivalNum(festivalNum); }
+	public Festival getFestival(Long festivalNum) {
+		
+		Optional<Festival> festival = festivalRepository.findByFestivalNum(festivalNum);
+		
+		if(festival.isEmpty()) {
+			return null;
+		} else {
+			return festival.get();
+		}
+	}
 
 // ========== ========== ========== ========== ========== ========== ========== ==========
 // ========== ========== ========== ========== ========== ========== ========== ==========

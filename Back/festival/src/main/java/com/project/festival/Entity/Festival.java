@@ -1,14 +1,19 @@
 package com.project.festival.Entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -65,7 +70,7 @@ public class Festival {
 
 	public Festival(
 		String name, String content, String location,
-		String startDate, String endDate, String Tag, String Region
+		String startDate, String endDate, String tag, String region
 	) {
 		super();
 		this.name = name;
@@ -73,8 +78,8 @@ public class Festival {
 		this.location = location;
 		this.startDate = LocalDate.parse(startDate);
 		this.endDate = LocalDate.parse(endDate);
-		this.tag = Tag;
-		this.region = Region;
+		this.tag = tag;
+		this.region = region;
 	}
 	
 }

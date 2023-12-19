@@ -4,7 +4,7 @@ import { useCallback } from "react";
 export function useFestivalDetail() {
 
     // 축제 상세 정보
-    const getFestivalDetail = useCallback((festivalNum) => {
+    const getFestivalDetail = useCallback(async (festivalNum) => {
         return fetch(SERVER_URL + `getFeatival?festivalNum=${festivalNum}`, {
             method: 'GET'
 
@@ -19,7 +19,7 @@ export function useFestivalDetail() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 축제 상세 정보
-    const deleteFestival = useCallback((festivalNum) => {
+    const deleteFestival = useCallback(async (festivalNum) => {
 
         if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
 

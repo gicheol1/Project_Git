@@ -12,7 +12,7 @@ import lombok.Setter;
 public class FestivalDto {
 	
 	// 축제 번호
-	private Long fNum;
+	private Long festivalNum;
 
 	// 축제 이름
 	private String name;
@@ -20,7 +20,7 @@ public class FestivalDto {
 	// 축제 설명
 	private String content;
 
-	// 축제 위치
+	// 축제 위치(도로명, 지번과 같은 상세 위치)
 	private String location;
 
 	// 시작 기간
@@ -30,7 +30,6 @@ public class FestivalDto {
 	private LocalDate endDate;
 	
 	// 등록한 기간
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate singDate = LocalDate.now();
 
 	// 공식 사이트
@@ -38,7 +37,8 @@ public class FestivalDto {
 	
 	// 태그
 	private String tag;
-	
+
+	// 축제 지역(서울, 인천, 대전, ...)
 	private String region;
 
 }

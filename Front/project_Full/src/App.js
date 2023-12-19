@@ -134,8 +134,8 @@ function App() {
 				<Route path="/festivals/:festivalNum" element={<Festivals />} />
 				{/* 최근 본 내역 */}
 				<Route path="/connectionlog" element={<ConnectionLog />} />
-				{/* 메인 페이지 */}
-				<Route path="/Main" element={<MainPage />} />
+				{/* 마이 페이지 */}
+				<Route path="/myPage" element={<MainPage />} />
 
 				{/* 메인페이지 경로 설정 */}
 				{/* 좋아요 누른 계시글 */}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFestivalDetail } from "./useFestivalDetail";
-import { Button } from "react-bootstrap";
+import { Button } from "@mui/material";
 
 const FestivalDetail = () => {
 
@@ -20,7 +20,15 @@ const FestivalDetail = () => {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     useEffect(() => {
-        getFestivalDetail(festivalNum).then(res => setDetail(res));
+        getFestivalDetail(festivalNum).then(res => {
+
+            if (res === false) {
+                alert('데이터가 없습니다.');
+                navigate('/festivalList');
+            }
+
+            setDetail(res);
+        });
     }, [festivalNum]);
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -33,44 +41,50 @@ const FestivalDetail = () => {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    return (
-        <div>
-            {detail !== undefined ?
-                <>
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flex: '1' }}>
-                            <p>축제명 : {detail.name}</p>
-                            <p>등록일 : {detail.singDate}</p>
-                        </div>
+    if (detail === undefined) {
+        return <div>Loading...</div>
+    } else {
+        return (
+            <div>
 
-                        <Button
-                            className="btn"
-                            variant="contained"
-                            onClick={() => navigate(`/festivals/${detail.festivalNum}`)}
-                        >
-                            수정하기
-                        </Button>
-                        <Button
-                            className="btn"
-                            variant="contained"
-                            color="error"
-                            onClick={() => deleteFestival()}
-                        >
-                            삭제하기
-                        </Button>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ flex: '1' }}>
+                        <p>축제명 : {detail.name}</p>
+                        <p>등록일 : {detail.singDate}</p>
                     </div>
-                    <p>설명 : {detail.content}</p>
+
+                    <Button
+                        className="btn"
+                        variant="contained"
+                        onClick={() => navigate(`/festivals/${detail.festivalNum}`)}
+                    >
+                        수정하기
+                    </Button>
+                    <Button
+                        className="btn"
+                        variant="contained"
+                        color="error"
+                        onClick={() => deleteFestival()}
+                    >
+                        삭제하기
+                    </Button>
+                </div>
+                <hr />
+                <p>{detail.content}</p>
+                <hr />
+                <div>
                     <p>시작 날짜 : {detail.startDate}</p>
                     <p>종료 날짜 : {detail.endDate}</p>
-                    {detail.officialWebsite !== undefined && (<p>공식 사이트 : {detail.officialWebsite}</p>)}
+                    {detail.officialWebsite !== null && detail.officialWebsite !== '' && (<p>공식 사이트 : {detail.officialWebsite}</p>)}
+                </div>
+                <hr />
+                <div>
                     <p>태그 : {detail.tag}</p>
                     <p>지역 : {detail.region}</p>
-                </>
-                :
-                <></>
-            }
-        </div>
-    );
+                </div>
+            </div>
+        );
+    }
 }
 
 export default FestivalDetail;

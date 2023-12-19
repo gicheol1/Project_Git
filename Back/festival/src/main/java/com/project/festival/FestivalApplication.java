@@ -11,7 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.project.festival.Constant.IsPrivated;
+import com.project.festival.Entity.Festival;
 import com.project.festival.Entity.User;
+import com.project.festival.Entity.Repo.FestivalRepo;
 import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Entity.BoardFree;
@@ -35,8 +37,8 @@ public class FestivalApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepo userRepository;
 	
-//    @Autowired
-//	private FestivalRepo festivalRepository;
+    @Autowired
+	private FestivalRepo festivalRepository;
 
     @Autowired
     private BoardFreeRepo BFRepo;
@@ -93,24 +95,24 @@ public class FestivalApplication implements CommandLineRunner {
 		
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-//		festivalRepository.save(new Festival(
-//			"롯데월드 miracle winter", "test1", "서울시 송파구",
-//			"2023-11-25", "2023-02-25"
-//		));
+		festivalRepository.save(new Festival(
+			"롯데월드 miracle winter", "test1", "서울시 송파구",
+			"2023-11-25", "2023-02-25", "축제", "서울"
+		));
+	
+		festivalRepository.save(new Festival(
+			"ㅊ ㅊ-하다 페스티벌", "test2", "서울시 종로구",
+			"2023-11-20", "2023-11-16", "축제", "서울"
+		));
+		
+		festivalRepository.save(new Festival(
+			"서울일러스트레이션페어V.16", "test3", "서울 강남구",
+			"2023-12-21", "2023-12-24", "공연/행사", "서울"
+		));
 //	
 //		festivalRepository.save(new Festival(
-//			"ㅊ ㅊ-하다 페스티벌", "test2", "서울시 종로구",
-//			"2023-11-20", "2023-11-16"
-//		));
-//	
-//		festivalRepository.save(new Festival(
-//			"대한민국 우리술 대축제", "test3", "서울 서초구",
+//			"대한민국 우리술 대축제", "test4", "서울 서초구",
 //			"2023-11-24", "2023-11-26"
-//		));
-//	
-//		festivalRepository.save(new Festival(
-//			"서울일러스트레이션페어V.16", "test4", "서울 강남구",
-//			"2023-12-21", "2023-12-24"
 //		));
 //	
 //		festivalRepository.save(new Festival(

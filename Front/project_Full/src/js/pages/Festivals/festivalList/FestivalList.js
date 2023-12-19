@@ -59,18 +59,18 @@ const FestivalList = () => {
 
             <TableContainer component={Paper} className="list-container">
 
-                <Table sx={{ minWidth: 750 }} aria-label="simple table">
+                <Table sx={{ minWidth: 950 }} aria-label="simple table">
 
                     {/* 테이블 헤더 */}
                     <TableHead>
                         <TableRow style={{ backgroundColor: "lightgray" }}>
                             <TableCell align="center" width={10}>번호</TableCell>
-                            <TableCell align="center" width={30}>이름</TableCell>
-                            <TableCell align="center" width={150}>위치</TableCell>
+                            <TableCell align="center" width={100}>이름</TableCell>
+                            <TableCell align="center" width={50}>위치</TableCell>
                             <TableCell align="center" width={30}>시작 날자</TableCell>
                             <TableCell align="center" width={30}>종료 날자</TableCell>
                             <TableCell align="center" width={30}>등록 날자</TableCell>
-                            <TableCell align="center" width={30}>지역</TableCell>
+                            <TableCell align="center" width={10}>지역</TableCell>
                         </TableRow>
                     </TableHead>
 
