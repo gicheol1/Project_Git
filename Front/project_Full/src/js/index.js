@@ -125,3 +125,6 @@ export { default as Membercare } from './pages/MemberInfo/Membercare'; // 회원
 
 // > Servicedown 폴더: 서비스 제한
 export { default as Servicedown } from './pages/Servicedown/Servicedown'; // 서비스 제한
+
+// > 패키지 추가 사이트
+export { default as TravalPackAdd } from './pages/Travel/TravalPackAdd'; // 패키지 추가

@@ -14,6 +14,7 @@ import {
 	Proceedpayment,
 	Reservationlist,
 	SuccessPage,
+	TravalPackAdd,
 	TravelKaKaoMap,
 	TravelPackList,
 	TravelReservation
@@ -165,6 +166,8 @@ function App() {
 				<Route path="/terms" element={<Terms />} />
 				{/* 저작권장 */}
 				<Route path="/copyright" element={<Copyright />} />
+				{/* 패키지 추가 */}
+				<Route path="/travalpackadd" element={<TravalPackAdd />} />
 
 
 

@@ -1,12 +1,16 @@
 package com.project.festival.Service.TravalPack;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.festival.Dto.PaymentStatus;
 import com.project.festival.Dto.TravalPackDto;
+import com.project.festival.Entity.TravalPack.PackReservation;
+import com.project.festival.Entity.TravalPack.Payment;
 import com.project.festival.Entity.TravalPack.TravalPack;
 import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
 
@@ -41,6 +45,13 @@ public class TravalPackService {
 			
 			packRepository.save(travalPack);
 		}
+	}
+
+	public TravalPackService addPack(TravalPackDto packDto) {
+		TravalPack travalPack = modelMapper.map(packDto, TravalPack.class);
+		travalPack.setSingupDate(LocalDate.now());
+		packRepository.save(travalPack);
+		return null;
 	}
 
 }

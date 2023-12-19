@@ -77,6 +77,8 @@ const Header = ({ isLogin, setIsLogin }) => {
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value="/festivals">축제관리</Button>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <Button onClick={move} value="/travalpackadd">패키지관리</Button>
+                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                 <Button onClick={move} value='/connectionlog'>⏱ 최근 본 내역</Button>
 
             </div >
