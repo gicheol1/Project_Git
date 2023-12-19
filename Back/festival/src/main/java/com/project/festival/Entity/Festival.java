@@ -31,7 +31,7 @@ public class Festival {
 	@Column(length=2500)
 	private String content;
 
-	// 축제 위치
+	// 축제 위치(도로명, 지번과 같은 상세 위치)
 	@Column(nullable=false, length=5000)
 	private String location;
 
@@ -55,7 +55,7 @@ public class Festival {
 	@Column(length=100)
 	private String tag;
 	
-	// 축제 지역
+	// 축제 지역(서울, 인천, 대전, ...)
 	@Column(length=100)
 	private String region;
 

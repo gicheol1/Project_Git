@@ -22,10 +22,7 @@ const LayOut = ({ isLogin, setIsLogin }) => {
 
     useEffect(() => {
 
-        checkIsAdmin().then((res) => {
-            console.log(res);
-            setIsAdmin(res);
-        })
+        setIsAdmin(checkIsAdmin());
 
     }, [isLogin]);
 

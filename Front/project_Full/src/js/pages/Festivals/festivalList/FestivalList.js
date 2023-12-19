@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import { useFestivalList } from "./useFestivalList";
 import { useNavigate } from "react-router-dom";
+import { useCheckLogin } from "js/useCheckLogin";
 
 const FestivalList = () => {
 
@@ -17,28 +18,36 @@ const FestivalList = () => {
     const [page, setPage] = useState(1);
 
     const { getFestivalList, getFestivalCnt } = useFestivalList();
+    const { checkIsAdmin } = useCheckLogin();
 
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     useEffect(() => {
+
+        if (!checkIsAdmin()) {
+            alert('로그인이 필요합니다.');
+            navigate('/login');
+            return;
+        }
+
         getFestivalList(page - 1).then(res => setFestivals(res));
         getFestivalCnt().then(res => setFestivalCnt(res));
     }, [])
 
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     const handlePageChange = (event, page) => {
         setPage(page);
         getFestivalList(page - 1).then(res => setFestivals(res));
     }
 
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
         <div>
@@ -65,11 +74,11 @@ const FestivalList = () => {
                             festivals.map((festival) => (
 
                                 <TableRow
-                                    key={festival.fNum}
+                                    key={festival.festivalNum}
                                     hover={true}
-                                    onClick={() => navigate(`/festivalDetail/${festival.fNum}`)}
+                                    onClick={() => navigate(`/festivalDetail/${festival.festivalNum}`)}
                                 >
-                                    <TableCell align="center">{festival.fNum}</TableCell>
+                                    <TableCell align="center">{festival.festivalNum}</TableCell>
                                     <TableCell align="center">{festival.name}</TableCell>
                                     <TableCell align="center">{festival.location}</TableCell>
                                     <TableCell align="center">{festival.startDate}</TableCell>

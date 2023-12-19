@@ -56,26 +56,27 @@ export function useCheckLogin() {
     // ========== ========== ========== ========== ========== ========== ========== ========== ==========
     // ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
-    // 로그인 상태인지 검사
+    // 관리자 상태인지 검사
     const checkIsAdmin = useCallback(async () => {
 
         const jwt = sessionStorage.getItem('jwt');
 
-        // 토큰이 비어있는 경우
-        if (jwt === null || jwt === '') { return false; }
+        let isAdmin = false;
 
-        return fetch(SERVER_URL + `isAdmin?jwt=${jwt}`, {
+        // 토큰이 비어있는 경우
+        if (jwt === null || jwt === '') { isAdmin = false; }
+
+        fetch(SERVER_URL + `isAdmin?jwt=${jwt}`, {
             method: 'GET'
 
         }).then((res) => {
-            if (!res.ok) { return false; }
+            if (!res.ok) { isAdmin = false; }
 
-            return true;
+            isAdmin = true;
 
-        }).catch((e) => {
-            return false;
+        }).catch((e) => { isAdmin = false; })
 
-        })
+        return isAdmin;
 
     }, []);
 

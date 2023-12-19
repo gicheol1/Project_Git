@@ -9,7 +9,7 @@ import {
 	BoardList,
 	BoardMU,
 	Calendar,
-	FestivalList,
+
 	Home,
 	Proceedpayment,
 	Reservationlist,
@@ -37,6 +37,8 @@ import { Copyright, Privacy, Terms } from 'js';
 
 
 import { Agreement, FindAccount, LayOut, Login, SingUp } from 'js';
+import { FestivalList, FestivalDetail } from 'js';
+
 import { useCheckLogin } from 'js/useCheckLogin';
 
 function App() {
@@ -124,8 +126,9 @@ function App() {
 
 				{/* 헤더 경로 설정 */}
 				{/* 축제 관리 */}
-				<Route path="/festivalsList" element={<FestivalList />} />
-				<Route path="/festivals/:fNum" element={<Festivals />} />
+				<Route path="/festivalList" element={<FestivalList />} />
+				<Route path="/festivalDetail/:festivalNum" element={<FestivalDetail />} />
+				<Route path="/festivals/:festivalNum" element={<Festivals />} />
 				{/* 최근 본 내역 */}
 				<Route path="/connectionlog" element={<ConnectionLog />} />
 				{/* 메인 페이지 */}

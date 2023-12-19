@@ -27,17 +27,27 @@ public class FestivalService {
 	public List<Festival> getFestivalAll() { return festivalRepository.findAll(); }
 	
 	public List<Festival> getFestivalPage(Pageable pageable) {
-		return festivalRepository.findAllByOrderByfestivalNumDesc(pageable).getContent();
+		return festivalRepository.findAllByOrderByFestivalNumDesc(pageable).getContent();
 	}
 	
 	public long getFestivalCnt() {return festivalRepository.count(); }
+	
+	public Festival getFestival(Long festivalNum) { return festivalRepository.findByFestivalNum(festivalNum); }
+
+// ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ==========
 	
 	public void setNewFeatival(FestivalDto dto) {
 		Festival festival = modelMapper.map(dto, Festival.class);
 		festivalRepository.save(festival);
 	}
+
+// ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ==========
 	
-	public Festival getFestival(Long festivalNum) { return festivalRepository.findByFNum(festivalNum); }
+	public void deleteFestival(Long festivalNum) { festivalRepository.deleteByFestivalNum(festivalNum); }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
