@@ -27,7 +27,7 @@ public class FestivalService {
 	public List<Festival> getFestivalAll() { return festivalRepository.findAll(); }
 	
 	public List<Festival> getFestivalPage(Pageable pageable) {
-		return festivalRepository.findAllByOrderByFNumDesc(pageable).getContent();
+		return festivalRepository.findAllByOrderByfestivalNumDesc(pageable).getContent();
 	}
 	
 	public long getFestivalCnt() {return festivalRepository.count(); }
@@ -37,7 +37,7 @@ public class FestivalService {
 		festivalRepository.save(festival);
 	}
 	
-	public Festival getFestival(Long fNum) { return festivalRepository.findByFNum(fNum); }
+	public Festival getFestival(Long festivalNum) { return festivalRepository.findByFNum(festivalNum); }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

@@ -46,9 +46,9 @@ public class FestivalController {
 	// 축제 정보 가져오기
 	@PostMapping("/festival")
 	public ResponseEntity<?> getFeatival(
-		@RequestParam Long fNum
+		@RequestParam Long festivalNum
 	) {
-		return ResponseEntity.ok(festivalService.getFestival(fNum));
+		return ResponseEntity.ok(festivalService.getFestival(festivalNum));
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

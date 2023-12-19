@@ -12,8 +12,8 @@ public interface FestivalRepo extends CrudRepository<Festival, Long> {
 	
 	List<Festival> findAll();
 	
-	Page<Festival> findAllByOrderByFNumDesc(Pageable pageable);
+	Page<Festival> findAllByOrderByfestivalNumDesc(Pageable pageable);
 	
-	Festival findByFNum(Long fNum);
+	Festival findByFNum(Long festivalNum);
 
 }

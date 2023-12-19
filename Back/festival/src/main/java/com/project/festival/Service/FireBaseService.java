@@ -18,7 +18,7 @@ import com.project.festival.Entity.board.FileDto;
 
 @Service
 public class FireBaseService {
-    private final String BUCKET = "festivaltest-90db3.appspot.com";
+    private final String BUCKET = "festivaltest-937db.appspot.com";
     private final String ACCOUNT = "src/main/resources/festivaltest-firebase-adminsdk.json";
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

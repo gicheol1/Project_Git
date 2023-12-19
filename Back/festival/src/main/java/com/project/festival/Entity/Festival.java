@@ -22,7 +22,7 @@ public class Festival {
 	// 축제 번호
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long fNum;
+	private Long festivalNum;
 
 	// 축제 이름
 	private String name;
