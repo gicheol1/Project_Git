@@ -1,22 +1,22 @@
 import React from 'react';
 import './Footer.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const Footer = () => {
     return (
-        <footer className="footer-container">
-            <hr />
-            <div className="footer-links">
-                <a href='/privacy'>개인정보 처리방침</a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href='/terms'>이용약관</a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href='/copyright'>저작권장</a>
-            </div>
-            <h1>연락처 : 010-1234-5678</h1>
-            <h2>Fex) XXX-8282-1337</h2>
-            <h3>20XX By ***.CO © All right reservice</h3>
 
-        </footer>
+<div class="container-xl">
+  <footer class="footer">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+      </ul>
+      <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
+    </footer>
+    </div>
+
     );
 };
 export default Footer;
