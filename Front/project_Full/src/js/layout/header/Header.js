@@ -1,15 +1,9 @@
-import { Button } from "@mui/material";
-
 import './Header.css';
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useLogOut } from "./useLogOut";
-import profileAImageA from './profileA-imageA.png';//이미지 파일 임포트
 
 
-const Header = ({ isLogin, setIsLogin }) => {
-
-    const [isMenuVisible, setIsMenuVisible] = useState(false);
+const Header = ({ setIsLogin }) => {
 
     const naviagte = useNavigate();
 
@@ -41,62 +35,25 @@ const Header = ({ isLogin, setIsLogin }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="header">
-            <div className="top-memu">
-                {
-                    isLogin ?
-                        <>
-                            <Button onClick={toLogout}>로그아웃</Button>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <Button onClick={move} value='/myPage'>👤 마이페이지</Button>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <Button onClick={move} value='/mycart'>🛒 장바구니</Button>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <Button onClick={move} value='/packreservation/memberpackreservation'>⏱ 예약 목록</Button>
+        <>
+            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                {/* <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink: href="#bootstrap" /></svg> */}
+            </a>
 
-                        </>
-                        :
-                        <Button onClick={move} value='/login'>로그인</Button>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+            </ul>
 
-
-                }
+            <div class="col-md-3 text-end">
+                <button type="button" class="btn btn-outline-primary me-2">Login</button>
+                <button type="button" class="btn btn-primary">Sign-up</button>
             </div>
-            <div className="bottom-memu"
-                onMouseEnter={() => setIsMenuVisible(true)}
-            >
-                {/* 메뉴 링크들 */}
-                <a href="/myPage"><img src={profileAImageA} alt="Profile" className="profileA-imageA" /></a>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/board">게시판</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/travelKaKaoMap">여행지도</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/calendar">여행달력</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/packreservationList">여행상품</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/festivalList">축제관리</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/travalpackadd">패키지관리</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value='/connectionlog'>⏱ 최근 본 내역</Button>
+        </>
 
-            </div >
-
-            {isMenuVisible && (
-                <div className="bottom-subMenu"
-                    onMouseLeave={() => setIsMenuVisible(false)}
-                >
-                    <ul style={{ margin: 10 }}>
-                        <li><Button onClick={move} value="/boardList/free">게시판(자유)</Button></li>
-                        <li><Button onClick={move} value="/boardList/notic">게시판(공지)</Button></li>
-                        <li><Button onClick={move} value="/boardList/promotion">게시판(행사)</Button></li>
-                        <li><Button onClick={move} value="/boardList/event">게시판(이벤트)</Button></li>
-                        <li><Button onClick={move} value="/boardList/qa">게시판(QA)</Button></li>
-                    </ul>
-                </div>
-            )}
-        </div >
     );
 }
 

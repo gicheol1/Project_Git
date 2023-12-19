@@ -18,10 +18,13 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
         <div className="container" style={{ width: "100%" }}>
 
             {/* 헤더 */}
-            <header style={{
-                backgroundColor: "greenyellow",
-                width: "100vw"
-            }}>
+            <header
+                class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
+                style={{
+                    backgroundColor: "greenyellow",
+                    width: "100vw"
+                }}
+            >
                 <Header isLogin={isLogin} setIsLogin={setIsLogin} />
             </header>
 
@@ -52,7 +55,7 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
             )}
 
             {/* 푸터 */}
-            <footer style={{
+            <footer class="footer" style={{
                 width: "100%",
                 height: '120px',
 
