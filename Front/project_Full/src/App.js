@@ -9,6 +9,7 @@ import {
 	BoardList,
 	BoardMU,
 	Calendar,
+	FestivalList,
 	Home,
 	Proceedpayment,
 	Reservationlist,
@@ -122,7 +123,8 @@ function App() {
 
 				{/* 헤더 경로 설정 */}
 				{/* 축제 관리 */}
-				<Route path="/festivals" element={<Festivals />} />
+				<Route path="/festivalsList" element={<FestivalList />} />
+				<Route path="/festivals/:fNum" element={<Festivals />} />
 				{/* 최근 본 내역 */}
 				<Route path="/connectionlog" element={<ConnectionLog />} />
 				{/* 메인 페이지 */}

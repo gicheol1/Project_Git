@@ -42,6 +42,10 @@ public class Festival {
 	// 끝나는 기간
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
+	
+	// 등록한 기간
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate singDate = LocalDate.now();
 
 	// 공식 사이트
 	@Column(length=2500)
@@ -51,6 +55,7 @@ public class Festival {
 	@Column(length=100)
 	private String tag;
 	
+	// 축제 지역
 	@Column(length=100)
 	private String region;
 

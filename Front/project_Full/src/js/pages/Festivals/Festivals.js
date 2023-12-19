@@ -74,7 +74,7 @@ class Festivals extends Component {
 
 		} catch (error) {
 			console.error(error);
-			alert('새 축제 추가에 실패했습니다.');
+			alert('축제 추가에 실패했습니다.');
 		}
 	};
 
@@ -97,7 +97,7 @@ class Festivals extends Component {
 
 				{/* 축제 이름 */}
 				<div className="form-group">
-					<label>축제명:</label>
+					<label>축제명 : </label>
 					<input
 						type="text"
 						name="name"
@@ -108,7 +108,7 @@ class Festivals extends Component {
 
 				{/* 축제 내용 */}
 				<div className="form-group">
-					<label>내용:</label>
+					<label>내용 : </label>
 					<textarea
 						name="content"
 						value={this.state.content}
@@ -119,7 +119,7 @@ class Festivals extends Component {
 
 				{/* 축제 날짜 */}
 				<div className="form-group">
-					<label for="startDate">시작 날짜:</label>
+					<label for="startDate">시작 날짜 : </label>
 					<input
 						type="date"
 						id="startDate"
@@ -128,7 +128,7 @@ class Festivals extends Component {
 						onChange={this.handleDateChange}
 					/>
 
-					<label for="endDate">끝나는 날짜:</label>
+					<label for="endDate">끝나는 날짜 : </label>
 					<input
 						type="date"
 						id="endDate"
@@ -141,7 +141,7 @@ class Festivals extends Component {
 
 				{/* 축제 위치 */}
 				<div className="form-group">
-					<label>위치:</label>
+					<label>위치 : </label>
 					<input
 						type="text"
 						name="location"
@@ -152,7 +152,7 @@ class Festivals extends Component {
 
 				{/* 축제 공식 홈페이지 */}
 				<div className="form-group">
-					<label>공식 홈페이지:</label>
+					<label>공식 홈페이지 : </label>
 					<input
 						type="text"
 						name="officialWebsite"
@@ -164,7 +164,7 @@ class Festivals extends Component {
 
 				{/* 축제 태그 */}
 				<div className="form-group">
-					<label>태그:</label>
+					<label>태그 : </label>
 					<select
 						value={this.state.tags}
 						onChange={(e) => this.handleTagChange([e.target.value])}

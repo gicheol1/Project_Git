@@ -65,6 +65,7 @@ export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap
 
 // > Festivals 폴더: 축제관리
 export { default as Festivals } from './pages/Festivals/Festivals'; //  축제관리 페이지
+export { default as FestivalList } from './pages/Festivals/festivalList/FestivalList'; //  축제관리 페이지
 
 // > ConnectionLog 폴더: 최근 본 내역
 export { default as ConnectionLog } from './pages/ConnectionLog/ConnectionLog'; // 최근 본 내역

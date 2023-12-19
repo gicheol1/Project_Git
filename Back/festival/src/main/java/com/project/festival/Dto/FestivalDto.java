@@ -2,6 +2,8 @@ package com.project.festival.Dto;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +28,10 @@ public class FestivalDto {
 	
 	// 끝나는 기간
 	private LocalDate endDate;
+	
+	// 등록한 기간
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate singDate;
 
 	// 공식 사이트
 	private String officialWebsite;
