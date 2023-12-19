@@ -6,23 +6,35 @@ import Sidecare from './sidebar/Sidecare';
 import Footer from './footer/Footer';
 
 import { Outlet } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useCheckLogin } from 'js/useCheckLogin';
 
 
 const LayOut = ({ isLogin, setIsLogin }) => {
 
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState();
+
+    const { checkIsAdmin } = useCheckLogin();
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
+
+    useEffect(() => {
+
+        checkIsAdmin().then((res) => {
+            console.log(res);
+            setIsAdmin(res);
+        })
+
+    }, [isLogin]);
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="container" style={{ width: "100vw" }}>
+        <div className="container" style={{ width: "100%" }}>
 
             {/* 헤더 */}
             <header style={{
@@ -46,26 +58,22 @@ const LayOut = ({ isLogin, setIsLogin }) => {
 
 
             {/* 사이드바 */}
-            <sidebar style={{
-            }}>
-                {isLogin && (
-                    isAdmin ?
+            {isLogin && (
+                <sidebar>
+                    {isAdmin ?
                         // 사이드바(관리자)
                         <Sidecare />
                         :
                         // 사이드바(회원)
                         <Sidebar />
-                )}
-            </sidebar>
+                    }
+                </sidebar>
+            )}
 
             {/* 푸터 */}
             <footer style={{
-                width: "100vw",
-
+                width: "100%",
                 height: '120px',
-                background: 'lightgray',
-                padding: 16,
-                fontSize: 24,
 
                 /* 페이지 아래로 고정하기 위해 marginTop을 auto로 설정 */
                 marginTop: 'auto',

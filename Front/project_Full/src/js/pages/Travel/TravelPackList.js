@@ -45,13 +45,41 @@ function TravelPackList() {
         );
     }
 
+    /* 금액 표시 */
+    const formatPrice = (price) => {
+        //가격을 만원, 천원으로 분리
+        const unit = price >= 10000 ? '만' : '';
+        const mainPrice = Math.floor(price / (unit === '만' ? 10000 : 1000)); //만 단위로 표시하면 만 단위의 가격을 계산, 그 외에는 천 단위로 계산
+        const remainder = price % (unit === '만' ? 10000 : 1000); //remainder: 만 단위로 표시되면 가격을 1만으로 나눈 나머지를, 그렇지 않으면 1천으로 나눈 나머지를 계산
+
+        // 포맷된 문자열 생성
+        const formattedPrice = `${mainPrice}${unit}${remainder > 0 ? ` ${remainder}` : ''}원`; //가격 문자열
+
+        return formattedPrice;
+    };
+
+    /*datagrid의 행의 금액에 대한 '금액'과 '한국 통화 형식'변환*/
+    const ToggleCell = ({ value }) => {
+        const [toggle, setToggle] = useState(false);
+
+        const handleClick = () => {
+            setToggle(!toggle);
+        };
+
+        return (
+            <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+                {toggle ? value.toLocaleString() + `원` : formatPrice(value)}
+            </div>
+        );
+    };
+
     /* <패키지여행> */
     /* ----------------------------------------------------------------------- */
     // - 패키지 여행의 컬럼
     const columns = [
         // { field: 'packNum', headerName: '패키지 번호', width: 100 },
         { field: 'name', headerName: '패키지 이름', width: 200 },
-        { field: 'price', headerName: '가격', width: 100 },
+        { field: 'price', headerName: '가격', width: 100, renderCell: (params) => < ToggleCell value={params.value} /> }, // 클릭시'금액'과 '한국 통화 형식'변환
         { field: 'startDate', headerName: '예약기간(시작일)', width: 150 },
         { field: 'endDate', headerName: '예약기간(끝)', width: 150 },
         // { field: 'singupDate', headerName: '등록일자', width: 150 },
@@ -103,7 +131,7 @@ function TravelPackList() {
                     rows={TravalPack}
                     columns={columns}
                     getRowId={row => row.packNum}
-                    checkboxSelection={false}
+                    checkboxSelection={false} // 체크박스(false(비활성화))
                     hideFooter={true} // 표의 푸터바 제거
                 />
             </div>

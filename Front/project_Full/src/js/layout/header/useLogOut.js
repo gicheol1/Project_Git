@@ -15,6 +15,7 @@ export function useLogOut() {
                 throw new Error(res.status);
             }
 
+            sessionStorage.removeItem('jwt');
             return false;
 
         }).catch((err) => {

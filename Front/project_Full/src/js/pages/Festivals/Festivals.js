@@ -1,190 +1,204 @@
-// Festivals.js
-// import React from 'react';
-
-// const Festivals = () => {
-//     return (
-//         <div>
-//             축제관리
-//         </div>
-//     );
-// };
-
-// export default Festivals;
-
-
-
+import { SERVER_URL } from 'js/component/constants';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
+import './Festivals.css';
+
 class Festivals extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      festivalName: '',
-      period: '',
-      price: '',
-      location: '',
-      contactNumber: '',
-      officialWebsite: '',
-      tags: [],
-      content: '',
-    };
-  }
+		this.state = {
+			name: '',
+			content: '',
+			location: '',
+			startDate: '',
+			endDate: '',
+			officialWebsite: '',
+			tags: [],
+			region: ''
+		};
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+		this.isDisabled = true;
+	}
 
-  handleTagChange = (selectedTags) => {
-    this.setState({ tags: selectedTags });
-  };
+	// ========== ========== ========== ========== ==========
+	// ========== ========== ========== ========== ==========
+	// ========== ========== ========== ========== ==========
 
-  handleAdd = () => {
-    // 추가 버튼을 눌렀을 때의 로직을 작성.
-    console.log('추가 버튼이 클릭되었습니다.');
-    console.log('상태:', this.state);
+	// 데이터 입력시
+	handleChange = (e) => { this.setState({ [e.target.name]: e.target.value }); };
 
-    // 서버로 데이터 전송
-    this.handleSubmit();
+	// 시작 날짜 선택시
+	handleDateChange = (e) => { this.setState({ [e.target.name]: e.target.value }); this.isDisabled = false; };
 
-    // 추가 작업을 수행한 후 폼 초기화
-    this.setState({
-      festivalName: '',
-      period: '',
-      price: '',
-      location: '',
-      contactNumber: '',
-      officialWebsite: '',
-      tags: [],
-      content: '',
-    });
-  };
+	// 태그 선택시
+	handleTagChange = (selectedTags) => { this.setState({ tags: selectedTags }); };
 
+	// 추가 버튼 클릭시
+	handleAdd = () => {
 
+		// 서버로 데이터 전송
+		this.submitFestival();
 
-  handleSubmit = async () => {
-    try {
-      const response = await fetch('/api/addData', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.state),
-      });
+		// 추가 작업을 수행한 후 폼 초기화
+		this.setState({
+			name: '',
+			content: '',
+			location: '',
+			startDate: '',
+			endDate: '',
+			officialWebsite: '',
+			tags: [],
+			region: ''
+		});
+	};
 
-      if (response.ok) {
-        console.log('Data added successfully!');
-        this.props.onAdd(this.state); // 추가 작업을 수행하는 콜백 함수 호출
-      } else {
-        console.error('Failed to add data to the server.');
-      }
-    } catch (error) {
-      console.error('Error occurred while adding data:', error);
-    }
-  };
+	// ========== ========== ========== ========== ==========
+	// ========== ========== ========== ========== ==========
+	// ========== ========== ========== ========== ==========
 
-  //regurce
+	// 축제 추가
+	submitFestival = async () => {
+		try {
+			const response = await fetch(SERVER_URL + 'submitFeatival', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(this.state),
+			});
 
+			if (!response.ok) { throw new Error(response.status); }
 
-  render() {
-    return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        border: '1px solid black', // 테두리 색
-        background: 'gray',       // 배경 색
-        padding: '15px',          // 내용과 테두리 간의 여백
-      }}>
-        <div className="form-group">
-          <h1>축제관리(추가/수정)</h1>
-          <label>축제명:</label>
-          <input
-            type="text"
-            name="festivalName"
-            value={this.state.festivalName}
-            onChange={this.handleChange}
-          />
-        </div>
+			this.props.onAdd(this.state);
+			alert('새 축제가 추가되었습니다.');
 
-        <div className="form-group">
-          <label>기간:</label>
-          <input
-            type="text"
-            name="period"
-            value={this.state.period}
-            onChange={this.handleChange}
-          />
-        </div>
+		} catch (error) {
+			console.error(error);
+			alert('새 축제 추가에 실패했습니다.');
+		}
+	};
 
-        <div className="form-group">
-          <label>가격:</label>
-          <input
-            type="text"
-            name="price"
-            value={this.state.price}
-            onChange={this.handleChange}
-          />
-        </div>
+	// ========== ========== ========== ========== ==========
+	// ========== ========== ========== ========== ==========
+	// ========== ========== ========== ========== ==========
 
-        <div className="form-group">
-          <label>위치:</label>
-          <input
-            type="text"
-            name="location"
-            value={this.state.location}
-            onChange={this.handleChange}
-          />
-        </div>
+	render() {
+		return (
+			<div style={{
+				width: '50vw',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				border: '1px solid black',	// 테두리 색
+				background: 'lightgray',	// 배경 색
+				padding: '15px',			// 내용과 테두리 간의 여백
+			}}>
+				<h1>축제관리(추가/수정)</h1>
 
-        <div className="form-group">
-          <label>문의번호:</label>
-          <input
-            type="text"
-            name="contactNumber"
-            value={this.state.contactNumber}
-            onChange={this.handleChange}
-          />
-        </div>
+				{/* 축제 이름 */}
+				<div className="form-group">
+					<label>축제명:</label>
+					<input
+						type="text"
+						name="name"
+						value={this.state.name}
+						onChange={this.handleChange}
+					/>
+				</div>
 
-        <div className="form-group">
-          <label>공식 홈페이지:</label>
-          <input
-            type="text"
-            name="officialWebsite"
-            value={this.state.officialWebsite}
-            onChange={this.handleChange}
-          />
-        </div>
+				{/* 축제 내용 */}
+				<div className="form-group">
+					<label>내용:</label>
+					<textarea
+						name="content"
+						value={this.state.content}
+						onChange={this.handleChange}
+						style={{ resize: 'none', width: '30vw' }}
+					/>
+				</div>
 
-        <div className="form-group">
-          <label>태그:</label>
-          <select
-            value={this.state.tags}
-            onChange={(e) => this.handleTagChange([e.target.value])}
-          >
-            <option value="">선택하세요</option>
-            <option value="festival">축제</option>
-            <option value="performance">공연/행사</option>
-          </select>
-        </div>
+				{/* 축제 날짜 */}
+				<div className="form-group">
+					<label for="startDate">시작 날짜:</label>
+					<input
+						type="date"
+						id="startDate"
+						name="startDate"
+						max={this.state.endDate ? this.state.endDate : null}
+						onChange={this.handleDateChange}
+					/>
 
-        <div className="form-group">
-          <label>내용:</label>
-          <textarea
-            name="content"
-            value={this.state.content}
-            onChange={this.handleChange}
-          />
-        </div>
+					<label for="endDate">끝나는 날짜:</label>
+					<input
+						type="date"
+						id="endDate"
+						name="endDate"
+						min={this.state.startDate}
+						onChange={this.handleChange}
+						disabled={this.isDisabled}
+					/>
+				</div>
 
-        <div style={{ margin: '10px' }}></div>
+				{/* 축제 위치 */}
+				<div className="form-group">
+					<label>위치:</label>
+					<input
+						type="text"
+						name="location"
+						value={this.state.location}
+						onChange={this.handleChange}
+					/>
+				</div>
 
-        <Button onClick={this.handleAdd}>추가</Button>
-      </div>
-    );
-  }
+				{/* 축제 공식 홈페이지 */}
+				<div className="form-group">
+					<label>공식 홈페이지:</label>
+					<input
+						type="text"
+						name="officialWebsite"
+						value={this.state.officialWebsite}
+						onChange={this.handleChange}
+						style={{ width: '20vw' }}
+					/>
+				</div>
+
+				{/* 축제 태그 */}
+				<div className="form-group">
+					<label>태그:</label>
+					<select
+						value={this.state.tags}
+						onChange={(e) => this.handleTagChange([e.target.value])}
+					>
+						<option value="">선택하세요</option>
+						<option value="festival">축제</option>
+						<option value="performance">공연/행사</option>
+					</select>
+				</div>
+
+				{/* 축제 위치 지역 */}
+				<div className="form-group">
+					<label>지역 : </label>
+					<select
+						name="Region"
+						value={this.state.tags}
+						onChange={this.handleChange}
+					>
+						<option value="">선택하세요</option>
+						<option value="서울">서울</option>
+						<option value="서울">인천</option>
+						<option value="강원">강원</option>
+						<option value="대전">대전</option>
+						<option value="부산">부산</option>
+						<option value="대구">대구</option>
+					</select>
+				</div>
+
+				<div style={{ margin: '10px' }}></div>
+
+				<Button onClick={this.handleAdd}>추가</Button>
+			</div>
+		);
+	}
 }
 
 export default Festivals;
