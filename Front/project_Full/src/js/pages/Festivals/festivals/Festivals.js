@@ -31,6 +31,7 @@ const Festivals = () => {
 		addrCode: '' // 우편번호
 	})
 	const [selectedOption, setSelectedOption] = useState('');
+	const [btnEnable, setBtnEnable] = useState(false);
 
 	const open = useDaumPostcodePopup();
 	const { getFestival } = useFestivals();
@@ -42,6 +43,10 @@ const Festivals = () => {
 	useEffect(() => {
 		if (festivalNum !== undefined) { getFestival().then(res => setFestival(res)); }
 	}, [festivalNum])
+
+	useEffect(() => {
+		setBtnEnable(isFestivalComplete());
+	}, [festival])
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -85,6 +90,7 @@ const Festivals = () => {
 
 	}
 
+	// 주소 설정
 	const handleOptionChange = (e) => {
 		const checkedOption = e.target.value;
 		setSelectedOption(checkedOption);
@@ -98,6 +104,16 @@ const Festivals = () => {
 
 	// 추가 버튼 클릭시
 	const handleAdd = () => { submitFestival(); };
+
+	// 모든 데이터가 있는지 확인
+	const isFestivalComplete = () => {
+		for (const key in festival) {
+			if (festival[key] === '') {
+				return false; // 하나라도 비어있는 필드가 있다면 false 반환
+			}
+		}
+		return true; // 모든 필드가 채워져 있다면 true 반환
+	};
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -202,23 +218,19 @@ const Festivals = () => {
 					</p>
 				</div>
 				<label>
-					<input
-						type="radio"
-						value="roadAddress"
-						checked={selectedOption === 'option1'}
+					<input type="radio" value="roadAddress" checked={selectedOption === 'option1'}
 						onChange={handleOptionChange}
-					/>
-					도로명 사용
+					>
+						도로명 사용
+					</input>
 				</label>
 
 				<label>
-					<input
-						type="radio"
-						value="jibunAddress"
-						checked={selectedOption === 'option2'}
+					<input type="radio" value="jibunAddress" checked={selectedOption === 'option2'}
 						onChange={handleOptionChange}
-					/>
-					지번주소 사용
+					>
+						지번주소 사용
+					</input>
 				</label>
 
 			</div>
@@ -276,7 +288,7 @@ const Festivals = () => {
 
 			<div style={{ margin: '10px' }}></div>
 
-			<Button variant="contained" onClick={handleAdd}>추가</Button>
+			<Button variant="contained" onClick={handleAdd} disabled={!btnEnable}>추가</Button>
 		</div>
 	);
 }
