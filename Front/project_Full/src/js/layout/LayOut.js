@@ -5,41 +5,59 @@ import Sidebar from './sidebar/Sidebar';
 import Sidecare from './sidebar/Sidecare';
 import Footer from './footer/Footer';
 
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { useState } from 'react';
 
 
 const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    const [isVisible, setIsVisible] = useState(false);
+
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
         <div className="container" style={{ width: "100%" }}>
 
             {/* 헤더 */}
             <header
-                class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
-                style={{
-                    backgroundColor: "greenyellow",
-                    width: "100vw"
-                }}
+                style={{ backgroundColor: 'lightskyblue', width: "100vw" }}
+                onMouseEnter={() => { setIsVisible(true) }}
+                onMouseLeave={() => { setIsVisible(false) }}
             >
-                <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+                <Header
+                    isLogin={isLogin}
+                    isAdmin={isAdmin}
+                    setIsLogin={setIsLogin}
+                />
+
+                {/* 하위 메뉴 */}
+                {isVisible ?
+                    <div className="d-flex flex-wrap align-items-center">
+                        <ul className="nav col-1 mb-2 justify-content-center mb-md-0 text-center">
+                            <li><Link to={`/boardList/free`} className="nav-link px-1 link-dark">자유 게시판</Link></li>
+                            <li><Link to={`/boardList/notic`} className="nav-link px-1 link-dark">공지사항</Link></li>
+                            <li><Link to={`/boardList/promotion`} className="nav-link px-1 link-dark">공연/행사</Link></li>
+                            <li><Link to={`/boardList/event`} className="nav-link px-1 link-dark">이벤트</Link></li>
+                            <li><Link to={`/boardList/qa`} className="nav-link px-1 link-dark">질문 게시판</Link></li>
+                        </ul>
+                    </div>
+                    :
+                    <></>
+                }
             </header>
 
-            {/* 자식 Route의 element가 위치하는 곳 */}
-            <main style={{
-
+            {/* 자식 Route의 element가 위치하는 곳(body 역할) */}
+            <body style={{
                 /* Outlet을 화면의 나머지 영역을 차지하도록 설정 */
-                flex: 1,
                 display: 'flex',
+                flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
                 <Outlet />
-            </main>
-
+            </body>
 
             {/* 사이드바 */}
             {isLogin && (

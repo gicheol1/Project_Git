@@ -23,9 +23,7 @@ const TravelKaKaoMap = () => {
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 
-	useEffect(() => {
-		getFestival();
-	}, [])
+	useEffect(() => { getFestival(); }, [])
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -34,7 +32,7 @@ const TravelKaKaoMap = () => {
 	// Spring Boot에서 축제 이름, 위치, 기간을 json으로 가져오기
 	const getFestival = () => {
 		fetch(SERVER_URL + 'festivalAll', {
-			method: 'POST',
+			method: 'GET',
 			headers: { 'Content-Type': 'application/json' }
 
 		}).then((response) => {
@@ -256,10 +254,10 @@ const TravelKaKaoMap = () => {
 						onChange={(e) => {
 							onCheckedItem(e.target.checked, e.target.className, e.target);
 						}} />공연/행사
-					<input className="checkBox5" type='checkbox' />태그
+					{/* <input className="checkBox5" type='checkbox' />태그
 					<input className="checkBox6" type='checkbox' />태그
 					<input className="checkBox7" type='checkbox' />태그
-					<input className="checkBox8" type='checkbox' />태그
+					<input className="checkBox8" type='checkbox' />태그 */}
 				</div>
 				<div>
 					<select className="selectInput" onChange={(e) => {
