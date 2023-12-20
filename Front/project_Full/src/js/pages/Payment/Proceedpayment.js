@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SERVER_URL } from 'js';
 import { useNavigate, useParams } from 'react-router';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // 결제 위젯 설치
+import './Proceedpayment.css';
 
 /* 결제위젯 연동 키 [테스트] */
 const clientKey = "test_ck_yZqmkKeP8gNz6vBPKOmnrbQRxB9l"
@@ -66,13 +67,37 @@ function Proceedpayment() {
     /* ----------------------------------------------------------------------- */
     // 패키지 여행 에약 목록 컬럼
     const columns = [
-        // { field: 'resNum', headerName: '패키지 예약 번호', width: 150 },
-        { field: 'memId', headerName: '예약한 회원', width: 200 },
-        { field: 'packName', headerName: '패키지 여행명', width: 200 },
-        { field: 'startDate', headerName: '예약한 날', width: 200 },
-        { field: 'price', headerName: '가격', width: 100, renderCell: (params) => < ToggleCell value={params.value} /> }, // 클릭시'금액'과 '한국 통화 형식'변환
-        { field: 'dateCnt', headerName: '기간', width: 200 },
-        { field: 'count', headerName: '인원수', width: 100 },
+        {
+            field: 'image', // 이미지 필드가 있다고 가정
+            headerName: '여행 이미지',
+            width: 300,
+            renderCell: (params) => (
+                <div className="image-cell">
+                    {/* 테스트용 이미지 */}
+                    <img class="custom-image"
+                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                        alt="축제이미지"
+
+                    />
+                </div>
+            ),
+        },
+        { // 한개의 컬럼에 여러 컬럼의 정보를 출력
+            field: 'travelinformation',
+            headerName: '결제 정보',
+            width: 900,
+            renderCell: (params) => (
+                <div className="travelinformation">
+                    <p>예약한 회원: {params.row.memId}</p>
+                    <p>패키지 여행: {params.row.packName}</p>
+                    <p>예약한 날: {params.row.startDate}</p>
+                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
+                    <p>가격<ToggleCell value={params.row.price} /></p>
+                    <p>숙박기간: {params.row.dateCnt}</p>
+                    <p>예약한 인원: {params.row.count}</p>
+                </div>
+            ),
+        },
     ];
     /* ----------------------------------------------------------------------- */
 
@@ -209,29 +234,21 @@ function Proceedpayment() {
     };
 
     return (
-        <div style={{
-            textAlign: 'center'
-        }}>
+        <div className='pay-form'>
             <h1> - 패키지 여행 결제 - </h1>
-
             {/* 패키지 여행 결제 목록 스타일 */}
-            <div style={{
-                marginLeft: "0%",
-                marginRight: "0%",
-                marginBottom: "3%",
-                marginTop: "1%",
-                backgroundColor: 'white',
-                border: '1px solid',
-
-            }}>
+            <div className='pay-header'>
                 <DataGrid
+                    className="hideHeaders" // 컬럼 헤더 숨기기
                     rows={Packreservation}
                     columns={columns}
                     getRowId={row => row.resNum}
                     hideFooter={true} // 표의 푸터바 제거
-                // onCellClick={handleCellClick} // 셀이 클릭되었을 때의 이벤트 핸들러
+                    // onCellClick={handleCellClick} // 셀이 클릭되었을 때의 이벤트 핸들러
+                    getRowHeight={params => 350} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
                 />
-                <div style={{ marginLeft: "20%", marginRight: "20%", }}>
+
+                <div style={{ marginLeft: "20%", marginRight: "20%", marginBottom: "5%", marginTop: "5%" }}>
                     <label>
                         카드 번호:
                         <input type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
