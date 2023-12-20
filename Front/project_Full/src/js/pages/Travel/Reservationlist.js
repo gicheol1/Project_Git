@@ -4,6 +4,8 @@ import { SERVER_URL } from 'js';
 import { Link } from 'react-router-dom';
 import { useCheckLogin } from 'js/useCheckLogin';
 import { Button } from '@mui/material';
+import "./Reservationlist.css";
+import FaceIcon from '@mui/icons-material/Face';
 
 /* 여행 예약 기능 3번*/
 /* 패키지 여행 예약 내역 목록 페이지*/
@@ -55,12 +57,34 @@ function Reservationlist() {
 
     // 패키지 여행 에약 목록 컬럼
     const columns = [
-        // { field: 'resNum', headerName: '예약 번호', width: 200 },
-        { field: 'memId', headerName: '예약한 회원', width: 200 },
-        { field: 'packName', headerName: '패키지 여행명', width: 200 },
-        { field: 'startDate', headerName: '예약한 날', width: 200 },
-        { field: 'dateCnt', headerName: '기간', width: 200 },
-        { field: 'count', headerName: '인원수', width: 100 },
+        {
+            field: 'image', // 이미지 필드가 있다고 가정
+            headerName: '여행 이미지',
+            width: 300,
+            renderCell: (params) => (
+                <div className="image-cell">
+                    {/* 테스트용 이미지 */}
+                    <img class="custom-image"
+                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                        alt="축제이미지"
+                    />
+                </div>
+            ),
+        },
+        { // 한개의 컬럼에 여러 컬럼의 정보를 출력
+            field: 'travelinformation',
+            headerName: '여행 정보',
+            width: 900,
+            renderCell: (params) => (
+                <div className="travelinformation">
+                    <p>패키지 여행 이름: {params.row.packName}</p>
+                    <p>회원: {params.row.memId}</p>
+                    <p>숙박 기간: {params.row.dateCnt}</p>
+                    <p>예약한 인원: {params.row.count}</p>
+                    <p>예약한 날: {params.row.startDate}</p>
+                </div>
+            ),
+        },
         {
             field: 'payment',
             headerName: '결제하기',
@@ -72,6 +96,9 @@ function Reservationlist() {
                 </Link>
             ,
             width: 110,
+            headerClassName: 'column-header',
+            sortable: false,
+            headerAlign: 'center',
         }
     ];
 
@@ -88,22 +115,17 @@ function Reservationlist() {
         <div>
 
             {/* 패키지 여행 목록 스타일 */}
-            <div style={{
-                marginLeft: "0%",
-                marginRight: "0%",
-                marginBottom: "3%",
-                marginTop: "1%",
-                backgroundColor: 'white',
-                border: '1px solid',
-                textAlign: 'center'
-            }}>
-                <h1>{userName}님의 패키지 여행 예약 목록</h1>
+            <h1 className='reserve-list-header'><FaceIcon fontSize='large' /> {userName}님의 패키지 여행 예약 목록</h1>
+            <div className='reserve-list'>
                 <DataGrid
+                    className="hideHeaders" // 컬럼 헤더 숨기기
                     rows={Packreservation}
                     columns={columns}
                     getRowId={row => row.resNum}
                     hideFooter={true} // 표의 푸터바 제거
-                // onCellClick={handleCellClick} // 셀이 클릭되었을 때의 이벤트 핸들러
+                    getRowHeight={params => 300} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
+                    // onCellClick={handleCellClick} // 셀이 클릭되었을 때의 이벤트 핸들러
+                    disableColumnMenu // 컬럼메뉴 비활성화
                 />
             </div>
         </div>

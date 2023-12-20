@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=East+Sea+Dokdo&family=Gaegu:wght@300&family=Nanum+Pen+Script&display=swap');
+
+
+.calendar-date{
+    text-Align: center;
+    font-Size: 20px;
+    font-Weight: bold;
+}
+
+.calendar-font{
+    font-family: 'Caveat', cursive;
+    font-size: 45px;
+    margin-right: 10%;
+}
+
+.calendar-button-font{
+ 
+    font-family: 'Gaegu', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.calendar {
+    margin-Right: 0px;
+    margin-Left: 0px; 
+    margin-Bottom: 1%;
+    display: flex;
+    justify-Content: center;
+    border: 1px solid;
+    font-family: 'Gaegu', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}

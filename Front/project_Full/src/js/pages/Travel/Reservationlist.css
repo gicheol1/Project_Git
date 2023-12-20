@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+
+.reserve-list{
+    margin-Left: 0%;
+    margin-Right: 0%;
+    margin-Bottom: 3%;
+    margin-Top: 3%;
+    background-Color: white;
+    border: 1px solid;
+    text-Align: center;
+}
+
+.button-container{
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 20px;
+}
+
+.reserve-list-header{
+    margin-top: 3%;
+    text-align: center;
+    font-family: 'Cute Font', sans-serif;
+    font-size: 54px;
+    color: #333;
+}
+
+/* 데이터 그리드의 컬럼헤더 숨기기 */
+.hideHeaders .MuiDataGrid-columnHeaders,
+.hideHeaders .MuiDataGrid-columnHeader {
+    display: none;
+}
+
+.hideHeaders .MuiDataGrid-virtualScroller {
+    margin-top: 0 !important;
+}

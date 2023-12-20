@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import moment from "moment";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./TravelCalendar.css";
+
 const localizer = momentLocalizer(moment); // 현지 시간 양식을 가져온다. 
 /* ----------------------------------------------------------- */
 
@@ -65,12 +67,12 @@ function TravelCalendar({ packNum }) {
         const label = () => {
             const date = moment(toolbar.date);
             return (
-                <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold" }}>
-                    <span style={{ fontSize: "35px", fontWeight: "bold" }}>
+                <div className='calendar-date'>
+                    <span className='calendar-font'>
                         {date.format("YYYY")}
                     </span>
                     {" "}
-                    <span style={{ fontSize: "35px", fontWeight: "bold", marginRight: "15%" }}>
+                    <span className='calendar-font'>
                         {date.locale("ko").format("MM")}
                     </span>
                 </div>
@@ -82,22 +84,22 @@ function TravelCalendar({ packNum }) {
         return (
             <div className="rbc-toolbar">
                 <span className="rbc-btn-group">
-                    <button type="button" onClick={goToBack}>
+                    <button className='calendar-button-font' type="button" onClick={goToBack}>
                         이전
                     </button>
                 </span>
                 <span className="rbc-btn-group">
-                    <button type="button" onClick={goToNext}>
+                    <button className='calendar-button-font' type="button" onClick={goToNext}>
                         다음
                     </button>
                 </span>
                 <span className="rbc-btn-group">
-                    <button type="button" onClick={goToToday}>
+                    <button className='calendar-button-font' type="button" onClick={goToToday}>
                         오늘
                     </button>
                 </span>
                 <span className="rbc-btn-group">
-                    <button type="button" onClick={goToSpecificDate}>
+                    <button className='calendar-button-font' type="button" onClick={goToSpecificDate}>
                         여행패키지 시작일로 이동
                     </button>
                 </span>
@@ -120,7 +122,7 @@ function TravelCalendar({ packNum }) {
 
         // 매달 다른 색상을 지정합니다.
         const monthColors = [
-            "red", "orange", "yellow", "green", "blue", "indigo", "violet",
+            "red", "orange", "skyblue", "green", "blue", "indigo", "violet",
             "purple", "pink", "brown", "gray", "black",
         ];
 
@@ -157,7 +159,7 @@ function TravelCalendar({ packNum }) {
     return (
         /* 달력과 예약일 */
         <div>
-            <div style={{ marginRight: "0px", marginLeft: "0px", marginBottom: "1%", display: "flex", justifyContent: "center",  border: '1px solid' }}>
+             <div className='calendar'>
                 <Calendar
                     // 현지 시간 양식을 가져온다.
                     localizer={localizer}
