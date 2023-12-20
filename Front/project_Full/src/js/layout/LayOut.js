@@ -5,54 +5,72 @@ import Sidebar from './sidebar/Sidebar';
 import Sidecare from './sidebar/Sidecare';
 import Footer from './footer/Footer';
 
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { useState } from 'react';
+import HeaderSub from './header/HeaderSub';
 
 
 const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    const [isVisible, setIsVisible] = useState(false);
+
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
         <div className="container" style={{ width: "100%" }}>
 
             {/* 헤더 */}
-            <header style={{
-                backgroundColor: "greenyellow",
-                width: "100vw"
-            }}>
-                <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+            <header
+                style={{ backgroundColor: 'lightskyblue', width: "100vw" }}
+                onMouseEnter={() => { setIsVisible(true) }}
+                onMouseLeave={() => { setIsVisible(false) }}
+            >
+                <Header
+                    isLogin={isLogin}
+                    isAdmin={isAdmin}
+                    setIsLogin={setIsLogin}
+                />
+
+                {/* 하위 메뉴 */}
+                {isVisible ?
+                    <HeaderSub />
+                    :
+                    <></>
+                }
             </header>
 
-            {/* 자식 Route의 element가 위치하는 곳 */}
-            <main style={{
-
+            {/* 자식 Route의 element가 위치하는 곳(body 역할) */}
+            <body style={{
                 /* Outlet을 화면의 나머지 영역을 차지하도록 설정 */
-                flex: 1,
+                marginTop: '30px',
+                marginBottom: '30px',
                 display: 'flex',
+                flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
                 <Outlet />
-            </main>
-
+            </body>
 
             {/* 사이드바 */}
             {isLogin && (
                 <sidebar>
                     {isAdmin ?
                         // 사이드바(관리자)
-                        <Sidecare />
+                        // <Sidecare />
+                        <></>
                         :
                         // 사이드바(회원)
-                        <Sidebar />
+                        // <Sidebar />
+                        <></>
                     }
                 </sidebar>
             )}
 
             {/* 푸터 */}
-            <footer style={{
+            <footer class="footer" style={{
                 width: "100%",
                 height: '120px',
 

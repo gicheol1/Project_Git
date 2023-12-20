@@ -1,23 +1,17 @@
-import { Button } from "@mui/material";
 
-import './Header.css';
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogOut } from "./useLogOut";
-import profileAImageA from './profileA-imageA.png';//이미지 파일 임포트
 
 
-const Header = ({ isLogin, setIsLogin }) => {
-
-    const [isMenuVisible, setIsMenuVisible] = useState(false);
+const Header = ({ isLogin, isAdmin, setIsLogin, isVisible }) => {
 
     const naviagte = useNavigate();
 
     const { logOut } = useLogOut();
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 로그아웃
     const toLogout = async () => {
@@ -28,75 +22,52 @@ const Header = ({ isLogin, setIsLogin }) => {
         });
     }
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-
-    const move = (e) => {
-        naviagte(e.target.value);
-    }
-
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
-        <div className="header">
-            <div className="top-memu">
-                {
-                    isLogin ?
-                        <>
-                            <Button onClick={toLogout}>로그아웃</Button>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <Button onClick={move} value='/myPage'>👤 마이페이지</Button>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <Button onClick={move} value='/mycart'>🛒 장바구니</Button>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <Button onClick={move} value='/packreservation/memberpackreservation'>⏱ 예약 목록</Button>
+        <div
+            className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between border-bottom"
+        >
+            {/* 이미지 링크 */}
+            {/* <a href="/" className="d-flex align-items-center col-1 text-dark text-decoration-none"></a> */}
+            <div className="col-1"></div>
 
-                        </>
-                        :
-                        <Button onClick={move} value='/login'>로그인</Button>
+            {/* 메뉴 */}
+            <ul className="nav col align-items-center justify-content-center col-md-auto mb-2 mb-md-0">
+                <li><Link to="/" className="nav-link px-2 link-dark">홈</Link></li>
+                <li><Link to="*" className="nav-link px-2 link-dark">게시판</Link></li>
+                <li><Link to="/travelKaKaoMap" className="nav-link px-2 link-dark">여행지도</Link></li>
+                <li><Link to="/calendar" className="nav-link px-2 link-dark">여행달력</Link></li>
+                <li><Link to="/packreservationList" className="nav-link px-2 link-dark">여행상품</Link></li>
+                <li><Link to="/connectionlog" className="nav-link px-2 link-dark">⏱ 최근 본 내역</Link></li>
+                {isAdmin && (
+                    <>
+                        <li><Link to="/festivalList" className="nav-link px-2 link-dark">축제관리</Link></li>
+                        <li><Link to="/travalpackadd" className="nav-link px-2 link-dark">패키지관리</Link></li>
+                    </>
+                )}
+            </ul>
 
-
-                }
-            </div>
-            <div className="bottom-memu"
-                onMouseEnter={() => setIsMenuVisible(true)}
-            >
-                {/* 메뉴 링크들 */}
-                <a href="/myPage"><img src={profileAImageA} alt="Profile" className="profileA-imageA" /></a>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/board">게시판</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/travelKaKaoMap">여행지도</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/calendar">여행달력</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/packreservationList">여행상품</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/festivalList">축제관리</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value="/travalpackadd">패키지관리</Button>
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <Button onClick={move} value='/connectionlog'>⏱ 최근 본 내역</Button>
-
-            </div >
-
-            {isMenuVisible && (
-                <div className="bottom-subMenu"
-                    onMouseLeave={() => setIsMenuVisible(false)}
-                >
-                    <ul style={{ margin: 10 }}>
-                        <li><Button onClick={move} value="/boardList/free">게시판(자유)</Button></li>
-                        <li><Button onClick={move} value="/boardList/notic">게시판(공지)</Button></li>
-                        <li><Button onClick={move} value="/boardList/promotion">게시판(행사)</Button></li>
-                        <li><Button onClick={move} value="/boardList/event">게시판(이벤트)</Button></li>
-                        <li><Button onClick={move} value="/boardList/qa">게시판(QA)</Button></li>
+            {/* 우측 버튼 */}
+            {isLogin ?
+                <div className="col-md-5 text-end">
+                    <ul className="nav col-md-auto justify-content-center mb-md-0">
+                        <li><button onClick={toLogout} class="btn btn-primary">로그아웃</button></li>
+                        <li><Link to='/myPage' className="btn btn-outline-primary me-2">👤 마이페이지</Link></li>
+                        <li><Link to='/mycart' className="btn btn-outline-primary me-2">🛒 장바구니</Link></li>
+                        <li><Link to='/packreservation/memberpackreservation' className="btn btn-outline-primary me-2">⏱ 예약 목록</Link></li>
                     </ul>
                 </div>
-            )}
-        </div >
+                :
+                <div className="col-md-2 text-end">
+                    <ul className="nav col-md-auto justify-content-center mb-md-0">
+                        <li><Link to='/login' className="btn btn-primary">로그인</Link></li>
+                    </ul>
+                </div>
+            }
+        </div>
     );
 }
 

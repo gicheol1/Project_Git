@@ -27,7 +27,7 @@ public class FestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 모든 축제 가져오기
-	@PostMapping("/festivalAll")
+	@GetMapping("/festivalAll")
 	public ResponseEntity<?> getFeativalAll() { return ResponseEntity.ok(festivalService.getFestivalAll()); }
     
     // 페이지 별 축제 10개씩 가져오기
