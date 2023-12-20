@@ -17,7 +17,7 @@ const Comment = ({
 	comment,
 
 	// 답글 대상 삭제 여부
-	recoIsDisabled,
+	getRecoCommIsDeleted,
 
 	// 답글 대상 지정
 	setRecoTarget
@@ -69,102 +69,97 @@ const Comment = ({
 
 	if (changeMod) {
 		return (
-			<div
-				style={comment.recoNum && ({
-					backgroundColor: 'lightgray',
-					display: 'flex',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					padding: '10px'
-				})}
-			>
-				<span style={{ display: "flex", flex: "2" }}>
-					<Button variant="contained" onClick={onSubmitUpdatedComment}>수정</Button>
-					<Button variant="contained" color="error" onClick={onChangeMod}>취소</Button>
+			<>
+				<div className={comment.recoNum ? 'updateComm' : 'updateRecoComm'}
+					style={comment.recoNum && ({
+						backgroundColor: 'lightgray',
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						padding: '10px'
+					})}
+				>
+					<Button className="btn" variant="contained" onClick={onSubmitUpdatedComment}>수정</Button>
+					<Button className="btn" variant="contained" color="error" onClick={onChangeMod}>취소</Button>
 					<textarea
-						style={{ resize: "none", width: "85%" }}
 						value={updatedComment.content}
 						onChange={(e) => { setUpdatedComment({ ...updatedComment, content: e.target.value }) }}
 					/>
-				</span>
-			</div>
+				</div>
+				<hr />
+			</>
 		);
 
 	} else {
 		return (
-			<div
-				className="commentList"
+			<>
+				<div className={comment.recoNum ? 'commentRecoList' : 'commentList'} >
+					{comment.deleted ?
+						// 삭제된 댓글인 경우
+						<p> ===== 삭제된 댓글입니다. ===== </p>
+						:
+						// 삭제되지 않은 경우
+						<>
+							{/* 댓글 표시 */}
+							<div className="comments">
+								{comment.recoNum !== null && (
+									!getRecoCommIsDeleted(comment.recoNum) ?
 
-				// 답글인 경우의 스타일 지정
-				style={comment.recoNum && ({
-					backgroundColor: 'lightgray',
-					display: 'flex',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					padding: '10px'
-				})}
-			>
-				{comment.deleted ?
-					// 삭제된 댓글인 경우
-					<p> ===== 삭제된 댓글입니다. ===== </p>
-					:
-					// 삭제되지 않은 경우
-					<>
-						<div className="comments">
-							{comment.recoNum !== null && (
-								!recoIsDisabled(comment.recoNum) ?
+										// 답글 대상 아이디 표시
+										<p className="recoMember">
+											답글대상 : {comment.recoMemId}
+										</p>
+										:
+										// 답글 대상의 글이 삭제된 경우
+										<p className="recoMember"> --- 삭제된 댓글의 답변 입니다. --- </p>
+								)}
+								<span className="creater">작성자 : {comment.memId}</span>
+								<span className="create-date">날짜 : {comment.date}</span>
 
-									// 답글 대상 아이디 표시
-									<p>답글대상 : {comment.recoMemId}</p>
-									:
-									// 답글 대상의 글이 삭제된 경우
-									<p>삭제된 댓글의 답변 입니다.</p>
-							)}
-							<span>작성자 : {comment.memId}<span> </span>날짜 : {comment.date}</span>
-							<p>{comment.content}</p>
-						</div>
+								<p className="content">{comment.content}</p>
+							</div>
 
-						{/* 답글 버튼(로그인 필요) */}
-						{isLogin === true ?
-							<Button
-								className="btn"
-								variant="contained"
-								onClick={() => { setRecoTarget(comment.coNum) }}
-							>
-								답글
-							</Button>
-							:
-							<></>
-						}
+							{/* 답글 버튼(로그인 필요) */}
+							{isLogin === true ?
+								<Button
+									className="btn"
+									variant="contained"
+									onClick={() => { setRecoTarget(comment.coNum) }}
+								>
+									답글
+								</Button>
+								:
+								<></>
+							}
 
-						{/* 수정 버튼(댓글 작성자 본인만 가능) */}
-						{isOwnerComm ?
-							<Button
-								className="btn"
-								variant="contained"
-								onClick={onChangeMod}
-							>
-								수정
-							</Button>
-							: <></>
-						}
+							{/* 수정 버튼(댓글 작성자 본인만 가능) */}
+							{isOwnerComm ?
+								<Button
+									className="btn"
+									variant="contained"
+									onClick={onChangeMod}
+								>
+									수정
+								</Button>
+								: <></>
+							}
 
-						{/* 삭제 버튼(작성자, 게시판 소유자인 경우) */}
-						{(isOwner || isOwnerComm) === true ?
-							<Button
-								className="btn"
-								variant="contained"
-								color="error"
-								onClick={onDeleteComment}
-							>
-								삭제
-							</Button>
-							: <></>
-						}
-					</>
-				}
-				<hr />
-			</div>
+							{/* 삭제 버튼(작성자, 게시판 소유자인 경우) */}
+							{(isOwner || isOwnerComm) === true ?
+								<Button
+									className="btn"
+									variant="contained"
+									color="error"
+									onClick={onDeleteComment}
+								>
+									삭제
+								</Button>
+								: <></>
+							}
+						</>
+					}
+				</div >
+				<hr /></>
 		);
 	}
 }

@@ -58,6 +58,20 @@ public class CommentFree {
 		this.boardNum = boardNum;
 		this.content = content;
 	}
+
+	public CommentFree(
+		Long recoNum,
+		String memId,
+		Long boardNum,
+		String content,
+		boolean isDeleted
+	) {
+		this.recoNum = recoNum;
+		this.memId = memId;
+		this.boardNum = boardNum;
+		this.content = content;
+		this.isDeleted = isDeleted;
+	}
 	
 	
 }

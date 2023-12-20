@@ -1,10 +1,9 @@
 
 import { Link, useNavigate } from "react-router-dom";
 import { useLogOut } from "./useLogOut";
-import { useState } from "react";
 
 
-const Header = ({ isLogin, isAdmin, setIsLogin }) => {
+const Header = ({ isLogin, isAdmin, setIsLogin, isVisible }) => {
 
     const naviagte = useNavigate();
 
@@ -29,13 +28,14 @@ const Header = ({ isLogin, isAdmin, setIsLogin }) => {
 
     return (
         <div
-            className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom"
+            className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between border-bottom"
         >
             {/* 이미지 링크 */}
-            <a href="/" className="d-flex align-items-center col-md-3 text-dark text-decoration-none"></a>
+            {/* <a href="/" className="d-flex align-items-center col-1 text-dark text-decoration-none"></a> */}
+            <div className="col-1"></div>
 
             {/* 메뉴 */}
-            <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <ul className="nav col align-items-center justify-content-center col-md-auto mb-2 mb-md-0">
                 <li><Link to="/" className="nav-link px-2 link-dark">홈</Link></li>
                 <li><Link to="*" className="nav-link px-2 link-dark">게시판</Link></li>
                 <li><Link to="/travelKaKaoMap" className="nav-link px-2 link-dark">여행지도</Link></li>
@@ -52,7 +52,7 @@ const Header = ({ isLogin, isAdmin, setIsLogin }) => {
 
             {/* 우측 버튼 */}
             {isLogin ?
-                <div className="col-md-4 text-end">
+                <div className="col-md-5 text-end">
                     <ul className="nav col-md-auto justify-content-center mb-md-0">
                         <li><button onClick={toLogout} class="btn btn-primary">로그아웃</button></li>
                         <li><Link to='/myPage' className="btn btn-outline-primary me-2">👤 마이페이지</Link></li>

@@ -7,6 +7,7 @@ import Footer from './footer/Footer';
 
 import { Link, Outlet } from "react-router-dom";
 import { useState } from 'react';
+import HeaderSub from './header/HeaderSub';
 
 
 const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
@@ -34,15 +35,7 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
 
                 {/* 하위 메뉴 */}
                 {isVisible ?
-                    <div className="d-flex flex-wrap align-items-center">
-                        <ul className="nav col-1 mb-2 justify-content-center mb-md-0 text-center">
-                            <li><Link to={`/boardList/free`} className="nav-link px-1 link-dark">자유 게시판</Link></li>
-                            <li><Link to={`/boardList/notic`} className="nav-link px-1 link-dark">공지사항</Link></li>
-                            <li><Link to={`/boardList/promotion`} className="nav-link px-1 link-dark">공연/행사</Link></li>
-                            <li><Link to={`/boardList/event`} className="nav-link px-1 link-dark">이벤트</Link></li>
-                            <li><Link to={`/boardList/qa`} className="nav-link px-1 link-dark">질문 게시판</Link></li>
-                        </ul>
-                    </div>
+                    <HeaderSub />
                     :
                     <></>
                 }
@@ -51,6 +44,8 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
             {/* 자식 Route의 element가 위치하는 곳(body 역할) */}
             <body style={{
                 /* Outlet을 화면의 나머지 영역을 차지하도록 설정 */
+                marginTop: '30px',
+                marginBottom: '30px',
                 display: 'flex',
                 flex: 1,
                 justifyContent: 'center',
@@ -64,10 +59,12 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
                 <sidebar>
                     {isAdmin ?
                         // 사이드바(관리자)
-                        <Sidecare />
+                        // <Sidecare />
+                        <></>
                         :
                         // 사이드바(회원)
-                        <Sidebar />
+                        // <Sidebar />
+                        <></>
                     }
                 </sidebar>
             )}

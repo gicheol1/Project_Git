@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SERVER_URL } from 'js';
+import { Button } from '@mui/material';
 
 const MemId = ({ setNewUser }) => {
 
@@ -52,7 +53,7 @@ const MemId = ({ setNewUser }) => {
                     onChange={(e) => { setMemId(e.target.value) }}
                     disabled={isStatic}
                 />
-                <button onClick={onClickBtn}>중복확인</button>
+                <Button onClick={onClickBtn}>중복확인</Button>
             </p>
         </div>
     );

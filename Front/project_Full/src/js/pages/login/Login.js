@@ -1,3 +1,4 @@
+
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -78,8 +79,8 @@ const Login = ({ setIsLogin }) => {
                         }}
                     />
                     <Button
-                        onClick={onClickHandle}
                         variant="contained"
+                        onClick={onClickHandle}
                     >
                         로그인
                     </Button>

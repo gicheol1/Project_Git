@@ -21,7 +21,7 @@ const BoardDetail = ({ isLogin }) => {
 	const [commentList, setCommentList] = useState([{}]);
 	const [fileList, setFileList] = useState([{}]);
 
-	// 작성하고자 하는 새 댓글
+	// 작성하고자 하는 새 답글
 	const [newComment, setNewComment] = useState({
 		recoNum: '',
 		recoMemId: '',
@@ -44,9 +44,9 @@ const BoardDetail = ({ isLogin }) => {
 
 	const { checkIsAdmin, toLogin } = useCheckLogin();
 
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
 	useEffect(() => {
 
@@ -66,9 +66,9 @@ const BoardDetail = ({ isLogin }) => {
 
 	}, [boardNum]);
 
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
 	// 게시판 수정하기
 	const onMoveUpdate = () => {
@@ -96,29 +96,39 @@ const BoardDetail = ({ isLogin }) => {
 	// 답글 대상 삭제 여부
 	const getRecoCommIsDeleted = (recoNum) => {
 		if (recoNum === undefined || recoNum === '') { return false; }
-
-		const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
-		return recoTarget.disabled;
+		const recoTarget = commentList.find(comments => comments.coNum === recoNum);
+		return recoTarget.deleted;
 
 	}
 
 	// 답글대상 지정
 	const setRecoTarget = (recoNum) => {
-		setNewComment(() => {
-			const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
-			const updatedComment = { ...newComment, recoNum: recoTarget.coNum };
-			return updatedComment;
+		// setNewComment(() => {
+		// 	const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
+		// 	const updatedComment = {
+		// 		...newComment,
+		// 		coNum: '',
+		// 		recoNum: recoTarget.coNum
+		// 	};
+		// 	return updatedComment;
+		// });
+
+		const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
+		setNewComment({
+			...recoTarget,
+			coNum: '',
+			recoNum: recoTarget.coNum
 		});
 	}
 
 	// 답글 취소
 	const cancleRecoTarget = () => {
-		setNewComment({ ...newComment, recoNum: '' })
+		setNewComment({ ...newComment, recoNum: '', content: '' })
 	}
 
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// ===== ===== ===== ===== ===== ===== ===== ===== =====
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
 	return (
 		<div className="board-detail-container">
@@ -126,13 +136,11 @@ const BoardDetail = ({ isLogin }) => {
 			{/* ===== 제목, 작성자, 일자 ===== */}
 			<div className="board-head">
 				<div className="board-info">
-					<h3>{board.title}</h3>
-					<span className="author-info">
-						작성자: {board.memId}
-					</span>
-					<span className="date-info">
-						작성 일자: {board.date}
-					</span>
+
+					<h3 className="board-title">{board.title}</h3>
+
+					<span className="author-info"> 작성자: {board.memId} </span>
+					<span className="date-info"> 작성 일자: {board.date} </span>
 				</div>
 
 				{isLogin && isOwner === true ?
@@ -183,36 +191,44 @@ const BoardDetail = ({ isLogin }) => {
 			<hr />
 
 			{/* ===== 댓글 ===== */}
-			<div className="boardComment">
-				<div style={{ display: "flex", flex: "1" }}>
+			<div className="board-comment">
+				<div className="board-recoTarget">
 
 					{/* 답글 대상 표시 */}
-					{newComment.recoMemId !== '' && (
-						<div>
+					{newComment.recoNum !== '' && (
+						<div className="recoTarget">
+							<Button
+								className="cancle-recomment"
+								onClick={cancleRecoTarget}
+							>
+								취소
+							</Button>
 							<input
 								type="text"
 								value={newComment.recoMemId}
 								readOnly
 							/>
-							<Button onClick={cancleRecoTarget}> 취소</Button>
 						</div>
 					)}
 
 					{/* 댓글 입력, 추가 */}
-					<Button
-						style={{ width: "50px" }}
-						disabled={!isLogin}
-						onClick={() => { submitComment(target, boardNum, newComment) }}
-					>
-						댓글 달기
-					</Button>
-					<textarea
-						disabled={!isLogin}
-						placeholder={isLogin ? '' : '로그인이 필요합니다.'}
-						style={{ resize: "none", width: "80%", height: "100%" }}
-						value={newComment.content}
-						onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
-					/>
+					<div className="board-newComment">
+						<Button
+							className="addComment"
+							disabled={!isLogin}
+							onClick={() => { submitComment(target, boardNum, newComment) }}
+						>
+							{newComment.recoNum !== '' ? `답글 추가` : `댓글 추가`}
+
+						</Button>
+						<textarea
+							className="addCommentArea"
+							disabled={!isLogin}
+							placeholder={isLogin ? '' : '로그인이 필요합니다.'}
+							value={newComment.content}
+							onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
+						/>
+					</div>
 				</div>
 
 				<hr />
@@ -235,7 +251,7 @@ const BoardDetail = ({ isLogin }) => {
 							comment={comment}
 
 							// 답글 대상 삭제 여부
-							recoIsDisabled={getRecoCommIsDeleted}
+							getRecoCommIsDeleted={getRecoCommIsDeleted}
 
 							// 답글 대상 지정
 							setRecoTarget={setRecoTarget}

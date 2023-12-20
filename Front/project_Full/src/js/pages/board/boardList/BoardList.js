@@ -44,6 +44,29 @@ const BoardList = ({ isLogin }) => {
 	// ▦▦▦▦▦ ▦▦▦▦▦ ▦▦▦▦▦ ▦▦▦▦▦ ▦▦▦▦▦
 	// ▦▦▦▦▦ ▦▦▦▦▦ ▦▦▦▦▦ ▦▦▦▦▦ ▦▦▦▦▦
 
+	const setTitle = () => {
+
+		switch (target) {
+			case "free":
+				return "자유 게시판"
+
+			case "notic":
+				return "공지 사항"
+
+			case "promotion":
+				return "홍보 게시판"
+
+			case "event":
+				return "이벤트 게시판"
+
+			case "qa":
+				return "질문(Q&A) 게시판"
+
+			default:
+				return "404 Not Found"
+		}
+	}
+
 	// 페이지 이동 이벤트
 	const handlePageChange = (event, page) => {
 		setPage(page);
@@ -70,6 +93,12 @@ const BoardList = ({ isLogin }) => {
 
 	return (
 		<div className="board-list-container">
+
+			{target !== undefined ?
+				<h2>{setTitle()}</h2>
+				:
+				<></>
+			}
 			{isLogin && (
 				<Button
 					className="btn"
