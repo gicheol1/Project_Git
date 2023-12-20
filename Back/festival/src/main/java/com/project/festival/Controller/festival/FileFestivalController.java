@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.festival.Dto.FestivalDto;
 import com.project.festival.Entity.board.FileDto;
-import com.project.festival.Entity.festival.Festival;
+import com.project.festival.Entity.board.File.FileFree;
+import com.project.festival.Entity.festival.FileFestival;
+import com.project.festival.Entity.festival.FileFestivalDto;
 import com.project.festival.Service.FireBaseService;
-import com.project.festival.Service.festival.FestivalService;
+import com.project.festival.Service.festival.FileFestivalService;
 
 @RestController
 public class FileFestivalController {
@@ -31,45 +29,34 @@ public class FileFestivalController {
 	private FireBaseService storageService;
 	
 	@Autowired
-	private FestivalService festivalService;
+	private FileFestivalService fileFestivalService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 모든 축제 가져오기
-	@GetMapping("/festivalAll")
-	public ResponseEntity<?> getFeativalAll() { return ResponseEntity.ok(festivalService.getFestivalAll()); }
-    
-    // 페이지 별 축제 10개씩 가져오기
-	@GetMapping("/festivalPage")
-	public ResponseEntity<?> getFestivalPage(@RequestParam int page){
-		Pageable pageable = PageRequest.of(page, 10, Sort.by("festivalNum").descending());
-		return ResponseEntity.ok(festivalService.getFestivalPage(pageable));
-	}
-	
-	// 등록된 축제 총 갯수
-	@GetMapping("/festivalCnt")
-	public ResponseEntity<?> getFestivalPage(){ return ResponseEntity.ok(festivalService.getFestivalCnt()); }
-
-//▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-//▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-//▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-	// 축제 정보 가져오기
-	@GetMapping("/getFeatival")
-	public ResponseEntity<?> getFeatival(
+	// 축제 이미지 가져오기
+	@GetMapping("/getFileFeatival")
+	public ResponseEntity<?> getFileFeatival(
 		@RequestParam Long festivalNum
 	) {
 		
-		Festival festival = festivalService.getFestival(festivalNum);
+		List<FileFestivalDto> dto = new ArrayList<>();
 		
-		if(festival==null) {
-			return ResponseEntity.ok(false);
-		} else {
-			return ResponseEntity.ok(festivalService.getFestival(festivalNum));
+		for(FileFestival files : fileFestivalService.getFiles(festivalNum)) {
+			try {
+				
+				FileFestivalDto d = storageService.getImageFileFestival(files.getFileName());
+				d.setOrgName(files.getOrgName());
+				dto.add(d);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+				continue;
+			}
 		}
 		
+		return ResponseEntity.ok(dto);
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -82,13 +69,13 @@ public class FileFestivalController {
 		@RequestBody MultipartFile[] files
 	) {
 		
-		List<FileDto> fileDetail = new ArrayList<>();
+		List<FileFestivalDto> fileDetail = new ArrayList<>();
 		
 		if(files != null && files.length != 0) {
 			for(MultipartFile file : files) {
 				
 				try { 
-					FileDto fd = storageService.uploadImageFestival(file);
+					FileFestivalDto fd = storageService.uploadImageFestival(file);
 					fd.setOrgName(file.getName().toString());
 					fileDetail.add(fd);
 					
@@ -102,45 +89,30 @@ public class FileFestivalController {
 	// 축제 이미지 등록
 	@PostMapping("/submitFeativalFile")
 	public ResponseEntity<?> submitFeativalFile(
-		@RequestParam Long festivalNum
+		@RequestParam Long festivalNum,
+		@RequestBody FileFestivalDto[] dto
 	) {
 		
+		// 이전에 저장된 DB는 제거
+		fileFestivalService.deleteAllFile(festivalNum);
 		
-
-		return ResponseEntity.ok().build();
-	}
-	
-// ========== ========== ========== ========== ========== ========== ==========
-
-	// 축제 추가
-	@PostMapping("/submitFeatival")
-	public ResponseEntity<?> submitFeatival(
-		@RequestBody FestivalDto festivalDto
-	) {
-		festivalService.setNewFeatival(festivalDto);
+		fileFestivalService.submitFile(dto);
 		return ResponseEntity.ok().build();
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-	// 축제 삭제
-	@DeleteMapping("/deleteFeatival")
-	public ResponseEntity<?> deleteFeatival(
-			@RequestParam Long festivalNum
-	) {
-		festivalService.deleteFestival(festivalNum);
-		return ResponseEntity.ok().build();
-	}
 
 	// 축제 이미지 삭제
 	@DeleteMapping("/deleteFeativalFile")
 	public ResponseEntity<?> deleteFeativalFile(
-			@RequestParam Long festivalNum
+		@RequestParam Long festivalNum
 	) {
-		festivalService.deleteFestival(festivalNum);
+		
+		fileFestivalService.deleteAllFile(festivalNum);
 		return ResponseEntity.ok().build();
+		
 	}
-	
+
 }

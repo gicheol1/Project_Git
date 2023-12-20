@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FestivalFileService {
+public class FileFestivalService {
 
 	private final FileFestivalRepo fileFestivalRepository;
 	
@@ -23,7 +23,7 @@ public class FestivalFileService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	public List<FileFestival> getFile(Long festivalNum){
+	public List<FileFestival> getFiles(Long festivalNum) {
 		return fileFestivalRepository.findByFestivalNumOrderByFileNum(festivalNum);
 	}
 	
@@ -31,9 +31,11 @@ public class FestivalFileService {
 		return fileFestivalRepository.findFileNameByFestivalNumOrderByFileNum(festivalNum);
 	}
 	
-	public void submitFileFree(FileFestivalDto dto) {
-		FileFestival fileFestival = modelMapper.map(dto, FileFestival.class);
-		fileFestivalRepository.save(fileFestival);
+	public void submitFile(FileFestivalDto[] dto) {
+		for(FileFestivalDto file : dto) {
+			FileFestival fileFestival = modelMapper.map(file, FileFestival.class);
+			fileFestivalRepository.save(fileFestival);
+		}
 	}
 	
 	public void deleteFile(String fileName) {fileFestivalRepository.deleteByFileName(fileName);}
