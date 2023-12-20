@@ -70,7 +70,7 @@ const Comment = ({
 	if (changeMod) {
 		return (
 			<>
-				<div className={comment.recoNum ? 'updateComm' : 'updateRecoComm'}
+				<div className={comment.recoNum !== '' ? 'updateComm' : 'updateRecoComm'}
 					style={comment.recoNum && ({
 						backgroundColor: 'lightgray',
 						display: 'flex',

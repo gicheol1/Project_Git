@@ -65,6 +65,47 @@ public class FireBaseService {
 
         return fd;
     }
+
+    // 축제 이미지를 업로드
+    public FileDto uploadImageFestival(
+		MultipartFile file
+    ) throws IOException {
+    	
+        // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
+        FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
+        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+
+        // FireBase Storage 객체 생성
+        Storage storage = StorageOptions.newBuilder()
+            .setCredentials(credentials)
+            .setProjectId("festivalTest")
+            .build()
+            .getService();
+        
+        Bucket bucket = storage.get(BUCKET);
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("festival/");
+
+        // 이미지 파일에 랜덤한 이름 부여
+        String fileName = UUID.randomUUID().toString();
+        sb.append(fileName);
+
+        // FireBase Storage에 이미지 업로드
+        bucket.create(sb.toString(), file.getBytes(), file.getContentType());
+
+        // 이미지 원본 다운로드
+        BlobId blobId = BlobId.of(BUCKET, sb.toString());
+        Blob blob = storage.get(blobId);
+        
+        // 원본과 이름을 반환하기 위한 객체
+        FileDto fd = new FileDto();
+        
+        fd.setImgFile(Base64.getEncoder().encodeToString(blob.getContent()));
+        fd.setFileName(fileName);
+
+        return fd;
+    }
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
@@ -157,6 +198,32 @@ public class FireBaseService {
         StringBuilder sb = new StringBuilder();
         sb.append(target);
         sb.append('/');
+        sb.append(fileName);
+
+        BlobId blobId = BlobId.of(BUCKET, sb.toString());
+
+        // FireBase Storage에서 해당 Blob 삭제
+        storage.delete(blobId);
+    }
+    
+	// 축제 이미지 삭제
+    public void deleteImageFestival(
+		String fileName
+	) throws IOException {
+    	
+        // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
+        FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
+        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+
+        // FireBase Storage 객체 생성
+        Storage storage = StorageOptions.newBuilder()
+            .setCredentials(credentials)
+            .setProjectId("festivalTest")
+            .build()
+            .getService();
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("festival/");
         sb.append(fileName);
 
         BlobId blobId = BlobId.of(BUCKET, sb.toString());

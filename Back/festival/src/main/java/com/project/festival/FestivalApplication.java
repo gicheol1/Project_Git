@@ -11,9 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.project.festival.Constant.IsPrivated;
-import com.project.festival.Entity.Festival;
 import com.project.festival.Entity.User;
-import com.project.festival.Entity.Repo.FestivalRepo;
 import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Entity.BoardFree;
@@ -21,6 +19,8 @@ import com.project.festival.Entity.board.Entity.BoardQA;
 import com.project.festival.Entity.board.Repository.BoardFreeRepo;
 import com.project.festival.Entity.board.Repository.BoardQARepo;
 import com.project.festival.Entity.board.RepositoryComm.CommentFreeRepo;
+import com.project.festival.Entity.festival.Festival;
+import com.project.festival.Entity.festival.FestivalRepo;
 import com.project.festival.Service.TravalPack.PackReservationService;
 import com.project.festival.Service.TravalPack.PaymentService;
 
