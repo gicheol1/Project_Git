@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+
+.success{
+    text-align: center;
+    font-family: 'Cute Font', sans-serif;
+    font-size: 70px;
+    color: #333;
+}
+
+.success-button{
+    text-align: center;
+    font-family: 'Cute Font', sans-serif;
+    font-size: 20px;
+    justify-content: center;
+}

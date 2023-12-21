@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 // 가격을 특정 형식으로 포맷하는 함수
 const formatPrice = (price) => {
     // 가격을 만원, 천원으로 분리
@@ -23,7 +24,7 @@ const ToggleCell = ({ value }) => {
     };
 
     return (
-        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
+        <div classname="togglefont"onClick={handleClick} style={{ cursor: 'pointer' }}>
             {/* 토글 상태에 따라 가격을 표시 */}
             {toggle ? value.toLocaleString() + `원` : formatPrice(value)}
         </div>

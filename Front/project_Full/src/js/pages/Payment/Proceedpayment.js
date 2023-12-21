@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
 import { useNavigate, useParams } from 'react-router';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // 결제 위젯 설치
+import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
 import './Proceedpayment.css';
 
 /* 결제위젯 연동 키 [테스트] */
@@ -90,7 +91,7 @@ function Proceedpayment() {
                     <p>패키지 여행: {params.row.packName}</p>
                     <p>예약한 날: {params.row.startDate}</p>
                     {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p>가격<ToggleCell value={params.row.price} /></p>
+                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
                     <p>숙박기간: {params.row.dateCnt}</p>
                     <p>예약한 인원: {params.row.count}</p>
                 </div>
@@ -210,7 +211,7 @@ function Proceedpayment() {
 
     return (
         <div className='pay-form'>
-            <h1> - 패키지 여행 결제 - </h1>
+            <h1 className='title'><AirplaneTicketOutlinedIcon fontSize='large' /> 패키지 여행 결제</h1>
             {/* 패키지 여행 결제 목록 스타일 */}
             <div className='pay-header'>
                 <DataGrid
@@ -223,7 +224,7 @@ function Proceedpayment() {
                     getRowHeight={params => 350} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
                 />
 
-                <div style={{ marginLeft: "20%", marginRight: "20%", marginBottom: "5%", marginTop: "5%" }}>
+                <div className='card' >
                     <label>
                         카드 번호:
                         <input type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
