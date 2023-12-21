@@ -9,7 +9,7 @@
     margin-bottom: 3%;
     margin-top: 3%;
     text-align: center;
-    background-color: white;
+    
 
 }
 /*헤더 제목 스타일*/
@@ -27,8 +27,8 @@
     margin-Right: 20%;
     margin-left: 20%;
     margin-Bottom: 1%;
-    background-color: white;
-    border: 1px solid;
+    background-color: rgb(248, 249, 250);
+    border: 1px solid rgb(248, 249, 250);
     text-Align: center;
     align-items: center;
 

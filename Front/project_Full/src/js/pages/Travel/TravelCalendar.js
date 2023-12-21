@@ -68,7 +68,7 @@ function TravelCalendar({ packNum }) {
             const date = moment(toolbar.date);
             return (
                 <div className='calendar-date'>
-                    <span className='calendar-font'>
+                    <span className='calendar-font' >
                         {date.format("YYYY")}
                     </span>
                     {" "}
@@ -82,7 +82,7 @@ function TravelCalendar({ packNum }) {
         /* ----------------------------------------------------------- */
 
         return (
-            <div className="rbc-toolbar">
+            <div className="rbc-toolbar" style={{backgroundColor: '#f8f9fa'}}>
                 <span className="rbc-btn-group">
                     <button className='calendar-button-font' type="button" onClick={goToBack}>
                         이전
@@ -122,8 +122,9 @@ function TravelCalendar({ packNum }) {
 
         // 매달 다른 색상을 지정합니다.
         const monthColors = [
-            "red", "orange", "skyblue", "green", "blue", "indigo", "violet",
-            "purple", "pink", "brown", "gray", "black",
+            // "red", "orange", "skyblue", "green", "blue", "indigo", "violet",
+            // "purple", "pink", "brown", "gray", "black",
+            "lightskyblue",
         ];
 
         // 모듈를 사용하여 매월 색상이 반복되도록 합니다.
@@ -160,7 +161,7 @@ function TravelCalendar({ packNum }) {
         /* 달력과 예약일 */
         <div>
              <div className='calendar'>
-                <Calendar
+                <Calendar 
                     // 현지 시간 양식을 가져온다.
                     localizer={localizer}
 
@@ -168,7 +169,8 @@ function TravelCalendar({ packNum }) {
                     events={events}
 
                     // 캘린더 몸통 스타일
-                    style={{ height: 800, width: "100%", backgroundColor: 'white' }}
+                    style={{ height: 800, width: "100%", backgroundColor: '#f8f9fa' }}
+                    
 
                     // toolbar:이전, 오늘, 다음 버튼과 년, 월 타이틀, event: 패키지 여행 이름과 날짜 정보
                     components={{ toolbar: CustomToolbar, event: customEventContent, }}
