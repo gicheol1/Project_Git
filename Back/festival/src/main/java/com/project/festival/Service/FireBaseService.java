@@ -27,7 +27,7 @@ public class FireBaseService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 이미지를 FireBase에 업로드하는 메서드
-    public FileDto uploadImage(
+    public void uploadImage(
     	String target,
 		MultipartFile file
     ) throws IOException {
@@ -56,23 +56,13 @@ public class FireBaseService {
         // FireBase Storage에 이미지 업로드
         bucket.create(sb.toString(), file.getBytes(), file.getContentType());
 
-        // 이미지 원본 다운로드
-        BlobId blobId = BlobId.of(BUCKET, sb.toString());
-        Blob blob = storage.get(blobId);
-        
-        // 원본과 이름을 반환하기 위한 객체
-        FileDto fd = new FileDto();
-        
-        fd.setImgFile(Base64.getEncoder().encodeToString(blob.getContent()));
-        fd.setFileName(fileName);
-
-        return fd;
+        return;
     }
     
 // ========== ========== ========== ========== ========== ========== ==========
 
     // 축제 이미지를 업로드
-    public FileFestivalDto uploadImageFestival(
+    public void uploadImageFestival(
 		MultipartFile file
     ) throws IOException {
     	
@@ -99,20 +89,12 @@ public class FireBaseService {
         // FireBase Storage에 이미지 업로드
         bucket.create(sb.toString(), file.getBytes(), file.getContentType());
 
-        // 이미지 원본 다운로드
-        BlobId blobId = BlobId.of(BUCKET, sb.toString());
-        Blob blob = storage.get(blobId);
-        
-        // 원본과 이름을 반환하기 위한 객체
-        FileFestivalDto fd = new FileFestivalDto();
-        
-        fd.setImgFile(Base64.getEncoder().encodeToString(blob.getContent()));
-        fd.setFileName(fileName);
-
-        return fd;
+        return;
     }
 	
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
     
 	// FireBase에서 이미지 파일을 받아옴
     public FileDto getImageFile(
@@ -180,7 +162,9 @@ public class FireBaseService {
         return fd;
     }
 	
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
     
 	// 이미지를 FireBase에서 삭제하는 메서드
     public void deleteImage(

@@ -2,7 +2,9 @@ package com.project.festival.Controller.board;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -137,9 +139,9 @@ public class BoardFileController {
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	// 첨부파일을 먼저 저장
-	@PostMapping("/setFile")
-	public ResponseEntity<?> setFile(
+	// 첨부하고자 하는 파일을 Base64로 인코딩
+	@PostMapping("/encodeFile")
+	public ResponseEntity<?> encodeFile(
 		@RequestParam String target, // 대상
 		@RequestBody MultipartFile[] files
 	){
@@ -150,8 +152,12 @@ public class BoardFileController {
 			for(MultipartFile file : files) {
 				
 				try { 
-					FileDto fd = storageService.uploadImage(target, file);
+					FileDto fd = new FileDto();
+					
+					fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
+					fd.setFileName(UUID.randomUUID().toString());
 					fd.setOrgName(file.getName().toString());
+					
 					fileDetail.add(fd);
 					
 				} catch (IOException e) { e.printStackTrace(); continue; }
