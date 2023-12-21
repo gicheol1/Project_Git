@@ -3,10 +3,8 @@ package com.project.festival.Service;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Blob;
@@ -14,8 +12,7 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import com.project.festival.Entity.board.FileDto;
-import com.project.festival.Entity.festival.FileFestivalDto;
+import com.project.festival.Dto.FileDto;
 
 @Service
 public class FireBaseService {
@@ -28,8 +25,7 @@ public class FireBaseService {
 
     // 이미지를 FireBase에 업로드하는 메서드
     public void uploadImage(
-    	String target,
-		MultipartFile file
+		FileDto dto
     ) throws IOException {
     	
         // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
@@ -44,50 +40,10 @@ public class FireBaseService {
             .getService();
         
         Bucket bucket = storage.get(BUCKET);
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append(target);
-        sb.append('/');
-
-        // 이미지 파일에 랜덤한 이름 부여
-        String fileName = UUID.randomUUID().toString();
-        sb.append(fileName);
 
         // FireBase Storage에 이미지 업로드
-        bucket.create(sb.toString(), file.getBytes(), file.getContentType());
-
-        return;
-    }
-    
-// ========== ========== ========== ========== ========== ========== ==========
-
-    // 축제 이미지를 업로드
-    public void uploadImageFestival(
-		MultipartFile file
-    ) throws IOException {
-    	
-        // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
-        FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-
-        // FireBase Storage 객체 생성
-        Storage storage = StorageOptions.newBuilder()
-            .setCredentials(credentials)
-            .setProjectId("festivalTest")
-            .build()
-            .getService();
-        
-        Bucket bucket = storage.get(BUCKET);
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("festival/");
-
-        // 이미지 파일에 랜덤한 이름 부여
-        String fileName = UUID.randomUUID().toString();
-        sb.append(fileName);
-
-        // FireBase Storage에 이미지 업로드
-        bucket.create(sb.toString(), file.getBytes(), file.getContentType());
+//      bucket.create(파일 이름, 원본 파일, 파일 타입);
+        bucket.create(dto.getFileName(), Base64.getDecoder().decode(dto.getImgFile()), dto.getContentType());
 
         return;
     }
@@ -97,8 +53,7 @@ public class FireBaseService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
     
 	// FireBase에서 이미지 파일을 받아옴
-    public FileDto getImageFile(
-    	String target,
+    public String getImageFile(
     	String fileName
 	) throws IOException {
         // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
@@ -111,94 +66,22 @@ public class FireBaseService {
                 .setProjectId("festivalTest")
                 .build()
                 .getService();
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append(target);
-        sb.append('/');
-        sb.append(fileName);
 
-        BlobId blobId = BlobId.of(BUCKET, sb.toString());
+        BlobId blobId = BlobId.of(BUCKET, fileName);
         Blob blob = storage.get(blobId);
-
-        // 원본과 이름 반환
-        FileDto fd = new FileDto();
         
-        fd.setImgFile(Base64.getEncoder().encodeToString(blob.getContent()));
-        fd.setFileName(fileName);
-        
-        return fd;
-    }
-    
-// ========== ========== ========== ========== ========== ========== ==========
-    
-	// 축제 이미지 파일 받아오기
-    public FileFestivalDto getImageFileFestival(
-    	String fileName
-	) throws IOException {
-        // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
-        FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-
-        // FireBase Storage 객체 생성
-        Storage storage = StorageOptions.newBuilder()
-                .setCredentials(credentials)
-                .setProjectId("festivalTest")
-                .build()
-                .getService();
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("festival/");
-        sb.append(fileName);
-
-        BlobId blobId = BlobId.of(BUCKET, sb.toString());
-        Blob blob = storage.get(blobId);
-
-        // 원본과 이름 반환
-        FileFestivalDto fd = new FileFestivalDto();
-        
-        fd.setImgFile(Base64.getEncoder().encodeToString(blob.getContent()));
-        fd.setFileName(fileName);
-        
-        return fd;
+        return Base64.getEncoder().encodeToString(blob.getContent());
     }
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
     
-	// 이미지를 FireBase에서 삭제하는 메서드
-    public void deleteImage(
-    	String target,
-		String fileName
-	) throws IOException {
-    	
-        // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
-        FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-
-        // FireBase Storage 객체 생성
-        Storage storage = StorageOptions.newBuilder()
-            .setCredentials(credentials)
-            .setProjectId("festivalTest")
-            .build()
-            .getService();
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append(target);
-        sb.append('/');
-        sb.append(fileName);
-
-        BlobId blobId = BlobId.of(BUCKET, sb.toString());
-
-        // FireBase Storage에서 해당 Blob 삭제
-        storage.delete(blobId);
-    }
-    
 // ========== ========== ========== ========== ========== ========== ==========
     
 	// 축제 이미지 삭제
-    public void deleteImageFestival(
-		String fileName
+    public void deleteImage(
+    	FileDto dto
 	) throws IOException {
     	
         // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
@@ -211,12 +94,8 @@ public class FireBaseService {
             .setProjectId("festivalTest")
             .build()
             .getService();
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("festival/");
-        sb.append(fileName);
 
-        BlobId blobId = BlobId.of(BUCKET, sb.toString());
+        BlobId blobId = BlobId.of(BUCKET, dto.getFileName());
 
         // FireBase Storage에서 해당 Blob 삭제
         storage.delete(blobId);
