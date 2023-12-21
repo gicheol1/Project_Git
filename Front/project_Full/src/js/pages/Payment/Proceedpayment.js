@@ -1,6 +1,6 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useRef, useState } from 'react';
-import { SERVER_URL } from 'js';
+import { SERVER_URL, ToggleCell } from 'js';
 import { useNavigate, useParams } from 'react-router';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // 결제 위젯 설치
 import './Proceedpayment.css';
@@ -15,20 +15,7 @@ function Proceedpayment() {
     const { resNum } = useParams(); // 패키지 여행 예약 번호 받아오기
     const [member, setMember] = useState([]); // 회원정보
     const [Packreservation, setPackreservation] = useState([]); // 패키지 여행 예약 목록 정보
-    const navigate = useNavigate(); // Navigate 객체에 접근 // 메인화면으로 보내준다.
-
-    /* 금액 표시 */
-    const formatPrice = (price) => {
-        //가격을 만원, 천원으로 분리
-        const unit = price >= 10000 ? '만' : '';
-        const mainPrice = Math.floor(price / (unit === '만' ? 10000 : 1000)); //만 단위로 표시하면 만 단위의 가격을 계산, 그 외에는 천 단위로 계산
-        const remainder = price % (unit === '만' ? 10000 : 1000); //remainder: 만 단위로 표시되면 가격을 1만으로 나눈 나머지를, 그렇지 않으면 1천으로 나눈 나머지를 계산
-
-        // 포맷된 문자열 생성
-        const formattedPrice = `${mainPrice}${unit}${remainder > 0 ? ` ${remainder}` : ''}원`; //가격 문자열
-
-        return formattedPrice;
-    };
+    const navigate = useNavigate(); // Navigate 객체에 접근 // 메인화면으로 보내
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 예약 목록 */
     useEffect(() => {
@@ -210,29 +197,6 @@ function Proceedpayment() {
     console.log(member.phonNum);
 
 
-    const [isKoreanFormat, setIsKoreanFormat] = useState(true);
-    const paymentAmount = paymentInfo.payamount;
-
-    /* 최종 결제 금액에 대한 '금액'과 '한국 통화 형식'변환*/
-    const handleToggleFormat = () => {
-        setIsKoreanFormat((prevFormat) => !prevFormat);
-    };
-
-    /*datagrid의 행의 금액에 대한 '금액'과 '한국 통화 형식'변환*/
-    const ToggleCell = ({ value }) => {
-        const [toggle, setToggle] = useState(false);
-
-        const handleClick = () => {
-            setToggle(!toggle);
-        };
-
-        return (
-            <div onClick={handleClick} style={{ cursor: 'pointer' }}>
-                {toggle ? value.toLocaleString() + `원` : formatPrice(value)}
-            </div>
-        );
-    };
-
     return (
         <div className='pay-form'>
             <h1> - 패키지 여행 결제 - </h1>
@@ -266,12 +230,10 @@ function Proceedpayment() {
                     ))}
                 </div> */}
 
-                {/* 금액(~원)을 클릭시 '금액'과 '한국 통화 형식'변환 */}
                 <div>
                     <h1>최종 결제 금액</h1>
-                    <h2 onClick={handleToggleFormat}>
-                        {isKoreanFormat ? formatPrice(paymentAmount) : `${paymentAmount.toLocaleString()} 원`}
-                    </h2>
+                    {/* 금액(~원)을 클릭시 '금액'과 '한국 통화 형식'변환 */}
+                    <h2><ToggleCell value={paymentInfo.payamount} /></h2>
                 </div>
 
                 {/* 결제 위젯을 화면에 출력 */}
