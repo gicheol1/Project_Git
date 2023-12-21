@@ -1,9 +1,9 @@
 .agree-container {
+  width: 500px;
   align-items: center;
 }
 
 textarea {
-  width: 500px;
   height: 200px;
   resize: none;
 }
@@ -13,6 +13,7 @@ textarea {
 }
 
 .agree-checkBoxs {
-  display: block;
+  display: flex;
+  flex: 1;
   align-items: center;
 }

@@ -1,5 +1,6 @@
 package com.project.festival.Service.TravalPack;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class PackReservationService {
 		PackReservation packReservation = modelMapper.map(packreservationDto, PackReservation.class);
 		packReservation.setPackNum(packNum);
 		packReservation.setMemId(memId);
+		packReservation.setStartDate(LocalDate.now()); // 테이블이 아닌 DTO를 사용하기 때문에 필요(이걸 제외시 현재날짜가 적용안됨) 
 		
 		return packReservationRepository.save(packReservation);
 	}

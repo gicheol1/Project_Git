@@ -12,12 +12,7 @@ export function useLogin() {
             body: JSON.stringify(credentials)
 
         }).then((res) => { // 전송 후
-            if (res.status === 404) {
-                return false;
-
-            } else if (!res.ok) {
-                throw new Error(res.status);
-            }
+            if (!res.ok) { throw new Error(res.status); }
 
             const jwtToken = res.headers.get('Authorization');
 
@@ -32,7 +27,7 @@ export function useLogin() {
 
         }).catch((err) => {
             console.error(err);
-
+            return false;
         });
     }, []);
 

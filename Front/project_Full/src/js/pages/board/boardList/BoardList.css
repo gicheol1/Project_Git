@@ -1,5 +1,9 @@
-.list-container {
+.tableContainer {
   margin-top: 20px;
+}
+
+.tableHead {
+  background-color: lightgray;
 }
 
 .btn {

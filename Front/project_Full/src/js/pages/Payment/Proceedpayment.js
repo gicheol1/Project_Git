@@ -1,6 +1,6 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useRef, useState } from 'react';
-import { SERVER_URL, ToggleCell } from 'js';
+import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
 import { useNavigate, useParams } from 'react-router';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // 결제 위젯 설치
 import './Proceedpayment.css';
@@ -16,6 +16,9 @@ function Proceedpayment() {
     const [member, setMember] = useState([]); // 회원정보
     const [Packreservation, setPackreservation] = useState([]); // 패키지 여행 예약 목록 정보
     const navigate = useNavigate(); // Navigate 객체에 접근 // 메인화면으로 보내
+
+    /* 부트스트렙을 이용한 모달 팝업창 동작 */
+    const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 예약 목록 */
     useEffect(() => {
@@ -61,10 +64,18 @@ function Proceedpayment() {
             renderCell: (params) => (
                 <div className="image-cell">
                     {/* 테스트용 이미지 */}
-                    <img class="custom-image"
+                    <img className="custom-image"
                         src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
                         alt="축제이미지"
+                        onClick={() => handleModalOpen(params.row.resNum)} // 모달 열기 함수 호출
+                    />
 
+                    {/* 부트 스트랩의 모달 폼 */}
+                    <ModalComponent
+                        showModal={modalOpenMap[params.row.resNum]}
+                        handleClose={() => handleModalClose(params.row.resNum)}
+                        selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
+                        params={params}
                     />
                 </div>
             ),

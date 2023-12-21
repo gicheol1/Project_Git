@@ -8,6 +8,7 @@ import { useBoardDetail } from "./useBoardDetail";
 import { useCheckLogin } from "js/useCheckLogin";
 
 import { Comment } from 'js';
+import { Label } from "@mui/icons-material";
 
 const BoardDetail = ({ isLogin }) => {
 
@@ -192,22 +193,27 @@ const BoardDetail = ({ isLogin }) => {
 
 			{/* ===== 댓글 ===== */}
 			<div className="board-comment">
-				<div className="board-recoTarget">
+				<div className="createComment">
 
 					{/* 답글 대상 표시 */}
 					{newComment.recoNum !== '' && (
-						<div className="recoTarget">
+						<div className="recomment">
+							<label>
+								답글 대상 :
+								<input
+									style={{ marginLeft: '10px' }}
+									type="text"
+									value={newComment.recoMemId}
+									readOnly
+								/>
+							</label>
 							<Button
+								style={{ marginBottom: '20px' }}
 								className="cancle-recomment"
 								onClick={cancleRecoTarget}
 							>
 								취소
 							</Button>
-							<input
-								type="text"
-								value={newComment.recoMemId}
-								readOnly
-							/>
 						</div>
 					)}
 
@@ -249,6 +255,7 @@ const BoardDetail = ({ isLogin }) => {
 
 							// 작성한 댓글
 							comment={comment}
+							boardMemId={board.memId}
 
 							// 답글 대상 삭제 여부
 							getRecoCommIsDeleted={getRecoCommIsDeleted}
