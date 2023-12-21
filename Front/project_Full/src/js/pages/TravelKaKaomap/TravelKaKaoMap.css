@@ -46,7 +46,7 @@
   margin-top:7px;
 }
 
-.show{
+/* .show{
   position: relative;
   margin-left:10%;
   margin-top:20px;
@@ -56,7 +56,7 @@
 .show > .공연{
   position: absolute;
   margin-top:7px;
-}
+} */
 
 .selectInput{
   position: relative;

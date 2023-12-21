@@ -163,7 +163,7 @@ function TravelReservation() {
                     <p>패키지번호: {params.row.packNum}</p>
                     <p>패키지이름: {params.row.name}</p>
                     {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p>[가격]<ToggleCell text="가격:" value={params.row.price} /></p>
+                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
                     <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
                     <p>최대인원: {params.row.count}</p>
                     <p>주소: {params.row.address}</p>
