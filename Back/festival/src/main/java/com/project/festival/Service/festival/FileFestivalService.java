@@ -2,11 +2,9 @@ package com.project.festival.Service.festival;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.project.festival.Entity.festival.FileFestival;
-import com.project.festival.Entity.festival.FileFestivalDto;
 import com.project.festival.Entity.festival.FileFestivalRepo;
 
 import lombok.RequiredArgsConstructor;
@@ -16,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class FileFestivalService {
 
 	private final FileFestivalRepo fileFestivalRepository;
-	
-	private final ModelMapper modelMapper;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

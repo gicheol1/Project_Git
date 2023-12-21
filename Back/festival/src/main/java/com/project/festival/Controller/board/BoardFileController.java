@@ -64,11 +64,11 @@ public class BoardFileController {
 		switch(target) {
 			case "free": 
 				
-				// 게시판 번호로 저장된 파일 가져오기
 				for(FileFree files : fileService.getFileFree(boardNum)) {
 					try {
 						FileDto fd = modelMapper.map(files, FileDto.class);
-						fd = storageService.getImageFile(fd);
+						fd.setImgFile(storageService.getImageFile(fd.getFileName()));
+						dto.add(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -79,7 +79,8 @@ public class BoardFileController {
 				for(FileNotic files : fileService.getFileNotic(boardNum)) {
 					try {
 						FileDto fd = modelMapper.map(files, FileDto.class);
-						fd = storageService.getImageFile(fd);
+						fd.setImgFile(storageService.getImageFile(fd.getFileName()));
+						dto.add(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -90,7 +91,8 @@ public class BoardFileController {
 				for(FilePromotion files : fileService.getFilePromotion(boardNum)) {
 					try {
 						FileDto fd = modelMapper.map(files, FileDto.class);
-						fd = storageService.getImageFile(fd);
+						fd.setImgFile(storageService.getImageFile(fd.getFileName()));
+						dto.add(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -101,7 +103,8 @@ public class BoardFileController {
 				for(FileEvent files : fileService.getFileEvent(boardNum)) {
 					try {
 						FileDto fd = modelMapper.map(files, FileDto.class);
-						fd = storageService.getImageFile(fd);
+						fd.setImgFile(storageService.getImageFile(fd.getFileName()));
+						dto.add(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -112,7 +115,7 @@ public class BoardFileController {
 				for(FileQA files : fileService.getFileQA(boardNum)) {
 					try {
 						FileDto fd = modelMapper.map(files, FileDto.class);
-						fd = storageService.getImageFile(fd);
+						fd.setImgFile(storageService.getImageFile(fd.getFileName()));
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -142,7 +145,7 @@ public class BoardFileController {
 				
 				StringBuilder sb = new StringBuilder();
 				
-				// 파일 위치(예: 'free/이미지 파일명')
+				// 저장될 파일 위치(예: 'free/이미지 파일명')
 				sb.append(target);
 				sb.append('/');
 				
@@ -305,10 +308,9 @@ public class BoardFileController {
 		String memId = claims.get("memId", String.class);
 		
 		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
-			return ResponseEntity.ok(false);
-		}
+		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
 		
+		// 파일 이름을 받기 위한 리스트
 		List<FileDto> fileDto = new ArrayList<>();
 		
 		switch(target) {
@@ -321,6 +323,8 @@ public class BoardFileController {
 					fileDto.add(fd);
 				}
 				
+				fileService.deleteAllFileFree(boardNum);
+				
 				break;
 				
 			case "notic": 
@@ -330,6 +334,8 @@ public class BoardFileController {
 					FileDto fd = modelMapper.map(file, FileDto.class);
 					fileDto.add(fd);
 				}
+				
+				fileService.deleteAllFileNotic(boardNum);
 				
 				break;
 				
@@ -341,6 +347,8 @@ public class BoardFileController {
 					fileDto.add(fd);
 				}
 				
+				fileService.deleteAllFilePromotion(boardNum);
+				
 				break;
 				
 			case "event": 
@@ -350,6 +358,8 @@ public class BoardFileController {
 					FileDto fd = modelMapper.map(file, FileDto.class);
 					fileDto.add(fd);
 				}
+				
+				fileService.deleteAllFileEvent(boardNum);
 				
 				break;
 				
@@ -361,16 +371,17 @@ public class BoardFileController {
 					fileDto.add(fd);
 				}
 				
+				fileService.deleteAllFileQA(boardNum);
+				
 				break;
 				
 			default:
 				return ResponseEntity.notFound().build();
 		}
 		
+		// FireBase의 이미지 삭제
 		for(FileDto fd : fileDto) {
-			try {
-				storageService.deleteImage(fd);
-			}
+			try { storageService.deleteImage(fd); }
 			catch (Exception e) {
 				e.printStackTrace();
 				continue;
