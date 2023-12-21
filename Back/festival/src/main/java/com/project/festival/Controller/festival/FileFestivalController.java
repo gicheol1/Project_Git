@@ -68,7 +68,6 @@ public class FileFestivalController {
 		
 		if(files != null && files.length != 0) {
 			for(MultipartFile file : files) {
-				
 				try { 
 					FileFestivalDto fd = storageService.uploadImageFestival(file);
 					fd.setOrgName(file.getName().toString());
