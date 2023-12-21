@@ -1,8 +1,8 @@
 
-const Name = ({ setNewUser }) => {
+const Name = ({ newUser, setNewUser }) => {
 
     const onChangeName = (e) => {
-        setNewUser({ name: e.target.value });
+        setNewUser({ ...newUser, name: e.target.value });
     }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====

@@ -65,13 +65,12 @@ public class FestivalController {
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	// 축제 추가
+	// 축제 추가 후 생성된 기본키 번호 전송
 	@PostMapping("/submitFeatival")
 	public ResponseEntity<?> submitFeatival(
 		@RequestBody FestivalDto festivalDto
 	) {
-		festivalService.setNewFeatival(festivalDto);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(festivalService.setNewFeatival(festivalDto));
 	}
 
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

@@ -39,5 +39,4 @@ public class FileFree {
 		this.fileName = fileName;
 		this.orgName = orgName;
 	}
-	
 }

@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useFestivalDetail } from "./useFestivalDetail";
 import { Button } from "@mui/material";
 
+import './FestivalDetail.css';
+
 const FestivalDetail = () => {
 
     const navigate = useNavigate();
@@ -12,12 +14,18 @@ const FestivalDetail = () => {
 
     // 축제 상세 정보
     const [detail, setDetail] = useState();
+    const [imgDetail, setImgDetail] = useState();
 
-    const { getFestivalDetail, deleteFestival } = useFestivalDetail();
+    const {
+        getFestivalDetail,
+        getFileFeatival,
 
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+        deleteFestival
+    } = useFestivalDetail();
+
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     useEffect(() => {
         getFestivalDetail(festivalNum).then(res => {
@@ -25,59 +33,90 @@ const FestivalDetail = () => {
             if (res === false) {
                 alert('데이터가 없습니다.');
                 navigate('/festivalList');
+                return;
             }
 
             setDetail(res);
+
+            getFileFeatival(festivalNum).then(res => {
+                setImgDetail(res);
+            })
         });
+
     }, [festivalNum]);
 
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
 
 
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     if (detail === undefined) {
         return <div>Loading...</div>
     } else {
         return (
-            <div>
+            <div style={{ width: '50vw' }}>
 
+                {/* 축제명, 등록일 / 수정,삭제 버튼 */}
                 <div style={{ display: 'flex' }}>
                     <div style={{ flex: '1' }}>
                         <p>축제명 : {detail.name}</p>
                         <p>등록일 : {detail.singDate}</p>
                     </div>
 
-                    <Button
-                        className="btn"
-                        variant="contained"
-                        onClick={() => navigate(`/festivals/${detail.festivalNum}`)}
-                    >
-                        수정하기
-                    </Button>
-                    <Button
-                        className="btn"
-                        variant="contained"
-                        color="error"
-                        onClick={() => deleteFestival()}
-                    >
-                        삭제하기
-                    </Button>
+                    <div>
+                        <Button
+                            className="btn"
+                            variant="contained"
+                            onClick={() => navigate(`/festivals/${detail.festivalNum}`)}
+                        >
+                            수정하기
+                        </Button>
+                        <Button
+                            className="btn"
+                            variant="contained"
+                            color="error"
+                            onClick={() => deleteFestival()}
+                        >
+                            삭제하기
+                        </Button>
+                    </div>
                 </div>
+
                 <hr />
+
+                {/* 이미지와 내용 */}
+                {imgDetail !== undefined && imgDetail.length !== 0 ?
+                    imgDetail.map((images, index) => (
+                        images.orgName !== undefined ?
+                            <img
+                                key={`image ${index}`}
+                                alt={`image ${images.orgName}`}
+                                src={`data:image/png;base64,${images.imgFile}`}
+                            />
+                            : <></>
+                    ))
+                    :
+                    <></>
+                }
                 <p>{detail.content}</p>
+
                 <hr />
+
+                {/* 축제 시작, 종료 날짜 */}
                 <div>
                     <p>시작 날짜 : {detail.startDate}</p>
                     <p>종료 날짜 : {detail.endDate}</p>
                     {detail.officialWebsite !== null && detail.officialWebsite !== '' && (<p>공식 사이트 : {detail.officialWebsite}</p>)}
                 </div>
+
                 <hr />
+
+                {/* 축제 태그, 지역 */}
                 <div>
                     <p>태그 : {detail.tag}</p>
                     <p>지역 : {detail.region}</p>

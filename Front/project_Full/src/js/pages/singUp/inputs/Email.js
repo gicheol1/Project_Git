@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SERVER_URL } from 'js';
 import { Button } from "@mui/material";
 
-const Email = ({ setNewUser }) => {
+const Email = ({ newUser, setNewUser }) => {
 
     // 이메일과 코드
     const [email, setEmail] = useState('');
@@ -86,7 +86,7 @@ const Email = ({ setNewUser }) => {
                 setMessageEmail('');
                 setMessageCode(' ----- 인증 성공 ----- ');
 
-                setNewUser({ email: email });
+                setNewUser({ ...newUser, email: email });
 
                 setDisableCode(true);
 

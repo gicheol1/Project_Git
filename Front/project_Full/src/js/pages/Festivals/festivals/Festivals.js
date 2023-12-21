@@ -1,5 +1,4 @@
-import { SERVER_URL } from 'js/component/constants';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 
 import './Festivals.css';
@@ -10,9 +9,11 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 const Festivals = () => {
 
 	const navigate = useNavigate();
+	const inputRef = useRef(null);
 
 	const { festivalNum } = useParams();
 
+	// 축제 정보
 	const [festival, setFestival] = useState({
 		name: '',
 		content: '',
@@ -24,10 +25,23 @@ const Festivals = () => {
 		region: ''
 	});
 
+	// 축제 이미지 파일
+	const [festivalImg, setFestivalImg] = useState();
+
 	const [btnEnable, setBtnEnable] = useState(false);
 
 	const open = useDaumPostcodePopup();
-	const { getFestival } = useFestivals();
+	const {
+		getFestival,
+		getFileFeatival,
+
+		setFileFestival,
+
+		submitFestival,
+		submitFileFestival,
+
+		deleteFileFestival
+	} = useFestivals();
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -36,6 +50,7 @@ const Festivals = () => {
 	useEffect(() => {
 		if (festivalNum !== undefined) {
 			getFestival(festivalNum).then(res => setFestival(res));
+			getFileFeatival(festivalNum).then(res => setFestivalImg(res));
 		}
 	}, [festivalNum])
 
@@ -63,7 +78,9 @@ const Festivals = () => {
 	}
 
 	// 추가 버튼 클릭시
-	const handleAdd = () => { return submitFestival(); };
+	const handleAdd = () => {
+		submitFestival(festival).then(num => submitFileFestival(festivalImg, num));
+	};
 
 	// 모든 데이터가 있는지 확인
 	const isFestivalComplete = () => {
@@ -76,35 +93,48 @@ const Festivals = () => {
 		return false; // 모든 필드가 채워져 있다면 버튼 활성화
 	};
 
+	const handleButtonClick = () => { inputRef.current.click(); };
+
+	// 파일 추가 및 저장
+	const handleFileChange = async (e) => {
+
+		const selectedFiles = e.target.files;
+		const imageFiles = [];
+
+		for (let i = 0; i < selectedFiles.length; i++) {
+			const file = selectedFiles[i];
+			const fileType = file.type.toLowerCase();
+
+			// 이미지 파일인지 확인 (이미지 파일 확장자: 'image/jpeg', 'image/png', 'image/gif', 등)
+			if (fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'image/gif') {
+				imageFiles.push(file);
+			}
+		}
+
+		setBtnEnable(true);
+		setFileFestival(imageFiles).then((res) => {
+			setFestivalImg(...festivalImg, res);
+			setBtnEnable(false);
+		})
+
+	};
+
+	// 선택한 파일 제거 함수
+	const handleCancel = (indexTarget) => {
+
+		const targetImg = festivalImg.find((images, index) => index === indexTarget)
+
+		setBtnEnable(true);
+		deleteFileFestival(targetImg).then(() => {
+			setBtnEnable(false);
+		});
+
+		setFestivalImg(festivalImg.filter((images, index) => index !== indexTarget));
+	}
+
 	const showData = () => {
 		console.log(festival);
 	}
-
-	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-
-	// 축제 추가
-	const submitFestival = async () => {
-		try {
-			const response = await fetch(SERVER_URL + 'submitFeatival', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(festival),
-			});
-
-			if (!response.ok) { throw new Error(response.status); }
-
-			alert('새 축제가 추가/수정 되었습니다.');
-
-			// 작업을 수행한 후 리스트 목록으로 이동
-			navigate('/festivalList');
-
-		} catch (error) {
-			console.error(error);
-			alert('축제 추가에 실패했습니다.');
-		}
-	};
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -237,6 +267,40 @@ const Festivals = () => {
 						<option value="부산">부산</option>
 						<option value="대구">대구</option>
 					</select>
+				</div>
+
+				<div className="board-div">
+					<Button onClick={handleButtonClick}>파일 추가</Button>
+					<input
+						type="file"
+						accept="image/*"
+						multiple
+						onChange={handleFileChange}
+						style={{ display: 'none' }}
+
+						// 해당 태그를 참조하는 변수 설정
+						ref={inputRef}
+					/>
+
+					{/* 첨부한 파일들을 표시 */}
+					{festivalImg !== undefined && (
+						festivalImg.map((image, index) => (
+							<div>
+								<img
+									key={`image ${index}`}
+									alt={`image ${image.orgName}`}
+									src={`data:image/png;base64,${image.imgFile}`}
+									style={{ width: '150px', height: '150px' }}
+								/>
+								<Button
+									key={index}
+									onClick={() => handleCancel(index)}
+								>
+									취소
+								</Button>
+							</div>
+						))
+					)}
 				</div>
 
 				<Button

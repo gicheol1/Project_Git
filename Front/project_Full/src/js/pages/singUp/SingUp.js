@@ -13,6 +13,8 @@ import Addr from "./inputs/Addr";
 import { Button } from "@mui/material";
 import { useSingUp } from "./useSingUp";
 
+import './SingUp.css';
+
 const SingUp = () => {
 
     const [newUser, setNewUser] = useState('');
@@ -35,21 +37,26 @@ const SingUp = () => {
         });
     }
 
+    const onShow = () => {
+        console.log(newUser);
+    }
+
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
         <div>
-            <MemId setNewUser={setNewUser} />
-            <PW setNewUser={setNewUser} />
-            <Name setNewUser={setNewUser} />
-            <PhonNum setNewUser={setNewUser} />
-            <Birth setNewUser={setNewUser} />
-            <Email setNewUser={setNewUser} />
-            <Addr setNewUser={setNewUser} />
+            <MemId newUser={newUser} setNewUser={setNewUser} />
+            <PW newUser={newUser} setNewUser={setNewUser} />
+            <Name newUser={newUser} setNewUser={setNewUser} />
+            <PhonNum newUser={newUser} setNewUser={setNewUser} />
+            <Birth newUser={newUser} setNewUser={setNewUser} />
+            <Email newUser={newUser} setNewUser={setNewUser} />
+            <Addr newUser={newUser} setNewUser={setNewUser} />
             <br />
             <Button onClick={onClickSginUp}>회원가입</Button>
+            <Button onClick={onShow}>데이터 확인</Button>
         </div>
     );
 }

@@ -1,0 +1,18 @@
+.agree-container {
+  align-items: center;
+}
+
+textarea {
+  width: 500px;
+  height: 200px;
+  resize: none;
+}
+
+.agree-title {
+  text-align: center;
+}
+
+.agree-checkBoxs {
+  display: block;
+  align-items: center;
+}

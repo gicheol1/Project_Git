@@ -16,7 +16,7 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
-const Addr = ({ setNewUser }) => {
+const Addr = ({ newUser, setNewUser }) => {
 
     // 우편번호와 도로/지번 주소를 저장하는 객체
     const [addrFull, setAddrFull] = useState({
@@ -42,7 +42,12 @@ const Addr = ({ setNewUser }) => {
             zCode: data.zonecode
         });
 
-        setNewUser(addrFull);
+        setNewUser({
+            ...newUser,
+            addrRoad: data.roadAddress,
+            addrJibun: data.jibunAddress,
+            addrCode: data.zonecode
+        });
     }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -51,9 +56,9 @@ const Addr = ({ setNewUser }) => {
 
     return (
         <div>
-            <p>
-                <input type='text' name='zonecode' placeholder='우편번호' value={addrFull.zCode} readOnly={true} />
-                <Button onClick={handlePopup}>우편번호 찾기</Button>
+            <p style={{ display: 'flex', alignItems: 'center' }}>
+                <input style={{ flex: '1' }} type='text' name='zonecode' placeholder='우편번호' value={addrFull.zCode} readOnly={true} />
+                <Button style={{ marginBottom: '15px' }} onClick={handlePopup}>우편번호 찾기</Button>
             </p>
             <p>
                 <input type='text' name='roadAddress' placeholder='도로명' value={addrFull.addrR} readOnly={true} />
