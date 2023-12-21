@@ -7,6 +7,7 @@ import LocalAirportIcon from '@mui/icons-material/LocalAirport';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import './TravelReservation.css';
+import { Button, Modal } from 'react-bootstrap';
 
 /* 여행 예약 기능 2번*/
 /* - 여행 패키지 예약 페이지(날짜와 상품갯수 선택) */
@@ -29,6 +30,26 @@ function TravelReservation() {
     /* ----------------------------------------------------------- */
 
     const { checkIsLogin } = useCheckLogin();
+
+    /* 부트스트렙을 이용한 모달 팝업창 적용하기 */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    // showModal: 모달을 보여줄지 여부를 결정하는 상태 변수
+    // setShowModal: 모달의 보이기/숨기기 상태를 설정하는 함수
+    const [showModal, setShowModal] = useState(false);
+
+    // selectedImage: 모달에 표시할 이미지의 URL을 저장하는 상태 변수
+    // setSelectedImage: 모달에 표시할 이미지 URL을 설정하는 함수
+    const [selectedImage, setSelectedImage] = useState('');
+
+    // handleImageClick: 이미지를 클릭했을 때 모달을 열기 위한 핸들러 함수
+    const handleImageClick = (imageUrl) => {
+        setSelectedImage(imageUrl); // 선택한 이미지 URL 설정
+        setShowModal(true); // 모달 보이기
+    };
+
+    // handleClose: 모달을 닫기 위한 핸들러 함수
+    const handleClose = () => setShowModal(false); // 모달 숨기기
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* <벡엔드에서 설정한 패키지여행 DB(데이터베이스) 연결> */
     /* ----------------------------------------------------------- */
@@ -166,7 +187,50 @@ function TravelReservation() {
                     <img class="custom-image"
                         src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
                         alt="축제이미지"
+                        onClick={() =>
+                            handleImageClick(
+                                'https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004'
+                            )
+                        }
                     />
+
+                    {/* 부트 스트랩을 이용한 모달창(팝업창) */}
+                    <Modal show={showModal} onHide={handleClose} className="custom-modal-dialog modal-lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title>
+                                <p>패키지번호: {params.row.packNum}</p>
+                                <p>패키지 이름: {params.row.name}</p>
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body >
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <img
+                                    className="modal-image"
+                                    src={selectedImage}
+                                    alt="모달 이미지"
+                                    style={{ width: '400px' }} // 이미지 크기 조절
+                                />
+                                <div style={{ marginLeft: '20px' }}>
+                                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
+                                    <p>[가격]<ToggleCell text="가격:" value={params.row.price} /></p>
+                                    <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
+                                    <p>등록일: {params.row.singupDate}</p>
+                                    <p>최대인원: {params.row.count}</p>
+                                    <p>흡연실(금연실): {params.row.smoke}</p>
+                                    <p>주소: {params.row.address}</p>
+                                    <p>상세내용: {params.row.text}</p>
+                                    <p>몇 인실: {params.row.person}</p>
+                                    <p>예약 가능한 상태: {params.row.reservation}</p>
+                                </div>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                닫기
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
                 </div>
             ),
         },
@@ -179,7 +243,7 @@ function TravelReservation() {
                     <p>패키지번호: {params.row.packNum}</p>
                     <p>패키지이름: {params.row.name}</p>
                     {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p>가격:<ToggleCell text="가격:" value={params.row.price} /></p>
+                    <p>[가격]<ToggleCell text="가격:" value={params.row.price} /></p>
                     <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
                     <p>최대인원: {params.row.count}</p>
                     <p>주소: {params.row.address}</p>
@@ -190,7 +254,7 @@ function TravelReservation() {
                 </div>
             ),
         },
-       
+
     ];
     /* ----------------------------------------------------------- */
 
@@ -232,13 +296,13 @@ function TravelReservation() {
                 <TravelPackMap packNum={packNum} />
             </div>
 
-             {/* 여행 예약 정보 입력 */}
-             <div className='inform'>
+            {/* 여행 예약 정보 입력 */}
+            <div className='inform'>
                 {/* count 입력 폼 */}
                 <div className='box'>
                     <label>
-                    <PersonAddIcon />
-                    <span className='inform-font'> 인원 선택 : </span>
+                        <PersonAddIcon />
+                        <span className='inform-font'> 인원 선택 : </span>
                         <input className='count'
                             type="number"
                             name="count"
@@ -246,8 +310,8 @@ function TravelReservation() {
                             onChange={handleInputChange}
                         />
                         {/* dateCnt 입력 폼 */}
-                    <ConnectingAirportsIcon fontSize='large'/> 
-                    <span className='inform-font'> 패키지 여행기간 :</span>
+                        <ConnectingAirportsIcon fontSize='large' />
+                        <span className='inform-font'> 패키지 여행기간 :</span>
                         <input className='date'
                             type="text"
                             name="dateCnt"
@@ -277,3 +341,4 @@ export default TravelReservation;
 /* 참고: https://m.blog.naver.com/PostView.naver?blogId=loveyou_a_a&logNo=222828107745&categoryNo=60&proxyReferer= */
 /* 참고: https://stackoverflow.com/questions/72774211/getrowid-from-material-ui-datagrid-doesnt-work */
 /* 참고: https://velog.io/@fearofcod/React-Big-Calendar */
+/* 참고: chat Gpt */ 

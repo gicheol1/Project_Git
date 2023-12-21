@@ -1,23 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
-.column-header{
+.column-header {
     font-family: 'Cute Font', sans-serif;
     font-size: 20px;
     display: flex;
-    align-items: center; 
-    justify-content: center; 
-  
+    align-items: center;
+    justify-content: center;
+
 }
 
 .traval-reservation-container {
-    
+
     margin-left: 0%;
     margin-right: 0%;
     margin-bottom: 3%;
     margin-top: 5%;
     text-align: center;
     background-color: white;
-    
+
 }
 
 .traval-reservation-header {
@@ -27,7 +27,7 @@
 }
 
 
-  
+
 .MuiDataGrid-cell {
     font-family: 'Nanum Pen Script', cursive;
     font-size: 20px;
@@ -39,7 +39,7 @@
     margin-bottom: 3%;
 }
 
-.stackContainer{
+.stackContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,8 +51,8 @@
     font-size: 27px;
 }
 
-.inform{
-    
+.inform {
+
     margin-Right: 20%;
     margin-left: 20%;
     margin-Bottom: 1%;
@@ -63,7 +63,7 @@
 
 }
 
-.box{
+.box {
     margin-top: 40px;
 }
 
@@ -89,11 +89,11 @@
     font-size: 20px;
 }
 
-.reserve-button{
+.reserve-button {
     margin-bottom: 20px;
 }
 
-.reserve-button-font{
+.reserve-button-font {
     font-family: 'Nanum Pen Script', cursive;
     font-size: 20px;
 }
@@ -102,7 +102,7 @@
     font-family: 'Material Symbols Outlined', sans-serif;
 }
 
-.icon-rotation{
+.icon-rotation {
     transform: rotate(45deg);
     color: skyblue;
 }
@@ -116,3 +116,15 @@
 .hideHeaders .MuiDataGrid-virtualScroller {
     margin-top: 0 !important;
 }
+
+/* 부트스트렙의 모달 스타일 */
+.custom-modal-dialog {
+    /* 정중앙으로 오게하거나 완전 투명색은 안먹히는 현상 */
+    /* background-color: rgba(255, 0, 0, 0.3);  */
+    /* 배경색을 원하는 색상으로 변경(확인용) */
+}
+
+.custom-modal-dialog .modal-content {
+    /* .modal-content 모달의 클래스 종류로 이 클래스를 이용하면 원하는 부위에 원하는 색깔을 넣을수 있다. */
+    background-color: #f0f0f0; /* 원하는 배경색으로 변경 */
+  }
