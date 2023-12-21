@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Nanum+Pen+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=East+Sea+Dokdo&family=Gaegu:wght@300&family=Nanum+Pen+Script&display=swap');
 
-
+/*달력 년,월 스타일*/
 .calendar-date{
     text-Align: center;
     font-Size: 20px;
@@ -13,14 +13,14 @@
     font-size: 45px;
     margin-right: 10%;
 }
-
+/*달력 버튼 스타일*/
 .calendar-button-font{
  
     font-family: 'Gaegu', sans-serif;
     font-size: 20px;
     font-weight: bold;
 }
-
+/*달력 전체 스타일*/
 .calendar {
     margin-Right: 0px;
     margin-Left: 0px; 

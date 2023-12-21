@@ -104,7 +104,7 @@ function Reservationlist() {
             renderCell: row =>
                 <Link to={`/payment/${row.row.resNum}`}>
                     <Button>
-                        결제하기
+                    <h1 className='pay-button'>결제하기</h1>   
                     </Button>
                 </Link>
             ,

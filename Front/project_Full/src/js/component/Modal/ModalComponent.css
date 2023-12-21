@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+
+
+.Modal{
+    background: linear-gradient(to right,#D2FEFF, #F6BEE5);
+    margin-Left: 20px;
+    display: flex;
+    align-Items: center;
+}
+
+.Modal-inform{
+   margin-Left: 50px;
+   font-family: 'Nanum Pen Script', cursive;
+   font-size: 20px;
+}
+
+.Modal-button{
+    font-family: 'Cute Font', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    
+}
+
+.Modal-title{
+    font-family: 'Cute Font', sans-serif;
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.modal-image{
+    margin-left: 30px;
+    width: 300px;
+}

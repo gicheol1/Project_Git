@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { ToggleCell } from 'js';
-
+import './ModalComponent.css';
 /* 부트 스트랩 모달 출력 */
 /*  params은 fetch(SERVER_URL + `travalpack/${packNum}`) 또는 fetch(SERVER_URL + "travalpackAll", { method: 'GET' })API의 
     전체값을 받으면 보내진 값을 row.DB값을 입력해 세부적으로 출력한다 */
@@ -16,13 +16,13 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
             <Modal.Header closeButton>
                 <Modal.Title>
                     {isResNum ? (
-                        <div>
+                        <div className='Modal-title'>
                             <p>예약번호: {params.row.resNum}</p>
                             <p>패키지번호: {params.row.packNum}</p>
                             <p>패키지 이름: {params.row.packName}</p>
                         </div>
                     ) : (
-                        <div>
+                        <div className='Modal-title'>
                             <p>패키지번호: {params.row.packNum}</p>
                             <p>패키지 이름: {params.row.name}</p>
                         </div>
@@ -31,14 +31,14 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
             </Modal.Header>
             <Modal.Body>
                 {isResNum ? (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className='Modal'>
                         <img
                             className="modal-image"
                             src={selectedImage}
                             alt="모달 이미지"
-                            style={{ width: '400px' }} // 이미지 크기 조절
+                          
                         />
-                        <div style={{ marginLeft: '20px' }}>
+                        <div className='Modal-inform'>
                             {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
                             <p>예약한 회원: {params.row.memId}</p>
                             <p>예약일: {params.row.startDate}</p>
@@ -48,16 +48,16 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className='Modal'>
                         <img
                             className="modal-image"
                             src={selectedImage}
                             alt="모달 이미지"
-                            style={{ width: '400px' }} // 이미지 크기 조절
+                            
                         />
-                        <div style={{ marginLeft: '20px' }}>
+                        <div className='Modal-inform'>
                             {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                            <p>[가격]<ToggleCell text="가격:" value={params.row.price} /></p>
+                            <p style={{display: 'flex'}}>가격: <ToggleCell text="가격:" value={params.row.price} /></p>
                             <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
                             <p>등록일: {params.row.singupDate}</p>
                             <p>최대인원: {params.row.count}</p>
@@ -72,7 +72,7 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    닫기
+                <h1 className='Modal-button'>닫기</h1>    
                 </Button>
             </Modal.Footer>
         </Modal>

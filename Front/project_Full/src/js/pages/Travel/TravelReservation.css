@@ -1,25 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
-.column-header {
-    font-family: 'Cute Font', sans-serif;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
-}
-
+/*데이터그리드 스타일*/
 .traval-reservation-container {
 
     margin-left: 0%;
     margin-right: 0%;
     margin-bottom: 3%;
-    margin-top: 5%;
+    margin-top: 3%;
     text-align: center;
     background-color: white;
 
 }
-
+/*헤더 제목 스타일*/
 .traval-reservation-header {
     font-family: 'Cute Font', sans-serif;
     font-size: 54px;
@@ -28,29 +21,7 @@
 
 
 
-.MuiDataGrid-cell {
-    font-family: 'Nanum Pen Script', cursive;
-    font-size: 20px;
-}
-
-.reserve-button-container {
-    font-size: 25px;
-    color: #333;
-    margin-bottom: 3%;
-}
-
-.stackContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10%;
-}
-
-.button-font {
-    font-family: 'Cute Font', sans-serif;
-    font-size: 27px;
-}
-
+/*인원선택, 패키지여행기간 정보 폼 스타일*/
 .inform {
 
     margin-Right: 20%;
@@ -88,7 +59,7 @@
     font-family: 'Nanum Pen Script', cursive;
     font-size: 20px;
 }
-
+/*여행 예약하기 버튼 스타일*/
 .reserve-button {
     margin-bottom: 20px;
 }
@@ -98,10 +69,8 @@
     font-size: 20px;
 }
 
-.material-icon {
-    font-family: 'Material Symbols Outlined', sans-serif;
-}
 
+/*헤더 제목 옆 아이콘 스타일*/
 .icon-rotation {
     transform: rotate(45deg);
     color: skyblue;

@@ -29,8 +29,8 @@ public class LoginService {
     // 로그인 시 토큰 생성 및 전달
     public String logInToken(AccountCredentials credentials) {
     	
-    	String _memId = credentials.getMemId();
-    	String _pw = credentials.getPw();
+    	String _memId=credentials.getMemId();
+    	String _pw=credentials.getMemId();
     	
         Optional<User> _user = userRepository.findById(_memId);
         
