@@ -15,68 +15,110 @@
 
 .cam{
   position: relative;
-  margin-left:-20;
+  margin-left:15%;
   margin-top:20px;
   float: left;
+  font-size: 15px;
 }
 .cam > .캠핑{
   position: absolute;
-  margin-top:7px;
+  margin-left: 0px;
+  height: 15px;
+  margin-top:4px;
+  accent-color: skyblue;
 }
 .cul{
   position: relative;
-  margin-left:10%;
-  margin-top:20px;
+  margin-left:5%;
+  margin-top:19px;
   float: left;
 }
 
 .cul > .문화{
   position:absolute;
-  margin-top:7px;
+  margin-left: 0px;
+  height: 15px;
+  margin-top:4px;
+  accent-color: skyblue;
 }
 
 .fes{
   position: relative;
-  margin-left:10%;
-  margin-top:20px;
+  margin-left:5%;
+  margin-top:19px;
   float: left;
 }
 .fes > .축제{
   position: absolute;
-  margin-top:7px;
+  margin-left: 0px;
+  height: 15px;
+  margin-top:4px;
+  accent-color: skyblue;
 }
 
+<<<<<<< HEAD
 /* .show{
+=======
+.mapshow{
+>>>>>>> da50e0e3af9fca4d235d27007cbe28b348a19a5c
   position: relative;
-  margin-left:10%;
-  margin-top:20px;
+  margin-left:5%;
+  margin-top:19px;
   float: left;
 }
 
-.show > .공연{
+.mapshow > .공연행사{
   position: absolute;
+<<<<<<< HEAD
   margin-top:7px;
 } */
+=======
+  margin-left: -15px;
+  height: 15px;
+  margin-top:4px;
+  accent-color: skyblue;
+}
+>>>>>>> da50e0e3af9fca4d235d27007cbe28b348a19a5c
 
 .selectInput{
   position: relative;
-  margin-left:80%;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  font-style: normal;
+border-radius: 5px;
+padding: 0px 20px;
+line-height: 12px;
+  margin-left:70%;
   margin-top:-25px;
   float: left;
+  
 }
+
 
 .Search{
   margin-top: 20px;
-  margin-right: 38px;
+  margin-right: 14%;
   float: right;
+  background-color:blue;
 }
 
 .Text{
+  margin-left:10%;
   margin-top: 20px; 
-  width:85%;
+  width:70%;
+  border: 1px solid #C4C4C4;
+  border-radius: 5px;
 }
 
 .mapBtn{
   
   margin-left: 45%;
+  background-color:blue;
+}
+
+.selectInputName{
+  position: absolute;
+  float: left;
+  margin-top: 18px;
+  margin-left:63%;
 }

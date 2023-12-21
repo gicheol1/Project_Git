@@ -21,12 +21,12 @@ const Festivals = () => {
 		startDate: '',
 		endDate: '',
 		officialWebsite: '',
-		tags: '',
+		tag: '',
 		region: ''
 	});
 
 	// 축제 이미지 파일
-	const [festivalImg, setFestivalImg] = useState();
+	const [festivalImg, setFestivalImg] = useState([]);
 
 	const [btnEnable, setBtnEnable] = useState(false);
 
@@ -114,7 +114,7 @@ const Festivals = () => {
 		setBtnEnable(true);
 		setFileFestival(imageFiles).then((res) => {
 			setFestivalImg(...festivalImg, res);
-			setBtnEnable(false);
+			setBtnEnable(isFestivalComplete());
 		})
 
 	};
@@ -126,7 +126,7 @@ const Festivals = () => {
 
 		setBtnEnable(true);
 		deleteFileFestival(targetImg).then(() => {
-			setBtnEnable(false);
+			setBtnEnable(isFestivalComplete());
 		});
 
 		setFestivalImg(festivalImg.filter((images, index) => index !== indexTarget));
@@ -274,9 +274,9 @@ const Festivals = () => {
 					/>
 
 					{/* 첨부한 파일들을 표시 */}
-					{festivalImg !== undefined && (
+					{(festivalImg !== undefined && festivalImg.length !== 0) && (
 						festivalImg.map((image, index) => (
-							<div>
+							<div style={{ display: 'flex' }}>
 								<img
 									key={`image ${index}`}
 									alt={`image ${image.orgName}`}

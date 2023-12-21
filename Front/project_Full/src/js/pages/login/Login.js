@@ -23,12 +23,16 @@ const Login = ({ setIsLogin }) => {
     // 로그인 버튼 클릭시
     const onClickHandle = () => {
 
-        if (login(account)) {
-            setIsLogin(true);
-            navigate('/', { replace: true });
-        } else {
-            setIsLogin(false);
-        }
+        login(account).then(res => {
+            if (res) {
+                setIsLogin(true);
+                navigate('/', { replace: true });
+            } else {
+                alert('아이니다 빌번호를 다시 입력하세요');
+                setIsLogin(false);
+            }
+        })
+
 
     };
 
