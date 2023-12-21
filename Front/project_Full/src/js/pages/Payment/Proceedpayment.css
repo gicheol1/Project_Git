@@ -1,23 +1,39 @@
-.pay-form {
-    margin-Top: 2%;
-    text-Align: center;
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+
+/*결제 헤더*/
+.pay-header{
+    margin-top: 3%;
+    text-align: center;
+    font-family: 'Cute Font', sans-serif;
+    font-size: 20px;
+    color: #333;
+}
+/*결제 제목*/
+.title{
+    font-family: 'Cute Font', sans-serif;
+    font-size: 54px;
+    color: #333;
+    text-align: center;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+/*카드번호*/
+.card{
+    font-family: 'Cute Font', sans-serif;
+    font-size: 27px;
+    margin-Left: 20%;
+    margin-Right: 20%;
+    margin-Bottom: 5%;
+    margin-Top: 5%; 
+    border: none;
 }
 
-.pay-header {
-    margin-Left: 0%;
-    margin-Right: 0%;
-    margin-Bottom: 1%;
-    margin-Top: 2%;
-    background-Color: white;
-    /* border: 1px solid; */
+.inform2{
+    position: relative;
 }
 
-/* 데이터 그리드의 컬럼헤더 숨기기 */
-.hideHeaders .MuiDataGrid-columnHeaders,
-.hideHeaders .MuiDataGrid-columnHeader {
-    display: none;
-}
-
-.hideHeaders .MuiDataGrid-virtualScroller {
-    margin-top: 0 !important;
+.inform3{
+    margin-top:-45px;
+    margin-left:40px;
+    position: absolute;
 }

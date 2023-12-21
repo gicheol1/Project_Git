@@ -43,11 +43,8 @@ public class LoginController {
 		// 회원 등록 여부 확인 후 토큰 전달
 		String jwts = loginService.logInToken(credentials);
 		
-		System.out.print(jwts);
-		System.out.print("jwts.equals(\"Failed\")"+jwts.equals("Failed"));
-		
 		// 없거나 일치하지 않은 경우
-		if(jwts == null || jwts.equals("Failed")) {
+		if(jwts != null && jwts.equals("Failed")) {
 			return ResponseEntity.notFound().build();
 		}
 		

@@ -6,7 +6,7 @@ import { SERVER_URL, ToggleCell } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
 
 import LuggageIcon from '@mui/icons-material/Luggage';
-import { Pagination, Stack } from '@mui/material';
+import { Button, Pagination, Stack } from '@mui/material';
 import { ModalComponent } from 'js';
 import './TravelPackList.css'; // CSS 파일을 임포트
 import { ModalFunction } from 'js';
@@ -32,6 +32,8 @@ function TravelPackList() {
     const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
+    
+
     // 페이지네이션 함수
     const getRows = () => {
         const startIndex = (page - 1) * rowsPerPage;
@@ -42,6 +44,7 @@ function TravelPackList() {
     /* 부트 스트랩 팝업창 기능 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
     /* ----------------------------------------------------------- */
+
 
     useEffect(() => {
         // - 패키지여행 
@@ -95,7 +98,7 @@ function TravelPackList() {
                 <div className="travelinformation">
                     <p>{params.row.name}</p>
                     {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p>가격<ToggleCell value={params.row.price} /></p>
+                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
                     <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
                     <p>최대인원: {params.row.count}</p>
                     <p>흡연실(금연실): {params.row.smoke}</p>
@@ -108,9 +111,9 @@ function TravelPackList() {
             field: 'packreservation',
             headerName: '예약하기',
             renderCell: row =>
-                <div>
-                    <button className="button-hover" onClick={() => { handleCellClick(row.row.packNum) }}>예약하기</button>
-                </div>
+                // <div>
+                    <Button onClick={() => { handleCellClick(row.row.packNum) }}><h1 className='button-font'>예약하기</h1></Button>
+                // </div>
             ,
             width: 110,
         }

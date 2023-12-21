@@ -79,6 +79,7 @@ public class FileFestivalController {
 			sb.append(UUID.randomUUID().toString());
 			
 			for(MultipartFile file : files) {
+				
 				try { 
 					FileFestivalDto fd = storageService.uploadImageFestival(file);
 					
