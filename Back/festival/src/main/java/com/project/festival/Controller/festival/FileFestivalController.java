@@ -2,7 +2,9 @@ package com.project.festival.Controller.festival;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -67,12 +69,24 @@ public class FileFestivalController {
 		List<FileFestivalDto> fileDetail = new ArrayList<>();
 		
 		if(files != null && files.length != 0) {
+			
+			StringBuilder sb = new StringBuilder();
+			
+			// 파일 위치(예: 'festival/이미지 파일명')
+			sb.append("festival/");
+			
+			// 랜덤한 파일 이름(실제 저장될 이름)
+			sb.append(UUID.randomUUID().toString());
+			
 			for(MultipartFile file : files) {
 				
 				try { 
 					FileFestivalDto fd = storageService.uploadImageFestival(file);
-					fd.setOrgName(file.getName().toString());
-					fileDetail.add(fd);
+					
+					fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
+					fd.setContentType(file.getContentType());
+					fd.setFileName(sb.toString());
+					fd.setOrgName(file.getName());
 					
 				} catch (IOException e) { e.printStackTrace(); continue; }
 			}

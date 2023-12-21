@@ -6,6 +6,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.festival.Entity.board.FileDto;
+import com.project.festival.Dto.FileDto;
 import com.project.festival.Entity.board.File.FileEvent;
 import com.project.festival.Entity.board.File.FileFree;
 import com.project.festival.Entity.board.File.FileNotic;
@@ -46,6 +47,9 @@ public class BoardFileController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 첨부파일 가져오기
@@ -55,7 +59,7 @@ public class BoardFileController {
 		@RequestParam Long boardNum // 번호
 	){
 		
-		List<FileDto> fileDetail = new ArrayList<>();
+		List<FileDto> dto = new ArrayList<>();
 		
 		switch(target) {
 			case "free": 
@@ -63,11 +67,8 @@ public class BoardFileController {
 				// 게시판 번호로 저장된 파일 가져오기
 				for(FileFree files : fileService.getFileFree(boardNum)) {
 					try {
-						
-						FileDto fd = storageService.getImageFile(target, files.getFileName());
-						fd.setOrgName(files.getOrgName());
-						
-						fileDetail.add(fd);
+						FileDto fd = modelMapper.map(files, FileDto.class);
+						fd = storageService.getImageFile(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -77,11 +78,8 @@ public class BoardFileController {
 			case "notic": 
 				for(FileNotic files : fileService.getFileNotic(boardNum)) {
 					try {
-						
-						FileDto fd = storageService.getImageFile(target, files.getFileName());
-						fd.setOrgName(files.getOrgName());
-						
-						fileDetail.add(fd);
+						FileDto fd = modelMapper.map(files, FileDto.class);
+						fd = storageService.getImageFile(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -91,11 +89,8 @@ public class BoardFileController {
 			case "promotion": 
 				for(FilePromotion files : fileService.getFilePromotion(boardNum)) {
 					try {
-						
-						FileDto fd = storageService.getImageFile(target, files.getFileName());
-						fd.setOrgName(files.getOrgName());
-						
-						fileDetail.add(fd);
+						FileDto fd = modelMapper.map(files, FileDto.class);
+						fd = storageService.getImageFile(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -105,11 +100,8 @@ public class BoardFileController {
 			case "event": 
 				for(FileEvent files : fileService.getFileEvent(boardNum)) {
 					try {
-						
-						FileDto fd = storageService.getImageFile(target, files.getFileName());
-						fd.setOrgName(files.getOrgName());
-						
-						fileDetail.add(fd);
+						FileDto fd = modelMapper.map(files, FileDto.class);
+						fd = storageService.getImageFile(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -119,11 +111,8 @@ public class BoardFileController {
 			case "qa": 
 				for(FileQA files : fileService.getFileQA(boardNum)) {
 					try {
-						
-						FileDto fd = storageService.getImageFile(target, files.getFileName());
-						fd.setOrgName(files.getOrgName());
-						
-						fileDetail.add(fd);
+						FileDto fd = modelMapper.map(files, FileDto.class);
+						fd = storageService.getImageFile(fd);
 						
 					} catch (IOException e) { e.printStackTrace(); continue; }
 				}
@@ -134,7 +123,7 @@ public class BoardFileController {
 				return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(fileDetail);
+		return ResponseEntity.ok(dto);
 	}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -146,33 +135,43 @@ public class BoardFileController {
 		@RequestBody MultipartFile[] files
 	){
 		
-		List<FileDto> fileDetail = new ArrayList<>();
+		List<FileDto> dto = new ArrayList<>();
 		
 		if(files != null && files.length != 0) {
 			for(MultipartFile file : files) {
+				
+				StringBuilder sb = new StringBuilder();
+				
+				// 파일 위치(예: 'free/이미지 파일명')
+				sb.append(target);
+				sb.append('/');
+				
+				// 랜덤한 파일 이름(실제 저장될 이름)
+				sb.append(UUID.randomUUID().toString());
 				
 				try { 
 					FileDto fd = new FileDto();
 					
 					fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
-					fd.setFileName(UUID.randomUUID().toString());
-					fd.setOrgName(file.getName().toString());
+					fd.setContentType(file.getContentType());
+					fd.setFileName(sb.toString());
+					fd.setOrgName(file.getName());
 					
-					fileDetail.add(fd);
+					dto.add(fd);
 					
 				} catch (IOException e) { e.printStackTrace(); continue; }
 			}
 		}
 
-		return ResponseEntity.ok(fileDetail);
+		return ResponseEntity.ok(dto);
 	}
 	
-	// 게시판 저장시 첨부한 파일을 DB에 등록
+	// 첨부한 파일을 FireBase에 업로드하고 DB에 등록
 	@PostMapping("/submitFile")
 	public ResponseEntity<?> submitFile(
-		@RequestParam String target, // 대상
-		@RequestParam Long boardNum, // 번호
-		@RequestBody List<FileDto> fileDetail
+		@RequestParam String target, // 게시판 종류
+		@RequestParam Long boardNum, // 게시판 번호
+		@RequestBody List<FileDto> dto
 	){
 		
 		switch(target) {
@@ -181,12 +180,13 @@ public class BoardFileController {
 				// 이전에 저장된 DB는 제거
 				fileService.deleteAllFileFree(boardNum);
 				
-				for(FileDto fd : fileDetail) {
-					FileFree fileFree = new FileFree(
-						boardNum,
-						fd.getFileName(),
-						fd.getOrgName()
-					);
+				for(FileDto fd : dto) {
+					
+					try { storageService.uploadImage(fd); }
+					catch(Exception e) { e.printStackTrace(); continue; }
+					
+					FileFree fileFree = modelMapper.map(dto, FileFree.class);
+					fileFree.setBoardNum(boardNum);
 					
 					fileService.setFileFree(fileFree);
 				}
@@ -197,7 +197,11 @@ public class BoardFileController {
 				
 				fileService.deleteAllFileNotic(boardNum);
 				
-				for(FileDto fd : fileDetail) {
+				for(FileDto fd : dto) {
+					
+					try { storageService.uploadImage(fd); }
+					catch(Exception e) { e.printStackTrace(); continue; }
+					
 					FileNotic fileNotic = new FileNotic(
 						boardNum,
 						fd.getFileName(),
@@ -213,7 +217,11 @@ public class BoardFileController {
 				
 				fileService.deleteAllFilePromotion(boardNum);
 				
-				for(FileDto fd : fileDetail) {
+				for(FileDto fd : dto) {
+					
+					try { storageService.uploadImage(fd); }
+					catch(Exception e) { e.printStackTrace(); continue; }
+					
 					FilePromotion filePromotion = new FilePromotion(
 						boardNum,
 						fd.getFileName(),
@@ -229,7 +237,11 @@ public class BoardFileController {
 				
 				fileService.deleteAllFileEvent(boardNum);
 				
-				for(FileDto fd : fileDetail) {
+				for(FileDto fd : dto) {
+					
+					try { storageService.uploadImage(fd); }
+					catch(Exception e) { e.printStackTrace(); continue; }
+					
 					FileEvent fileEvent = new FileEvent(
 						boardNum,
 						fd.getFileName(),
@@ -245,7 +257,11 @@ public class BoardFileController {
 				
 				fileService.deleteAllFileQA(boardNum);
 				
-				for(FileDto fd : fileDetail) {
+				for(FileDto fd : dto) {
+					
+					try { storageService.uploadImage(fd); }
+					catch(Exception e) { e.printStackTrace(); continue; }
+					
 					FileQA fileQA = new FileQA(
 						boardNum,
 						fd.getFileName(),
@@ -266,23 +282,6 @@ public class BoardFileController {
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	// 저장된 첨부파일 삭제
-	@DeleteMapping("/deleteFile")
-	public ResponseEntity<?> deleteFile(
-		@RequestParam String target, // 대상
-		@RequestBody FileDto fileDetail
-	){
-		
-		try {
-			storageService.deleteImage(target, fileDetail.getFileName());
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return ResponseEntity.ok().build();
-	}
-	
 	// 게시판에 첨부된 모든 첨부파일 삭제
 	@DeleteMapping("/deleteAllFile")
 	public ResponseEntity<?> deleteAllFile(
@@ -291,9 +290,7 @@ public class BoardFileController {
 		@RequestParam String jwt
 	){
 		
-		if(jwt == null) {
-			return ResponseEntity.ok(false);
-		}
+		if(jwt == null) { return ResponseEntity.ok(false); }
 		
 		Claims claims;
 		
@@ -312,110 +309,74 @@ public class BoardFileController {
 			return ResponseEntity.ok(false);
 		}
 		
+		List<FileDto> fileDto = new ArrayList<>();
+		
 		switch(target) {
+		
 			case "free": 
+				List<FileFree> fileFree = fileService.getFileFree(boardNum);
 				
-				List<FileFree> fFree = fileService.getFileFree(boardNum);
-				
-				if(fFree != null && fFree.size() != 0) {
-					for(FileFree f : fFree) {
-						try {
-							storageService.deleteImage(target, f.getFileName());
-						} catch (IOException e) {
-							e.printStackTrace();
-							continue;
-						}
-						fileService.deleteFileFree(f.getFileName());
-					}
+				for(FileFree file : fileFree) {
+					FileDto fd = modelMapper.map(file, FileDto.class);
+					fileDto.add(fd);
 				}
-				
-				fileService.deleteAllFileFree(boardNum);
 				
 				break;
 				
 			case "notic": 
+				List<FileNotic> fileNotic = fileService.getFileNotic(boardNum);
 				
-				List<FileNotic> fNotic = fileService.getFileNotic(boardNum);
-				
-				if(fNotic != null && fNotic.size() != 0) {
-					for(FileNotic f : fNotic) {
-						try {
-							storageService.deleteImage(target, f.getFileName());
-						} catch (IOException e) {
-							e.printStackTrace();
-							continue;
-						}
-						fileService.deleteFileNotic(f.getFileName());
-					}
+				for(FileNotic file : fileNotic) {
+					FileDto fd = modelMapper.map(file, FileDto.class);
+					fileDto.add(fd);
 				}
-				
-				fileService.deleteAllFileNotic(boardNum);
 				
 				break;
 				
 			case "promotion": 
+				List<FilePromotion> filePromotion = fileService.getFilePromotion(boardNum);
 				
-				List<FilePromotion> fPromotion = fileService.getFilePromotion(boardNum);
-				
-				if(fPromotion != null && fPromotion.size() != 0) {
-					for(FilePromotion f : fPromotion) {
-						try {
-							storageService.deleteImage(target, f.getFileName());
-						} catch (IOException e) {
-							e.printStackTrace();
-							continue;
-						}
-						fileService.deleteFilePromotion(f.getFileName());
-					}
+				for(FilePromotion file : filePromotion) {
+					FileDto fd = modelMapper.map(file, FileDto.class);
+					fileDto.add(fd);
 				}
-				
-				fileService.deleteAllFilePromotion(boardNum);
 				
 				break;
 				
 			case "event": 
+				List<FileEvent> fileEvent = fileService.getFileEvent(boardNum);
 				
-				List<FileEvent> fEvent = fileService.getFileEvent(boardNum);
-				
-				if(fEvent != null && fEvent.size() != 0) {
-					for(FileEvent f : fEvent) {
-						try {
-							storageService.deleteImage(target, f.getFileName());
-						} catch (IOException e) {
-							e.printStackTrace();
-							continue;
-						}
-						fileService.deleteFileEvent(f.getFileName());
-					}
+				for(FileEvent file : fileEvent) {
+					FileDto fd = modelMapper.map(file, FileDto.class);
+					fileDto.add(fd);
 				}
-				
-				fileService.deleteAllFileEvent(boardNum);
 				
 				break;
 				
 			case "qa": 
+				List<FileQA> fileQA = fileService.getFileQA(boardNum);
 				
-				List<FileQA> fQA = fileService.getFileQA(boardNum);
-				
-				if(fQA != null && fQA.size() != 0) {
-					for(FileQA f : fQA) {
-						try {
-							storageService.deleteImage(target, f.getFileName());
-						} catch (IOException e) {
-							e.printStackTrace();
-							continue;
-						}
-						fileService.deleteFileQA(f.getFileName());
-					}
+				for(FileQA file : fileQA) {
+					FileDto fd = modelMapper.map(file, FileDto.class);
+					fileDto.add(fd);
 				}
-				
-				fileService.deleteAllFileQA(boardNum);
 				
 				break;
 				
 			default:
 				return ResponseEntity.notFound().build();
 		}
+		
+		for(FileDto fd : fileDto) {
+			try {
+				storageService.deleteImage(fd);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+		
 
 		return ResponseEntity.ok().build();
 	}

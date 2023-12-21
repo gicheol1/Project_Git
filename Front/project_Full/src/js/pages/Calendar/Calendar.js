@@ -1,184 +1,189 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,createContext,Component } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './TravelCalendar.css';
 import { SERVER_URL } from 'js';
+//import MyCalendar_SelectBox from './MyCalendar_SelectBox';
 
 
 const Calendar = () => {
 
-    // 모든 축제 목록
-    const [festivalAllList, setFestivalAllList] = useState([{}]);
+    const [addrList, setAddr] = useState([]);
+    const [CheckList, setCheck] = useState([]);
+    const [TagList, setTag] = useState("");
+    const [RegionList, setRegion] = useState("");
 
-    // 선택한 태그와 지역
-    const [tagList, setTag] = useState([]);
-    const [region, setRegion] = useState("");
 
-    // 선택한 태그와 지역의 축제 목록
-    const [filteredFestival, setFilteredFestival] = useState([]);
-
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-
-    useEffect(() => { getFestival().then(data => setFestivalAllList(data)); }, [])
-
-    // 태그와 지역을 선택할때마다 실행
     useEffect(() => {
+        getFestival();
+    }, [])
 
-        //선택하지 않은경우
-        if (tagList.length === 0) { return; }
+//-------------------------------------------------------------------
 
-        let filterFestival;
+    const getFestival = (Check) => {
+        fetch(SERVER_URL + 'festivalAll', {
+         method: 'GET',
+         headers: { 'Content-Type': 'application/json' }
 
-        // 태그별 필터
-        if (tagList !== undefined && tagList.length !== 0) {
-            filterFestival = festivalAllList.filter(f => tagList.includes(f.tag));
-        }
+    }).then((response) => {
 
-        // 지역별 필터
-        if (region !== undefined && region !== '') {
-            filterFestival = filterFestival.filter(f => region === f.region);
-        }
-
-        setFilteredFestival(filterFestival);
-    }, [tagList, region])
-
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-
-    // 모든 축제 가져오기
-    const getFestival = () => {
-        return fetch(SERVER_URL + 'festivalAll', {
-            method: 'GET'
-
-        }).then((response) => {
-            if (!response.ok) { throw new Error(response.status); }
+        if (response.ok) {
             return response.json();
 
-        }).catch((e) => { alert(e) })
-    }
+        } else {
+            throw new Error(response.status);
 
-    // 태그 선택시
-    const onCheckedTag = (target) => {
-        if (tagList.includes(target)) { // 태그가 있으면 제거
-            const filteredTag = tagList.filter((t) => { return t !== target });
-            setTag(filteredTag);
+        }
 
-        } else { // 없으면 추가
-            setTag([...tagList, target]);
+    }).then((data) => {
+
+        setAddr(data);
+        setCheck(data);
+  
+    }).catch((e) => {
+        alert(e)
+
+    })
+}
+
+const onCheckedItem = (Check,CheckName,CheckThis) =>{
+
+    const checkboxes = document.getElementsByName('check');
+	for (let i = 0; i < checkboxes.length; i++) {
+	  if (checkboxes[i] !== CheckThis) {
+		checkboxes[i].checked = false
+	  }
+	}
+
+    console.log(CheckName);
+    if(Check){
+        setTag(CheckName);
+        if(RegionList === ""){
+            const camp = addrList.filter((data) => data.tag === CheckName);
+            setCheck(camp);
+        }
+        else{
+            const camp = addrList.filter((data) => data.tag === CheckName && data.region === RegionList);
+            setCheck(camp);
+
         }
     }
 
-    // 지역 선택시
-    const onSelectedRegion = (target) => { setRegion(target); }
+    else{
+        setTag("");
+        if(RegionList === ""){
+           getFestival();
+        }
+        else{
+            const camp = addrList.filter((data) => data.region === RegionList);
+            setCheck(camp);
+        }
 
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    }
+    
+}
 
-    return (
-        <div style={{ width: "100%" }}>
+const onSelectedItem = (Select) => {
+    if(Select === "X"){
+        setRegion("");
+        if(TagList==="")
+            getFestival();
+        else{
+            const camp = addrList.filter((data) => data.tag === TagList);
+            setCheck(camp);
+        }
+    }
+    else{
+        setRegion(Select);
+        
+        if(TagList===""){
+            const camp = addrList.filter((data) => data.region === Select);
+            setCheck(camp);
+        }
+        else{
+            const camp = addrList.filter((data) => data.region === Select && data.tag === TagList);
+            setCheck(camp);
+        }
+    
+    
+    }
+
+
+}
+
+
+//--------------------------------------------------------------------------
+
+    return(
+          <div className="App">
+
             <div id="checkBox">
+                <input className="축제" type='checkbox' name = "check"
+                    onChange={(e) => {
+                          onCheckedItem(e.target.checked,e.target.className,e.target);}}/>축제
+                <input className="공연" type='checkbox' name = "check"
+                    onChange={(e) => {
+                        onCheckedItem(e.target.checked,e.target.className,e.target);}}/>공연
+                <input className="캠핑" type='checkbox' name = "check"
+                    onChange={(e) => {
+                        onCheckedItem(e.target.checked,e.target.className,e.target);}}/>캠핑
+                <input className="문화" type='checkbox' name = "check"
+                    onChange={(e) => {
+                        onCheckedItem(e.target.checked,e.target.className,e.target);}}/>문화
 
-                {/* 태그 선택 */}
-                <label>
-                    축제
-                    <input
-                        value="축제"
-                        type='checkbox'
-                        name="tag"
-                        checked={tagList.includes("축제") ? true : false}
-                        onChange={(e) => {
-                            onCheckedTag(e.target.value, e.target.name);
-                        }} />
-                </label>
-                <label>
-                    공연
-                    <input
-                        value="공연/행사"
-                        type='checkbox'
-                        name="tag"
-                        checked={tagList.includes("공연/행사") ? true : false}
-                        onChange={(e) => {
-                            onCheckedTag(e.target.value, e.target.className);
-                        }} />
-                </label>
-                <label>
-                    캠핑
-                    <input
-                        value="캠핑"
-                        type='checkbox'
-                        name="tag"
-                        checked={tagList.includes("캠핑") ? true : false}
-                        onChange={(e) => {
-                            onCheckedTag(e.target.value, e.target.className);
-                        }} />
-                </label>
-                <label>
-                    문화
-                    <input
-                        value="문화"
-                        type='checkbox'
-                        name="tag"
-                        checked={tagList.includes("문화") ? true : false}
-                        onChange={(e) => {
-                            onCheckedTag(e.target.value, e.target.className);
-                        }} />
-                </label>
+		    <select onChange={(e) => {
+					onSelectedItem(e.target.value);}}
+            >
+                <option key="X" value="X">선택 안함</option>
+			    <option key="Seoul" value="서울">서울</option>
+			    <option key="Daejeon" value="대전">대전</option>
+			    <option key="Daegu" value="대구">대구</option>
+			    <option key="Busan" value="부산">부산</option>
+		    </select>
 
-                {/* 지역 선택 */}
-                <select
-                    name="region"
-                    onChange={(e) => { onSelectedRegion(e.target.value); }}
-                >
-                    <option key="X" value="X">선택 안함</option>
-                    <option key="Seoul" value="서울">서울</option>
-                    <option key="Daejeon" value="대전">대전</option>
-                    <option key="Daegu" value="대구">대구</option>
-                    <option key="Busan" value="부산">부산</option>
-                </select>
             </div>
 
             <div>
-                <FullCalendar
-                    plugins={[dayGridPlugin]}
-                    headerToolbar={{
-                        left: 'prev',
-                        center: 'title',
-                        right: 'next',
-                    }}
-                    initialView="dayGridMonth"
-                    nowIndicator={true}
-                    selectable={true}
-                    events={filteredFestival.map((addr) => ({
-                        title: `(${addr.tag})${addr.name}`,
-                        start: addr.endDate,
-                        end: addr.startDate
-                    }
-                    ))}
-                />
-            </div>
 
-            <div className='line'></div>
+                <FullCalendar 
+                plugins={[ dayGridPlugin ]}
+                headerToolbar={{
+                    left:'prev',
+                    center: 'title',
+                    right: 'next',
+                }}
+                initialView="dayGridMonth"
+                nowIndicator={true}
+                selectable={true}
+                events={CheckList.map((addr) => ({
+                    title:`(` + addr.tag + `)` + addr.name,
+                    start:addr.endDate,
+                    end:addr.startDate
+
+                }
+                ))}
+            />
+                </div>
+            
+
+            <div className='line'>
+
+            </div>
 
             <div className='boxGroup'>
-                {filteredFestival !== undefined && filteredFestival.length !== 0 ?
-                    filteredFestival.map(addr =>
-                        <div key={addr.festivalNum} className='img'>
-                            <img src={require(`./img/${addr.name}.png`)} />
-                        </div>
-                    ) :
-                    festivalAllList.map(addr =>
-                        <div key={addr.festivalNum} className='img'>
-                            <img src={require(`./img/${addr.name}.png`)} />
-                        </div>
-                    )
-                }
+                
+   
+                {CheckList.map(addr => 
+                   
+                   <div className='img'>
+                        <img src={require("./img/"+addr.name+".png")}/>
+                    </div>
+                )}
+     
+                
             </div>
-        </div>);
-
+          </div>);
+                
 }
 
 export default Calendar;
