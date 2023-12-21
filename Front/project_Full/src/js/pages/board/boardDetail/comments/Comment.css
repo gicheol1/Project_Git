@@ -1,15 +1,84 @@
-.reply {
-  background-color: lightslategray;
+/* ===== 댓글 수정 컨테이너 ===== */
+
+.updateComm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.updateRecoComm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: lightgray;
+  padding: 10px;
+}
+
+.updateComm .btn {
+  flex: 1;
+  margin-bottom: 10px;
+}
+.updateRecoComm .btn {
+  flex: 1;
+  margin-bottom: 10px;
+}
+
+.updateComm textarea {
+  resize: none;
+  width: 85%;
+}
+.updateRecoComm textarea {
+  resize: none;
+  width: 85%;
+}
+
+/* ===== 댓글 컨테이너 ===== */
 .commentList {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.commentRecoList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: lightgray;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* ===== 댓글 표시 ===== */
+
 .comments {
   flex: 1;
+}
+
+/* - 답글 대상 표시 */
+.recoMember {
+  background-color: gray;
+  color: white;
+  width: 40%;
+  text-align: center;
+}
+
+/* 작성자 */
+.creater {
+}
+
+/* 작성 날자 */
+.create-date {
+  margin-left: 20px;
+}
+
+/* 작성글 */
+.content {
+  margin-top: 20px;
+}
+
+.comments .btn {
+  margin-right: 10px;
 }
 
 .btnComment {

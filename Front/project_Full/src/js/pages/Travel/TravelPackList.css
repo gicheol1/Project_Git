@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+
+.button-container {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 20px;
+}
+
+.column-header {
+    font-family: 'Cute Font', sans-serif;
+    font-size: 20px;
+}
+
+.traval-pack-list-container {
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-bottom: 3%;
+    margin-top: 5%;
+    text-align: center;
+    background-color: white;
+    border: 1px solid;
+}
+
+.traval-pack-list-header {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    text-align: center;
+    font-family: 'Cute Font', sans-serif;
+    font-size: 54px;
+    color: #333;
+}
+
+.MuiDataGrid-cell {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 20px;
+    /* justify-content: center !important; */
+    align-items: center !important;
+}
+
+.stackContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-bottom: 0%; */
+}
+
+.button-font {
+    font-family: 'Cute Font', sans-serif;
+    font-size: 27px;
+}
+
+.custom-luggage-icon {
+    font-size: large;
+    color: skyblue;
+}
+
+
+/* <div의 클래스 이름> */
+/* ------------------------------------------ */
+/* 패키지 여행 목록의 스타일 */
+.PackageTravelList {
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-bottom: 3%;
+    margin-top: 3%;
+    text-align: center;
+    background-color: white;
+    /* border: 1px solid; */
+}
+
+/* <여행 정보> */
+.travelinformation {
+    padding: 10px;
+    text-align: left;
+}
+
+/* 이미지설정 */
+.custom-image {
+    width: 260px;
+    height: auto;
+}
+
+/* ------------------------------------------ */
+
+/* <MuiDataGrid의 스타일> */
+/* ------------------------------------------ */
+/* 데이터 그리드 셀의 선 스타일 */
+.MuiDataGrid-cell {
+    /* border: 1px solid #ccc; */
+    /* 셀에 대한 스타일 */
+}
+
+/* 데이터 그리드의 컬럼헤더 숨기기 */
+.hideHeaders .MuiDataGrid-columnHeaders,
+.hideHeaders .MuiDataGrid-columnHeader {
+    display: none;
+}
+
+.hideHeaders .MuiDataGrid-virtualScroller {
+    margin-top: 0 !important;
+}
+
+/* 참고: https://stackoverflow.com/questions/76463098/how-to-remove-column-header-of-mui-v5-datagrid-in-react-ts */
+/* ------------------------------------------ */
+
+/* <버튼 효과> */
+/* ---------------------------------- */
+/* 버튼 호버 전 */
+.button-hover {
+    background-color: skyblue;
+    color: white;
+    /* 부드러운 전환 효과를 위한 속성 */
+    transition: background-color 0.3s;
+}
+
+/* 버튼 호버 후 */
+.button-hover:hover {
+    background-color: deepskyblue;
+    color: black;
+}
+
+/* ---------------------------------- */
+
+/* 이미지 */
+.image-cell {
+    /* text-align: center; */
+}
+
+/* 팝업창(모달) */
+.custom-modal {
+    position: fixed;
+    top: 50%;
+    /* 화면 상단에서 세로 중앙 */
+    left: 50%;
+    /* 화면 좌측에서 가로 중앙 */
+    transform: translate(-50%, -50%);
+    /* 모달을 가운데 정렬 */
+    width: 30%;
+    /* height: 20%; */
+    background-color: white;
+    border: 1px solid #ccc;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+    /* z-index: 1000; */
+    /* 다른 요소 위에 표시되도록 설정 */
+}

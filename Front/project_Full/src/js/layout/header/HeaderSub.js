@@ -1,30 +1,21 @@
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HeaderSub = () => {
-
-    const naviagte = useNavigate();
-
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-
-    const move = (e) => { naviagte(e.target.value); }
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
-        <>
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><Button onClick={move} value="/boardList/free">게시판(자유)</Button></li>
-                <li><Button onClick={move} value="/boardList/notic">게시판(공지)</Button></li>
-                <li><Button onClick={move} value="/boardList/promotion">게시판(행사)</Button></li>
-                <li><Button onClick={move} value="/boardList/event">게시판(이벤트)</Button></li>
-                <li><Button onClick={move} value="/boardList/qa">게시판(QA)</Button></li>
+        <div className="d-flex flex-wrap align-items-center">
+            <ul className="nav col-1 mb-2 justify-content-center text-center">
+                <li><Link to={`/boardList/free`} className="nav-link px-1 link-dark">자유 게시판</Link></li>
+                <li><Link to={`/boardList/notic`} className="nav-link px-1 link-dark">공지사항</Link></li>
+                <li><Link to={`/boardList/promotion`} className="nav-link px-1 link-dark">공연/행사</Link></li>
+                <li><Link to={`/boardList/event`} className="nav-link px-1 link-dark">이벤트</Link></li>
+                <li><Link to={`/boardList/qa`} className="nav-link px-1 link-dark">질문 게시판</Link></li>
             </ul>
-        </>
+        </div>
     );
 }
 

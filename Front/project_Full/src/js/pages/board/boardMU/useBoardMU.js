@@ -58,7 +58,7 @@ export function useBoard() {
             formData.append(`files`, file); // 각 이미지 파일을 FormData에 추가
         });
 
-        return fetch(SERVER_URL + `setFile?target=${target}&boardNum=${bNum}`, {
+        return fetch(SERVER_URL + `setFile?target=${target}`, {
             method: 'POST',
             body: formData
 

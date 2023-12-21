@@ -175,7 +175,9 @@ public class UserController {
 		Optional<User> user = userService.findUser(claims.get("memId", String.class));
 		
 		// 없는 경우(로그인X or 토큰 만료)
-		if(user.isEmpty() || jwtService.isExexists(claims.get("jti", String.class))) { return ResponseEntity.ok(false); }
+		if(user.isEmpty() || !jwtService.isExexists(claims.get("jti", String.class))) {
+			return ResponseEntity.ok(false);
+		}
 		
 		if(!claims.get("role", String.class).equals("ADMIN")) {
 			return ResponseEntity.ok(false);

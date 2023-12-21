@@ -1,23 +1,21 @@
-package com.project.festival.Service;
+package com.project.festival.Service.festival;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.project.festival.Dto.FestivalDto;
-import com.project.festival.Entity.Festival;
-import com.project.festival.Entity.Repo.FestivalRepo;
+import com.project.festival.Entity.festival.FileFestival;
+import com.project.festival.Entity.festival.FileFestivalDto;
+import com.project.festival.Entity.festival.FileFestivalRepo;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FestivalService {
+public class FileFestivalService {
 
-	private final FestivalRepo festivalRepository;
+	private final FileFestivalRepo fileFestivalRepository;
 	
 	private final ModelMapper modelMapper;
 
@@ -25,39 +23,26 @@ public class FestivalService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	public List<Festival> getFestivalAll() { return festivalRepository.findAll(); }
-	
-	public List<Festival> getFestivalPage(Pageable pageable) {
-		return festivalRepository.findAllByOrderByFestivalNumDesc(pageable).getContent();
-	}
-	
-	public long getFestivalCnt() {return festivalRepository.count(); }
-	
-	public Festival getFestival(Long festivalNum) {
-		
-		Optional<Festival> festival = festivalRepository.findByFestivalNum(festivalNum);
-		
-		if(festival.isEmpty()) {
-			return null;
-		} else {
-			return festival.get();
-		}
+	// 해당 축제 번호의 이미지 가져오기
+	public List<FileFestival> getFiles(Long festivalNum) {
+		return fileFestivalRepository.findByFestivalNumOrderByFileNum(festivalNum);
 	}
 
-// ========== ========== ========== ========== ========== ========== ========== ==========
-// ========== ========== ========== ========== ========== ========== ========== ==========
-// ========== ========== ========== ========== ========== ========== ========== ==========
-	
-	public void setNewFeatival(FestivalDto dto) {
-		Festival festival = modelMapper.map(dto, Festival.class);
-		festivalRepository.save(festival);
+	// 해당 축제 번호의 이미지 이름만 가져오기
+	public List<String> getName(Long festivalNum) {
+		return fileFestivalRepository.findFileNameByFestivalNumOrderByFileNum(festivalNum);
 	}
-
-// ========== ========== ========== ========== ========== ========== ========== ==========
-// ========== ========== ========== ========== ========== ========== ========== ==========
-// ========== ========== ========== ========== ========== ========== ========== ==========
 	
-	public void deleteFestival(Long festivalNum) { festivalRepository.deleteByFestivalNum(festivalNum); }
+	// 축제 이미지 정보 저장
+	public void submitFile(FileFestival fileFestival) {
+		fileFestivalRepository.save(fileFestival);
+	}
+	
+	// 특정 이미지만 삭제
+	public void deleteFile(String fileName) {fileFestivalRepository.deleteByFileName(fileName);}
+	
+	// 축제 번호의 이미지 삭제
+	public void deleteAllFile(Long festivalNum) {fileFestivalRepository.deleteAllByFestivalNum(festivalNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

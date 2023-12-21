@@ -1,14 +1,19 @@
-package com.project.festival.Entity;
+package com.project.festival.Entity.festival;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -58,6 +63,14 @@ public class Festival {
 	// 축제 지역(서울, 인천, 대전, ...)
 	@Column(length=100)
 	private String region;
+
+	// ===== ===== ===== ===== ===== ===== ===== ===== =====
+	// ===== ===== ===== ===== ===== ===== ===== ===== =====
+	// ===== ===== ===== ===== ===== ===== ===== ===== =====
+
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="festivalNum")
+	private Collection<FileFestival> files;
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====

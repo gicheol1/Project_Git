@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 
 import { Route, Routes } from "react-router-dom";
 
@@ -56,9 +56,12 @@ function App() {
 	// 경로가 바뀔때마다 로그인 상태 확인
 	useEffect(() => {
 		checkIsLogin().then((res) => { setIsLogin(res); })
-		checkIsAdmin().then((res) => { setIsAdmin(res); })
 
 	}, [window.location.href]);
+
+	useEffect(() => {
+		checkIsAdmin().then((res) => { setIsAdmin(res); })
+	}, [isLogin]);
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====

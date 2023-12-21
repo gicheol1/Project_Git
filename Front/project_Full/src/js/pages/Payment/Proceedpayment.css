@@ -1,0 +1,23 @@
+.pay-form {
+    margin-Top: 2%;
+    text-Align: center;
+}
+
+.pay-header {
+    margin-Left: 0%;
+    margin-Right: 0%;
+    margin-Bottom: 1%;
+    margin-Top: 2%;
+    background-Color: white;
+    /* border: 1px solid; */
+}
+
+/* 데이터 그리드의 컬럼헤더 숨기기 */
+.hideHeaders .MuiDataGrid-columnHeaders,
+.hideHeaders .MuiDataGrid-columnHeader {
+    display: none;
+}
+
+.hideHeaders .MuiDataGrid-virtualScroller {
+    margin-top: 0 !important;
+}

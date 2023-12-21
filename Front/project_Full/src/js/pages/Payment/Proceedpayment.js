@@ -1,8 +1,9 @@
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useRef, useState } from 'react';
-import { SERVER_URL } from 'js';
+import { SERVER_URL, ToggleCell } from 'js';
 import { useNavigate, useParams } from 'react-router';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // 결제 위젯 설치
+import './Proceedpayment.css';
 
 /* 결제위젯 연동 키 [테스트] */
 const clientKey = "test_ck_yZqmkKeP8gNz6vBPKOmnrbQRxB9l"
@@ -14,20 +15,7 @@ function Proceedpayment() {
     const { resNum } = useParams(); // 패키지 여행 예약 번호 받아오기
     const [member, setMember] = useState([]); // 회원정보
     const [Packreservation, setPackreservation] = useState([]); // 패키지 여행 예약 목록 정보
-    const navigate = useNavigate(); // Navigate 객체에 접근 // 메인화면으로 보내준다.
-
-    /* 금액 표시 */
-    const formatPrice = (price) => {
-        //가격을 만원, 천원으로 분리
-        const unit = price >= 10000 ? '만' : '';
-        const mainPrice = Math.floor(price / (unit === '만' ? 10000 : 1000)); //만 단위로 표시하면 만 단위의 가격을 계산, 그 외에는 천 단위로 계산
-        const remainder = price % (unit === '만' ? 10000 : 1000); //remainder: 만 단위로 표시되면 가격을 1만으로 나눈 나머지를, 그렇지 않으면 1천으로 나눈 나머지를 계산
-
-        // 포맷된 문자열 생성
-        const formattedPrice = `${mainPrice}${unit}${remainder > 0 ? ` ${remainder}` : ''}원`; //가격 문자열
-
-        return formattedPrice;
-    };
+    const navigate = useNavigate(); // Navigate 객체에 접근 // 메인화면으로 보내
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 예약 목록 */
     useEffect(() => {
@@ -66,13 +54,37 @@ function Proceedpayment() {
     /* ----------------------------------------------------------------------- */
     // 패키지 여행 에약 목록 컬럼
     const columns = [
-        // { field: 'resNum', headerName: '패키지 예약 번호', width: 150 },
-        { field: 'memId', headerName: '예약한 회원', width: 200 },
-        { field: 'packName', headerName: '패키지 여행명', width: 200 },
-        { field: 'startDate', headerName: '예약한 날', width: 200 },
-        { field: 'price', headerName: '가격', width: 100, renderCell: (params) => < ToggleCell value={params.value} /> }, // 클릭시'금액'과 '한국 통화 형식'변환
-        { field: 'dateCnt', headerName: '기간', width: 200 },
-        { field: 'count', headerName: '인원수', width: 100 },
+        {
+            field: 'image', // 이미지 필드가 있다고 가정
+            headerName: '여행 이미지',
+            width: 300,
+            renderCell: (params) => (
+                <div className="image-cell">
+                    {/* 테스트용 이미지 */}
+                    <img class="custom-image"
+                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                        alt="축제이미지"
+
+                    />
+                </div>
+            ),
+        },
+        { // 한개의 컬럼에 여러 컬럼의 정보를 출력
+            field: 'travelinformation',
+            headerName: '결제 정보',
+            width: 900,
+            renderCell: (params) => (
+                <div className="travelinformation">
+                    <p>예약한 회원: {params.row.memId}</p>
+                    <p>패키지 여행: {params.row.packName}</p>
+                    <p>예약한 날: {params.row.startDate}</p>
+                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
+                    <p>가격<ToggleCell value={params.row.price} /></p>
+                    <p>숙박기간: {params.row.dateCnt}</p>
+                    <p>예약한 인원: {params.row.count}</p>
+                </div>
+            ),
+        },
     ];
     /* ----------------------------------------------------------------------- */
 
@@ -185,53 +197,22 @@ function Proceedpayment() {
     console.log(member.phonNum);
 
 
-    const [isKoreanFormat, setIsKoreanFormat] = useState(true);
-    const paymentAmount = paymentInfo.payamount;
-
-    /* 최종 결제 금액에 대한 '금액'과 '한국 통화 형식'변환*/
-    const handleToggleFormat = () => {
-        setIsKoreanFormat((prevFormat) => !prevFormat);
-    };
-
-    /*datagrid의 행의 금액에 대한 '금액'과 '한국 통화 형식'변환*/
-    const ToggleCell = ({ value }) => {
-        const [toggle, setToggle] = useState(false);
-
-        const handleClick = () => {
-            setToggle(!toggle);
-        };
-
-        return (
-            <div onClick={handleClick} style={{ cursor: 'pointer' }}>
-                {toggle ? value.toLocaleString() + `원` : formatPrice(value)}
-            </div>
-        );
-    };
-
     return (
-        <div style={{
-            textAlign: 'center'
-        }}>
+        <div className='pay-form'>
             <h1> - 패키지 여행 결제 - </h1>
-
             {/* 패키지 여행 결제 목록 스타일 */}
-            <div style={{
-                marginLeft: "0%",
-                marginRight: "0%",
-                marginBottom: "3%",
-                marginTop: "1%",
-                backgroundColor: 'white',
-                border: '1px solid',
-
-            }}>
+            <div className='pay-header'>
                 <DataGrid
+                    className="hideHeaders" // 컬럼 헤더 숨기기
                     rows={Packreservation}
                     columns={columns}
                     getRowId={row => row.resNum}
                     hideFooter={true} // 표의 푸터바 제거
-                // onCellClick={handleCellClick} // 셀이 클릭되었을 때의 이벤트 핸들러
+                    // onCellClick={handleCellClick} // 셀이 클릭되었을 때의 이벤트 핸들러
+                    getRowHeight={params => 350} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
                 />
-                <div style={{ marginLeft: "20%", marginRight: "20%", }}>
+
+                <div style={{ marginLeft: "20%", marginRight: "20%", marginBottom: "5%", marginTop: "5%" }}>
                     <label>
                         카드 번호:
                         <input type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
@@ -249,12 +230,10 @@ function Proceedpayment() {
                     ))}
                 </div> */}
 
-                {/* 금액(~원)을 클릭시 '금액'과 '한국 통화 형식'변환 */}
                 <div>
                     <h1>최종 결제 금액</h1>
-                    <h2 onClick={handleToggleFormat}>
-                        {isKoreanFormat ? formatPrice(paymentAmount) : `${paymentAmount.toLocaleString()} 원`}
-                    </h2>
+                    {/* 금액(~원)을 클릭시 '금액'과 '한국 통화 형식'변환 */}
+                    <h2><ToggleCell value={paymentInfo.payamount} /></h2>
                 </div>
 
                 {/* 결제 위젯을 화면에 출력 */}
