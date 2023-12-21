@@ -145,20 +145,12 @@ const Festivals = () => {
 
 	} else {
 		return (
-			<div style={{
-				width: '50vw',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				border: '1px solid black',	// 테두리 색
-				background: 'lightgray',	// 배경 색
-				padding: '15px',			// 내용과 테두리 간의 여백
-			}}>
+			<div className='festival-mu'>
 				<h1>축제관리(추가/수정)</h1>
 
 				{/* ===== 축제 이름 ===== */}
 				<div className="form-group">
-					<label>축제명 : </label>
+					<label>축제명</label>
 					<input
 						type="text"
 						name="name"
@@ -169,7 +161,7 @@ const Festivals = () => {
 
 				{/* ===== 축제 내용 ===== */}
 				<div className="form-group">
-					<label>내용 : </label>
+					<label>내용</label>
 					<textarea
 						name="content"
 						value={festival.content}
@@ -180,7 +172,7 @@ const Festivals = () => {
 
 				{/* ===== 축제 날짜 ===== */}
 				<div className="form-group">
-					<label for="startDate">시작 날짜 : </label>
+					<label for="startDate">시작 날짜</label>
 					<input
 						type="date"
 						id="startDate"
@@ -190,7 +182,7 @@ const Festivals = () => {
 						onChange={handleChange}
 					/>
 
-					<label for="endDate">끝나는 날짜 : </label>
+					<label for="endDate" style={{ marginLeft: '20px' }}>끝나는 날짜</label>
 					<input
 						type="date"
 						id="endDate"
@@ -204,7 +196,7 @@ const Festivals = () => {
 
 				{/* ===== 축제 위치 ===== */}
 				<div className="form-group">
-					<label>축제 위치 : </label>
+					<p>축제 위치</p>
 					<div>
 						<p>
 							<Button onClick={handlePopup}>주소 찾기</Button>
@@ -216,7 +208,7 @@ const Festivals = () => {
 
 				{/* ===== 축제 공식 홈페이지 ===== */}
 				<div className="form-group">
-					<label>공식 홈페이지 : </label>
+					<label>공식 홈페이지</label>
 					<input
 						type="text"
 						name="officialWebsite"
@@ -228,9 +220,9 @@ const Festivals = () => {
 
 				{/* ===== 축제 태그 ===== */}
 				<div className="form-group">
-					<label>태그</label>
-					<label>
-						축제
+					<label style={{ marginRight: '30px' }}>태그</label>
+					<div style={{ display: 'flex' }}>
+						<label>축제</label>
 						<input
 							value="축제"
 							type='radio'
@@ -238,9 +230,7 @@ const Festivals = () => {
 							onChange={handleChange}
 							checked={festival.tag === "축제"}
 						/>
-					</label>
-					<label>
-						공연/행사
+						<label>공연/행사</label>
 						<input
 							value="공연/행사"
 							type='radio'
@@ -248,12 +238,13 @@ const Festivals = () => {
 							onChange={handleChange}
 							checked={festival.tag === "공연/행사"}
 						/>
-					</label>
+					</div>
+
 				</div>
 
 				{/* ===== 축제 위치 지역 ===== */}
 				<div className="form-group">
-					<label>지역 : </label>
+					<label style={{ marginBottom: '3px', marginRight: '10px' }}>지역</label>
 					<select
 						name="region"
 						value={festival.region}
@@ -269,7 +260,7 @@ const Festivals = () => {
 					</select>
 				</div>
 
-				<div className="board-div">
+				<div className="form-group">
 					<Button onClick={handleButtonClick}>파일 추가</Button>
 					<input
 						type="file"

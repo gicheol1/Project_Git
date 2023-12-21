@@ -43,7 +43,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: lightgray;
+  background-color: rgb(204, 240, 255);
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -57,19 +57,26 @@
 
 /* - 답글 대상 표시 */
 .recoMember {
-  background-color: gray;
-  color: white;
+  background-color: rgb(164, 229, 255);
+  border-radius: 10px;
   width: 40%;
   text-align: center;
 }
 
-/* 작성자 */
-.creater {
+/* 게시판 작성자의 댓글 표시 */
+.ownerComm {
+  background-color: rgb(135, 178, 235);
+  border-radius: 10px;
+  width: 30px;
+  text-align: center;
+  padding: 5px;
+  margin-left: 10px;
 }
 
 /* 작성 날자 */
 .create-date {
-  margin-left: 20px;
+  font-size: 10px;
+  margin-left: 10px;
 }
 
 /* 작성글 */

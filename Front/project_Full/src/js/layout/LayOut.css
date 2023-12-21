@@ -1,5 +1,28 @@
-.container {
+.layoutContainer {
   /* 최소 높이를 화면의 전체 높이로 설정하여 footer를 페이지 아래에 고정 */
   min-height: 100vh;
   width: 100vw;
+}
+
+header {
+  background-color: lightskyblue;
+  width: 100vw;
+}
+
+main {
+  /* Outlet을 화면의 나머지 영역을 차지하도록 설정 */
+  min-height: 70vh;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  width: 100%;
+  height: 120px;
+
+  /* 페이지 아래로 고정하기 위해 marginTop을 auto로 설정 */
+  margin-top: auto;
 }

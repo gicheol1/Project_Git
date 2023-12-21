@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-
 import { useNavigate, useParams } from "react-router-dom";
-
 import {
 	Button, Pagination, Paper,
 	Table, TableBody, TableCell, TableContainer,
@@ -9,6 +7,7 @@ import {
 } from "@mui/material";
 
 import './BoardList.css';
+
 import { useBoardList } from "./useBoardList";
 
 const BoardList = ({ isLogin }) => {
@@ -92,7 +91,7 @@ const BoardList = ({ isLogin }) => {
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
 	return (
-		<div className="board-list-container">
+		<div>
 
 			{target !== undefined ?
 				<h2>{setTitle()}</h2>
@@ -111,12 +110,12 @@ const BoardList = ({ isLogin }) => {
 			)}
 			{/* <Button onClick={onShow}>데이터 확인</Button> */}
 
-			<TableContainer component={Paper} className="list-container">
+			<TableContainer component={Paper} className="tableContainer">
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 
 					{/* 테이블 헤더 */}
 					<TableHead>
-						<TableRow style={{ backgroundColor: "lightgray" }}>
+						<TableRow className="tableHead">
 							<TableCell align="center" width={10}>번호</TableCell>
 							<TableCell align="center" width={150}>제목</TableCell>
 							<TableCell align="center" width={30}>작성자</TableCell>

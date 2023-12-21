@@ -15,6 +15,7 @@ const Comment = ({
 
 	// 작성한 댓글
 	comment,
+	boardMemId,
 
 	// 답글 대상 삭제 여부
 	getRecoCommIsDeleted,
@@ -113,8 +114,13 @@ const Comment = ({
 										// 답글 대상의 글이 삭제된 경우
 										<p className="recoMember"> --- 삭제된 댓글의 답변 입니다. --- </p>
 								)}
-								<span className="creater">작성자 : {comment.memId}</span>
-								<span className="create-date">날짜 : {comment.date}</span>
+								<span className="creater">
+									{comment.memId}
+									{(boardMemId !== undefined && boardMemId === comment.memId) && (
+										<span className="ownerComm">작성자</span>
+									)}
+								</span>
+								<span className="create-date">{comment.date}</span>
 
 								<p className="content">{comment.content}</p>
 							</div>

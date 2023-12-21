@@ -44,32 +44,37 @@
 /* ===== 댓글 ===== */
 
 .board-comment {
+  justify-items: center;
   align-items: center;
 }
 
-/* - 답글 대상 표시 및 취소 */
-.board-recoTarget {
-  display: flex;
+.createComment {
+  display: block;
   align-items: center;
 }
+
+.recomment {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+/* - 답글 대상 표시 */
+.recomment input {
+  width: 100px;
+}
+
+/* - 답글 취소 */
 .cancle-recomment {
   height: 50%;
   margin-right: 10px;
   margin-bottom: 5px;
 }
 
-.recoTarget {
-  flex: 1;
-}
-
-.board-recoTarget input {
-  width: 100px;
-}
-
 /* - 댓글 입력, 추가 */
 .board-newComment {
   display: flex;
-  flex: 2;
+  flex: 1;
   align-items: center;
 }
 
@@ -80,5 +85,7 @@
 
 .addCommentArea {
   resize: none;
+  height: 100px;
+  font-size: 12px;
   width: 80%;
 }
