@@ -1,15 +1,14 @@
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
+import LocalAirportIcon from '@mui/icons-material/LocalAirport';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { DataGrid } from '@mui/x-data-grid';
 import { SERVER_URL, TravelCalendar, TravelPackMap } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import LocalAirportIcon from '@mui/icons-material/LocalAirport';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import './TravelReservation.css';
-import { Button, Modal } from 'react-bootstrap';
 
-import { ToggleCell } from 'js';
+import { ToggleCell, ModalComponent } from 'js';
 
 /* 여행 예약 기능 2번*/
 /* - 여행 패키지 예약 페이지(날짜와 상품갯수 선택) */
@@ -33,7 +32,7 @@ function TravelReservation() {
 
     const { checkIsLogin } = useCheckLogin();
 
-    /* 부트스트렙을 이용한 모달 팝업창 적용하기 */
+    /* 부트스트렙을 이용한 모달 팝업창 동작 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     // showModal: 모달을 보여줄지 여부를 결정하는 상태 변수
     // setShowModal: 모달의 보이기/숨기기 상태를 설정하는 함수
@@ -148,8 +147,6 @@ function TravelReservation() {
     };
     /* ----------------------------------------------------------- */
 
-
-
     /* - 패키지 여행의 컬럼 */
     /* ----------------------------------------------------------- */
     const columns = [
@@ -170,42 +167,13 @@ function TravelReservation() {
                         }
                     />
 
-                    {/* 부트 스트랩을 이용한 모달창(팝업창) */}
-                    <Modal show={showModal} onHide={handleClose} className="custom-modal-dialog modal-lg">
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                <p>패키지번호: {params.row.packNum}</p>
-                                <p>패키지 이름: {params.row.name}</p>
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body >
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <img
-                                    className="modal-image"
-                                    src={selectedImage}
-                                    alt="모달 이미지"
-                                    style={{ width: '400px' }} // 이미지 크기 조절
-                                />
-                                <div style={{ marginLeft: '20px' }}>
-                                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                                    <p>[가격]<ToggleCell text="가격:" value={params.row.price} /></p>
-                                    <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
-                                    <p>등록일: {params.row.singupDate}</p>
-                                    <p>최대인원: {params.row.count}</p>
-                                    <p>흡연실(금연실): {params.row.smoke}</p>
-                                    <p>주소: {params.row.address}</p>
-                                    <p>상세내용: {params.row.text}</p>
-                                    <p>몇 인실: {params.row.person}</p>
-                                    <p>예약 가능한 상태: {params.row.reservation}</p>
-                                </div>
-                            </div>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
-                                닫기
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                    {/* 부트 스트랩의 모달 폼 */}
+                    <ModalComponent
+                        showModal={showModal}
+                        handleClose={handleClose}
+                        selectedImage={selectedImage}
+                        params={params}
+                    />
 
                 </div>
             ),
@@ -233,7 +201,6 @@ function TravelReservation() {
 
     ];
     /* ----------------------------------------------------------- */
-
 
     return (
         <div>

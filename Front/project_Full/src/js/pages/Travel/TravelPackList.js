@@ -7,7 +7,7 @@ import { useCheckLogin } from 'js/useCheckLogin';
 
 import LuggageIcon from '@mui/icons-material/Luggage';
 import { Pagination, Stack } from '@mui/material';
-import ReactModal from 'react-modal';
+import { ModalComponent } from 'js';
 import './TravelPackList.css'; // CSS 파일을 임포트
 
 /* 여행 예약 기능 1번*/
@@ -38,7 +38,7 @@ function TravelPackList() {
         return TravalPack.slice(startIndex, endIndex);
     };
 
-    /* 리액트 (모달) 팝업창 */
+    /* 부트 스트랩 팝업창 기능 */
     /*▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤*/
     const [modalOpenMap, setModalOpenMap] = useState({}); // 행별 모달 상태를 관리할 객체
 
@@ -82,8 +82,6 @@ function TravelPackList() {
         );
     }
 
-    
-
     /* <패키지여행> */
     /* ----------------------------------------------------------------------- */
     // - 패키지 여행의 컬럼
@@ -101,33 +99,12 @@ function TravelPackList() {
                         onClick={() => handleImageClick(params)} // 이미지 클릭 시 handleImageClick(params) 실행
 
                     />
-                    {/* 팝업(모달) 창 */}
-                    <ReactModal
-                        isOpen={modalOpenMap[params.row.packNum] || false}
-                        onRequestClose={() => handleModalClose(params.row.packNum)}
-                        className="custom-modal" // - CSS 적용
-                        style={{ // - CSS로 분리시 동작을 안한다.
-                            overlay: {
-                                backgroundColor: 'rgba(0, 0, 0, 0)', // 오버레이 배경 색상과 투명도 설정
-                            },
-                        }}
-
-                    >
-                        <p>패키지번호: {params.row.packNum}</p>
-                        <p>패키지이름: {params.row.name}</p>
-                        {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                        <p>가격:<ToggleCell text="가격:" value={params.row.price} /></p>
-                        <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
-                        <p>최대인원: {params.row.count}</p>
-                        <p>흡연실(금연실): {params.row.smoke}</p>
-                        <p>주소: {params.row.address}</p>
-                        <p>상세내용: {params.row.text}</p>
-                        <p>몇 인실: {params.row.person}</p>
-                        <p>예약 가능한 상태: {params.row.reservation}</p>
-                        <p>등록일자: {params.row.singupDate}</p>
-                        {/* 닫기 버튼 */}
-                        <button onClick={() => handleModalClose(params.row.packNum)}>닫기</button>
-                    </ReactModal>
+                    <ModalComponent
+                        showModal={modalOpenMap[params.row.packNum]}
+                        handleClose={() => handleModalClose(params.row.packNum)}
+                        selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
+                        params={params}
+                    />
                 </div>
             ),
         },
