@@ -9,6 +9,7 @@ import LuggageIcon from '@mui/icons-material/Luggage';
 import { Pagination, Stack } from '@mui/material';
 import { ModalComponent } from 'js';
 import './TravelPackList.css'; // CSS 파일을 임포트
+import { ModalFunction } from 'js';
 
 /* 여행 예약 기능 1번*/
 /* - 여행 패키지 목록 페이지 */
@@ -39,28 +40,7 @@ function TravelPackList() {
     };
 
     /* 부트 스트랩 팝업창 기능 */
-    /*▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤*/
-    const [modalOpenMap, setModalOpenMap] = useState({}); // 행별 모달 상태를 관리할 객체
-
-    const handleImageClick = (params) => {
-        const packNum = params.row.packNum;
-        if (!modalOpenMap[packNum]) {
-            handleModalOpen(packNum);
-        } else {
-            handleModalClose(packNum);
-        }
-    };
-
-    const handleModalOpen = (rowId) => {
-        const updatedMap = { ...modalOpenMap, [rowId]: true }; // 해당 행의 모달을 열도록 상태 업데이트
-        setModalOpenMap(updatedMap);
-    };
-
-    const handleModalClose = (rowId) => {
-        const updatedMap = { ...modalOpenMap, [rowId]: false }; // 해당 행의 모달을 닫도록 상태 업데이트
-        setModalOpenMap(updatedMap);
-    };
-    /*▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤*/
+    const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
     /* ----------------------------------------------------------- */
 
     useEffect(() => {
@@ -96,8 +76,7 @@ function TravelPackList() {
                     <img class="custom-image"
                         src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
                         alt="축제이미지"
-                        onClick={() => handleImageClick(params)} // 이미지 클릭 시 handleImageClick(params) 실행
-
+                        onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
                     />
                     <ModalComponent
                         showModal={modalOpenMap[params.row.packNum]}

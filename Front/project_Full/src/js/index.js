@@ -11,7 +11,8 @@ export { SERVER_URL } from './component/constants'; // 벡엔드 주소
 export {default as ToggleCell } from './component/ToggleCell/ToggleCell';
 
 // component 폴더 > Modal 폴더(팝업창)
-export {default as ModalComponent } from './component/Modal/ModalComponent';
+export {default as ModalComponent } from './component/Modal/ModalComponent'; // 화면 출력
+export { ModalFunction } from './component/Modal/ModalFunction'; // 화면 동작 기능(열기, 닫기)
 
 // -------------------------------------------------------------------------------- //
 
