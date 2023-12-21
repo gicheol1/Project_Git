@@ -2,7 +2,7 @@ import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import LocalAirportIcon from '@mui/icons-material/LocalAirport';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { DataGrid } from '@mui/x-data-grid';
-import { SERVER_URL, TravelCalendar, TravelPackMap } from 'js';
+import { ModalFunction, SERVER_URL, TravelCalendar, TravelPackMap } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
@@ -32,25 +32,8 @@ function TravelReservation() {
 
     const { checkIsLogin } = useCheckLogin();
 
-    /* 부트스트렙을 이용한 모달 팝업창 동작 */
-    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
-    // showModal: 모달을 보여줄지 여부를 결정하는 상태 변수
-    // setShowModal: 모달의 보이기/숨기기 상태를 설정하는 함수
-    const [showModal, setShowModal] = useState(false);
-
-    // selectedImage: 모달에 표시할 이미지의 URL을 저장하는 상태 변수
-    // setSelectedImage: 모달에 표시할 이미지 URL을 설정하는 함수
-    const [selectedImage, setSelectedImage] = useState('');
-
-    // handleImageClick: 이미지를 클릭했을 때 모달을 열기 위한 핸들러 함수
-    const handleImageClick = (imageUrl) => {
-        setSelectedImage(imageUrl); // 선택한 이미지 URL 설정
-        setShowModal(true); // 모달 보이기
-    };
-
-    // handleClose: 모달을 닫기 위한 핸들러 함수
-    const handleClose = () => setShowModal(false); // 모달 숨기기
-    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* 부트 스트랩 팝업창 기능 */
+    const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
     /* <벡엔드에서 설정한 패키지여행 DB(데이터베이스) 연결> */
     /* ----------------------------------------------------------- */
@@ -160,21 +143,14 @@ function TravelReservation() {
                     <img class="custom-image"
                         src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
                         alt="축제이미지"
-                        onClick={() =>
-                            handleImageClick(
-                                'https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004'
-                            )
-                        }
+                        onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
                     />
-
-                    {/* 부트 스트랩의 모달 폼 */}
                     <ModalComponent
-                        showModal={showModal}
-                        handleClose={handleClose}
-                        selectedImage={selectedImage}
+                        showModal={modalOpenMap[params.row.packNum]}
+                        handleClose={() => handleModalClose(params.row.packNum)}
+                        selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
                         params={params}
                     />
-
                 </div>
             ),
         },
