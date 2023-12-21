@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SERVER_URL } from 'js';
 import { Button } from '@mui/material';
 
-const MemId = ({ setNewUser }) => {
+const MemId = ({ newUser, setNewUser }) => {
 
     const [memId, setMemId] = useState('');
     const [isStatic, setIsStatic] = useState(false);
@@ -12,7 +12,7 @@ const MemId = ({ setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     const onClickBtn = () => {
-        fetch(SERVER_URL + 'idCheck', {
+        fetch(SERVER_URL + `idCheck/${memId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: memId
@@ -23,7 +23,7 @@ const MemId = ({ setNewUser }) => {
 
                 if (JSON.parse(response.headers.get('idCheckResult'))) {
                     alert('사용 가능한 아이디 입니다.');
-                    setNewUser({ memId: memId });
+                    setNewUser({ ...newUser, memId: memId });
                     setIsStatic(true);
 
                 } else { // 이미 존재하는 경우

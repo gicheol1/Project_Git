@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const PW = ({ setNewUser }) => {
+const PW = ({ newUser, setNewUser }) => {
 
     const [pw, setPw] = useState('');
     const [isCorrect, setIsCorrect] = useState('');
@@ -19,7 +19,7 @@ const PW = ({ setNewUser }) => {
 
         } else {
             setIsCorrect('비밀번호가 일치합니다.');
-            setNewUser({ pw: pw })
+            setNewUser({ ...newUser, pw: pw })
         }
     }
 

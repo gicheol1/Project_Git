@@ -48,9 +48,9 @@ public class FestivalService {
 // ========== ========== ========== ========== ========== ========== ========== ==========
 // ========== ========== ========== ========== ========== ========== ========== ==========
 	
-	public void setNewFeatival(FestivalDto dto) {
+	public Long setNewFeatival(FestivalDto dto) {
 		Festival festival = modelMapper.map(dto, Festival.class);
-		festivalRepository.save(festival);
+		return festivalRepository.save(festival).getFestivalNum();
 	}
 
 // ========== ========== ========== ========== ========== ========== ========== ==========

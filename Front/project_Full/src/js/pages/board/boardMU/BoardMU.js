@@ -89,9 +89,7 @@ const BoardMU = ({ isLogin }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
-    const handleButtonClick = () => {
-        inputRef.current.click();
-    };
+    const handleButtonClick = () => { inputRef.current.click(); };
 
     // 파일 추가 및 저장
     const handleFileChange = async (e) => {

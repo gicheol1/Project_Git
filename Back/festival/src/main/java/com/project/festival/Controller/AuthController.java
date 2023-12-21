@@ -30,7 +30,7 @@ public class AuthController {
 // ===== ===== ===== ===== ===== ===== ===== ===== =====
 	
 	// 아이디 중복 체크
-	@PostMapping("/idCheck")
+	@PostMapping("/idCheck/{id}")
 	public ResponseEntity<?> idCheck(@PathVariable String id) {
 		
 		if(authService.idCheck(id)) {

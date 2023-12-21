@@ -1,8 +1,8 @@
 
-const PNum = ({ setNewUser }) => {
+const PNum = ({ newUser, setNewUser }) => {
 
     const onChangePW = (e) => {
-        setNewUser({ phonNum: e.target.value });
+        setNewUser({ ...newUser, phonNum: e.target.value });
     }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====

@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.festival.Entity.board.FileDto;
-import com.project.festival.Entity.board.File.FileFree;
 import com.project.festival.Entity.festival.FileFestival;
 import com.project.festival.Entity.festival.FileFestivalDto;
 import com.project.festival.Service.FireBaseService;
@@ -50,10 +48,7 @@ public class FileFestivalController {
 				d.setOrgName(files.getOrgName());
 				dto.add(d);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-				continue;
-			}
+			} catch (IOException e) { e.printStackTrace(); continue; }
 		}
 		
 		return ResponseEntity.ok(dto);
@@ -63,9 +58,9 @@ public class FileFestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	// 축제 이미지 추가
-	@PostMapping("/setFeativalFile")
-	public ResponseEntity<?> setFeativalFile(
+	// 축제 이미지 저장
+	@PostMapping("/setFileFeatival")
+	public ResponseEntity<?> setFileFeatival(
 		@RequestBody MultipartFile[] files
 	) {
 		
@@ -86,17 +81,26 @@ public class FileFestivalController {
 		return ResponseEntity.ok(fileDetail);
 	}
 	
-	// 축제 이미지 등록
-	@PostMapping("/submitFeativalFile")
-	public ResponseEntity<?> submitFeativalFile(
+	// 축제 이미지 정보를 DB에 등록
+	@PostMapping("/submitFileFeatival")
+	public ResponseEntity<?> submitFileFeatival(
 		@RequestParam Long festivalNum,
-		@RequestBody FileFestivalDto[] dto
+		@RequestBody List<FileFestivalDto> dto
 	) {
 		
 		// 이전에 저장된 DB는 제거
 		fileFestivalService.deleteAllFile(festivalNum);
 		
-		fileFestivalService.submitFile(dto);
+		for(FileFestivalDto fd : dto) {
+			FileFestival fileFree = new FileFestival(
+					festivalNum,
+				fd.getFileName(),
+				fd.getOrgName()
+			);
+			
+			fileFestivalService.submitFile(fileFree);
+		}
+		
 		return ResponseEntity.ok().build();
 	}
 
@@ -105,12 +109,43 @@ public class FileFestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 축제 이미지 삭제
-	@DeleteMapping("/deleteFeativalFile")
-	public ResponseEntity<?> deleteFeativalFile(
+	@DeleteMapping("/deleteFileFeatival")
+	public ResponseEntity<?> deleteFileFeatival(
+		@RequestBody FileFestivalDto dto
+	) {
+		
+		try {
+			storageService.deleteImageFestival(dto.getFileName());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+		
+		return ResponseEntity.ok().build();
+		
+	}
+
+	// 축제의 모든 이미지 삭제
+	@DeleteMapping("/deleteAllFileFeatival")
+	public ResponseEntity<?> deleteAllFileFeatival(
 		@RequestParam Long festivalNum
 	) {
 		
+		List<FileFestival> file = fileFestivalService.getFiles(festivalNum);
+		
+		try {
+			for(FileFestival f : file) {
+				storageService.deleteImageFestival(f.getFileName());
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+		
 		fileFestivalService.deleteAllFile(festivalNum);
+		
 		return ResponseEntity.ok().build();
 		
 	}

@@ -23,22 +23,25 @@ public class FileFestivalService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
+	// 해당 축제 번호의 이미지 가져오기
 	public List<FileFestival> getFiles(Long festivalNum) {
 		return fileFestivalRepository.findByFestivalNumOrderByFileNum(festivalNum);
 	}
-	
+
+	// 해당 축제 번호의 이미지 이름만 가져오기
 	public List<String> getName(Long festivalNum) {
 		return fileFestivalRepository.findFileNameByFestivalNumOrderByFileNum(festivalNum);
 	}
 	
-	public void submitFile(FileFestivalDto[] dto) {
-		for(FileFestivalDto file : dto) {
-			FileFestival fileFestival = modelMapper.map(file, FileFestival.class);
-			fileFestivalRepository.save(fileFestival);
-		}
+	// 축제 이미지 정보 저장
+	public void submitFile(FileFestival fileFestival) {
+		fileFestivalRepository.save(fileFestival);
 	}
 	
+	// 특정 이미지만 삭제
 	public void deleteFile(String fileName) {fileFestivalRepository.deleteByFileName(fileName);}
+	
+	// 축제 번호의 이미지 삭제
 	public void deleteAllFile(Long festivalNum) {fileFestivalRepository.deleteAllByFestivalNum(festivalNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
