@@ -9,6 +9,8 @@ import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import './TravelReservation.css';
 import { Button, Modal } from 'react-bootstrap';
 
+import { ToggleCell } from 'js';
+
 /* 여행 예약 기능 2번*/
 /* - 여행 패키지 예약 페이지(날짜와 상품갯수 선택) */
 function TravelReservation() {
@@ -146,33 +148,7 @@ function TravelReservation() {
     };
     /* ----------------------------------------------------------- */
 
-    /* 금액 표시 */
-    const formatPrice = (price) => {
-        //가격을 만원, 천원으로 분리
-        const unit = price >= 10000 ? '만' : '';
-        const mainPrice = Math.floor(price / (unit === '만' ? 10000 : 1000)); //만 단위로 표시하면 만 단위의 가격을 계산, 그 외에는 천 단위로 계산
-        const remainder = price % (unit === '만' ? 10000 : 1000); //remainder: 만 단위로 표시되면 가격을 1만으로 나눈 나머지를, 그렇지 않으면 1천으로 나눈 나머지를 계산
 
-        // 포맷된 문자열 생성
-        const formattedPrice = `${mainPrice}${unit}${remainder > 0 ? ` ${remainder}` : ''}원`; //가격 문자열
-
-        return formattedPrice;
-    };
-
-    /*datagrid의 행의 금액에 대한 '금액'과 '한국 통화 형식'변환*/
-    const ToggleCell = ({ value }) => {
-        const [toggle, setToggle] = useState(false);
-
-        const handleClick = () => {
-            setToggle(!toggle);
-        };
-
-        return (
-            <div onClick={handleClick} style={{ cursor: 'pointer' }}>
-                {toggle ? value.toLocaleString() + `원` : formatPrice(value)}
-            </div>
-        );
-    };
 
     /* - 패키지 여행의 컬럼 */
     /* ----------------------------------------------------------- */

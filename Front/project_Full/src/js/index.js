@@ -5,9 +5,10 @@
 
 // -------------------------------------------------------------------------------- //
 // [component 폴더] //
-
-// > Common 폴더
 export { SERVER_URL } from './component/constants'; // 벡엔드 주소
+
+// component 폴더 > ToggleCell 폴더(금액 표시 변환)
+export {default as ToggleCell } from './component/ToggleCell/ToggleCell';
 
 // -------------------------------------------------------------------------------- //
 
