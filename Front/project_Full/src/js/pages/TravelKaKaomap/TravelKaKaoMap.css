@@ -56,11 +56,7 @@
   accent-color: skyblue;
 }
 
-<<<<<<< HEAD
-/* .show{
-=======
 .mapshow{
->>>>>>> da50e0e3af9fca4d235d27007cbe28b348a19a5c
   position: relative;
   margin-left:5%;
   margin-top:19px;
@@ -69,16 +65,11 @@
 
 .mapshow > .공연행사{
   position: absolute;
-<<<<<<< HEAD
-  margin-top:7px;
-} */
-=======
   margin-left: -15px;
   height: 15px;
   margin-top:4px;
   accent-color: skyblue;
 }
->>>>>>> da50e0e3af9fca4d235d27007cbe28b348a19a5c
 
 .selectInput{
   position: relative;
