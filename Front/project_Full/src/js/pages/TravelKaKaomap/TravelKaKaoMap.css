@@ -1,11 +1,82 @@
 #map {
   margin-top: 5%;
   margin-bottom: 5%;
-  width: 70vh;
+  width: 120vh;
   height: 70vh;
+  margin-left: 0%;
 }
 
 #btnGroup {
   display: block;
+
+  width:100%;
+
+}
+
+.cam{
   position: relative;
+  margin-left:-20;
+  margin-top:20px;
+  float: left;
+}
+.cam > .캠핑{
+  position: absolute;
+  margin-top:7px;
+}
+.cul{
+  position: relative;
+  margin-left:10%;
+  margin-top:20px;
+  float: left;
+}
+
+.cul > .문화{
+  position:absolute;
+  margin-top:7px;
+}
+
+.fes{
+  position: relative;
+  margin-left:10%;
+  margin-top:20px;
+  float: left;
+}
+.fes > .축제{
+  position: absolute;
+  margin-top:7px;
+}
+
+.show{
+  position: relative;
+  margin-left:10%;
+  margin-top:20px;
+  float: left;
+}
+
+.show > .공연{
+  position: absolute;
+  margin-top:7px;
+}
+
+.selectInput{
+  position: relative;
+  margin-left:80%;
+  margin-top:-25px;
+  float: left;
+}
+
+.Search{
+  margin-top: 20px;
+  margin-right: 38px;
+  float: right;
+}
+
+.Text{
+  margin-top: 20px; 
+  width:85%;
+}
+
+.mapBtn{
+  
+  margin-left: 45%;
 }
