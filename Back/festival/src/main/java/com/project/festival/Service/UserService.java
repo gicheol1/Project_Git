@@ -1,9 +1,12 @@
 package com.project.festival.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.User;
@@ -118,12 +121,18 @@ public class UserService {
     }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-    
+
     // 회원 정보 조회
     public Optional<User> findUser(String memId) {
     	
     	return userRepository.findByMemId(memId);
     }
+    
+    public List<User> findUserAll() {
+    	
+    	return userRepository.findAll();
+    }
+    
     
     // 차단된 회원 조회
     public Optional<BlackList> findBlockedUser(String memId) {
@@ -134,10 +143,17 @@ public class UserService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원탈퇴
-    public void deleteUser(String memId) {
+    public void deleteUser(User user) {
     	
-    	// 사용자의 아이디와 일치하는 데이터 삭제
-    	userRepository.deleteByMemId(memId);
+  
+    	
+    	userRepository.deleteByMemId(user);
+
     }
+
+	public Iterable<User> findAll() {
+		// TODO Auto-generated method stub
+		return userRepository.findAll();
+	}
 
 }

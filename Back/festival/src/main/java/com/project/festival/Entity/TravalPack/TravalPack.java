@@ -79,7 +79,7 @@ public class TravalPack { // <여행 패키지>
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 패키지 예약자 일대다 일방향 연결
-	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="packNum")
 	private List<PackReservation> packReservation;
 }
