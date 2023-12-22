@@ -222,8 +222,8 @@ function Proceedpayment() {
 
                 <div className='card' >
                     <label>
-                        카드 번호:
-                        <input type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
+                        카드 번호<br/>
+                        <input className='cardnumber' type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
                     </label>
                 </div>
 

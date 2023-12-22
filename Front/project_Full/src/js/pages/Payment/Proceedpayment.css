@@ -42,3 +42,7 @@
 .payment-button{
     margin-top: 20px;
 }
+
+.cardnumber{
+    width: 210px;
+}
