@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
 
 /*결제 헤더*/
 .pay-header{
@@ -10,7 +10,7 @@
 }
 /*결제 제목*/
 .title{
-    font-family: 'Cute Font', sans-serif;
+    font-family: 'Single Day', cursive;
     font-size: 54px;
     color: #333;
     text-align: center;
