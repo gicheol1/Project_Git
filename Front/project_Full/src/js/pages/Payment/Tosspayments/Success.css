@@ -3,7 +3,7 @@
 .success{
     text-align: center;
     font-family: 'Cute Font', sans-serif;
-    font-size: 70px;
+    font-size: 54px;
     color: #333;
 }
 
@@ -12,4 +12,16 @@
     font-family: 'Cute Font', sans-serif;
     font-size: 20px;
     justify-content: center;
+}
+
+.success-button-style{
+    margin-left: 210px;
+    margin-top: 100px;
+}
+
+.success-inform{
+    text-align: center;
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 30px;
+    color: #333;
 }

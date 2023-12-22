@@ -58,6 +58,7 @@
     margin-left: 10px;
     font-family: 'Nanum Pen Script', cursive;
     font-size: 20px;
+    text-align: center;
 }
 /*여행 예약하기 버튼 스타일*/
 .reserve-button {

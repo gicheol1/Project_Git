@@ -251,7 +251,7 @@ function Proceedpayment() {
                 {/* 결제 위젯을 화면에 출력 */}
                 <div id="payment-widget" />
 
-                <button onClick={handleButtonClick}>
+                <button className='payment-button' onClick={handleButtonClick}>
                     결제하기
                 </button>
             </div>

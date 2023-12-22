@@ -26,6 +26,7 @@
     margin-Bottom: 5%;
     margin-Top: 5%; 
     border: none;
+    background-color: rgb(248, 249, 250);
 }
 
 .inform2{
@@ -36,4 +37,8 @@
     margin-top:-45px;
     margin-left:40px;
     position: absolute;
+}
+
+.payment-button{
+    margin-top: 20px;
 }
