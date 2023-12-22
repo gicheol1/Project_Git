@@ -1,9 +1,13 @@
-import { DataGrid } from '@mui/x-data-grid';
-import { useEffect, useRef, useState } from 'react';
-import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
-import { useNavigate, useParams } from 'react-router';
-import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // 결제 위젯 설치
 import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
+import { DataGrid } from '@mui/x-data-grid';
+
+import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // - 결제 위젯 설치
+
+import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
+
+import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router';
+
 import './Proceedpayment.css';
 
 /* 결제위젯 연동 키 [테스트] */
@@ -11,21 +15,29 @@ const clientKey = "test_ck_yZqmkKeP8gNz6vBPKOmnrbQRxB9l"
 const customerKey = "test_sk_vZnjEJeQVxNJ0bwYXo2P8PmOoBN0"
 
 /* 결제 기능 1번(여행 예약에 대한 결제) */
-/* 패키지 여행 결제 페이지*/
+/* - 패키지 여행 결제 페이지*/
 function Proceedpayment() {
+
+    /* useState(함수의 상태관리), ModalFunction(모달창의 열고 닫는 기능), useRef(리렌더링되지않는 변수) */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+
     const { resNum } = useParams(); // 패키지 여행 예약 번호 받아오기
     const [member, setMember] = useState([]); // 회원정보
     const [Packreservation, setPackreservation] = useState([]); // 패키지 여행 예약 목록 정보
-    const navigate = useNavigate(); // Navigate 객체에 접근 // 메인화면으로 보내
 
     /* 부트스트렙을 이용한 모달 팝업창 동작 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
-    /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 예약 목록 */
+    /* 결제 위젯에 대한 참조를 유지하는 useRef  */
+    const paymentWidgetRef = useRef(null);
+    const paymentMethodsWidgetRef = useRef(null);
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+
+    /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지 여행 예약 정보 불러오기 */
     useEffect(() => {
 
         const jwt = sessionStorage.getItem('jwt');
-
         if (jwt === undefined || jwt === '') { return; }
 
         // - 회원 
@@ -54,58 +66,7 @@ function Proceedpayment() {
             .catch(err => { console.error(err); });
     }, [resNum]);
 
-    /* 패키지 여행 에약 목록 */
-    /* ----------------------------------------------------------------------- */
-    // 패키지 여행 에약 목록 컬럼
-    const columns = [
-        {
-            field: 'image', // 이미지 필드가 있다고 가정
-            headerName: '여행 이미지',
-            width: 300,
-            renderCell: (params) => (
-                <div className="image-cell">
-                    {/* 테스트용 이미지 */}
-                    <img className="custom-image"
-                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
-                        alt="축제이미지"
-                        onClick={() => handleModalOpen(params.row.resNum)} // 모달 열기 함수 호출
-                    />
-
-                    {/* 부트 스트랩의 모달 폼 */}
-                    <ModalComponent
-                        showModal={modalOpenMap[params.row.resNum]}
-                        handleClose={() => handleModalClose(params.row.resNum)}
-                        selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
-                        params={params}
-                    />
-                </div>
-            ),
-        },
-        { // 한개의 컬럼에 여러 컬럼의 정보를 출력
-            field: 'travelinformation',
-            headerName: '결제 정보',
-            width: 900,
-            renderCell: (params) => (
-                <div className="travelinformation">
-                    <p>예약한 회원: {params.row.memId}</p>
-                    <p>패키지 여행: {params.row.packName}</p>
-                    <p>예약한 날: {params.row.startDate}</p>
-                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
-                    <p>숙박기간: {params.row.dateCnt}</p>
-                    <p>예약한 인원: {params.row.count}</p>
-                </div>
-            ),
-        },
-    ];
-    /* ----------------------------------------------------------------------- */
-
-    /* 결제 위젯 전용 */
-    const paymentWidgetRef = useRef(null);
-    const paymentMethodsWidgetRef = useRef(null);
-
-    /* 패키지 예약 결제 정보 데이터베이스로 보내기 */
-    /* ----------------------------------------------------------- */
+    /* 패키지 예약에 결제 정보를 데이터베이스로 보내기 */
     const handleButtonClick = async () => {
         if (!paymentInfo.cardnumber || paymentInfo.cardnumber.trim() === '') { // - 카드번호가 true 또는 입력 안 할시 카드번호 입력 경고문 출력 
             alert('카드 번호를 입력해주세요.');
@@ -158,11 +119,52 @@ function Proceedpayment() {
             }
         }
     };
-    /* ----------------------------------------------------------- */
 
+    /* 패키지 여행 에약 정보 컬럼 */
+    const columns = [
+        {
+            field: 'image', // 이미지 필드가 있다고 가정
+            headerName: '여행 이미지',
+            width: 300,
+            renderCell: (params) => (
+                <div className="image-cell">
+                    {/* 테스트용 이미지 */}
+                    <img className="custom-image"
+                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                        alt="축제이미지"
+                        onClick={() => handleModalOpen(params.row.resNum)} // 모달 열기 함수 호출
+                    />
+
+                    {/* 부트 스트랩의 모달 폼 */}
+                    <ModalComponent
+                        showModal={modalOpenMap[params.row.resNum]}
+                        handleClose={() => handleModalClose(params.row.resNum)}
+                        selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
+                        params={params}
+                    />
+                </div>
+            ),
+        },
+        { // 한개의 컬럼에 여러 컬럼의 정보를 출력
+            field: 'travelinformation',
+            headerName: '결제 정보',
+            width: 900,
+            renderCell: (params) => (
+                <div className="travelinformation">
+                    <p>예약한 회원: {params.row.memId}</p>
+                    <p>패키지 여행: {params.row.packName}</p>
+                    <p>예약한 날: {params.row.startDate}</p>
+                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
+                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                    <p>숙박기간: {params.row.dateCnt}</p>
+                    <p>예약한 인원: {params.row.count}</p>
+                </div>
+            ),
+        },
+    ];
 
     /* 결재 금액과 카드번호 입력 */
-    /* ----------------------------------------------------------- */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     const [paymentInfo, setPaymentInfo] = useState({
         payamount: 0, // 초기값은 0으로 설정하거나 다른 값으로 초기화
         cardnumber: "", // 초기값은 빈 문자열로 설정하거나 다른 값으로 초기화
@@ -175,17 +177,9 @@ function Proceedpayment() {
             [name]: value,
         });
     };
-    /* ----------------------------------------------------------- */
-
-    /* 행 클릭시 해당되는 row.resNum 번호를 콘솔에 출력 */
-    // const handleCellClick = (params) => {
-    //     const selectedResNum = params.row.resNum;
-    //     console.log("Selected ResNum:", selectedResNum);
-    //     // 여기서 선택한 ResNum을 사용하여 필요한 작업 수행
-    // };
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* Tosspayments 위젯(결제위젯) 불러오기 */
-    /* --------------------------------------------------------------------------------- */
     useEffect(() => {
         if (Packreservation.length > 0) {
             const loadWidget = async () => {
@@ -204,11 +198,13 @@ function Proceedpayment() {
             loadWidget();
         }
     }, [paymentInfo.payamount]);
+
     console.log("결제 위젯에 값이 들어갔는지 확인용(패키지 여행 * 인원 수 가격): " + paymentInfo.payamount);
     /* --------------------------------------------------------------------------------- */
     console.log(member.phonNum);
 
-
+    /* 화면 출력 */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
         <div className='pay-form'>
             <h1 className='title'><AirplaneTicketOutlinedIcon fontSize='large' /> 패키지 여행 결제</h1>

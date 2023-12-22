@@ -2,52 +2,38 @@ import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import LocalAirportIcon from '@mui/icons-material/LocalAirport';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { DataGrid } from '@mui/x-data-grid';
-import { ModalFunction, SERVER_URL, TravelCalendar, TravelPackMap } from 'js';
-import { useCheckLogin } from 'js/useCheckLogin';
+
+import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell, TravelCalendar, TravelPackMap } from 'js';
+
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+
 import './TravelReservation.css';
 
-import { ToggleCell, ModalComponent } from 'js';
-
-/* 여행 예약 기능 2번*/
+/* 여행 예약 2번*/
 /* - 여행 패키지 예약 페이지(날짜와 상품갯수 선택) */
 function TravelReservation() {
-    /* <데이터를 받을 공간, 리스트에 나타낼 아이템들> */
-    /* ----------------------------------------------------------- */
 
-    const { packNum } = useParams(); // - 회원아이디와 패키지 여행 번호 받아오기
+    /* useState(함수의 상태관리), useNavigate(라우터 내에서 경로를 변경), ModalFunction(모달창의 열고 닫는 기능) */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-    const [TravalPack, setTravalPack] = useState([]); // - 패키지 정보
-
-    // 예약인원
-    const [count, setCount] = useState(0);
-
-    const navigate = useNavigate(); // - Navigate 객체에 접근, 패키지 여행 예약 목록으로 리다이렉트
-
-    // 패키지 여행 정보
-    const [reservationInfo, setReservationInfo] = useState({});
-
-    /* ----------------------------------------------------------- */
-
-    const { checkIsLogin } = useCheckLogin();
+    const { packNum } = useParams(); // 패키지 여행 번호 받아오기
+    const [TravalPack, setTravalPack] = useState([]); // 패키지 정보
+    const [reservationInfo, setReservationInfo] = useState({}); // 패키지 여행 정보
+    const [count, setCount] = useState(0);  // 예약인원
+    const navigate = useNavigate(); // 페이지 이동을 위한 함수
 
     /* 부트 스트랩 팝업창 기능 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
-    /* <벡엔드에서 설정한 패키지여행 DB(데이터베이스) 연결> */
-    /* ----------------------------------------------------------- */
-    useEffect(() => { // - 패키지와 회원 데이터를 가져오는 부분을 묶음
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-        if (!checkIsLogin()) {
-            alert('로그인이 필요합니다');
-            navigate('/login');
-        }
-
+    /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 번호에 맞는 상세정보 불러오기 */
+    useEffect(() => {
         fetch(SERVER_URL + `travalpack/${packNum}`)
             .then((response) => response.json())
             .then((data) => {
-                setTravalPack([data]) // - 번호(기본키)에 해당된는 여행 패키지 정보 
+                setTravalPack([data]) // 번호(기본키)에 해당되는 여행 패키지 정보 
 
                 setReservationInfo({
                     startDate: data.startDate,
@@ -58,10 +44,8 @@ function TravelReservation() {
             .catch((err) => console.error(err));
 
     }, []);
-    /* ----------------------------------------------------------- */
 
-    /* <패키지 예약 신청정보 DB(데이터베이스)로 보내기(POST)> */
-    /* ----------------------------------------------------------- */
+    /* 패키지 예약 신청정보 DB(데이터베이스)로 보내기(POST) */
     const handleButtonClick = async () => {
 
         // 인원이 0명 또는 음수인 경우
@@ -69,11 +53,6 @@ function TravelReservation() {
 
         // 로그인 상태(토큰 존재여부) 확인
         const jwt = sessionStorage.getItem('jwt');
-
-
-        // 로그인이 필요합니다. 에 대한 동작을 안해서 약간 코드 수정
-        // if (jwt === undefined || jwt === '') { alert('로그인이 필요합니다'); navigate('/login'); return;}
-        // ↓ 코드 수정 ↓
         if (!jwt) { alert('로그인이 필요합니다'); navigate('/login'); return; }
 
         // 예약 정보 저장
@@ -108,8 +87,7 @@ function TravelReservation() {
     /* ----------------------------------------------------------- */
 
     /* <인원수와 여행기간 직접 입력> */
-    /* ----------------------------------------------------------- */
-
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     const handleInputChange = (e) => {
         switch (e.target.name) {
             case "count":
@@ -128,10 +106,9 @@ function TravelReservation() {
             [e.target.name]: e.target.value,
         });
     };
-    /* ----------------------------------------------------------- */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-    /* - 패키지 여행의 컬럼 */
-    /* ----------------------------------------------------------- */
+    /* 패키지 여행의 상세정보에 대한 컬럼 */
     const columns = [
         {
             field: 'image', // 이미지 필드가 있다고 가정
@@ -176,8 +153,9 @@ function TravelReservation() {
         },
 
     ];
-    /* ----------------------------------------------------------- */
-
+    
+    /* 화면 출력 */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
         <div>
             {/* 패키지 정보 */}

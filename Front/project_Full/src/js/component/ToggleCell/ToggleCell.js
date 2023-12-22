@@ -26,7 +26,7 @@ const ToggleCell = ({ value }) => {
     return (
         <div classname="togglefont"onClick={handleClick} style={{ cursor: 'pointer' }}>
             {/* 토글 상태에 따라 가격을 표시 */}
-            {toggle ? value.toLocaleString() + `원` : formatPrice(value)}
+            {toggle ? formatPrice(value) : value.toLocaleString() + `원`}
         </div>
     );
 };

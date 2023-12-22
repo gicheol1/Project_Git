@@ -19,13 +19,12 @@ const BoardMU = ({ isLogin }) => {
         getDetail,
         getFile,
 
-        setFile,
+        encodeFile,
 
         submitDetail,
         submitFile,
 
-        deleteBoard,
-        deleteFile
+        deleteBoard
     } = useBoard();
 
     const { toLogin } = useCheckLogin();
@@ -44,51 +43,63 @@ const BoardMU = ({ isLogin }) => {
     const [btnDisable, setBtnDisable] = useState(false);
 
     // 저장된 이미지
-    const [imageList, setImageList] = useState([]);
+    const [imgList, setImgList] = useState([]);
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     useEffect(() => {
 
         // 로그인 상태가 아닌경우
-        if (isLogin !== true) {
-            toLogin();
-            return;
-        }
+        if (!isLogin) { toLogin(); return; }
+
+        // 게시판 번호가 없는 경우(생성)
+        if (boardNum === undefined || boardNum === '') { return; }
 
         // 게시판 번호가 존재하는 경우(수정)
-        if (boardNum === undefined || boardNum === '') { setBtnDisable(false); return; }
-
         setBtnDisable(true);
         getDetail(target, boardNum).then((res) => { setBoard(res) });
-        getFile(target, boardNum).then((res) => { setImageList(res); setBtnDisable(false); });
-
+        getFile(target, boardNum).then((res) => { setImgList(res); setBtnDisable(false); });
+        setBtnDisable(false)
     }, [])
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 게시판 저장
     const onClickSetBoard = async () => {
-        submitDetail(
-            target, board, boardNum
 
-        ).then((res) => {
-            if (res !== undefined && res > 0) {
-                submitFile(target, imageList, res);
-            }
+        // 버튼 비활성화
+        setBtnDisable(true);
 
-            alert('저장되었습니다.');
-        });
+        const saveBoard = async () => {
+            submitDetail(target, board, boardNum).then((res) => {
+
+                if (res !== undefined) {
+
+                    // 실패한 경우(false)
+                    if (!res) { toLogin(); return; }
+
+                    console.log(imgList);
+
+                    // 성공시 
+                    if (res > 0) { submitFile(target, imgList, res); }
+                }
+
+            });
+        }
+        saveBoard();
+        // 버튼 활성화
+        setBtnDisable(false);
     }
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
+    // 파일 추가 버튼 클릭시
     const handleButtonClick = () => { inputRef.current.click(); };
 
     // 파일 추가 및 저장
@@ -102,30 +113,30 @@ const BoardMU = ({ isLogin }) => {
             const fileType = file.type.toLowerCase();
 
             // 이미지 파일인지 확인 (이미지 파일 확장자: 'image/jpeg', 'image/png', 'image/gif', 등)
-            if (fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'image/gif') {
-                imageFiles.push(file);
-            }
+            if (
+                fileType === 'image/jpg' ||
+                fileType === 'image/jpeg' ||
+                fileType === 'image/png' ||
+                fileType === 'image/gif'
+            ) { imageFiles.push(file); }
         }
 
-        setBtnDisable(true);
-        setFile(target, imageFiles, boardNum).then((res) => {
-            setImageList(...imageList, res);
-            setBtnDisable(false);
-        })
+        // 비동기 처리를 위한 내부 함수
+        const encodeImageFiles = async () => {
+            for (const imgFile of imageFiles) {
+                const res = await encodeFile(target, imgFile);
+                setImgList(prevList => [...prevList, res]);
+            }
+        };
 
+        setBtnDisable(true);
+        encodeImageFiles();
+        setBtnDisable(false);
     };
 
     // 선택한 파일 제거 함수
     const handleCancel = (indexTarget) => {
-
-        const targetImg = imageList.find((images, index) => index === indexTarget)
-
-        setBtnDisable(true);
-        deleteFile(target, targetImg).then(() => {
-            setBtnDisable(false);
-        });
-
-        setImageList(imageList.filter((images, index) => index !== indexTarget));
+        setImgList(imgList.filter((images, index) => index !== indexTarget));
     }
 
     // 비공개 여부 변경 함수
@@ -136,9 +147,9 @@ const BoardMU = ({ isLogin }) => {
         });
     };
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
         <div className="board-detail-container">
@@ -158,7 +169,7 @@ const BoardMU = ({ isLogin }) => {
                             </span>
                         </div>
 
-                        {/* 게시판 저장 버튼 */}
+                        {/* 게시판 저장(수정) / 취소(삭제) 버튼 */}
                         {boardNum === undefined || boardNum === '' ?
                             <>
                                 <Button
@@ -232,8 +243,8 @@ const BoardMU = ({ isLogin }) => {
                             />
 
                             {/* 첨부한 파일들을 표시 */}
-                            {imageList !== undefined && (
-                                imageList.map((image, index) => (
+                            {imgList !== undefined && (
+                                imgList.map((image, index) => (
                                     <div>
                                         <img
                                             key={`image ${index}`}
