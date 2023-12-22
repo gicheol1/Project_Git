@@ -82,9 +82,7 @@ const BoardList = ({ isLogin }) => {
 		navigate(`/boardMake/${target}`);
 	}
 
-	// const onShow = () => {
-	//     console.log(sessionStorage.getItem('jwt'));
-	// }
+	// const onShow = () => { console.log(sessionStorage.getItem('jwt')); }
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦

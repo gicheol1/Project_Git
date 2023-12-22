@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Dto.FestivalDto;
-import com.project.festival.Entity.festival.Festival;
 import com.project.festival.Service.festival.FestivalService;
 
 @RestController
@@ -33,8 +32,11 @@ public class FestivalController {
     // 페이지 별 축제 10개씩 가져오기
 	@GetMapping("/festivalPage")
 	public ResponseEntity<?> getFestivalPage(@RequestParam int page){
+		
 		Pageable pageable = PageRequest.of(page, 10, Sort.by("festivalNum").descending());
+		
 		return ResponseEntity.ok(festivalService.getFestivalPage(pageable));
+		
 	}
 	
 	// 등록된 축제 총 갯수
@@ -45,20 +47,12 @@ public class FestivalController {
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 축제 정보 가져오기
+	// 축제 상세 정보 가져오기
 	@GetMapping("/getFeatival")
 	public ResponseEntity<?> getFeatival(
 		@RequestParam Long festivalNum
 	) {
-		
-		Festival festival = festivalService.getFestival(festivalNum);
-		
-		if(festival==null) {
-			return ResponseEntity.ok(false);
-		} else {
-			return ResponseEntity.ok(festivalService.getFestival(festivalNum));
-		}
-		
+		return ResponseEntity.ok(festivalService.getFestival(festivalNum));
 	}
 
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -80,7 +74,7 @@ public class FestivalController {
 	// 축제 삭제
 	@DeleteMapping("/deleteFeatival")
 	public ResponseEntity<?> deleteFeatival(
-			@RequestParam Long festivalNum
+		@RequestParam Long festivalNum
 	) {
 		festivalService.deleteFestival(festivalNum);
 		return ResponseEntity.ok().build();

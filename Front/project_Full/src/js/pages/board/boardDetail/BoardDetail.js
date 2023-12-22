@@ -137,146 +137,150 @@ const BoardDetail = ({ isLogin }) => {
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-	return (
-		<div className="board-detail-container">
+	if (fileList.length === 0) {
+		return <div>Loadming...</div>
+	} else {
+		return (
+			<div className="board-detail-container">
 
-			{/* ===== 제목, 작성자, 일자 ===== */}
-			<div className="board-head">
-				<div className="board-info">
+				{/* ===== 제목, 작성자, 일자 ===== */}
+				<div className="board-head">
+					<div className="board-info">
 
-					<h3 className="board-title">{board.title}</h3>
+						<h3 className="board-title">{board.title}</h3>
 
-					<span className="author-info"> 작성자: {board.memId} </span>
-					<span className="date-info"> 작성 일자: {board.date} </span>
-				</div>
-
-				{isLogin && isOwner === true ?
-					<div className="board-actions">
-
-						<Button
-							className="btn"
-							variant="contained"
-							onClick={onMoveUpdate}
-						>
-							수정하기
-						</Button>
-						<Button
-							className="btn"
-							variant="contained"
-							color="error"
-							onClick={onDeleteBoard}
-						>
-							삭제하기
-						</Button>
+						<span className="author-info"> 작성자: {board.memId} </span>
+						<span className="date-info"> 작성 일자: {board.date} </span>
 					</div>
-					:
-					<></>
-				}
 
-			</div>
+					{isLogin && isOwner === true ?
+						<div className="board-actions">
 
-			<hr />
-
-			{/* ===== 글 이미지, 내용 ===== */}
-			<div className="boardContent">
-				{fileList !== null && fileList.length !== 0 ?
-					fileList.map((images, index) => (
-						images.orgName != undefined ?
-							<img
-								key={`image ${index}`}
-								alt={`image ${images.orgName}`}
-								src={`data:image/png;base64,${images.imgFile}`}
-							/>
-							: <></>
-					))
-					:
-					<></>
-				}
-				<p>{board.content}</p>
-			</div>
-
-			<hr />
-
-			{/* ===== 댓글 ===== */}
-			<div className="board-comment">
-				<div className="createComment">
-
-					{/* 답글 대상 표시 */}
-					{newComment.recoNum !== '' && (
-						<div className="recomment">
-							<label>
-								답글 대상 :
-								<input
-									style={{ marginLeft: '10px' }}
-									type="text"
-									value={newComment.recoMemId}
-									readOnly
-								/>
-							</label>
 							<Button
-								style={{ marginBottom: '20px' }}
-								className="cancle-recomment"
-								onClick={cancleRecoTarget}
+								className="btn"
+								variant="contained"
+								onClick={onMoveUpdate}
 							>
-								취소
+								수정하기
+							</Button>
+							<Button
+								className="btn"
+								variant="contained"
+								color="error"
+								onClick={onDeleteBoard}
+							>
+								삭제하기
 							</Button>
 						</div>
-					)}
+						:
+						<></>
+					}
 
-					{/* 댓글 입력, 추가 */}
-					<div className="board-newComment">
-						<Button
-							className="addComment"
-							disabled={!isLogin}
-							onClick={() => { submitComment(target, boardNum, newComment) }}
-						>
-							{newComment.recoNum !== '' ? `답글 추가` : `댓글 추가`}
-
-						</Button>
-						<textarea
-							className="addCommentArea"
-							disabled={!isLogin}
-							placeholder={isLogin ? '' : '로그인이 필요합니다.'}
-							value={newComment.content}
-							onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
-						/>
-					</div>
 				</div>
 
 				<hr />
 
-				{/* 댓글 표시 */}
-				{(commentList !== undefined && commentList.length !== 0) ?
-					commentList.map((comment, index) => (
-						<Comment
-							key={`Comments-${index}`}
+				{/* ===== 글 이미지, 내용 ===== */}
+				<div className="boardContent">
+					{fileList !== null && fileList.length !== 0 ?
+						fileList.map((images, index) => (
+							images.orgName != undefined ?
+								<img
+									key={`image ${index}`}
+									alt={`image ${images.orgName}`}
+									src={`data:image/png;base64,${images.imgFile}`}
+								/>
+								: <></>
+						))
+						:
+						<></>
+					}
+					<p>{board.content}</p>
+				</div>
 
-							// 로그인, 종류, 게시판 번호
-							isLogin={isLogin}
-							target={target}
-							boardNum={boardNum}
+				<hr />
 
-							// 게시판 작성자 여부
-							isOwner={isOwner}
+				{/* ===== 댓글 ===== */}
+				<div className="board-comment">
+					<div className="createComment">
 
-							// 작성한 댓글
-							comment={comment}
-							boardMemId={board.memId}
+						{/* 답글 대상 표시 */}
+						{newComment.recoNum !== '' && (
+							<div className="recomment">
+								<label>
+									답글 대상 :
+									<input
+										style={{ marginLeft: '10px' }}
+										type="text"
+										value={newComment.recoMemId}
+										readOnly
+									/>
+								</label>
+								<Button
+									style={{ marginBottom: '20px' }}
+									className="cancle-recomment"
+									onClick={cancleRecoTarget}
+								>
+									취소
+								</Button>
+							</div>
+						)}
 
-							// 답글 대상 삭제 여부
-							getRecoCommIsDeleted={getRecoCommIsDeleted}
+						{/* 댓글 입력, 추가 */}
+						<div className="board-newComment">
+							<Button
+								className="addComment"
+								disabled={!isLogin}
+								onClick={() => { submitComment(target, boardNum, newComment) }}
+							>
+								{newComment.recoNum !== '' ? `답글 추가` : `댓글 추가`}
 
-							// 답글 대상 지정
-							setRecoTarget={setRecoTarget}
-						/>
-					))
-					:
-					// 없는 경우
-					<p>댓글이 없습니다.</p>
-				}
-			</div>
-		</div >
-	);
+							</Button>
+							<textarea
+								className="addCommentArea"
+								disabled={!isLogin}
+								placeholder={isLogin ? '' : '로그인이 필요합니다.'}
+								value={newComment.content}
+								onChange={(e) => { setNewComment({ ...newComment, content: e.target.value }) }}
+							/>
+						</div>
+					</div>
+
+					<hr />
+
+					{/* 댓글 표시 */}
+					{(commentList !== undefined && commentList.length !== 0) ?
+						commentList.map((comment, index) => (
+							<Comment
+								key={`Comments-${index}`}
+
+								// 로그인, 종류, 게시판 번호
+								isLogin={isLogin}
+								target={target}
+								boardNum={boardNum}
+
+								// 게시판 작성자 여부
+								isOwner={isOwner}
+
+								// 작성한 댓글
+								comment={comment}
+								boardMemId={board.memId}
+
+								// 답글 대상 삭제 여부
+								getRecoCommIsDeleted={getRecoCommIsDeleted}
+
+								// 답글 대상 지정
+								setRecoTarget={setRecoTarget}
+							/>
+						))
+						:
+						// 없는 경우
+						<p>댓글이 없습니다.</p>
+					}
+				</div>
+			</div >
+		);
+	}
 }
 
 export default BoardDetail;

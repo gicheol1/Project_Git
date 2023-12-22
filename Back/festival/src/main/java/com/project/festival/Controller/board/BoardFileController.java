@@ -289,7 +289,7 @@ public class BoardFileController {
 		catch(Exception e) { return ResponseEntity.ok(false); }
 		
 		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
+		if(claims.isEmpty() || !jwtService.isExistsByJti(claims.get("jti", String.class))) {
 			return ResponseEntity.ok(false);
 		}
 		

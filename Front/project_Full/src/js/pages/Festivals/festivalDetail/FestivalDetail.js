@@ -14,7 +14,7 @@ const FestivalDetail = () => {
 
     // 축제 상세 정보
     const [detail, setDetail] = useState();
-    const [imgDetail, setImgDetail] = useState();
+    const [imgList, setImgList] = useState();
 
     const {
         getFestivalDetail,
@@ -39,7 +39,7 @@ const FestivalDetail = () => {
             setDetail(res);
 
             getFileFeatival(festivalNum).then(res => {
-                setImgDetail(res);
+                setImgList(res);
             })
         });
 
@@ -90,8 +90,8 @@ const FestivalDetail = () => {
                 <hr />
 
                 {/* 이미지와 내용 */}
-                {imgDetail !== undefined && imgDetail.length !== 0 ?
-                    imgDetail.map((images, index) => (
+                {imgList !== undefined && imgList.length !== 0 ?
+                    imgList.map((images, index) => (
                         images.orgName !== undefined ?
                             <img
                                 key={`image ${index}`}
