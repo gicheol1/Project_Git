@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Dto.FestivalDto;
-import com.project.festival.Entity.festival.Festival;
 import com.project.festival.Service.festival.FestivalService;
 
 @RestController
@@ -45,20 +44,12 @@ public class FestivalController {
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 축제 정보 가져오기
+	// 축제 상세 정보 가져오기
 	@GetMapping("/getFeatival")
 	public ResponseEntity<?> getFeatival(
 		@RequestParam Long festivalNum
 	) {
-		
-		Festival festival = festivalService.getFestival(festivalNum);
-		
-		if(festival==null) {
-			return ResponseEntity.ok(false);
-		} else {
-			return ResponseEntity.ok(festivalService.getFestival(festivalNum));
-		}
-		
+		return ResponseEntity.ok(festivalService.getFestival(festivalNum));
 	}
 
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -80,7 +71,7 @@ public class FestivalController {
 	// 축제 삭제
 	@DeleteMapping("/deleteFeatival")
 	public ResponseEntity<?> deleteFeatival(
-			@RequestParam Long festivalNum
+		@RequestParam Long festivalNum
 	) {
 		festivalService.deleteFestival(festivalNum);
 		return ResponseEntity.ok().build();
