@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.festival.Dto.FileDto;
-import com.project.festival.Entity.festival.FileFestival;
+import com.project.festival.Entity.TravalPack.FileTravalPack;
 import com.project.festival.Service.FireBaseService;
 import com.project.festival.Service.TravalPack.FileTravalPackService;
 
@@ -42,15 +42,15 @@ public class FileTravalPackController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 축제 이미지 가져오기
+	// 패키지 이미지 가져오기
 	@GetMapping("/getFileTravalPack")
 	public ResponseEntity<?> getFileTravalPack(
-		@RequestParam Long festivalNum
+		@RequestParam Long packNum
 	) {
 		
 		List<FileDto> dto = new ArrayList<>();
 		
-		for(FileFestival files : fileTravalPackService.getFiles(festivalNum)) {
+		for(FileTravalPack files : fileTravalPackService.getFiles(packNum)) {
 			try {
 				FileDto fd = modelMapper.map(files, FileDto.class);
 				fd.setImgFile(storageService.getImageFile(files.getFileName()));
@@ -96,25 +96,25 @@ public class FileTravalPackController {
 		return ResponseEntity.ok(fd);
 	}
 	
-	// 축제 이미지 정보를 DB에 등록
+	// 패키지 이미지 정보를 DB에 등록
 	@PostMapping("/submitFileFileTravalPack")
 	public ResponseEntity<?> submitFileTravalPack(
-		@RequestParam Long festivalNum,
+		@RequestParam Long packNum,
 		@RequestBody List<FileDto> dto
 	) {
 		
 		// 이전에 저장된 DB는 제거
-		fileTravalPackService.deleteAllFile(festivalNum);
+		fileTravalPackService.deleteAllFile(packNum);
 		
 		for(FileDto fd : dto) {
 			
 			try { storageService.uploadImage(fd); }
 			catch (IOException e) { e.printStackTrace(); continue; }
 			
-			FileFestival fileFree = modelMapper.map(fd, FileFestival.class);
-			fileFree.setFestivalNum(festivalNum);
+			FileTravalPack fileTP = modelMapper.map(fd, FileTravalPack.class);
+			fileTP.setPackNum(packNum);
 			
-			fileTravalPackService.submitFile(fileFree);
+			fileTravalPackService.submitFile(fileTP);
 		}
 		
 		return ResponseEntity.ok().build();
@@ -124,13 +124,13 @@ public class FileTravalPackController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 축제의 모든 이미지 삭제
+	// 패키지의 모든 이미지 삭제
 	@DeleteMapping("/deleteAllFileTravalPack")
 	public ResponseEntity<?> deleteAllFileTravalPack(
-		@RequestParam Long festivalNum
+		@RequestParam Long packNum
 	) {
 		
-		for(FileFestival f : fileTravalPackService.getFiles(festivalNum)) {
+		for(FileTravalPack f : fileTravalPackService.getFiles(packNum)) {
 			try {
 				FileDto fd = modelMapper.map(f, FileDto.class);
 				storageService.deleteImage(fd);
@@ -141,7 +141,7 @@ public class FileTravalPackController {
 			}
 		}
 		
-		fileTravalPackService.deleteAllFile(festivalNum);
+		fileTravalPackService.deleteAllFile(packNum);
 		
 		return ResponseEntity.ok().build();
 		
