@@ -1,5 +1,6 @@
 package com.project.festival.Service.festival;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.project.festival.Dto.FestivalDto;
+import com.project.festival.Dto.TravalPackDto;
+import com.project.festival.Entity.TravalPack.TravalPack;
 import com.project.festival.Entity.festival.Festival;
 import com.project.festival.Entity.festival.FestivalRepo;
 
@@ -53,6 +56,14 @@ public class FestivalService {
 		return festivalRepository.save(festival).getFestivalNum();
 	}
 
+	/* 테스트용 축제 데이터 */
+	public void createFestival(ArrayList<FestivalDto> createFestivalList) {
+		for (FestivalDto festivalDto : createFestivalList) {
+			Festival festival = modelMapper.map(festivalDto, Festival.class);
+			festivalRepository.save(festival);
+		}
+	}
+	
 // ========== ========== ========== ========== ========== ========== ========== ==========
 // ========== ========== ========== ========== ========== ========== ========== ==========
 // ========== ========== ========== ========== ========== ========== ========== ==========

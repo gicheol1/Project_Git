@@ -1,33 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=East+Sea+Dokdo&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&display=swap');
 
 
 .Modal{
-    background: linear-gradient(to right,#D2FEFF, #F6BEE5);
+    background : linear-gradient(to right, #fbfbfc, #dbfeff);
     margin-Left: 20px;
     display: flex;
     align-Items: center;
 }
 
+/*정보*/
 .Modal-inform{
    margin-Left: 50px;
-   font-family: 'Nanum Pen Script', cursive;
+   font-family: 'Cute Font', sans-serif;
    font-size: 20px;
+   
 }
 
+
+
+/*버튼*/
 .Modal-button{
     font-family: 'Cute Font', sans-serif;
-    font-size: 20px;
+    font-size: 25px;
     text-align: center;
+}
+
+/*모달창 바디*/
+.modal-body{
+    background : linear-gradient(to right, #fbfbfc, #dbfeff);
+}
+
+/*모달창 상단 텍스트*/
+.Modal-title{
+    font-family: 'Cute Font', sans-serif;
+    font-size: 25px;
+    margin-left: 50px;
     
 }
 
-.Modal-title{
-    font-family: 'Cute Font', sans-serif;
-    font-size: 24px;
-    margin-left: 20px;
-}
-
+/*이미지*/
 .modal-image{
     margin-left: 30px;
     width: 300px;
+    height: 390px;
 }
+
+.custom-modal-dialog modal-lg{
+    background : linear-gradient(to right, #fbfbfc, #dbfeff);
+}
+
+/*모달창 상단*/
+.modal-back{
+    background : linear-gradient(to right, #fbfbfc, #dbfeff);
+}
+
+/*모달창 하단*/
+.modal-footer{
+    background : linear-gradient(to right, #fbfbfc, #dbfeff);
+}
+

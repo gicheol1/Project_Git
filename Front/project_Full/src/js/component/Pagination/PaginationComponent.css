@@ -1,0 +1,12 @@
+/*페이지네이션 스타일*/
+.Pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/*버튼 호버 색깔*/
+.MuiPagination-root button:hover {
+    background-color: #dbfeff;
+}

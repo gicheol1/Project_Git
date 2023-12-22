@@ -1,6 +1,8 @@
 package com.project.festival.Dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Random;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,5 +42,26 @@ public class FestivalDto {
 
 	// 축제 지역(서울, 인천, 대전, ...)
 	private String region;
-
+	
+	// 축제 테스트용 데이터
+	static public ArrayList<FestivalDto> createFestival() {
+		ArrayList<FestivalDto> FestivalList = new ArrayList<FestivalDto>();
+		
+		Random random = new Random();
+		
+		FestivalDto Festival1 = new FestivalDto();
+		Festival1.setName("축제이름");
+		Festival1.setContent("test");
+		Festival1.setLocation("서울 서초구");
+		Festival1.setStartDate(LocalDate.of(2023, random.nextInt(6) + 1, random.nextInt(14) + 1)); // 1 ~ 15까지 랜덤 일
+		Festival1.setEndDate(LocalDate.of(2023, random.nextInt(6) + 6, random.nextInt(14) + 15)); // 15 ~ 28까지 랜덤 일
+		Festival1.setSingDate(LocalDate.now());
+		Festival1.setOfficialWebsite("https://adventure.lotteworld.com/kor/enjoy/festival/view.do");
+		Festival1.setTag("공연/행사");
+		Festival1.setRegion("서울");
+		
+		FestivalList.add(Festival1);
+		
+		return FestivalList;
+	}
 }

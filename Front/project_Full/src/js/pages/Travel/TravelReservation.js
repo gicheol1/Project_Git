@@ -1,5 +1,5 @@
-import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
-import LocalAirportIcon from '@mui/icons-material/LocalAirport';
+import NightsStayIcon from '@mui/icons-material/NightsStay';
+import BedtimeIcon from '@mui/icons-material/Bedtime';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -138,7 +138,7 @@ function TravelReservation() {
             renderCell: (params) => (
                 <div className="travelinformation">
                     <p>패키지번호: {params.row.packNum}</p>
-                    <p>패키지이름: {params.row.name}</p>
+                    <p>숙소: {params.row.name}</p>
                     {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
                     <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
                     <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
@@ -148,6 +148,7 @@ function TravelReservation() {
                     <p>몇 인실: {params.row.person}</p>
                     <p>상세내용: {params.row.text}</p>
                     <p>예약 가능한 상태: {params.row.reservation}</p>
+                    <p>축제: {params.row.festivalname}</p>
                 </div>
             ),
         },
@@ -162,7 +163,7 @@ function TravelReservation() {
             <div>
                 {/* 패키지 여행 목록 스타일 */}
                 <div className="traval-reservation-container">
-                    <h2 className="traval-reservation-header"><LocalAirportIcon className='icon-rotation' fontSize='large' /> 여행 패키지 정보</h2>
+                    <h2 className="traval-reservation-header"><BedtimeIcon className='bed-time-icon' fontSize='large' /> 숙박 정보</h2>
                     <DataGrid
                         className="hideHeaders" // 컬럼 헤더 숨기기
                         rows={TravalPack} // TravalPack 데이터
@@ -207,8 +208,8 @@ function TravelReservation() {
                             onChange={handleInputChange}
                         />
                         {/* dateCnt 입력 폼 */}
-                        <ConnectingAirportsIcon fontSize='large' />
-                        <span className='inform-font'> 패키지 여행기간 :</span>
+                        <NightsStayIcon fontSize='large' />
+                        <span className='inform-font'> 숙박 기간 :</span>
                         <input className='date'
                             type="text"
                             name="dateCnt"
@@ -225,7 +226,7 @@ function TravelReservation() {
                 <div className='reserve-button'>
                     <button className='reserve-button-font'
                         onClick={handleButtonClick}>
-                        여행 예약하기
+                        예약하기
                     </button>
                 </div>
             </div>

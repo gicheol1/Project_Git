@@ -100,7 +100,7 @@ function TravelCalendar({ packNum }) {
                 </span>
                 <span className="rbc-btn-group">
                     <button className='calendar-button-font' type="button" onClick={goToSpecificDate}>
-                        여행패키지 시작일로 이동
+                        예약 시작일로 이동
                     </button>
                 </span>
                 <span className="rbc-toolbar-label">

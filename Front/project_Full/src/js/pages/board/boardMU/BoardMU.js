@@ -6,6 +6,7 @@ import './BoardMU.css';
 import { Button } from '@mui/material';
 import { useBoard } from './useBoardMU';
 import { useCheckLogin } from 'js/useCheckLogin';
+import { async } from 'q';
 
 const BoardMU = ({ isLogin }) => {
 
@@ -24,7 +25,8 @@ const BoardMU = ({ isLogin }) => {
         submitDetail,
         submitFile,
 
-        deleteBoard
+        deleteBoard,
+        deleteFile
     } = useBoard();
 
     const { toLogin } = useCheckLogin();
@@ -54,14 +56,14 @@ const BoardMU = ({ isLogin }) => {
         // 로그인 상태가 아닌경우
         if (!isLogin) { toLogin(); return; }
 
-        // 게시판 번호가 없는 경우(생성)
-        if (boardNum === undefined || boardNum === '') { return; }
-
         // 게시판 번호가 존재하는 경우(수정)
-        setBtnDisable(true);
-        getDetail(target, boardNum).then((res) => { setBoard(res) });
-        getFile(target, boardNum).then((res) => { setImgList(res); setBtnDisable(false); });
-        setBtnDisable(false)
+        if (boardNum !== undefined && boardNum !== '') {
+            setBtnDisable(true);
+            getDetail(target, boardNum).then((res) => { setBoard(res) });
+            getFile(target, boardNum).then((res) => { setImgList(res); setBtnDisable(false); });
+            setBtnDisable(false)
+        }
+
     }, [])
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -79,7 +81,7 @@ const BoardMU = ({ isLogin }) => {
                     // 실패한 경우(false)
                     if (!res) { toLogin(); return; }
 
-                    console.log(imgList);
+                    // console.log(imgList);
 
                     // 성공시 
                     if (res > 0) { submitFile(target, imgList, res); }
@@ -137,8 +139,18 @@ const BoardMU = ({ isLogin }) => {
     };
 
     // 선택한 파일 제거 함수
-    const handleCancel = (indexTarget) => {
-        setImgList(imgList.filter((images, index) => index !== indexTarget));
+    const handleCancel = async (indexTarget) => {
+
+        const deleteOneFile = async () => {
+            deleteFile(target, boardNum, imgList.find((images, index) => index !== indexTarget)).then(() => {
+                setImgList(imgList.filter((images, index) => index !== indexTarget));
+            });
+        }
+
+        setBtnDisable(true);
+        deleteOneFile();
+        setBtnDisable(false);
+
     }
 
     // 비공개 여부 변경 함수
