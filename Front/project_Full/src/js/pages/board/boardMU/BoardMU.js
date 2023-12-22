@@ -71,9 +71,6 @@ const BoardMU = ({ isLogin }) => {
     // 게시판 저장
     const onClickSetBoard = async () => {
 
-        // 버튼 비활성화
-        setBtnDisable(true);
-
         const saveBoard = async () => {
             submitDetail(target, board, boardNum).then((res) => {
 
@@ -90,7 +87,12 @@ const BoardMU = ({ isLogin }) => {
 
             });
         }
+
+        // 버튼 비활성화
+        setBtnDisable(true);
+
         saveBoard();
+
         // 버튼 활성화
         setBtnDisable(false);
     }
