@@ -18,6 +18,7 @@
     "@tosspayments/payment-widget-sdk": "^0.10.2",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
+    "fortawesome": "^0.0.1-security",
     "react": "^18.2.0",
     "react-alice-carousel": "^2.8.0",
     "react-big-calendar": "^1.8.5",

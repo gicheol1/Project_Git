@@ -50,7 +50,7 @@ public class PackReservation { // <패키지 예약자>
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 결제 내역 일대다 일방향 연결
-	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="resNum")
 	private List<Payment> payment;
 }
