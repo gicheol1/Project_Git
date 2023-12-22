@@ -88,8 +88,23 @@ const Festivals = () => {
 	}
 
 	// 추가 버튼 클릭시
-	const handleAdd = () => {
-		submitFestival(festival).then(num => submitFileFestival(imgList, num));
+	const handleAdd = async () => {
+
+		const saveFestival = async () => {
+
+			submitFestival(festival).then(num => {
+				submitFileFestival(imgList, num)
+			});
+
+		}
+
+		// 버튼 비활성화
+		setBtnDisable(true);
+
+		saveFestival();
+
+		// 버튼 활성화
+		setBtnDisable(false);
 	};
 
 	// 모든 데이터가 있는지 확인
