@@ -36,7 +36,7 @@
 .link {
   display: block;
   /* 수정된 내용 시작 */
-  width: 12%; /* 수정: 버튼 전체 폭 사용 */
+  width: 7%; /* 수정: 버튼 전체 폭 사용 */
   margin-bottom: 5px;
   /* 수정된 내용 끝 */
   padding: 10px;

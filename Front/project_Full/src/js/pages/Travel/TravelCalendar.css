@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
 
-
 /*달력 년,월 스타일*/
 .calendar-date{
     text-Align: center;
@@ -21,6 +20,11 @@
     font-size: 20px;
     font-weight: bold;
 }
+
+.rbc-toolbar button:hover{
+    background-color: #dbfeff;
+}
+
 /*달력 전체 스타일*/
 .calendar {
     margin-Right: 0px;
