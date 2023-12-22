@@ -17,7 +17,7 @@ public class TravalPackDto {
 
 	// 패키지 이름, 흡연실(금연실), 주소, 내용
 	@NotNull
-	private String name, smoke, address, text;
+	private String name, smoke, address, text, festivalname;
 
 	// 가격, 최대 인원수
 	@NotBlank
@@ -34,22 +34,17 @@ public class TravalPackDto {
 	/* TravalPackDto에서 사용할 랜덤도로명 주소 */ 
     private static final String[] roadAddresses = {
             "대전광역시 서구 배재로 155-40", "대전광역시 서구 배재로 102", "대전광역시 서구 배재로 103",
-            "대전광역시 서구 배재로 104", "대전광역시 서구 배재로 106", "대전광역시 서구 배재로 107-1",
-            "대전광역시 서구 배재로 107-7", "대전광역시 서구 배재로 107-9", "대전광역시 서구 배재로 107-11",
-            "대전광역시 서구 배재로 107-16", "대전광역시 서구 배재로 107-30 (양지타운)", "대전광역시 서구 배재로 107-33",
-            "대전광역시 서구 배재로 107-37", "대전광역시 서구 배재로 108", "대전광역시 서구 배재로 116",
             "대전광역시 서구 배재로 117 (복음로얄아파트)", "대전광역시 서구 배재로 118", "대전광역시 서구 배재로 118-1",
             "대전광역시 서구 배재로 120", "대전광역시 서구 배재로 122", "대전광역시 서구 배재로 123",
-            "대전광역시 서구 배재로 124", "대전광역시 서구 배재로 126", "대전광역시 서구 배재로 126-1",
-            "대전광역시 서구 배재로 128", "대전광역시 서구 배재로 134 (경남아파트1단지)", "대전광역시 서구 배재로 139-31 (경남아파트2단지)",
-            "대전광역시 서구 배재로 139-43", "대전광역시 서구 배재로 139-53", "대전광역시 서구 배재로 139-57",
-            "대전광역시 서구 배재로 139-65 (경남아파트2단지)", "대전광역시 서구 배재로 155-7 (경남아파트2단지)", "대전광역시 서구 배재로 152",
-            "대전광역시 서구 배재로 155-26 (경남아파트2단지)", "대전광역시 서구 배재로 156", "대전광역시 서구 배재로 160",
-            "대전광역시 서구 배재로 162", "대전광역시 서구 배재로 162-1", "대전광역시 서구 배재로 164",
             "대전광역시 서구 배재로 166", "대전광역시 서구 배재로 168", "대전광역시 서구 배재로 170",
-            "대전광역시 서구 배재로 173-8", "대전광역시 서구 배재로 174", "대전광역시 서구 배재로 175",
-            "대전광역시 서구 배재로 176", "대전광역시 서구 배재로 177", "대전광역시 서구 배재로 178",
-            "대전광역시 서구 배재로 180", "대전광역시 서구 배재로 181",             
+            "서울특별시 강북구 삼양로177길", "서울특별시 강북구 삼양로181길", "서울특별시 강북구 삼양로", "서울특별시 강북구 삼양로170길",
+            "서울특별시 강북구 도선사길 236", "서울특별시 강북구 오현로 65", "서울특별시 강북구 한천로140길 58", "서울특별시 강북구 노해로 29",
+            "서울특별시 강북구 도봉로 114", "서울특별시 강북구 도봉로 253", "서울특별시 강북구 도봉로 374", "서울특별시 강북구 삼각산로 43",
+            "서울특별시 강북구 삼각산로20길", "서울특별시 강북구 삼양로 689", "서울특별시 강북구 삼양로19길 47", "서울특별시 강북구 삼양로19길 141",
+            "전라북도 전주시 완산구 전라감영로 55", "전라북도 전주시 완산구 전라감영로 75", "전라북도 전주시 완산구 전라감영1길 1", "전라북도 전주시 완산구 전라감영1길 2",
+            "전라북도 전주시 완산구 전라감영1길 3-2", "전라북도 전주시 완산구 전라감영1길 3-4", "전라북도 전주시 완산구 전라감영1길 3-6", "전라북도 전주시 완산구 전라감영1길 4",
+            "전라북도 전주시 완산구 전라감영1길 5", "전라북도 전주시 완산구 전라감영1길 6", "전라북도 전주시 완산구 전라감영1길 7", "전라북도 전주시 완산구 전라감영1길 7-1",
+            "전라북도 전주시 완산구 전라감영1길 7-4", "전라북도 전주시 완산구 전라감영1길 7-7", "전라북도 전주시 완산구 전라감영1길 9", "전라북도 전주시 완산구 전라감영1길 10",
     };
     
     // - 랜덤한 주소 선택
@@ -57,17 +52,37 @@ public class TravalPackDto {
         int randomIndex = (int) (Math.random() * roadAddresses.length);
         return roadAddresses[randomIndex];
     }
+    
+    /* TravalPackDto에서 사용할 랜덤축제명 */ 
+    private static final String[] festivalnames = {
+    		"서울일러스트레이션페어V.16", "ㅊ ㅊ-하다 페스티벌", "롯데월드 miracle winter", "축제이름"
+    };
+    
+    // - 랜덤한 축제 선택
+    private static String getRandomfestivalnames() {
+    	int randomIndex = (int) (Math.random() * festivalnames.length);
+    	return festivalnames[randomIndex];
+    }
 
 	static public ArrayList<TravalPackDto> createTravalPack() {
 		ArrayList<TravalPackDto> TravalPackList = new ArrayList<TravalPackDto>();
 
 		Random random = new Random();
 				
+		
 		TravalPackDto TravalPack1 = new TravalPackDto();
-		TravalPack1.setName("여행 패키지 테스트1");
-		TravalPack1.setPrice(random.nextInt(10000000));
-		TravalPack1.setStartDate(LocalDate.of(2023, random.nextInt(6) + 1, random.nextInt(14) + 1)); // 1 ~ 15까지 랜덤 일
-		TravalPack1.setEndDate(LocalDate.of(2023, random.nextInt(6) + 6, random.nextInt(14) + 15)); // 15 ~ 28까지 랜덤 일
+
+		// 시작일에서 2일을 더한 후 종료일로 설정
+		TravalPack1.setName("패키지 여행 숙소 테스트1");
+		TravalPack1.setPrice(random.nextInt(10000));
+//		TravalPack1.setStartDate(LocalDate.of(2023, random.nextInt(6) + 1, random.nextInt(14) + 1)); // 1 ~ 15까지 랜덤 일
+//		TravalPack1.setEndDate(LocalDate.of(2023, random.nextInt(6) + 6, random.nextInt(14) + 15)); // 15 ~ 28까지 랜덤 일
+		
+		TravalPack1.setStartDate(LocalDate.of(2023, 11, random.nextInt(29) + 1)); // 1 ~ 30까지 랜덤 일
+		LocalDate startDate1 = TravalPack1.getStartDate(); // 시작일 가져오기
+		LocalDate endDate1 = startDate1.plusDays(1); // 시작일로부터 1일 후를 종료일로 설정
+		TravalPack1.setEndDate(endDate1); // 종료일 설정
+		
 		TravalPack1.setSingupDate(LocalDate.now());
 		TravalPack1.setCount(30);
 		TravalPack1.setSmoke("흡연실");
@@ -75,14 +90,17 @@ public class TravalPackDto {
 		TravalPack1.setReservation(Reservation.YES);
 		TravalPack1.setAddress(getRandomRoadAddress());
 		TravalPack1.setText("상새내용1");
+		TravalPack1.setFestivalname(getRandomfestivalnames());
 
 		TravalPackList.add(TravalPack1);
 
 		TravalPackDto TravalPack2 = new TravalPackDto();
-		TravalPack2.setName("여행 패키지 테스트2");
-		TravalPack2.setPrice(random.nextInt(10000000));
-		TravalPack2.setStartDate(LocalDate.of(2023, random.nextInt(6) + 1, random.nextInt(14) + 1)); // 1 ~ 15까지 랜덤 일
-		TravalPack2.setEndDate(LocalDate.of(2023, random.nextInt(6) + 6, random.nextInt(14) + 15)); // 15 ~ 28까지 랜덤 일
+		TravalPack2.setName("패키지 여행 숙소 테스트2");
+		TravalPack2.setPrice(random.nextInt(20000));
+		TravalPack2.setStartDate(LocalDate.of(2023, 12, random.nextInt(29) + 1)); // 1 ~ 30까지 랜덤 일
+		LocalDate startDate2 = TravalPack2.getStartDate(); // 시작일 가져오기
+		LocalDate endDate2 = startDate2.plusDays(2); // 시작일로부터 2일 후를 종료일로 설정
+		TravalPack2.setEndDate(endDate2); // 종료일 설정
 		TravalPack2.setSingupDate(LocalDate.now());
 		TravalPack2.setCount(20);
 		TravalPack2.setSmoke("금연실");
@@ -90,16 +108,19 @@ public class TravalPackDto {
 		TravalPack2.setReservation(Reservation.NO);
 		TravalPack2.setAddress(getRandomRoadAddress());
 		TravalPack2.setText("상새내용2");
+		TravalPack2.setFestivalname(getRandomfestivalnames());
 
 		TravalPackList.add(TravalPack2);
 
-		// 여행 패키지 목록1
+		// 패키지 여행 숙소(1박 2일) 목록 1
 		for (int i = 3; i <= 10; i++) {
 			TravalPackDto TravalPack3 = new TravalPackDto();
-			TravalPack3.setName("여행 패키지 테스트" + i);
-			TravalPack3.setPrice(random.nextInt(10000000));
-			TravalPack3.setStartDate(LocalDate.of(2023, 11, random.nextInt(14) + 1));
-			TravalPack3.setEndDate(LocalDate.of(2023, 11, random.nextInt(14) + 15));
+			TravalPack3.setName("패키지 여행 숙소 테스트" + i);
+			TravalPack3.setPrice(random.nextInt(10000));						
+			TravalPack3.setStartDate(LocalDate.of(2023, 11, random.nextInt(29) + 1)); // 1 ~ 30까지 랜덤 일
+			LocalDate startDate3 = TravalPack3.getStartDate(); // 시작일 가져오기
+			LocalDate endDate3 = startDate3.plusDays(1); // 시작일로부터 1일 후를 종료일로 설정
+			TravalPack3.setEndDate(endDate3); // 종료일 설정
 			TravalPack3.setSingupDate(LocalDate.now());
 			TravalPack3.setCount(20 + i);
 			TravalPack3.setSmoke("흡연실");
@@ -107,17 +128,20 @@ public class TravalPackDto {
 			TravalPack3.setReservation(Reservation.YES);
 			TravalPack3.setAddress(getRandomRoadAddress());
 			TravalPack3.setText("상새내용" + i);
+			TravalPack3.setFestivalname(getRandomfestivalnames());
 			
 			TravalPackList.add(TravalPack3);
 		}
 
-		// 여행 패키지 목록2
+		// 패키지 여행 숙소(2박 3일) 목록 2
 		for (int i = 11; i <= 20; i++) {
 			TravalPackDto TravalPack4 = new TravalPackDto();
-			TravalPack4.setName("여행 패키지 테스트" + i);
-			TravalPack4.setPrice(random.nextInt(10000000));
-			TravalPack4.setStartDate(LocalDate.of(2023, 12, random.nextInt(14) + 1));
-			TravalPack4.setEndDate(LocalDate.of(2023, 12, random.nextInt(14) + 15));
+			TravalPack4.setName("패키지 여행 숙소 테스트" + i);
+			TravalPack4.setPrice(random.nextInt(20000));
+			TravalPack4.setStartDate(LocalDate.of(2023, 12, random.nextInt(29) + 1)); // 1 ~ 30까지 랜덤 일
+			LocalDate startDate4 = TravalPack4.getStartDate(); // 시작일 가져오기
+			LocalDate endDate4 = startDate4.plusDays(2); // 시작일로부터 2일 후를 종료일로 설정
+			TravalPack4.setEndDate(endDate4); // 종료일 설정
 			TravalPack4.setSingupDate(LocalDate.now());
 			TravalPack4.setCount(20 + i);
 			TravalPack4.setSmoke("금연실");
@@ -125,6 +149,7 @@ public class TravalPackDto {
 			TravalPack4.setReservation(Reservation.NO);
 			TravalPack4.setAddress(getRandomRoadAddress());
 			TravalPack4.setText("상새내용" + i);
+			TravalPack4.setFestivalname(getRandomfestivalnames());
 			
 			TravalPackList.add(TravalPack4);
 		}

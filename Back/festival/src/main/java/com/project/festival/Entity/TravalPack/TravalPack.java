@@ -56,8 +56,8 @@ public class TravalPack { // <여행 패키지>
 	// 흡연실, 금연실
 	private String smoke;
 	
-	// 주소, 내용
-	private String address,text;
+	// 주소, 내용, 축제이름
+	private String address, text, festivalname;
 
 	// ~인실
 	private int person;
