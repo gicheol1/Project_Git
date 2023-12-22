@@ -32,8 +32,11 @@ public class FestivalController {
     // 페이지 별 축제 10개씩 가져오기
 	@GetMapping("/festivalPage")
 	public ResponseEntity<?> getFestivalPage(@RequestParam int page){
+		
 		Pageable pageable = PageRequest.of(page, 10, Sort.by("festivalNum").descending());
+		
 		return ResponseEntity.ok(festivalService.getFestivalPage(pageable));
+		
 	}
 	
 	// 등록된 축제 총 갯수

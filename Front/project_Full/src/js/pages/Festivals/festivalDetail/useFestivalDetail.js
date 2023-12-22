@@ -33,10 +33,21 @@ export function useFestivalDetail() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 축제 삭제
+    // 축제 정보 삭제
     const deleteFestival = useCallback(async (festivalNum) => {
 
-        if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
+        // 축제 정보 삭제
+        fetch(SERVER_URL + `deleteFeatival?festivalNum=${festivalNum}`, {
+            method: 'DELETE'
+
+        }).then((response) => {
+            if (!response.ok) { throw new Error(response.status); }
+
+        }).catch((e) => { console.log(e); return false; })
+    }, [])
+
+    // 축제 이미지 삭제
+    const deleteFileFestival = useCallback(async (festivalNum) => {
 
         // 이미지 삭제
         fetch(SERVER_URL + `deleteAllFileFeatival?festivalNum=${festivalNum}`, {
@@ -46,17 +57,32 @@ export function useFestivalDetail() {
             if (!response.ok) { throw new Error(response.status); }
 
         }).catch((e) => { console.log(e); })
-
-        // 축제 정보 삭제
-        fetch(SERVER_URL + `deleteFeatival?festivalNum=${festivalNum}`, {
-            method: 'DELETE'
-
-        }).then((response) => {
-            if (!response.ok) { throw new Error(response.status); }
-            alert('성공적으로 삭제되었습니다.');
-
-        }).catch((e) => { console.log(e); alert('삭제에 실패했습니다'); })
     }, [])
+
+    // 축제 삭제
+    // const deleteFestival = useCallback(async (festivalNum) => {
+
+    //     if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
+
+    //     // 이미지 삭제
+    //     fetch(SERVER_URL + `deleteAllFileFeatival?festivalNum=${festivalNum}`, {
+    //         method: 'DELETE'
+
+    //     }).then((response) => {
+    //         if (!response.ok) { throw new Error(response.status); }
+
+    //     }).catch((e) => { console.log(e); })
+
+    //     // 축제 정보 삭제
+    //     fetch(SERVER_URL + `deleteFeatival?festivalNum=${festivalNum}`, {
+    //         method: 'DELETE'
+
+    //     }).then((response) => {
+    //         if (!response.ok) { throw new Error(response.status); }
+    //         alert('성공적으로 삭제되었습니다.');
+
+    //     }).catch((e) => { console.log(e); alert('삭제에 실패했습니다'); })
+    // }, [])
 
     return {
         getFestivalDetail,
