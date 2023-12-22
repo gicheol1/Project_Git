@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.festival.Dto.FileDto;
 import com.project.festival.Entity.festival.FileFestival;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.FireBaseService;
 import com.project.festival.Service.festival.FileFestivalService;
 
@@ -31,6 +32,9 @@ public class FileFestivalController {
 	
 	@Autowired
 	private FileFestivalService fileFestivalService;
+
+	@Autowired
+	private AuthService authService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -120,6 +124,26 @@ public class FileFestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+	
+	// 축제에 첨부된 특정 파일만 삭제
+	@DeleteMapping("/deleteFileFestival")
+	public ResponseEntity<?> deleteFileFestival(
+		@RequestParam Long festivalNum, // 대상 축제 번호
+		@RequestParam String jwt,
+		@RequestBody FileDto dto
+	){
+		
+		// 새로 만드는 축제인 경우 패스(아직 저장되지 않았기 때문)
+		if(festivalNum==0) {return ResponseEntity.ok().build();}
+		
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		
+		// FireBase의 이미지 삭제 (없으면 넘기기)
+		try { storageService.deleteImage(dto); }
+		catch (Exception e) {}
+
+		return ResponseEntity.ok().build();
+	}
 
 	// 축제의 모든 이미지 삭제
 	@DeleteMapping("/deleteAllFileFeatival")

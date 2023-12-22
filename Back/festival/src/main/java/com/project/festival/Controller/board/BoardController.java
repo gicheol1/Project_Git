@@ -1,9 +1,5 @@
 package com.project.festival.Controller.board;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,15 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Entity.board.BoardDto;
-import com.project.festival.Entity.board.Entity.BoardEvent;
-import com.project.festival.Entity.board.Entity.BoardFree;
-import com.project.festival.Entity.board.Entity.BoardPromotion;
-import com.project.festival.Entity.board.Entity.BoardQA;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
-import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardService;
-
-import io.jsonwebtoken.Claims;
 
 @RestController
 public class BoardController {
@@ -36,9 +26,9 @@ public class BoardController {
 	
 	@Autowired
 	private JwtService jwtService;
-	
+
 	@Autowired
-	private UserService userService;
+	private AuthService authService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -170,22 +160,10 @@ public class BoardController {
 		@RequestBody BoardDto boardDetail
 	){
 		
-		Claims claims;
-		
-		try { claims = jwtService.getAuthUser(jwt); }
-		catch(Exception e) { return ResponseEntity.ok(false); }
-		
-		// 토큰 만료시
-		if(claims.isEmpty() || !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.ok(false);
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
-		
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+
 		// 작성자 지정
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 		boardDetail.setMemId(memId);
 		
 		// 게시판 번호가 존재하면 수정, 없으면 새로 작성되는 게시글
@@ -248,24 +226,9 @@ public class BoardController {
 		@RequestParam String jwt
 	){
 		
-		if(jwt == null) {
-			return ResponseEntity.ok(false);
-		}
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
-		Claims claims;
-		
-		try { claims = jwtService.getAuthUser(jwt); }
-		catch(Exception e) { return ResponseEntity.ok(false); }
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.ok(false);
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 		
 		boolean isOwner = false;
 		

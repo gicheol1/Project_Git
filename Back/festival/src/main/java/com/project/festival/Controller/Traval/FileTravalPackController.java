@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.festival.Dto.FileDto;
 import com.project.festival.Entity.TravalPack.FileTravalPack;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.FireBaseService;
 import com.project.festival.Service.TravalPack.FileTravalPackService;
 
@@ -34,6 +35,9 @@ public class FileTravalPackController {
 	
 	@Autowired
 	private FileTravalPackService fileTravalPackService;
+
+	@Autowired
+	private AuthService authService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -123,6 +127,35 @@ public class FileTravalPackController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
+	// 패키지의 특정 이미지만 삭제
+	@DeleteMapping("/deleteFileTravalPack")
+	public ResponseEntity<?> deleteFileTravalPack(
+		@RequestParam String jwt,
+		@RequestParam Long packNum
+	) {
+		
+		// 새로 만드는 게시판인 경우 패스(아직 저장되지 않았기 때문)
+		if(packNum==0) {return ResponseEntity.ok().build();}
+		
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		
+		for(FileTravalPack f : fileTravalPackService.getFiles(packNum)) {
+			try {
+				FileDto fd = modelMapper.map(f, FileDto.class);
+				storageService.deleteImage(fd);
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+		
+		fileTravalPackService.deleteAllFile(packNum);
+		
+		return ResponseEntity.ok().build();
+		
+	}
 
 	// 패키지의 모든 이미지 삭제
 	@DeleteMapping("/deleteAllFileTravalPack")
