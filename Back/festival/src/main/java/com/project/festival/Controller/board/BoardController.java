@@ -202,8 +202,8 @@ public class BoardController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 게시판 저장, 수정
-	@PostMapping("/setDetail")
-	public ResponseEntity<?> setBoardDetail(
+	@PostMapping("/submitDetail")
+	public ResponseEntity<?> submitDetail(
 		@RequestParam String target,
 		@RequestParam String jwt,
 		@RequestParam Long boardNum,
@@ -212,23 +212,18 @@ public class BoardController {
 		
 		Claims claims;
 		
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+		try { claims = jwtService.getAuthUser(jwt); }
+		catch(Exception e) { return ResponseEntity.ok(false); }
 		
 		// 토큰 만료시
 		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+			return ResponseEntity.ok(false);
 		}
 		
 		String memId = claims.get("memId", String.class);
 		
 		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
 		
 		// 작성자 지정
 		boardDetail.setMemId(memId);
@@ -238,24 +233,20 @@ public class BoardController {
 			boardDetail.setBoardNum(boardNum);
 		}
 		
+		// 저장시 DB에 생성된 데이터의 게시판 번호를 전송
 	    switch(target) {
-			case "free":
-				return ResponseEntity.ok(borderService.setFreeDetail(boardDetail));
+			case "free": return ResponseEntity.ok(borderService.setFreeDetail(boardDetail));
 				
-			case "notic":
-				return ResponseEntity.ok(borderService.setNoticDetail(boardDetail));
+			case "notic": return ResponseEntity.ok(borderService.setNoticDetail(boardDetail));
 				
-			case "promotion":
-				return ResponseEntity.ok(borderService.setPromotionDetail(boardDetail));
+			case "promotion": return ResponseEntity.ok(borderService.setPromotionDetail(boardDetail));
 				
-			case "event":
-				return ResponseEntity.ok(borderService.setEventDetail(boardDetail));
+			case "event": return ResponseEntity.ok(borderService.setEventDetail(boardDetail));
 				
-			case "qa":
-				return ResponseEntity.ok(borderService.setQADetail(boardDetail));
+			case "qa": return ResponseEntity.ok(borderService.setQADetail(boardDetail));
 				
 			default:
-				return ResponseEntity.notFound().build();
+				return ResponseEntity.ok(false);
 	    }
 	}
 	

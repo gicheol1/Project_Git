@@ -2,9 +2,9 @@ package com.project.festival.Controller.board;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
+import java.util.Base64;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,39 +134,31 @@ public class BoardFileController {
 	// 첨부하고자 하는 파일을 Base64로 인코딩
 	@PostMapping("/encodeFile")
 	public ResponseEntity<?> encodeFile(
-		@RequestParam String target, // 대상
-		@RequestBody MultipartFile[] files
+		@RequestParam String target,	// 대상
+		@RequestParam String orgName,	// 파일 이름
+		@RequestBody MultipartFile file
 	){
-		
-		List<FileDto> dto = new ArrayList<>();
-		
-		if(files != null && files.length != 0) {
-			for(MultipartFile file : files) {
-				
-				StringBuilder sb = new StringBuilder();
-				
-				// 저장될 파일 위치(예: 'free/이미지 파일명')
-				sb.append(target);
-				sb.append('/');
-				
-				// 랜덤한 파일 이름(실제 저장될 이름)
-				sb.append(UUID.randomUUID().toString());
-				
-				try { 
-					FileDto fd = new FileDto();
-					
-					fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
-					fd.setContentType(file.getContentType());
-					fd.setFileName(sb.toString());
-					fd.setOrgName(file.getName());
-					
-					dto.add(fd);
-					
-				} catch (IOException e) { e.printStackTrace(); continue; }
-			}
-		}
 
-		return ResponseEntity.ok(dto);
+		FileDto fd = new FileDto();
+		StringBuilder sb = new StringBuilder();
+		
+		// 저장될 파일 위치(예: 'free/이미지 파일명')
+		sb.append(target);
+		sb.append('/');
+		
+		// 랜덤한 파일 이름(실제 저장될 이름)
+		sb.append(UUID.randomUUID().toString());
+		
+		try { 
+			
+			fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
+			fd.setContentType(file.getContentType());
+			fd.setFileName(sb.toString());
+			fd.setOrgName(orgName);
+			
+		} catch (Exception e) { e.printStackTrace(); }
+
+		return ResponseEntity.ok(fd);
 	}
 	
 	// 첨부한 파일을 FireBase에 업로드하고 DB에 등록
@@ -185,10 +177,12 @@ public class BoardFileController {
 				
 				for(FileDto fd : dto) {
 					
+					System.out.println(fd.getFileName());
+					
 					try { storageService.uploadImage(fd); }
 					catch(Exception e) { e.printStackTrace(); continue; }
 					
-					FileFree fileFree = modelMapper.map(dto, FileFree.class);
+					FileFree fileFree = modelMapper.map(fd, FileFree.class);
 					fileFree.setBoardNum(boardNum);
 					
 					fileService.setFileFree(fileFree);
@@ -205,11 +199,8 @@ public class BoardFileController {
 					try { storageService.uploadImage(fd); }
 					catch(Exception e) { e.printStackTrace(); continue; }
 					
-					FileNotic fileNotic = new FileNotic(
-						boardNum,
-						fd.getFileName(),
-						fd.getOrgName()
-					);
+					FileNotic fileNotic = modelMapper.map(fd, FileNotic.class);
+					fileNotic.setBoardNum(boardNum);
 					
 					fileService.setFileNotic(fileNotic);
 				}
@@ -225,11 +216,8 @@ public class BoardFileController {
 					try { storageService.uploadImage(fd); }
 					catch(Exception e) { e.printStackTrace(); continue; }
 					
-					FilePromotion filePromotion = new FilePromotion(
-						boardNum,
-						fd.getFileName(),
-						fd.getOrgName()
-					);
+					FilePromotion filePromotion = modelMapper.map(fd, FilePromotion.class);
+					filePromotion.setBoardNum(boardNum);
 					
 					fileService.setFilePromotion(filePromotion);
 				}
@@ -245,11 +233,8 @@ public class BoardFileController {
 					try { storageService.uploadImage(fd); }
 					catch(Exception e) { e.printStackTrace(); continue; }
 					
-					FileEvent fileEvent = new FileEvent(
-						boardNum,
-						fd.getFileName(),
-						fd.getOrgName()
-					);
+					FileEvent fileEvent = modelMapper.map(fd, FileEvent.class);
+					fileEvent.setBoardNum(boardNum);
 					
 					fileService.setFileEvent(fileEvent);
 				}
@@ -265,11 +250,8 @@ public class BoardFileController {
 					try { storageService.uploadImage(fd); }
 					catch(Exception e) { e.printStackTrace(); continue; }
 					
-					FileQA fileQA = new FileQA(
-						boardNum,
-						fd.getFileName(),
-						fd.getOrgName()
-					);
+					FileQA fileQA = modelMapper.map(fd, FileQA.class);
+					fileQA.setBoardNum(boardNum);
 					
 					fileService.setFileQA(fileQA);
 				}
@@ -305,10 +287,8 @@ public class BoardFileController {
 			return ResponseEntity.ok(false);
 		}
 		
-		String memId = claims.get("memId", String.class);
-		
 		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
+		if(userService.findUser(claims.get("memId", String.class)).isEmpty()) { return ResponseEntity.ok(false); }
 		
 		// 파일 이름을 받기 위한 리스트
 		List<FileDto> fileDto = new ArrayList<>();
@@ -376,7 +356,7 @@ public class BoardFileController {
 				break;
 				
 			default:
-				return ResponseEntity.notFound().build();
+				return ResponseEntity.ok(false);
 		}
 		
 		// FireBase의 이미지 삭제

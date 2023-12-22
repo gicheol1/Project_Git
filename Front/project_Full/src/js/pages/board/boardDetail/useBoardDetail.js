@@ -58,18 +58,11 @@ export function useBoardDetail() {
             headers: { 'Content-Type': 'application/json' }
 
         }).then((response) => {
-            if (response.status === 404) {
-                return undefined;
-            } else if (!response.ok) {
-                throw new Error(response.status);
-            }
+            if (!response.ok) { throw new Error(response.status); }
 
             return response.json();
 
-        }).catch((e) => {
-            console.log(e);
-
-        })
+        }).catch((e) => { console.log(e); return undefined; })
     }, []);
 
     // ========== ========== ========== ========== ========== ========== ==========
@@ -218,11 +211,7 @@ export function useBoardDetail() {
             if (!response.ok) { throw new Error(response.status) }
             return response.json();
 
-        }).catch((e) => {
-            console.log(e);
-            return false;
-
-        })
+        }).catch((e) => { console.log(e); return false; })
     }, [])
 
     // ========== ========== ========== ========== ========== ========== ==========

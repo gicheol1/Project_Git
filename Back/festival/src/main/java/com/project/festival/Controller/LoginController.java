@@ -44,7 +44,7 @@ public class LoginController {
 		String jwts = loginService.logInToken(credentials);
 		
 		// 없거나 일치하지 않은 경우
-		if(jwts != null && jwts.equals("Failed")) {
+		if(jwts == null || jwts.equals("Failed")) {
 			return ResponseEntity.notFound().build();
 		}
 		

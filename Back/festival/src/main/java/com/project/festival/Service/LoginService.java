@@ -30,7 +30,7 @@ public class LoginService {
     public String logInToken(AccountCredentials credentials) {
     	
     	String _memId=credentials.getMemId();
-    	String _pw=credentials.getMemId();
+    	String _pw=credentials.getPw();
     	
         Optional<User> _user = userRepository.findById(_memId);
         
