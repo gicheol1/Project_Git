@@ -270,10 +270,10 @@ public class BoardFileController {
 	// 게시판에 첨부된 특정 파일만 삭제
 	@DeleteMapping("/deleteFile")
 	public ResponseEntity<?> deleteFile(
-		@RequestParam String target, // 대상
+		@RequestParam String target, // 게시판 종류
 		@RequestParam Long boardNum, // 대상 게시판 번호
 		@RequestParam String jwt,
-		@RequestBody FileDto dto
+		@RequestBody FileDto dto // 삭제 대상
 	){
 		
 		// 새로 만드는 게시판인 경우 패스(아직 저장되지 않았기 때문)

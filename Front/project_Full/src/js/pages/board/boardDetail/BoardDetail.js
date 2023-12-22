@@ -80,10 +80,9 @@ const BoardDetail = ({ isLogin }) => {
 	// 게시판 수정하기
 	const onMoveUpdate = () => {
 		if (isLogin) {
-			toLogin();
 			navigate(`/boardUpdate/${target}/${boardNum}`);
 		} else {
-			navigate(`/login`);
+			toLogin();
 		}
 
 	}

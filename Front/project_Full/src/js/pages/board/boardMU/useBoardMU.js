@@ -162,6 +162,24 @@ export function useBoard() {
 
     }, [])
 
+    // 특정 이미지 정보와 파일 제거 -----
+    const deleteFile = useCallback(async (target, bNum, fileDto) => {
+
+        if (!window.confirm('정말로 삭제하시겠습니까? 다시 복수할수 없습니다!')) { return; }
+
+        const jwt = sessionStorage.getItem('jwt');
+
+        fetch(SERVER_URL + `deleteFile?target=${target}&boardNum=${bNum}&jwt=${jwt}`, {
+            method: 'DELETE',
+            body: JSON.stringify(fileDto)
+
+        }).then((res) => {
+            if (!res.json()) { throw new Error(res.status); }
+
+        }).catch((e) => { console.log(e); })
+
+    }, []);
+
     return {
         getDetail,
         getFile,
@@ -171,6 +189,7 @@ export function useBoard() {
         submitDetail,
         submitFile,
 
-        deleteBoard
+        deleteBoard,
+        deleteFile
     }
 }

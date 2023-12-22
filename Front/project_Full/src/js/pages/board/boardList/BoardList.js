@@ -138,29 +138,8 @@ const BoardList = ({ isLogin }) => {
 								boardList.map((board) => (
 
 									// 비공개가 아닌 경우
-									board.privated === 'N' ?
-										<TableRow
-											key={board.boardNum}
-											hover={true}
-											onClick={() => onBoardDetail(board.boardNum)}
-										>
-											<TableCell align="center">{board.boardNum}</TableCell>
-											<TableCell align="center">{board.title}</TableCell>
-											<TableCell align="center">{board.memId}</TableCell>
-											<TableCell align="center">{board.date}</TableCell>
-											<TableCell align="center">{board.review}</TableCell>
-										</TableRow>
-										:
-
-										// 비공개이나 게시글이 작성자 본인인 경우
-										isOwnerBoard(target, board.boardNum) && isLogin ?
-											<TableRow
-												key={board.boardNum}
-												hover={true}
-											>
-												<TableCell colSpan={5} align="center">비공개</TableCell>
-											</TableRow>
-											:
+									board.privated !== undefined && (
+										board.privated === 'N' ?
 											<TableRow
 												key={board.boardNum}
 												hover={true}
@@ -172,6 +151,28 @@ const BoardList = ({ isLogin }) => {
 												<TableCell align="center">{board.date}</TableCell>
 												<TableCell align="center">{board.review}</TableCell>
 											</TableRow>
+											:
+
+											// 비공개이나 게시글이 작성자 본인인 경우
+											isOwnerBoard(target, board.boardNum)) && isLogin ?
+										<TableRow
+											key={board.boardNum}
+											hover={true}
+										>
+											<TableCell colSpan={5} align="center">비공개</TableCell>
+										</TableRow>
+										:
+										<TableRow
+											key={board.boardNum}
+											hover={true}
+											onClick={() => onBoardDetail(board.boardNum)}
+										>
+											<TableCell align="center">{board.boardNum}</TableCell>
+											<TableCell align="center">{board.title}</TableCell>
+											<TableCell align="center">{board.memId}</TableCell>
+											<TableCell align="center">{board.date}</TableCell>
+											<TableCell align="center">{board.review}</TableCell>
+										</TableRow>
 								))
 							:
 							<></>

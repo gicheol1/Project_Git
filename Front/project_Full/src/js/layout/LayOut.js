@@ -45,7 +45,7 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
                 <Outlet />
             </main>
 
-            {/* 사이드바 */}
+            {/* 사이드바
             {isLogin && (
                 <sidebar>
                     {isAdmin ?
@@ -58,7 +58,7 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
                        
                     }
                 </sidebar>
-            )}
+            )} */}
 
             {/* 푸터 */}
             <footer>
