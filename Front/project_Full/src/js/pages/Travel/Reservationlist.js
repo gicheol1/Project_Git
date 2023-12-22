@@ -1,30 +1,34 @@
-import { DataGrid } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react';
-import { ModalComponent, SERVER_URL } from 'js';
-import { Link } from 'react-router-dom';
-import { useCheckLogin } from 'js/useCheckLogin';
-import { Button } from '@mui/material';
-import "./Reservationlist.css";
 import FaceIcon from '@mui/icons-material/Face';
-import { ModalFunction } from 'js/component/Modal/ModalFunction';
+import { Button } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
-/* 여행 예약 기능 3번*/
-/* 패키지 여행 예약 내역 목록 페이지*/
+import { ModalComponent, ModalFunction, SERVER_URL } from 'js';
+import { useCheckLogin } from 'js/useCheckLogin';
+
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import "./Reservationlist.css";
+
+/* 여행 예약 3번*/
+/* - 패키지 여행 예약 내역 목록 페이지*/
 function Reservationlist() {
 
-    // 패키지 여행 예약 목록
-    const [Packreservation, setPackreservation] = useState([]);
+    /* useState(함수의 상태관리), ModalFunction(모달창의 열고 닫는 기능) */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-    const { checkIsLogin, toLogin } = useCheckLogin();
+    const [Packreservation, setPackreservation] = useState([]); // 패키지 여행 예약 목록
 
-    const [userName, setUserName] = useState('');
+    const { checkIsLogin, toLogin } = useCheckLogin(); // 로그인 체크
 
-    /* ----------------------------------------------------------------------- */
+    const [userName, setUserName] = useState(''); // 회원 이름 
 
     /* 부트스트렙을 이용한 모달 팝업창 동작 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
-    /* 벡엔드에 Constructor에서 설정한 패키지여행 예약 목록 */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+
+    /* 벡엔드에 Controller(컨트롤러)에서 설정한 회원이 예약한 패키지여행 예약 목록 불러오기 */
     useEffect(() => {
 
         const jwt = sessionStorage.getItem('jwt');
@@ -51,15 +55,9 @@ function Reservationlist() {
                 setUserName(memberName);
 
             }).catch(err => console.error(err));
-
-
-
     }, []);
 
-    /* 패키지 여행 에약 목록 */
-    /* ----------------------------------------------------------------------- */
-
-    // 패키지 여행 에약 목록 컬럼
+    /*패키지 여행 에약 목록 컬럼*/
     const columns = [
         {
             field: 'image', // 이미지 필드가 있다고 가정
@@ -104,7 +102,7 @@ function Reservationlist() {
             renderCell: row =>
                 <Link to={`/payment/${row.row.resNum}`}>
                     <Button>
-                    <h1 className='pay-button'>결제하기</h1>   
+                        <h1 className='pay-button'>결제하기</h1>
                     </Button>
                 </Link>
             ,
@@ -115,20 +113,16 @@ function Reservationlist() {
         }
     ];
 
-    /* 행 클릭시 해당되는 row.resNum 번호를 콘솔에 출력 */
-    // const handleCellClick = (params) => {
-    //     const selectedResNum = params.row.resNum;
-    //     console.log("Selected ResNum:", selectedResNum);
-    //     // 여기서 선택한 ResNum을 사용하여 필요한 작업 수행
-    // };
-
-    /* ----------------------------------------------------------------------- */
-
+    /* 화면 출력 */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
         <div>
+            <h1 className='reserve-list-header'>
+                <FaceIcon fontSize='large' />
+                {userName}님의 패키지 여행 예약 목록
+            </h1>
 
-            {/* 패키지 여행 목록 스타일 */}
-            <h1 className='reserve-list-header'><FaceIcon fontSize='large' /> {userName}님의 패키지 여행 예약 목록</h1>
+            {/* 패키지 여행 예약 목록 */}
             <div className='reserve-list'>
                 <DataGrid
                     className="hideHeaders" // 컬럼 헤더 숨기기
@@ -137,7 +131,6 @@ function Reservationlist() {
                     getRowId={row => row.resNum}
                     hideFooter={true} // 표의 푸터바 제거
                     getRowHeight={params => 300} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
-                    // onCellClick={handleCellClick} // 셀이 클릭되었을 때의 이벤트 핸들러
                     disableColumnMenu // 컬럼메뉴 비활성화
                 />
             </div>
