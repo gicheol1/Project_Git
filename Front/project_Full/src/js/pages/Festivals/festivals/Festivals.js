@@ -44,7 +44,8 @@ const Festivals = () => {
 		submitFestival,
 		submitFileFestival,
 
-		deleteFestival
+		deleteFestival,
+		deleteFile
 
 	} = useFestivals();
 
@@ -153,8 +154,16 @@ const Festivals = () => {
 	};
 
 	// 선택한 파일 제거 함수
-	const handleCancel = (indexTarget) => {
-		setImgList(imgList.filter((images, index) => index !== indexTarget));
+	const handleCancel = async (indexTarget) => {
+
+		const deleteOneFile = async () => {
+			deleteFile(festivalNum, imgList.find((images, index) => index !== indexTarget)).then(() => {
+				setImgList(imgList.filter((images, index) => index !== indexTarget));
+			});
+		}
+
+		setBtnDisable(true);
+		deleteOneFile()
 		setBtnDisable(isFestivalComplete());
 	}
 
@@ -297,25 +306,27 @@ const Festivals = () => {
 						ref={inputRef}
 					/>
 
-					{/* 첨부한 파일들을 표시 */}
-					{(imgList !== undefined && imgList.length !== 0) && (
-						imgList.map((image, index) => (
-							<div style={{ display: 'flex' }}>
-								<img
-									key={`image ${index}`}
-									alt={`image ${image.orgName}`}
-									src={`data:image/png;base64,${image.imgFile}`}
-									style={{ width: '150px', height: '150px' }}
-								/>
-								<Button
-									key={index}
-									onClick={() => handleCancel(index)}
-								>
-									취소
-								</Button>
-							</div>
-						))
-					)}
+					<div style={{ display: 'flex' }}>
+						{/* 첨부한 파일들을 표시 */}
+						{(imgList !== undefined && imgList.length !== 0) && (
+							imgList.map((image, index) => (
+								<div style={{ flex: '1' }}>
+									<img
+										key={`image ${index}`}
+										alt={`image ${image.orgName}`}
+										src={`data:image/png;base64,${image.imgFile}`}
+										style={{ width: '150px', height: '150px' }}
+									/>
+									<Button
+										key={index}
+										onClick={() => handleCancel(index)}
+									>
+										취소
+									</Button>
+								</div>
+							))
+						)}
+					</div>
 				</div>
 
 				<div>
@@ -339,7 +350,10 @@ const Festivals = () => {
 						{festivalNum === undefined ? `취소` : `삭제`}
 					</Button>
 				</div>
-				<Button variant="contained" onClick={showData} >데이터 확인</Button>
+
+				<div>
+					<Button variant="contained" onClick={showData} >데이터 확인</Button>
+				</div>
 			</div >
 		);
 

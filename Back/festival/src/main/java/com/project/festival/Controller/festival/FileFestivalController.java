@@ -141,6 +141,8 @@ public class FileFestivalController {
 		// FireBase의 이미지 삭제 (없으면 넘기기)
 		try { storageService.deleteImage(dto); }
 		catch (Exception e) {}
+		
+		fileFestivalService.deleteFile(dto.getFileName());
 
 		return ResponseEntity.ok().build();
 	}

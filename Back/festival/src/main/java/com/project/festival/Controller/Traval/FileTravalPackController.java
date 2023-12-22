@@ -131,8 +131,9 @@ public class FileTravalPackController {
 	// 패키지의 특정 이미지만 삭제
 	@DeleteMapping("/deleteFileTravalPack")
 	public ResponseEntity<?> deleteFileTravalPack(
+		@RequestParam Long packNum,
 		@RequestParam String jwt,
-		@RequestParam Long packNum
+		@RequestBody FileDto dto
 	) {
 		
 		// 새로 만드는 게시판인 경우 패스(아직 저장되지 않았기 때문)
@@ -140,18 +141,11 @@ public class FileTravalPackController {
 		
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
-		for(FileTravalPack f : fileTravalPackService.getFiles(packNum)) {
-			try {
-				FileDto fd = modelMapper.map(f, FileDto.class);
-				storageService.deleteImage(fd);
-			
-			} catch (IOException e) {
-				e.printStackTrace();
-				continue;
-			}
-		}
+		// FireBase의 이미지 삭제 (없으면 넘기기)
+		try { storageService.deleteImage(dto); }
+		catch (Exception e) {}
 		
-		fileTravalPackService.deleteAllFile(packNum);
+		fileTravalPackService.deleteFile(dto.getFileName());
 		
 		return ResponseEntity.ok().build();
 		

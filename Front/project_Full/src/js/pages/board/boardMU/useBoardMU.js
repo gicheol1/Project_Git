@@ -165,7 +165,7 @@ export function useBoard() {
     // 특정 이미지 정보와 파일 제거 -----
     const deleteFile = useCallback(async (target, bNum, fileDto) => {
 
-        if (!window.confirm('정말로 삭제하시겠습니까? 다시 복수할수 없습니다!')) { return; }
+        if (!window.confirm('이미지를 삭제하시겠습니까?')) { return; }
 
         const jwt = sessionStorage.getItem('jwt');
 
@@ -175,6 +175,7 @@ export function useBoard() {
 
         }).then((res) => {
             if (!res.json()) { throw new Error(res.status); }
+            alert('이미지가 삭제되었습니다.');
 
         }).catch((e) => { console.log(e); })
 
