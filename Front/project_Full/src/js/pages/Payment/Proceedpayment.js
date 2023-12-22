@@ -1,4 +1,4 @@
-import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk'; // - 결제 위젯 설치
@@ -152,7 +152,7 @@ function Proceedpayment() {
             renderCell: (params) => (
                 <div className="travelinformation">
                     <p>예약한 회원: {params.row.memId}</p>
-                    <p>패키지 여행: {params.row.packName}</p>
+                    <p>숙소: {params.row.packName}</p>
                     <p>예약한 날: {params.row.startDate}</p>
                     {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
                     <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
@@ -207,7 +207,7 @@ function Proceedpayment() {
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
         <div className='pay-form'>
-            <h1 className='title'><AirplaneTicketOutlinedIcon fontSize='large' /> 패키지 여행 결제</h1>
+            <h1 className='title'><CreditCardIcon fontSize='large' /> 숙소 결제</h1>
             {/* 패키지 여행 결제 목록 스타일 */}
             <div className='pay-header'>
                 <DataGrid
@@ -222,8 +222,8 @@ function Proceedpayment() {
 
                 <div className='card' >
                     <label>
-                        카드 번호:
-                        <input type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
+                        카드 번호<br/>
+                        <input className='cardnumber' type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
                     </label>
                 </div>
 
@@ -247,7 +247,7 @@ function Proceedpayment() {
                 {/* 결제 위젯을 화면에 출력 */}
                 <div id="payment-widget" />
 
-                <button onClick={handleButtonClick}>
+                <button className='payment-button' onClick={handleButtonClick}>
                     결제하기
                 </button>
             </div>

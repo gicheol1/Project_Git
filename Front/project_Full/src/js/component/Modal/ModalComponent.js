@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal} from 'react-bootstrap';
+import {Button} from '@mui/material';
 import { ToggleCell } from 'js';
 import './ModalComponent.css';
 /* 부트 스트랩 모달 출력 */
@@ -13,23 +14,23 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
 
     return (
         <Modal show={showModal} onHide={handleClose} className="custom-modal-dialog modal-lg">
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className='modal-back'>
                 <Modal.Title>
                     {isResNum ? (
                         <div className='Modal-title'>
-                            <p>예약번호: {params.row.resNum}</p>
-                            <p>패키지번호: {params.row.packNum}</p>
-                            <p>패키지 이름: {params.row.packName}</p>
+                            <p>예약 번호: {params.row.resNum}</p>
+                            <p>패키지 번호: {params.row.packNum}</p>
+                            <p>숙소: {params.row.packName}</p>
                         </div>
                     ) : (
                         <div className='Modal-title'>
-                            <p>패키지번호: {params.row.packNum}</p>
-                            <p>패키지 이름: {params.row.name}</p>
+                            <p>패키지 번호: {params.row.packNum}</p>
+                            <p>숙소: {params.row.name}</p>
                         </div>
                     )}
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className='modal-body'>
                 {isResNum ? (
                     <div className='Modal'>
                         <img
@@ -44,7 +45,7 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
                             <p>예약일: {params.row.startDate}</p>
                             <p>예약한 인원: {params.row.count}</p>
                             <p>숙박기간: {params.row.dateCnt}</p>
-                            <p>[가격]<ToggleCell text="가격:" value={params.row.price} /></p>
+                            <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
                         </div>
                     </div>
                 ) : (
@@ -57,7 +58,7 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
                         />
                         <div className='Modal-inform'>
                             {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                            <p style={{display: 'flex'}}>가격: <ToggleCell text="가격:" value={params.row.price} /></p>
+                            <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
                             <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
                             <p>등록일: {params.row.singupDate}</p>
                             <p>최대인원: {params.row.count}</p>
@@ -70,8 +71,8 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
                     </div>
                 )}
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+            <Modal.Footer className='modal-footer'>
+                <Button onClick={handleClose}>
                 <h1 className='Modal-button'>닫기</h1>    
                 </Button>
             </Modal.Footer>

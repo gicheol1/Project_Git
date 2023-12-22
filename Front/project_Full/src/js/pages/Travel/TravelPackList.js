@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
 import { usePagination, PaginationComponent } from 'js';
 
-import LuggageIcon from '@mui/icons-material/Luggage';
+import HotelIcon from '@mui/icons-material/Hotel';
 import { Button } from '@mui/material';
 import './TravelPackList.css'; // CSS 파일을 임포트
 
@@ -129,7 +129,7 @@ function TravelPackList() {
             {/* 패키지 여행 목록 */}
             <div className="PackageTravelList">
                 <h1 className="traval-pack-list-header">
-                    <LuggageIcon fontSize='large' className='custom-luggage-icon' /> 여행 패키지 목록
+                    <HotelIcon fontSize='large' className='custom-hotel-icon' /> 숙소 목록
                 </h1>
                 {/* DataGrid를 이용한 여행 패키지 목록 표시 */}
                 <DataGrid
@@ -144,12 +144,15 @@ function TravelPackList() {
             </div>
 
             {/* 페이징(페이지 네이션) */}
-            <PaginationComponent
-                count={Math.ceil(TravalPack.length / itemsPerPage)}
-                page={currentPage}
-                onChange={handlePageChange}
-            />
+            
 
+                <PaginationComponent
+                    count={Math.ceil(TravalPack.length / itemsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                />
+
+            
         </div>
     );
 

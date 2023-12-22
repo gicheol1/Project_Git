@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom"
 import { SERVER_URL } from 'js';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import './Success.css';
 
 export function SuccessPage() {
@@ -20,12 +21,15 @@ export function SuccessPage() {
 
   return (
     <div>
-      <h1 className="success"> 결제 성공 </h1>
-      <div><h1 className="success">{`주문 아이디: ${member.memId}`}</h1></div>
+      
+      <div><h1 className="success"><EventAvailableIcon fontSize="large"/> {`${member.memId}님의 예약이 완료되었습니다.`}</h1></div>
       <div><h1 className="success">{`결제 금액: ${Number(searchParams.get("amount")).toLocaleString()}원`}</h1></div>
+      <br/>
+      <hr/>
+      <h1 className="success-inform">예약내역 확인은 "마이페이지 / 예약정보" 에서 확인하실 수 있습니다.</h1>
       <div>
         <Link to="/packreservationList">
-          <button><h1 className="success-button">패키지 여행목록으로</h1></button>
+          <button className="success-button-style"><h1 className="success-button">숙소 목록으로</h1></button>
         </Link>
       </div>
     </div>
