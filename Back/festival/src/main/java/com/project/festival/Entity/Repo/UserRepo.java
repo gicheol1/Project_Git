@@ -14,6 +14,9 @@ import com.project.festival.Entity.festival.Festival;
 @Repository
 public interface UserRepo extends CrudRepository<User, String> {
 	
+	// 회원 정보 가져오기
+	List<User> findMemIdAndNameAndPhonNumAndSingupDateByRoleNot(String role);
+	
 	// 일치하는 회원 가져오기
 	String findMemIdByMemId(String memId);
 	

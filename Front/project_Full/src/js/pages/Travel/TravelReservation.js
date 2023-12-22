@@ -26,9 +26,20 @@ function TravelReservation() {
     /* 부트 스트랩 팝업창 기능 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
+    /* 축제 정보 */
+    const [FestivalAll, setFestivalAll] = useState([]);
+
+    // - FestivalAll에서 name, startDate, endDate 데이터만 출력하는 부분
+    const FestivalfilteredData = FestivalAll.map(festivallist => ({
+        name: festivallist.name,
+        startDate: festivallist.startDate,
+        endDate: festivallist.endDate
+    }));
+    console.log(FestivalfilteredData);
+
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-    /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 번호에 맞는 상세정보 불러오기 */
+    /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 번호에 맞는 상세정보, 축제 정보 불러오기 */
     useEffect(() => {
         fetch(SERVER_URL + `travalpack/${packNum}`)
             .then((response) => response.json())
@@ -42,6 +53,13 @@ function TravelReservation() {
                 });
             })
             .catch((err) => console.error(err));
+
+        fetch(SERVER_URL + "festivalAll", { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                setFestivalAll(data); // 전체 데이터를 그대로 설정
+            })
+            .catch(err => { console.error(err); });
 
     }, []);
 
@@ -114,47 +132,58 @@ function TravelReservation() {
             field: 'image', // 이미지 필드가 있다고 가정
             headerName: '여행 이미지',
             width: 300,
-            renderCell: (params) => (
-                <div className="image-cell">
-                    {/* 테스트용 이미지 */}
-                    <img class="custom-image"
-                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
-                        alt="축제이미지"
-                        onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
-                    />
-                    <ModalComponent
-                        showModal={modalOpenMap[params.row.packNum]}
-                        handleClose={() => handleModalClose(params.row.packNum)}
-                        selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
-                        params={params}
-                    />
-                </div>
-            ),
+
+            renderCell: (params) => {
+                const festivalData1 = FestivalfilteredData.find(festivallist => festivallist.name === params.row.festivalname);
+
+                return (
+                    <div className="image-cell">
+                        {/* 테스트용 이미지 */}
+                        <img class="custom-image"
+                            src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                            alt="축제이미지"
+                            onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                        />
+
+                        <ModalComponent
+                            showModal={modalOpenMap[params.row.packNum]}
+                            handleClose={() => handleModalClose(params.row.packNum)}
+                            selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
+                            params={params}
+                            festivalDatas={festivalData1} // festivalData 추가
+                        />
+                    </div>
+                );
+            },
         },
         { // 한개의 컬럼에 여러 컬럼의 정보를 출력
             field: 'travelinformation',
             headerName: '여행 정보',
             width: 900,
-            renderCell: (params) => (
-                <div className="travelinformation">
-                    <p>패키지번호: {params.row.packNum}</p>
-                    <p>숙소: {params.row.name}</p>
-                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
-                    <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
-                    <p>최대인원: {params.row.count}</p>
-                    <p>주소: {params.row.address}</p>
-                    <p>흡연실(금연실): {params.row.smoke}</p>
-                    <p>몇 인실: {params.row.person}</p>
-                    <p>상세내용: {params.row.text}</p>
-                    <p>예약 가능한 상태: {params.row.reservation}</p>
-                    <p>축제: {params.row.festivalname}</p>
-                </div>
-            ),
+            renderCell: (params) => {
+                const festivalData2 = FestivalfilteredData.find(festivallist => festivallist.name === params.row.festivalname);
+                return (
+                    <div className="travelinformation">
+                        <p>패키지번호: {params.row.packNum}</p>
+                        <p>숙소: {params.row.name}</p>
+                        {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
+                        <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                        <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
+                        <p>최대인원: {params.row.count}</p>
+                        <p>주소: {params.row.address}</p>
+                        <p>흡연실(금연실): {params.row.smoke}</p>
+                        <p>몇 인실: {params.row.person}</p>
+                        <p>상세내용: {params.row.text}</p>
+                        <p>예약 가능한 상태: {params.row.reservation}</p>
+                        <p>축제: {festivalData2?.name}</p>
+                        <p>축제기간: {festivalData2?.startDate} ~ {festivalData2?.endDate}</p>
+                    </div>
+                );
+            },
         },
 
     ];
-    
+
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
@@ -171,7 +200,7 @@ function TravelReservation() {
                         getRowId={row => row.packNum} // packNum을 기준으로 출력
                         hideFooter={true} // 표의 푸터바 제거
                         disableColumnMenu={true} // 열 메뉴 제거
-                        getRowHeight={params => 500} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
+                        getRowHeight={params => 550} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
                     />
                 </div>
             </div>

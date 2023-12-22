@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 // 가격을 특정 형식으로 포맷하는 함수
 const formatPrice = (price) => {
     // 가격을 만원, 천원으로 분리
-    const unit = price >= 10000 ? '만' : '';
+    const unit = price >= 10000 ? '만' : '천';
     const mainPrice = Math.floor(price / (unit === '만' ? 10000 : 1000)); // 만 단위로 표시하면 만 단위의 가격을 계산, 그 외에는 천 단위로 계산
     const remainder = price % (unit === '만' ? 10000 : 1000); // remainder: 만 단위로 표시되면 가격을 1만으로 나눈 나머지를, 그렇지 않으면 1천으로 나눈 나머지를 계산
 
     // 포맷된 문자열 생성
-    const formattedPrice = `${mainPrice}${unit}${remainder > 0 ? ` ${remainder}` : ''}원`; // 가격 문자열
+    const formattedPrice = `${mainPrice}${unit}${remainder > 0 ? ` ${remainder}` : '천'}원`; // 가격 문자열
 
     return formattedPrice;
 };

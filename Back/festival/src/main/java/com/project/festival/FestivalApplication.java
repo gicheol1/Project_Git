@@ -97,12 +97,12 @@ public class FestivalApplication implements CommandLineRunner {
 	
 		festivalRepository.save(new Festival(
 			"롯데월드 miracle winter", "test1", "서울시 송파구",
-			"2023-11-25", "2023-02-25", "축제", "서울"
+			"2023-02-25", "2023-11-25", "축제", "서울"
 		));
 	
 		festivalRepository.save(new Festival(
 			"ㅊ ㅊ-하다 페스티벌", "test2", "서울시 종로구",
-			"2023-11-20", "2023-11-16", "축제", "서울"
+			"2023-11-16", "2023-11-20", "축제", "서울"
 		));
 		
 		festivalRepository.save(new Festival(
