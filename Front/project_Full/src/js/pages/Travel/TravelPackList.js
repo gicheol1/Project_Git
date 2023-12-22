@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
+import { usePagination, PaginationComponent } from 'js';
 
 import LuggageIcon from '@mui/icons-material/Luggage';
-import { Button, Pagination, Stack } from '@mui/material';
+import { Button } from '@mui/material';
 import './TravelPackList.css'; // CSS 파일을 임포트
 
 /* 여행 예약 1번*/
@@ -14,27 +15,26 @@ function TravelPackList() {
 
     /* useState(함수의 상태관리), useNavigate(라우터 내에서 경로를 변경), ModalFunction(모달창의 열고 닫는 기능) */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
-    
+
     /* 여행 패키지 */
     const [TravalPack, setTravalPack] = useState([]);
 
     /* 패키지 여행 데이터 로딩 */
     const [loading, setLoading] = useState(true);
 
-    /* 페이지네이션 상태 설정 */
-    const [page, setPage] = useState(1); // 현재 페이지 번호를 관리하는 상태
-    const [rowsPerPage, setRowsPerPage] = useState(5); // 페이지당 행의 수를 설정하는 상태
-
-    const navigate = useNavigate(); // 페이지 이동을 위한 함수
-
-    const getRows = () => { // 페이지네이션 함수
-        const startIndex = (page - 1) * rowsPerPage;
-        const endIndex = startIndex + rowsPerPage;
-        return TravalPack.slice(startIndex, endIndex);
-    };
+    /* 페이지네이션 동작 */
+    // - usePagination 함수를 호출하여 페이징에 필요한 상태와 함수들을 가져옵니다.
+    const {
+        currentPage,         // 현재 페이지를 나타내는 상태
+        currentPageData,     // 현재 페이지에 해당하는 데이터를 담는 변수
+        itemsPerPage,        // 페이지당 항목 수를 나타내는 값
+        handlePageChange     // 페이지 변경을 처리하는 함수
+    } = usePagination(TravalPack); // 여행 패키지 정보
 
     /* 부트 스트랩 팝업창 기능 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
+
+    const navigate = useNavigate(); // 페이지 이동을 위한 함수                            
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
@@ -61,8 +61,8 @@ function TravelPackList() {
         const jwt = sessionStorage.getItem('jwt');
 
         if (!jwt) {
-            alert('로그인이 필요합니다'); 
-            navigate('/login'); 
+            alert('로그인이 필요합니다');
+            navigate('/login');
             return;
         }
         else {
@@ -134,7 +134,7 @@ function TravelPackList() {
                 {/* DataGrid를 이용한 여행 패키지 목록 표시 */}
                 <DataGrid
                     className="hideHeaders" // 컬럼 헤더 숨기기
-                    rows={getRows()} // 표시할 행 데이터
+                    rows={currentPageData} // 표시할 행 데이터
                     columns={columns}// 열(컬럼) 설정
                     getRowId={row => row.packNum}// 각 행의 고유 ID 설정
                     checkboxSelection={false} // 체크박스(false(비활성화))
@@ -143,18 +143,12 @@ function TravelPackList() {
                 />
             </div>
 
-            {/* 페이지징 */}
-            <div className="stackContainer">
-                <Stack spacing={2}>
-                    <Pagination
-                        count={Math.ceil(TravalPack.length / rowsPerPage)}
-                        page={page}
-                        onChange={(event, value) => setPage(value)}
-                        variant="outlined"
-                        shape="rounded"
-                    />
-                </Stack>
-            </div>
+            {/* 페이징(페이지 네이션) */}
+            <PaginationComponent
+                count={Math.ceil(TravalPack.length / itemsPerPage)}
+                page={currentPage}
+                onChange={handlePageChange}
+            />
 
         </div>
     );

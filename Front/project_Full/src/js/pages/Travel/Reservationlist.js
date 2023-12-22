@@ -1,9 +1,11 @@
 import FaceIcon from '@mui/icons-material/Face';
 import { Button } from '@mui/material';
+
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ModalComponent, ModalFunction, SERVER_URL } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
+import { usePagination, PaginationComponent } from 'js';
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -25,6 +27,15 @@ function Reservationlist() {
 
     /* 부트스트렙을 이용한 모달 팝업창 동작 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
+
+    /* 페이지네이션 동작 */
+    // - usePagination 함수를 호출하여 페이징에 필요한 상태와 함수들을 가져옵니다.
+    const {
+        currentPage,         // 현재 페이지를 나타내는 상태
+        currentPageData,     // 현재 페이지에 해당하는 데이터를 담는 변수
+        itemsPerPage,        // 페이지당 항목 수를 나타내는 값
+        handlePageChange     // 페이지 변경을 처리하는 함수
+    } = usePagination(Packreservation); // 패키지 예약 정보
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
@@ -126,7 +137,8 @@ function Reservationlist() {
             <div className='reserve-list'>
                 <DataGrid
                     className="hideHeaders" // 컬럼 헤더 숨기기
-                    rows={Packreservation}
+                    rows={currentPageData} // currentPageData: 현재 페이지에 해당하는 데이터가 담긴 변수입니다.            
+                    // rows={Packreservation} // Packreservation: 전체 데이터가 담긴 변수입니다. currentPageData는 이 데이터에서 현재 페이지의 일부를 나타냅니다.
                     columns={columns}
                     getRowId={row => row.resNum}
                     hideFooter={true} // 표의 푸터바 제거
@@ -134,6 +146,14 @@ function Reservationlist() {
                     disableColumnMenu // 컬럼메뉴 비활성화
                 />
             </div>
+
+            {/* 페이징(페이지 네이션) */}
+            <PaginationComponent
+                count={Math.ceil(Packreservation.length / itemsPerPage)}
+                page={currentPage}
+                onChange={handlePageChange}
+            />
+
         </div>
     );
 };
