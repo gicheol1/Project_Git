@@ -14,25 +14,18 @@
 }
 
 /*헤더 제목 아이콘*/
-.custom-luggage-icon {
+.custom-hotel-icon {
     font-size: large;
     color: skyblue;
 }
 
 .MuiDataGrid-cell {
-    font-family: 'Nanum Pen Script', cursive;
+    font-family: 'Cute Font', sans-serif;
     font-size: 20px;
     /* justify-content: center !important; */
     align-items: center !important;
 }
 
-/*페이지네이션*/
-.stackContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* margin-bottom: 0%; */
-}
 
 /*예약하기 버튼 폰트*/
 .button-font {

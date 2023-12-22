@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=East+Sea+Dokdo&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&display=swap');
 
 
 .Modal{
@@ -11,7 +11,7 @@
 /*정보*/
 .Modal-inform{
    margin-Left: 50px;
-   font-family: 'Nanum Pen Script', cursive;
+   font-family: 'Cute Font', sans-serif;
    font-size: 20px;
    
 }

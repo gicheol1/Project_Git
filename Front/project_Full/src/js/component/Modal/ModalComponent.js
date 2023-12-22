@@ -20,12 +20,12 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params }) => {
                         <div className='Modal-title'>
                             <p>예약 번호: {params.row.resNum}</p>
                             <p>패키지 번호: {params.row.packNum}</p>
-                            <p>패키지 이름: {params.row.packName}</p>
+                            <p>숙소: {params.row.packName}</p>
                         </div>
                     ) : (
                         <div className='Modal-title'>
                             <p>패키지 번호: {params.row.packNum}</p>
-                            <p>패키지 이름: {params.row.name}</p>
+                            <p>숙소: {params.row.name}</p>
                         </div>
                     )}
                 </Modal.Title>

@@ -42,8 +42,8 @@
     height: 35px;
     width: 10%;
     margin-left: 10px;
-    margin-right: 20px;
-    font-family: 'Nanum Pen Script', cursive;
+    margin-right: 173px;
+    font-family: 'Cute Font', sans-serif;
     font-size: 20px;
 }
 
@@ -56,7 +56,7 @@
     height: 35px;
     width: 31%;
     margin-left: 10px;
-    font-family: 'Nanum Pen Script', cursive;
+    font-family: 'Cute Font', sans-serif;
     font-size: 20px;
     text-align: center;
 }
@@ -66,14 +66,13 @@
 }
 
 .reserve-button-font {
-    font-family: 'Nanum Pen Script', cursive;
+    font-family: 'Cute Font', sans-serif;
     font-size: 20px;
 }
 
 
 /*헤더 제목 옆 아이콘 스타일*/
-.icon-rotation {
-    transform: rotate(45deg);
+.bed-time-icon {
     color: skyblue;
 }
 
