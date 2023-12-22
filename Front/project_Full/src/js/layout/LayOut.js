@@ -45,20 +45,20 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
                 <Outlet />
             </main>
 
-            {/* 사이드바
+            {/* 사이드바 */}
             {isLogin && (
                 <sidebar>
                     {isAdmin ?
                         // 사이드바(관리자)
                         <Sidecare />
-                        
+
                         :
                         // 사이드바(회원)
                         <Sidebar />
-                       
+
                     }
                 </sidebar>
-            )} */}
+            )}
 
             {/* 푸터 */}
             <footer>

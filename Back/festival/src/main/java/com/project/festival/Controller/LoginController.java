@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Entity.User;
 import com.project.festival.Entity.orther.AccountCredentials;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.LoginService;
 import com.project.festival.Service.UserService;
@@ -31,6 +32,9 @@ public class LoginController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private AuthService authService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -64,21 +68,9 @@ public class LoginController {
 		@RequestParam String jwt
 	){
 		
-		Claims claims;
+		if(authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
-		try { claims = jwtService.getAuthUser(jwt); }
-		catch(Exception e) { return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); }
-		
-		
-		String memId = claims.get("memId", String.class);
-		String jti = claims.get("jti", String.class);
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(jti)) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		Optional<User> _user = userService.findUser(memId);
+		Optional<User> _user = userService.findUser(jwtService.getAuthUser(jwt).get("memId", String.class));
 		
 		// 비회원인 경우
 		if(_user.isEmpty()) {

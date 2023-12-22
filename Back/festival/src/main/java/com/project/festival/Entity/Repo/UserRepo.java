@@ -1,5 +1,6 @@
 package com.project.festival.Entity.Repo;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,9 @@ import com.project.festival.Entity.User;
 
 @Repository
 public interface UserRepo extends CrudRepository<User, String> {
+	
+	// 회원 정보 가져오기
+	List<User> findMemIdAndNameAndPhonNumAndSingupDateByRoleNot(String role);
 	
 	// 일치하는 회원 가져오기
 	String findMemIdByMemId(String memId);

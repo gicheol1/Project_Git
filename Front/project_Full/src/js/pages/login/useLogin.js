@@ -16,7 +16,7 @@ export function useLogin() {
 
             const jwtToken = res.headers.get('Authorization');
 
-            if (jwtToken !== '' || jwtToken !== undefined) {
+            if (jwtToken !== undefined || jwtToken !== '') {
                 sessionStorage.setItem('jwt', jwtToken);
                 return true;
 
