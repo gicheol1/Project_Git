@@ -14,6 +14,9 @@ export {default as ToggleCell } from './component/ToggleCell/ToggleCell';
 export {default as ModalComponent } from './component/Modal/ModalComponent'; // 화면 출력
 export { ModalFunction } from './component/Modal/ModalFunction'; // 화면 동작 기능(열기, 닫기)
 
+// component 폴더 > Pagination 폴더(페이징[페이지네이션])
+export { usePagination, PaginationComponent } from './component/Pagination/PaginationComponent'; // 페이지 네이션
+
 // -------------------------------------------------------------------------------- //
 
 // 헤더와 푸터
@@ -63,8 +66,6 @@ export { default as Calendar } from './pages/Calendar/Calendar';
 
 // 패키지 여행 지도
 export { default as TravelKaKaoMap } from './pages/TravelKaKaomap/TravelKaKaoMap';
-
-
 
 // -------------------------------------------------------------------------------- //
 

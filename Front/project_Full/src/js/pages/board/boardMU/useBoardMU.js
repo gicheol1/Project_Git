@@ -48,7 +48,7 @@ export function useBoard() {
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
-    // 첨푸파일 저장
+    // 첨푸파일 인코딩
     const encodeFile = useCallback(async (target, file) => {
 
         const formData = new FormData();

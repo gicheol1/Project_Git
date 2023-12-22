@@ -35,9 +35,9 @@ public class FileFestivalController {
 	@Autowired
 	private ModelMapper modelMapper;
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 축제 이미지 가져오기
 	@GetMapping("/getFileFeatival")
@@ -66,54 +66,31 @@ public class FileFestivalController {
 	// 첨부하고자 하는 파일을 Base64로 인코딩
 	@PostMapping("/encodeFileFestival")
 	public ResponseEntity<?> encodeFileFestival(
-		@RequestBody MultipartFile[] files
+		@RequestParam String orgName,	// 파일 이름
+		@RequestBody MultipartFile file
 	){
-		
-		List<FileDto> dto = new ArrayList<>();
-		
-		if(files != null && files.length != 0) {
-			for(MultipartFile file : files) {
-				
-				StringBuilder sb = new StringBuilder();
-				
-				// 저장될 파일 위치(예: 'festival/이미지 파일명')
-				sb.append("festival/");
-				
-				// 랜덤한 파일 이름(실제 저장될 이름)
-				sb.append(UUID.randomUUID().toString());
-				
-				try { 
-					FileDto fd = new FileDto();
-					
-					fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
-					fd.setContentType(file.getContentType());
-					fd.setFileName(sb.toString());
-					fd.setOrgName(file.getName());
-					
-					dto.add(fd);
-					
-				} catch (IOException e) { e.printStackTrace(); continue; }
-			}
-		}
 
-		return ResponseEntity.ok(dto);
-	}
+		FileDto fd = new FileDto();
+		StringBuilder sb = new StringBuilder();
 	
-	// 축제 이미지 저장
-	@PostMapping("/setFileFeatival")
-	public ResponseEntity<?> setFileFeatival(
-		@RequestParam Long feativalNum, // 게시판 번호
-		@RequestBody List<FileDto> files
-	) {
-		if(files != null && files.size() != 0) {
-			
-			for(FileDto file : files) {
-				try { storageService.uploadImage(file); }
-				catch (IOException e) { e.printStackTrace(); continue; }
-			}
-		}
+		// 저장될 파일 위치(예: 'festival/이미지 파일명')
+		sb.append("festival/");
+		
+		// 랜덤한 파일 이름(실제 저장될 이름)
+		sb.append(UUID.randomUUID().toString());
+		
+		try { 
 
-		return ResponseEntity.ok().build();
+			// 원본 파일을 Base64로 인코딩
+			fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
+			
+			fd.setContentType(file.getContentType());
+			fd.setFileName(sb.toString());
+			fd.setOrgName(file.getName());
+			
+		} catch (IOException e) { e.printStackTrace(); }
+	
+		return ResponseEntity.ok(fd);
 	}
 	
 	// 축제 이미지 정보를 DB에 등록
@@ -127,11 +104,12 @@ public class FileFestivalController {
 		fileFestivalService.deleteAllFile(festivalNum);
 		
 		for(FileDto fd : dto) {
-			FileFestival fileFree = new FileFestival(
-					festivalNum,
-				fd.getFileName(),
-				fd.getOrgName()
-			);
+			
+			try { storageService.uploadImage(fd); }
+			catch (IOException e) { e.printStackTrace(); continue; }
+			
+			FileFestival fileFree = modelMapper.map(fd, FileFestival.class);
+			fileFree.setFestivalNum(festivalNum);
 			
 			fileFestivalService.submitFile(fileFree);
 		}
@@ -139,9 +117,9 @@ public class FileFestivalController {
 		return ResponseEntity.ok().build();
 	}
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 축제의 모든 이미지 삭제
 	@DeleteMapping("/deleteAllFileFeatival")
@@ -149,9 +127,7 @@ public class FileFestivalController {
 		@RequestParam Long festivalNum
 	) {
 		
-		List<FileFestival> file = fileFestivalService.getFiles(festivalNum);
-		
-		for(FileFestival f : file) {
+		for(FileFestival f : fileFestivalService.getFiles(festivalNum)) {
 			try {
 				FileDto fd = modelMapper.map(f, FileDto.class);
 				storageService.deleteImage(fd);
@@ -167,5 +143,4 @@ public class FileFestivalController {
 		return ResponseEntity.ok().build();
 		
 	}
-
 }
