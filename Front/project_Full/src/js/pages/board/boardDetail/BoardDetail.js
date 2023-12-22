@@ -58,7 +58,13 @@ const BoardDetail = ({ isLogin }) => {
 		getDetail(target, boardNum).then(result => setBoard(result));
 
 		// 댓글
-		getComment(target, boardNum).then(result => setCommentList(result));
+		getComment(target, boardNum).then(result => {
+			if (result === undefined || result === null) {
+				setCommentList(undefined);
+			} else {
+				setCommentList(result);
+			}
+		});
 
 		// 이미지 파일
 		getFile(target, boardNum).then(result => result !== undefined && result.length !== 0 ? setFileList(result) : '');

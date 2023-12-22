@@ -43,17 +43,13 @@ export function useFestivals() {
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 이미지 저장
-    const setFileFestival = useCallback(async (fileList) => {
-
-        if (fileList === undefined || fileList.length === 0) { return }
+    // 첨푸파일 인코딩
+    const encodeFile = useCallback(async (file) => {
 
         const formData = new FormData();
-        fileList.forEach((file) => {
-            formData.append(`files`, file); // 각 이미지 파일을 FormData에 추가
-        });
+        formData.append('file', file);
 
-        return fetch(SERVER_URL + `setFileFeatival`, {
+        return fetch(SERVER_URL + `encodeFileFestival?&orgName=${file.name}`, {
             method: 'POST',
             body: formData
 
@@ -62,11 +58,8 @@ export function useFestivals() {
 
             return response.json();
 
-        }).catch((e) => {
-            console.log(e);
-        })
-
-    }, []);
+        }).catch((e) => { console.log(e); })
+    }, [])
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
@@ -86,10 +79,12 @@ export function useFestivals() {
         }).catch((e) => { console.log(e); })
     };
 
-    // 이미지 정보 저장
+    // 이미지 정보 및 파일 저장
     const submitFileFestival = async (fileList, festivalNum) => {
 
         if (fileList === undefined || fileList.length === 0) {
+
+            alert('저장되었습니다.');
             navigate(`/festivalList`);
             return;
         }
@@ -129,7 +124,7 @@ export function useFestivals() {
         getFestival,
         getFileFeatival,
 
-        setFileFestival,
+        encodeFile,
 
         submitFestival,
         submitFileFestival,
