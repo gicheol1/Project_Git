@@ -7,6 +7,8 @@ export function useFestivals() {
     const navigate = useNavigate();
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 기존 축제 상세 정보
     const getFestival = useCallback(async (festivalNum) => {
@@ -29,31 +31,24 @@ export function useFestivals() {
             method: 'GET'
 
         }).then((response) => {
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
+            if (!response.ok) { throw new Error(response.status); }
 
             return response.json();
 
-        }).catch((e) => {
-            console.log(e);
-
-        })
+        }).catch((e) => { console.log(e); return undefined; })
     }, [])
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 이미지 저장
-    const setFileFestival = useCallback(async (fileList) => {
-
-        if (fileList === undefined || fileList.length === 0) { return }
+    // 첨푸파일 인코딩
+    const encodeFile = useCallback(async (file) => {
 
         const formData = new FormData();
-        fileList.forEach((file) => {
-            formData.append(`files`, file); // 각 이미지 파일을 FormData에 추가
-        });
+        formData.append('file', file);
 
-        return fetch(SERVER_URL + `setFileFeatival`, {
+        return fetch(SERVER_URL + `encodeFileFestival?&orgName=${file.name}`, {
             method: 'POST',
             body: formData
 
@@ -62,12 +57,11 @@ export function useFestivals() {
 
             return response.json();
 
-        }).catch((e) => {
-            console.log(e);
-        })
+        }).catch((e) => { console.log(e); })
+    }, [])
 
-    }, []);
-
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 축제 추가/수정
@@ -86,10 +80,12 @@ export function useFestivals() {
         }).catch((e) => { console.log(e); })
     };
 
-    // 이미지 정보 저장
+    // 이미지 정보 및 파일 저장
     const submitFileFestival = async (fileList, festivalNum) => {
 
         if (fileList === undefined || fileList.length === 0) {
+
+            alert('저장되었습니다.');
             navigate(`/festivalList`);
             return;
         }
@@ -109,19 +105,37 @@ export function useFestivals() {
     };
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 이미지 첨부 취소
-    const deleteFileFestival = useCallback(async (file) => {
+    // 축제 삭제
+    const deleteFestival = useCallback(async (festivalNum) => {
 
-        return fetch(SERVER_URL + `deleteFileFeatival`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(file)
+        const jwt = sessionStorage.getItem('jwt');
 
-        }).then((response) => {
-            if (!response.ok) { throw new Error(response.status); }
+        if (!window.confirm('정말로 삭제하시겠습니까? 다시 복수할수 없습니다!')) { return; }
+        if (jwt === undefined || jwt === '') { alert('로그인이 필요합니다'); return; }
 
-        }).catch((e) => { console.log(e); })
+        // ----- 저장된 축제 이미지 정보와 파일 제거 -----
+        fetch(SERVER_URL + `deleteAllFileFeatival?festivalNum=${festivalNum}`, {
+            method: 'DELETE'
+
+        }).then((res) => {
+            if (!res.json()) { throw new Error(res.status); }
+
+        }).catch((e) => { console.log(e); alert("삭제에 실패하였습니다."); })
+
+        // ----- 저장된 축제 정보 제거 -----
+        fetch(SERVER_URL + `deleteFeatival?festivalNum=${festivalNum}`, {
+            method: 'DELETE'
+
+        }).then((res) => {
+            if (!res.ok) { throw new Error(res.status); }
+
+            alert("삭제가 완료되었습니다.");
+            navigate(`/festivalList`);
+
+        }).catch((e) => { console.log(e); alert("삭제에 실패하였습니다."); })
 
     }, [])
 
@@ -129,11 +143,11 @@ export function useFestivals() {
         getFestival,
         getFileFeatival,
 
-        setFileFestival,
+        encodeFile,
 
         submitFestival,
         submitFileFestival,
 
-        deleteFileFestival
+        deleteFestival
     };
 }

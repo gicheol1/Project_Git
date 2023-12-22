@@ -2,9 +2,9 @@ package com.project.festival.Controller.board;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
-import java.util.Base64;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,9 @@ import com.project.festival.Entity.board.File.FileFree;
 import com.project.festival.Entity.board.File.FileNotic;
 import com.project.festival.Entity.board.File.FilePromotion;
 import com.project.festival.Entity.board.File.FileQA;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.FireBaseService;
-import com.project.festival.Service.JwtService;
-import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardFileService;
-
-import io.jsonwebtoken.Claims;
 
 @RestController
 public class BoardFileController {
@@ -40,17 +37,16 @@ public class BoardFileController {
 	// FireBase Storage
 	@Autowired
 	private FireBaseService storageService;
-	
+
 	@Autowired
-	private JwtService jwtService;
-	
-	@Autowired
-	private UserService userService;
+	private AuthService authService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
 	
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 첨부파일 가져오기
 	@GetMapping("/getFile")
@@ -129,7 +125,9 @@ public class BoardFileController {
 		return ResponseEntity.ok(dto);
 	}
 	
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 첨부하고자 하는 파일을 Base64로 인코딩
 	@PostMapping("/encodeFile")
@@ -151,7 +149,9 @@ public class BoardFileController {
 		
 		try { 
 			
+			// 원본 파일을 Base64로 인코딩
 			fd.setImgFile(Base64.getEncoder().encodeToString(file.getBytes()));
+			
 			fd.setContentType(file.getContentType());
 			fd.setFileName(sb.toString());
 			fd.setOrgName(orgName);
@@ -176,8 +176,6 @@ public class BoardFileController {
 				fileService.deleteAllFileFree(boardNum);
 				
 				for(FileDto fd : dto) {
-					
-					System.out.println(fd.getFileName());
 					
 					try { storageService.uploadImage(fd); }
 					catch(Exception e) { e.printStackTrace(); continue; }
@@ -265,7 +263,46 @@ public class BoardFileController {
 		return ResponseEntity.ok().build();
 	}
 	
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+	
+	// 게시판에 첨부된 특정 파일만 삭제
+	@DeleteMapping("/deleteFile")
+	public ResponseEntity<?> deleteFile(
+		@RequestParam String target, // 대상
+		@RequestParam Long boardNum, // 대상 게시판 번호
+		@RequestParam String jwt,
+		@RequestBody FileDto dto
+	){
+		
+		// 새로 만드는 게시판인 경우 패스(아직 저장되지 않았기 때문)
+		if(boardNum==0) {return ResponseEntity.ok().build();}
+		
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		
+		switch(target) {
+		
+			case "free": fileService.deleteFileFree(dto.getFileName()); break;
+				
+			case "notic": fileService.deleteFileNotic(dto.getFileName()); break;
+				
+			case "promotion": fileService.deleteFilePromotion(dto.getFileName()); break;
+				
+			case "event": fileService.deleteFileEvent(dto.getFileName()); break;
+				
+			case "qa": fileService.deleteFileQA(dto.getFileName()); break;
+				
+			default:
+				return ResponseEntity.ok(false);
+		}
+		
+		// FireBase의 이미지 삭제 (없으면 넘기기)
+		try { storageService.deleteImage(dto); }
+		catch (Exception e) {}
+
+		return ResponseEntity.ok().build();
+	}
 	
 	// 게시판에 첨부된 모든 첨부파일 삭제
 	@DeleteMapping("/deleteAllFile")
@@ -275,20 +312,7 @@ public class BoardFileController {
 		@RequestParam String jwt
 	){
 		
-		if(jwt == null) { return ResponseEntity.ok(false); }
-		
-		Claims claims;
-		
-		try { claims = jwtService.getAuthUser(jwt); }
-		catch(Exception e) { return ResponseEntity.ok(false); }
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.ok(false);
-		}
-		
-		// 비회원인 경우
-		if(userService.findUser(claims.get("memId", String.class)).isEmpty()) { return ResponseEntity.ok(false); }
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
 		// 파일 이름을 받기 위한 리스트
 		List<FileDto> fileDto = new ArrayList<>();
@@ -296,9 +320,8 @@ public class BoardFileController {
 		switch(target) {
 		
 			case "free": 
-				List<FileFree> fileFree = fileService.getFileFree(boardNum);
 				
-				for(FileFree file : fileFree) {
+				for(FileFree file : fileService.getFileFree(boardNum)) {
 					FileDto fd = modelMapper.map(file, FileDto.class);
 					fileDto.add(fd);
 				}
@@ -308,9 +331,8 @@ public class BoardFileController {
 				break;
 				
 			case "notic": 
-				List<FileNotic> fileNotic = fileService.getFileNotic(boardNum);
 				
-				for(FileNotic file : fileNotic) {
+				for(FileNotic file : fileService.getFileNotic(boardNum)) {
 					FileDto fd = modelMapper.map(file, FileDto.class);
 					fileDto.add(fd);
 				}
@@ -320,9 +342,8 @@ public class BoardFileController {
 				break;
 				
 			case "promotion": 
-				List<FilePromotion> filePromotion = fileService.getFilePromotion(boardNum);
 				
-				for(FilePromotion file : filePromotion) {
+				for(FilePromotion file : fileService.getFilePromotion(boardNum)) {
 					FileDto fd = modelMapper.map(file, FileDto.class);
 					fileDto.add(fd);
 				}
@@ -332,9 +353,8 @@ public class BoardFileController {
 				break;
 				
 			case "event": 
-				List<FileEvent> fileEvent = fileService.getFileEvent(boardNum);
 				
-				for(FileEvent file : fileEvent) {
+				for(FileEvent file : fileService.getFileEvent(boardNum)) {
 					FileDto fd = modelMapper.map(file, FileDto.class);
 					fileDto.add(fd);
 				}
@@ -344,9 +364,8 @@ public class BoardFileController {
 				break;
 				
 			case "qa": 
-				List<FileQA> fileQA = fileService.getFileQA(boardNum);
 				
-				for(FileQA file : fileQA) {
+				for(FileQA file : fileService.getFileQA(boardNum)) {
 					FileDto fd = modelMapper.map(file, FileDto.class);
 					fileDto.add(fd);
 				}

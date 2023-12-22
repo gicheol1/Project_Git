@@ -99,7 +99,7 @@ function Reservationlist() {
             width: 900,
             renderCell: (params) => (
                 <div className="travelinformation">
-                    <p>패키지 여행 이름: {params.row.packName}</p>
+                    <p>숙소: {params.row.packName}</p>
                     <p>회원: {params.row.memId}</p>
                     <p>숙박 기간: {params.row.dateCnt}</p>
                     <p>예약한 인원: {params.row.count}</p>
@@ -130,7 +130,7 @@ function Reservationlist() {
         <div>
             <h1 className='reserve-list-header'>
                 <FaceIcon fontSize='large' />
-                {userName}님의 패키지 여행 예약 목록
+                {userName}님의 숙소 예약 목록
             </h1>
 
             {/* 패키지 여행 예약 목록 */}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cute+Font&family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
 /*예약 목록 스타일*/
 .reserve-list{
     margin-Left: 0%;
@@ -12,7 +12,7 @@
 .reserve-list-header{
     margin-top: 3%;
     text-align: center;
-    font-family: 'Cute Font', sans-serif;
+    font-family: 'Single Day', cursive;
     font-size: 54px;
     color: #333;
 }

@@ -1,12 +1,9 @@
 package com.project.festival.Controller.board;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.festival.Controller.orther.ConversionBoard;
 import com.project.festival.Entity.board.BoardDto;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
-import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardService;
-
-import io.jsonwebtoken.Claims;
 
 @RestController
 public class BoardController {
@@ -32,13 +26,9 @@ public class BoardController {
 	
 	@Autowired
 	private JwtService jwtService;
-	
+
 	@Autowired
-	private UserService userService;
-    
-    // json으로 변환하기 위한 컨버젼 메소드 모음
-    @Autowired
-    private ConversionBoard boardConversion;
+	private AuthService authService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -53,38 +43,20 @@ public class BoardController {
 		
 		Pageable pageable = PageRequest.of(page, 10, Sort.by("boardNum").descending());
 		
-		List<?> boardList = null;
-		
 	    switch(target) {
-			case "free":
-				boardList = boardConversion.returnFree(borderService.getFreeByPage(pageable));
-				break;
+			case "free": return ResponseEntity.ok(borderService.getFreeByPage(pageable));
 				
-			case "notic":
-				boardList = boardConversion.returnNotic(borderService.getNoticByPage(pageable));
-				break;
+			case "notic": return ResponseEntity.ok(borderService.getNoticByPage(pageable));
 				
-			case "promotion":
-				boardList = boardConversion.returnPromotion(borderService.getPromotionByPage(pageable));
-				break;
+			case "promotion": return ResponseEntity.ok(borderService.getPromotionByPage(pageable));
 				
-			case "event":
-				boardList = boardConversion.returnEvent(borderService.getEventByPage(pageable));
-				break;
+			case "event": return ResponseEntity.ok(borderService.getEventByPage(pageable));
 				
-			case "qa":
-				boardList = boardConversion.returnQA(borderService.getQAByPage(pageable));
-				break;
+			case "qa": return ResponseEntity.ok(borderService.getQAByPage(pageable));
 			
 			default:
 				return ResponseEntity.notFound().build();
 	    }
-	    
-	    if(boardList.isEmpty()) {
-	    	return ResponseEntity.notFound().build();
-	    }
-		
-		return ResponseEntity.ok(boardList);
 	}
 	
 	// 게시판 총 갯수
@@ -93,24 +65,20 @@ public class BoardController {
 		@RequestParam String target
 	){
 		
-		long cnt=0;
-		
 	    switch(target) {
-			case "free": cnt = borderService.getFreeCnt(); break;
+			case "free": return ResponseEntity.ok(borderService.getFreeCnt());
 				
-			case "notic": cnt = borderService.getNoticCnt(); break;
+			case "notic": return ResponseEntity.ok(borderService.getNoticCnt());
 				
-			case "promotion": cnt = borderService.getPromotionCnt(); break;
+			case "promotion": return ResponseEntity.ok(borderService.getPromotionCnt());
 				
-			case "event": cnt = borderService.getEventCnt(); break;
+			case "event": return ResponseEntity.ok(borderService.getEventCnt());
 				
-			case "qa": cnt = borderService.getQACnt(); break;
+			case "qa": return ResponseEntity.ok(borderService.getQACnt());
 				
 			default:
 				return ResponseEntity.notFound().build();
 	    }
-	    
-	    return ResponseEntity.ok(cnt);
 	}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -123,23 +91,17 @@ public class BoardController {
 	){
 		
 	    switch(target) {
-			case "free":
-				return ResponseEntity.ok(borderService.getFreeDetail(boardNum));
+			case "free": return ResponseEntity.ok(borderService.getFreeDetail(boardNum));
 				
-			case "notic":
-				return ResponseEntity.ok(borderService.getNoticDetail(boardNum));
+			case "notic": return ResponseEntity.ok(borderService.getNoticDetail(boardNum));
 				
-			case "promotion":
-				return ResponseEntity.ok(borderService.getPromotionDetail(boardNum));
+			case "promotion": return ResponseEntity.ok(borderService.getPromotionDetail(boardNum));
 				
-			case "event":
-				return ResponseEntity.ok(borderService.getEventDetail(boardNum));
+			case "event": return ResponseEntity.ok(borderService.getEventDetail(boardNum));
 				
-			case "qa":
-				return ResponseEntity.ok(borderService.getQADetail(boardNum));
+			case "qa": return ResponseEntity.ok(borderService.getQADetail(boardNum));
 				
-			default:
-				return ResponseEntity.notFound().build();
+			default: return ResponseEntity.notFound().build();
 	    }
 	}
 	
@@ -151,23 +113,17 @@ public class BoardController {
 	){
 		
 	    switch(target) {
-			case "free":
-				borderService.addFreeLike(boardNum); return;
+			case "free": borderService.addFreeLike(boardNum); return;
 				
-			case "notic":
-				borderService.addNoticLike(boardNum); return;
+			case "notic": borderService.addNoticLike(boardNum); return;
 				
-			case "promotion":
-				borderService.addPromotionLike(boardNum); return;
+			case "promotion": borderService.addPromotionLike(boardNum); return;
 				
-			case "event":
-				borderService.addEventLike(boardNum); return;
+			case "event": borderService.addEventLike(boardNum); return;
 				
-			case "qa":
-				borderService.addQALike(boardNum); return;
+			case "qa": borderService.addQALike(boardNum); return;
 				
-			default:
-				return;
+			default: return;
 	    }
 	}
 	
@@ -179,23 +135,17 @@ public class BoardController {
 	){
 		
 	    switch(target) {
-			case "free":
-				borderService.addFreeLike(boardNum); return;
+			case "free": borderService.addFreeLike(boardNum); return;
 				
-			case "notic":
-				borderService.addNoticLike(boardNum); return;
+			case "notic": borderService.addNoticLike(boardNum); return;
 				
-			case "promotion":
-				borderService.addPromotionLike(boardNum); return;
+			case "promotion": borderService.addPromotionLike(boardNum); return;
 				
-			case "event":
-				borderService.addEventLike(boardNum); return;
+			case "event": borderService.addEventLike(boardNum); return;
 				
-			case "qa":
-				borderService.addQALike(boardNum); return;
+			case "qa": borderService.addQALike(boardNum); return;
 				
-			default:
-				return;
+			default: return;
 	    }
 	}
 	
@@ -210,22 +160,10 @@ public class BoardController {
 		@RequestBody BoardDto boardDetail
 	){
 		
-		Claims claims;
-		
-		try { claims = jwtService.getAuthUser(jwt); }
-		catch(Exception e) { return ResponseEntity.ok(false); }
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.ok(false);
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
-		
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+
 		// 작성자 지정
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 		boardDetail.setMemId(memId);
 		
 		// 게시판 번호가 존재하면 수정, 없으면 새로 작성되는 게시글
@@ -288,24 +226,9 @@ public class BoardController {
 		@RequestParam String jwt
 	){
 		
-		if(jwt == null) {
-			return ResponseEntity.ok(false);
-		}
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
-		Claims claims;
-		
-		try { claims = jwtService.getAuthUser(jwt); }
-		catch(Exception e) { return ResponseEntity.ok(false); }
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.ok(false);
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 		
 		boolean isOwner = false;
 		

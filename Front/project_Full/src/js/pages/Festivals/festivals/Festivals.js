@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 
-import './Festivals.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFestivals } from './useFestivals';
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
+import './Festivals.css';
+
 const Festivals = () => {
 
 	const navigate = useNavigate();
+
 	const inputRef = useRef(null);
 
 	const { festivalNum } = useParams();
@@ -26,43 +28,51 @@ const Festivals = () => {
 	});
 
 	// 축제 이미지 파일
-	const [festivalImg, setFestivalImg] = useState([]);
+	const [imgList, setImgList] = useState([]);
 
-	const [btnEnable, setBtnEnable] = useState(false);
+	// 버튼 비활성화 여부
+	const [btnDisable, setBtnDisable] = useState(false);
 
 	const open = useDaumPostcodePopup();
+
 	const {
 		getFestival,
 		getFileFeatival,
 
-		setFileFestival,
+		encodeFile,
 
 		submitFestival,
 		submitFileFestival,
 
-		deleteFileFestival
+		deleteFestival
+
 	} = useFestivals();
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
+	// 축제 번호가 존재할시(수정)
 	useEffect(() => {
 		if (festivalNum !== undefined) {
-			getFestival(festivalNum).then(res => setFestival(res));
-			getFileFeatival(festivalNum).then(res => setFestivalImg(res));
+			getFestival(festivalNum).then(res => {
+				if (res == null) {
+					alert('데이터가 없습니다.')
+					navigate('/festivalList');
+				}
+				setFestival(res);
+			});
+			getFileFeatival(festivalNum).then(res => imgList(res));
 		}
 	}, [festivalNum])
 
-	useEffect(() => {
-		setBtnEnable(isFestivalComplete());
-	}, [festival])
+	useEffect(() => { setBtnDisable(isFestivalComplete()); }, [festival])
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-	// 데이터 입력시
+	// 축제 정보 입력시
 	const handleChange = (e) => { setFestival({ ...festival, [e.target.name]: e.target.value }); };
 
 	// 주소 입력 버튼 클릭시
@@ -78,8 +88,23 @@ const Festivals = () => {
 	}
 
 	// 추가 버튼 클릭시
-	const handleAdd = () => {
-		submitFestival(festival).then(num => submitFileFestival(festivalImg, num));
+	const handleAdd = async () => {
+
+		const saveFestival = async () => {
+
+			submitFestival(festival).then(num => {
+				submitFileFestival(imgList, num)
+			});
+
+		}
+
+		// 버튼 비활성화
+		setBtnDisable(true);
+
+		saveFestival();
+
+		// 버튼 활성화
+		setBtnDisable(false);
 	};
 
 	// 모든 데이터가 있는지 확인
@@ -97,7 +122,6 @@ const Festivals = () => {
 
 	// 파일 추가 및 저장
 	const handleFileChange = async (e) => {
-
 		const selectedFiles = e.target.files;
 		const imageFiles = [];
 
@@ -106,35 +130,35 @@ const Festivals = () => {
 			const fileType = file.type.toLowerCase();
 
 			// 이미지 파일인지 확인 (이미지 파일 확장자: 'image/jpeg', 'image/png', 'image/gif', 등)
-			if (fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'image/gif') {
-				imageFiles.push(file);
-			}
+			if (
+				fileType === 'image/jpg' ||
+				fileType === 'image/jpeg' ||
+				fileType === 'image/png' ||
+				fileType === 'image/gif'
+			) { imageFiles.push(file); }
 		}
 
-		setBtnEnable(true);
-		setFileFestival(imageFiles).then((res) => {
-			setFestivalImg(...festivalImg, res);
-			setBtnEnable(isFestivalComplete());
-		})
+		// 비동기 처리를 위한 내부 함수
+		const encodeImageFiles = async () => {
+			for (const imgFile of imageFiles) {
+				const res = await encodeFile(imgFile);
+				setImgList(prevList => [...prevList, res]);
+			}
+		};
+
+		setBtnDisable(true);
+		encodeImageFiles();
+		setBtnDisable(isFestivalComplete());
 
 	};
 
 	// 선택한 파일 제거 함수
 	const handleCancel = (indexTarget) => {
-
-		const targetImg = festivalImg.find((images, index) => index === indexTarget)
-
-		setBtnEnable(true);
-		deleteFileFestival(targetImg).then(() => {
-			setBtnEnable(isFestivalComplete());
-		});
-
-		setFestivalImg(festivalImg.filter((images, index) => index !== indexTarget));
+		setImgList(imgList.filter((images, index) => index !== indexTarget));
+		setBtnDisable(isFestivalComplete());
 	}
 
-	const showData = () => {
-		console.log(festival);
-	}
+	const showData = () => { console.log(festival); }
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -200,7 +224,7 @@ const Festivals = () => {
 					<div>
 						<p>
 							<Button onClick={handlePopup}>주소 찾기</Button>
-							<input type='text' name='roadAddress' placeholder='도로명' value={festival.location} readOnly={true} />
+							<input type='text' name='roadAddress' placeholder='축제 위치' value={festival.location} readOnly={true} />
 							<input type='text' name='' placeholder='상세주소' />
 						</p>
 					</div>
@@ -274,8 +298,8 @@ const Festivals = () => {
 					/>
 
 					{/* 첨부한 파일들을 표시 */}
-					{(festivalImg !== undefined && festivalImg.length !== 0) && (
-						festivalImg.map((image, index) => (
+					{(imgList !== undefined && imgList.length !== 0) && (
+						imgList.map((image, index) => (
 							<div style={{ display: 'flex' }}>
 								<img
 									key={`image ${index}`}
@@ -294,13 +318,27 @@ const Festivals = () => {
 					)}
 				</div>
 
-				<Button
-					variant="contained"
-					onClick={handleAdd}
-					disabled={btnEnable}
-				>
-					{festivalNum === undefined ? `추가` : `수정`}
-				</Button>
+				<div>
+					<Button
+						variant="contained"
+						onClick={handleAdd}
+						disabled={btnDisable}
+					>
+						{festivalNum === undefined ? `추가` : `수정`}
+					</Button>
+					<Button
+						variant="contained"
+						onClick={festivalNum === undefined ?
+							() => { navigate('/festivalList'); }
+							:
+							() => { deleteFestival(festivalNum); }
+						}
+						color='error'
+						disabled={btnDisable}
+					>
+						{festivalNum === undefined ? `취소` : `삭제`}
+					</Button>
+				</div>
 				<Button variant="contained" onClick={showData} >데이터 확인</Button>
 			</div >
 		);

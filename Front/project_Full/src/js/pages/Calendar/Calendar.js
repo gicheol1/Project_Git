@@ -118,20 +118,34 @@ const onSelectedItem = (Select) => {
           <div className="App">
 
             <div id="checkBox">
-                <input className="축제" type='checkbox' name = "check"
-                    onChange={(e) => {
-                          onCheckedItem(e.target.checked,e.target.className,e.target);}}/>축제
-                <input className="공연" type='checkbox' name = "check"
-                    onChange={(e) => {
-                        onCheckedItem(e.target.checked,e.target.className,e.target);}}/>공연
-                <input className="캠핑" type='checkbox' name = "check"
-                    onChange={(e) => {
-                        onCheckedItem(e.target.checked,e.target.className,e.target);}}/>캠핑
-                <input className="문화" type='checkbox' name = "check"
-                    onChange={(e) => {
-                        onCheckedItem(e.target.checked,e.target.className,e.target);}}/>문화
-
-		    <select onChange={(e) => {
+                    <div className='cam'>
+                    캠핑
+                    <input className="캠핑" type='checkbox' name = "check"
+                        onChange={(e) => {
+                            onCheckedItem(e.target.checked,e.target.className,e.target);}}/>
+                    </div>
+                    <div className='cul'>
+                    문화
+                    <input className="문화" type='checkbox' name = "check"
+                        onChange={(e) => {
+                            onCheckedItem(e.target.checked,e.target.className,e.target);}}/>
+                    </div>
+                    <div className='fes'>
+                    축제
+                    <input className="축제" type='checkbox' name = "check"
+                        onChange={(e) => {
+                            onCheckedItem(e.target.checked,e.target.className,e.target);}}/>
+                    </div>
+                    <div className='mapshow'>
+                    공연
+                    <input className="공연행사" type='checkbox' name = "check"
+                        onChange={(e) => {
+                            onCheckedItem(e.target.checked,e.target.className,e.target);}}/>
+                    </div>
+               
+            <div className="calselectBox">
+                <p>지역선택:</p> 
+		    <select  className="selectInput" onChange={(e) => {
 					onSelectedItem(e.target.value);}}
             >
                 <option key="X" value="X">선택 안함</option>
@@ -140,30 +154,33 @@ const onSelectedItem = (Select) => {
 			    <option key="Daegu" value="대구">대구</option>
 			    <option key="Busan" value="부산">부산</option>
 		    </select>
-
+            </div>
             </div>
 
-            <div>
-
-                <FullCalendar 
+  
+                <FullCalendar
                 plugins={[ dayGridPlugin ]}
                 headerToolbar={{
                     left:'prev',
                     center: 'title',
                     right: 'next',
+                
                 }}
+                
                 initialView="dayGridMonth"
+                height={900}
+                locale= {'ko'}
                 nowIndicator={true}
                 selectable={true}
                 events={CheckList.map((addr) => ({
                     title:`(` + addr.tag + `)` + addr.name,
                     start:addr.endDate,
-                    end:addr.startDate
+                    end:addr.startDate,
 
                 }
                 ))}
             />
-                </div>
+   
             
 
             <div className='line'>
@@ -174,10 +191,16 @@ const onSelectedItem = (Select) => {
                 
    
                 {CheckList.map(addr => 
-                   
-                   <div className='img'>
-                        <img src={require("./img/"+addr.name+".png")}/>
-                    </div>
+
+                     <span class="card">
+   
+                         <h4>{addr.name}</h4>
+   
+                         <img src={require("./img/"+addr.name+".png")}/>
+      
+                     </span>
+
+                
                 )}
      
                 

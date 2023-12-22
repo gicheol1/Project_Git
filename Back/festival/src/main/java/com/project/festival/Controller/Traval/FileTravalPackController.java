@@ -1,4 +1,4 @@
-package com.project.festival.Controller.festival;
+package com.project.festival.Controller.Traval;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,20 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.festival.Dto.FileDto;
-import com.project.festival.Entity.festival.FileFestival;
+import com.project.festival.Entity.TravalPack.FileTravalPack;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.FireBaseService;
-import com.project.festival.Service.festival.FileFestivalService;
+import com.project.festival.Service.TravalPack.FileTravalPackService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
-public class FileFestivalController {
+@RequiredArgsConstructor
+public class FileTravalPackController {
 	
 	// FireBase Storage
 	@Autowired
 	private FireBaseService storageService;
 	
 	@Autowired
-	private FileFestivalService fileFestivalService;
+	private FileTravalPackService fileTravalPackService;
 
 	@Autowired
 	private AuthService authService;
@@ -43,15 +46,15 @@ public class FileFestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 축제 이미지 가져오기
-	@GetMapping("/getFileFeatival")
-	public ResponseEntity<?> getFileFeatival(
-		@RequestParam Long festivalNum
+	// 패키지 이미지 가져오기
+	@GetMapping("/getFileTravalPack")
+	public ResponseEntity<?> getFileTravalPack(
+		@RequestParam Long packNum
 	) {
 		
 		List<FileDto> dto = new ArrayList<>();
 		
-		for(FileFestival files : fileFestivalService.getFiles(festivalNum)) {
+		for(FileTravalPack files : fileTravalPackService.getFiles(packNum)) {
 			try {
 				FileDto fd = modelMapper.map(files, FileDto.class);
 				fd.setImgFile(storageService.getImageFile(files.getFileName()));
@@ -68,8 +71,8 @@ public class FileFestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 첨부하고자 하는 파일을 Base64로 인코딩
-	@PostMapping("/encodeFileFestival")
-	public ResponseEntity<?> encodeFileFestival(
+	@PostMapping("/encodeFileTravalPack")
+	public ResponseEntity<?> encodeFileTravalPack(
 		@RequestParam String orgName,	// 파일 이름
 		@RequestBody MultipartFile file
 	){
@@ -77,8 +80,8 @@ public class FileFestivalController {
 		FileDto fd = new FileDto();
 		StringBuilder sb = new StringBuilder();
 	
-		// 저장될 파일 위치(예: 'festival/이미지 파일명')
-		sb.append("festival/");
+		// 저장될 파일 위치(예: 'travalPack/이미지 파일명')
+		sb.append("travalPack/");
 		
 		// 랜덤한 파일 이름(실제 저장될 이름)
 		sb.append(UUID.randomUUID().toString());
@@ -97,25 +100,25 @@ public class FileFestivalController {
 		return ResponseEntity.ok(fd);
 	}
 	
-	// 축제 이미지 정보를 DB에 등록
-	@PostMapping("/submitFileFeatival")
-	public ResponseEntity<?> submitFileFeatival(
-		@RequestParam Long festivalNum,
+	// 패키지 이미지 정보를 DB에 등록
+	@PostMapping("/submitFileFileTravalPack")
+	public ResponseEntity<?> submitFileTravalPack(
+		@RequestParam Long packNum,
 		@RequestBody List<FileDto> dto
 	) {
 		
 		// 이전에 저장된 DB는 제거
-		fileFestivalService.deleteAllFile(festivalNum);
+		fileTravalPackService.deleteAllFile(packNum);
 		
 		for(FileDto fd : dto) {
 			
 			try { storageService.uploadImage(fd); }
 			catch (IOException e) { e.printStackTrace(); continue; }
 			
-			FileFestival fileFree = modelMapper.map(fd, FileFestival.class);
-			fileFree.setFestivalNum(festivalNum);
+			FileTravalPack fileTP = modelMapper.map(fd, FileTravalPack.class);
+			fileTP.setPackNum(packNum);
 			
-			fileFestivalService.submitFile(fileFree);
+			fileTravalPackService.submitFile(fileTP);
 		}
 		
 		return ResponseEntity.ok().build();
@@ -124,34 +127,20 @@ public class FileFestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-	
-	// 축제에 첨부된 특정 파일만 삭제
-	@DeleteMapping("/deleteFileFestival")
-	public ResponseEntity<?> deleteFileFestival(
-		@RequestParam Long festivalNum, // 대상 축제 번호
+
+	// 패키지의 특정 이미지만 삭제
+	@DeleteMapping("/deleteFileTravalPack")
+	public ResponseEntity<?> deleteFileTravalPack(
 		@RequestParam String jwt,
-		@RequestBody FileDto dto
-	){
+		@RequestParam Long packNum
+	) {
 		
-		// 새로 만드는 축제인 경우 패스(아직 저장되지 않았기 때문)
-		if(festivalNum==0) {return ResponseEntity.ok().build();}
+		// 새로 만드는 게시판인 경우 패스(아직 저장되지 않았기 때문)
+		if(packNum==0) {return ResponseEntity.ok().build();}
 		
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
-		// FireBase의 이미지 삭제 (없으면 넘기기)
-		try { storageService.deleteImage(dto); }
-		catch (Exception e) {}
-
-		return ResponseEntity.ok().build();
-	}
-
-	// 축제의 모든 이미지 삭제
-	@DeleteMapping("/deleteAllFileFeatival")
-	public ResponseEntity<?> deleteAllFileFeatival(
-		@RequestParam Long festivalNum
-	) {
-		
-		for(FileFestival f : fileFestivalService.getFiles(festivalNum)) {
+		for(FileTravalPack f : fileTravalPackService.getFiles(packNum)) {
 			try {
 				FileDto fd = modelMapper.map(f, FileDto.class);
 				storageService.deleteImage(fd);
@@ -162,7 +151,30 @@ public class FileFestivalController {
 			}
 		}
 		
-		fileFestivalService.deleteAllFile(festivalNum);
+		fileTravalPackService.deleteAllFile(packNum);
+		
+		return ResponseEntity.ok().build();
+		
+	}
+
+	// 패키지의 모든 이미지 삭제
+	@DeleteMapping("/deleteAllFileTravalPack")
+	public ResponseEntity<?> deleteAllFileTravalPack(
+		@RequestParam Long packNum
+	) {
+		
+		for(FileTravalPack f : fileTravalPackService.getFiles(packNum)) {
+			try {
+				FileDto fd = modelMapper.map(f, FileDto.class);
+				storageService.deleteImage(fd);
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+		
+		fileTravalPackService.deleteAllFile(packNum);
 		
 		return ResponseEntity.ok().build();
 		
