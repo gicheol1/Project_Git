@@ -59,10 +59,9 @@ export function useCheckLogin() {
     const checkIsAdmin = useCallback(async () => {
 
         const jwt = sessionStorage.getItem('jwt');
-        let isAdmin = false;
 
         // 토큰이 비어있는 경우
-        if (jwt === null || jwt === '') { return isAdmin; }
+        if (jwt === undefined || jwt === '') { return false; }
 
         return fetch(SERVER_URL + `isAdmin?jwt=${jwt}`, {
             method: 'GET'
@@ -72,7 +71,7 @@ export function useCheckLogin() {
 
             return res.json();
 
-        }).catch((e) => { console.log(e); isAdmin = false; })
+        }).catch((e) => { console.log(e); return false; })
 
     }, []);
 
