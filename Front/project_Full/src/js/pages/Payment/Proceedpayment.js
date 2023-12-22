@@ -220,10 +220,10 @@ function Proceedpayment() {
                     getRowHeight={params => 350} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
                 />
 
-                <div className='card' >
-                    <label>
-                        카드 번호<br/>
-                        <input className='cardnumber' type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
+                <div >
+                    <label className='cardform'>
+                        <h1>카드 번호</h1>
+                        <input type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
                     </label>
                 </div>
 
