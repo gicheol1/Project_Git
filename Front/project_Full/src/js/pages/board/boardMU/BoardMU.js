@@ -141,11 +141,15 @@ const BoardMU = ({ isLogin }) => {
     // 선택한 파일 제거 함수
     const handleCancel = async (indexTarget) => {
 
+        const deleteOneFile = async () => {
+            deleteFile(target, boardNum, imgList.find((images, index) => index !== indexTarget)).then(() => {
+                setImgList(imgList.filter((images, index) => index !== indexTarget));
+            });
+        }
+
         setBtnDisable(true);
-        deleteFile(target, boardNum, imgList.find((images, index) => index !== indexTarget)).then(() => {
-            setImgList(imgList.filter((images, index) => index !== indexTarget));
-            setBtnDisable(false);
-        });
+        deleteOneFile();
+        setBtnDisable(false);
 
     }
 
