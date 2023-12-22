@@ -19,7 +19,7 @@ function TravelPackList() {
     /* 여행 패키지 */
     const [TravalPack, setTravalPack] = useState([]);
 
-    /* 테스트용 축제 정보 */
+    /* 축제 정보 */
     const [FestivalAll, setFestivalAll] = useState([]);
 
     // - FestivalAll에서 name, startDate, endDate 데이터만 출력하는 부분
@@ -49,14 +49,13 @@ function TravelPackList() {
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-    /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행의 전체 정보 불러오기 */
+    /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행의 전체 정보, 축제정보 불러오기 */
     useEffect(() => {
         fetch(SERVER_URL + "travalpackAll", { method: 'GET' })
             .then(response => response.json())
             .then(data => { setTravalPack(data); setLoading(false); })
             .catch(err => { console.error(err); setLoading(false); });
 
-        /*테스트 용 축제정보*/
         fetch(SERVER_URL + "festivalAll", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
