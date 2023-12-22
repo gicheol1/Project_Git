@@ -50,12 +50,12 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
                 <sidebar>
                     {isAdmin ?
                         // 사이드바(관리자)
-                        // <Sidecare />
-                        <></>
+                        <Sidecare />
+                        
                         :
                         // 사이드바(회원)
-                        // <Sidebar />
-                        <></>
+                        <Sidebar />
+                       
                     }
                 </sidebar>
             )}
