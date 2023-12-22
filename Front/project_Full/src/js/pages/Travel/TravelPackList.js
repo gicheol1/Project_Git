@@ -19,6 +19,17 @@ function TravelPackList() {
     /* 여행 패키지 */
     const [TravalPack, setTravalPack] = useState([]);
 
+    /* 테스트용 축제 정보 */
+    const [FestivalAll, setFestivalAll] = useState([]);
+
+    // - FestivalAll에서 name, startDate, endDate 데이터만 출력하는 부분
+    const FestivalfilteredData = FestivalAll.map(festivallist => ({
+        name: festivallist.name,
+        startDate: festivallist.startDate,
+        endDate: festivallist.endDate
+    }));
+    console.log(FestivalfilteredData);
+
     /* 패키지 여행 데이터 로딩 */
     const [loading, setLoading] = useState(true);
 
@@ -43,6 +54,15 @@ function TravelPackList() {
         fetch(SERVER_URL + "travalpackAll", { method: 'GET' })
             .then(response => response.json())
             .then(data => { setTravalPack(data); setLoading(false); })
+            .catch(err => { console.error(err); setLoading(false); });
+
+        /*테스트 용 축제정보*/
+        fetch(SERVER_URL + "festivalAll", { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                setFestivalAll(data); // 전체 데이터를 그대로 설정
+                setLoading(false);
+            })
             .catch(err => { console.error(err); setLoading(false); });
 
     }, []);
@@ -70,45 +90,58 @@ function TravelPackList() {
         }
     };
 
+
     /* 패키지 여행의 컬럼 */
     const columns = [
         {
             field: 'image', // 이미지 필드가 있다고 가정
             headerName: '여행 이미지',
             width: 300,
-            renderCell: (params) => (
-                <div className="image-cell">
-                    {/* 테스트용 이미지 */}
-                    <img class="custom-image"
-                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
-                        alt="축제이미지"
-                        onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
-                    />
-                    <ModalComponent
-                        showModal={modalOpenMap[params.row.packNum]}
-                        handleClose={() => handleModalClose(params.row.packNum)}
-                        selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
-                        params={params}
-                    />
-                </div>
-            ),
+
+            renderCell: (params) => {
+                const festivalData = FestivalfilteredData.find(festivallist => festivallist.name === params.row.festivalname);
+
+                return (
+                    <div className="image-cell">
+                        {/* 테스트용 이미지 */}
+                        <img class="custom-image"
+                            src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                            alt="축제이미지"
+                            onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                        />
+
+                        <ModalComponent
+                            showModal={modalOpenMap[params.row.packNum]}
+                            handleClose={() => handleModalClose(params.row.packNum)}
+                            selectedImage={"https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"}
+                            params={params}
+                            festivalDatas={festivalData} // festivalData 추가
+                        />
+                    </div>
+                );
+            },
         },
         { // 한개의 컬럼에 여러 컬럼의 정보를 출력
             field: 'travelinformation',
             headerName: '여행 정보',
             width: 900,
-            renderCell: (params) => (
-                <div className="travelinformation">
-                    <p>{params.row.name}</p>
-                    {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
-                    <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
-                    <p>최대인원: {params.row.count}</p>
-                    <p>흡연실(금연실): {params.row.smoke}</p>
-                    <p>몇 인실: {params.row.person}</p>
-                    <p>예약 가능한 상태: {params.row.reservation}</p>
-                </div>
-            ),
+            renderCell: (params) => {
+                const festivalData = FestivalfilteredData.find(festivallist => festivallist.name === params.row.festivalname);
+                return (
+                    <div className="travelinformation">
+                        <p>{params.row.name}</p>
+                        {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
+                        <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                        <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
+                        <p>최대인원: {params.row.count}</p>
+                        <p>흡연실(금연실): {params.row.smoke}</p>
+                        <p>몇 인실: {params.row.person}</p>
+                        <p>예약 가능한 상태: {params.row.reservation}</p>
+                        <p>축제: {params.row.festivalname}</p>
+                        <p>축제기간: {festivalData.startDate} ~ {festivalData.endDate}</p>
+                    </div>
+                );
+            },
         },
         {
             field: 'packreservation',

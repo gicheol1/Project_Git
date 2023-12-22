@@ -148,6 +148,7 @@ function TravelReservation() {
                     <p>몇 인실: {params.row.person}</p>
                     <p>상세내용: {params.row.text}</p>
                     <p>예약 가능한 상태: {params.row.reservation}</p>
+                    <p>축제: {params.row.festivalname}</p>
                 </div>
             ),
         },
