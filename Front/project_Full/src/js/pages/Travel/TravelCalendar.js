@@ -19,11 +19,44 @@ function TravelCalendar({ packNum }) {
     /* 캘린더에 출력할 정보 */
     const [events, setEvents] = useState([]);
 
+    // 여행 전체 정보
+    const [TravalPacks, setTravalPack] = useState([]); // 패키지 정보
+
+    const TravalPackfestival = TravalPacks.map(Tfestivalname => ({
+        festivalname: Tfestivalname.festivalname,
+    }));
+
+    console.log(TravalPackfestival);
+
+    /* 축제 정보 */
+    const [FestivalAll, setFestivalAll] = useState([]);
+
+    // - FestivalAll에서 name, startDate, endDate 데이터만 출력하는 부분
+    const FestivalfilteredData = FestivalAll.map(festivallist => ({
+        name: festivallist.name,
+        startDate: festivallist.startDate,
+        endDate: festivallist.endDate
+    }));
+    console.log(FestivalfilteredData);
+
+    // 공통 조건에 따라 TravalPacks와 FestivalAll을 매핑
+    const matchedData = TravalPackfestival.map(travalPack => {
+        // name과 festivalname을 기준으로 해당하는 축제 데이터 찾기
+        const matchedFestival = FestivalAll.find(festival => festival.name === travalPack.festivalname);
+        return {
+            title: matchedFestival.name,
+            start: new Date(matchedFestival.startDate),
+            end: new Date(matchedFestival.endDate),
+            // 포함시키고자 하는 다른 속성 추가
+        };
+    });
+    console.log(matchedData);
+
     /* =========================================================== */
     /* =========================================================== */
     /* =========================================================== */
 
-    /* 벡엔드에서 설정한 패키지여행 DB 연결 */
+    /* 벡엔드에서 설정한 패키지여행, 축제 정보 DB 연결 */
     useEffect(() => {
         fetch(SERVER_URL + `travalpack/${packNum}`) // 패키지 여행의 상세정보(테스트)
             .then((response) => response.json())
@@ -35,10 +68,20 @@ function TravelCalendar({ packNum }) {
                     end: new Date(data.endDate),
                 }];
                 setEvents(formattedData);
+
+                setTravalPack([data]);
             })
             .catch((error) => {
                 console.error("데이터를 가져오는 중에 오류가 발생했습니다.:", error);
             });
+
+        fetch(SERVER_URL + "festivalAll", { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                setFestivalAll(data); // 전체 데이터를 그대로 설정
+            })
+            .catch(err => { console.error(err); });
+
     }, [packNum]);
 
     /* =========================================================== */
@@ -82,7 +125,7 @@ function TravelCalendar({ packNum }) {
         /* ----------------------------------------------------------- */
 
         return (
-            <div className="rbc-toolbar" style={{backgroundColor: '#f8f9fa'}}>
+            <div className="rbc-toolbar" style={{ backgroundColor: '#f8f9fa' }}>
                 <span className="rbc-btn-group">
                     <button className='calendar-button-font' type="button" onClick={goToBack}>
                         이전
@@ -160,20 +203,22 @@ function TravelCalendar({ packNum }) {
     return (
         /* 달력과 예약일 */
         <div>
-             <div className='calendar'>
-                <Calendar 
+            <div className='calendar'>
+                <Calendar
                     // 현지 시간 양식을 가져온다.
                     localizer={localizer}
 
                     // DB혹은 파일을 읽어와 실제 달력에 뿌려 줄 데이터
-                    events={events}
+                    // events={events} // 테스트 용 (숙소일정) 
+                    // events={matchedData} // 테스트 용 (축제 일정)
+                    events={[...matchedData, ...events]}
 
                     // 캘린더 몸통 스타일
                     style={{ height: 800, width: "100%", backgroundColor: '#f8f9fa' }}
-                    
+
 
                     // toolbar:이전, 오늘, 다음 버튼과 년, 월 타이틀, event: 패키지 여행 이름과 날짜 정보
-                    components={{ toolbar: CustomToolbar, event: customEventContent, }}
+                    components={{ toolbar: CustomToolbar, event: customEventContent }}
 
                     // 월 만 나오개 뷰 위치 고정 한다.
                     views={["month"]}
