@@ -66,30 +66,6 @@ function Proceedpayment() {
             .catch(err => { console.error(err); });
     }, [resNum]);
 
-    /* Tosspayments 위젯(결제위젯) 불러오기 */
-    useEffect(() => {
-        if (Packreservation.length > 0) {
-            const loadWidget = async () => {
-                try {
-                    const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
-                    const paymentMethodsWidget = paymentWidget.renderPaymentMethods("#payment-widget", paymentInfo.payamount);
-
-                    // Ref에 위젯을 할당
-                    paymentWidgetRef.current = paymentWidget;
-                    paymentMethodsWidgetRef.current = paymentMethodsWidget;
-                } catch (error) {
-                    alert('결제 위젯 로드 중 오류 발생:', error);
-                }
-            };
-
-            loadWidget();
-        }
-    }, [paymentInfo.payamount]);
-
-    console.log("결제 위젯에 값이 들어갔는지 확인용(패키지 여행 * 인원 수 가격): " + paymentInfo.payamount);
-    /* --------------------------------------------------------------------------------- */
-    console.log(member.phonNum);
-
     /* 패키지 예약에 결제 정보를 데이터베이스로 보내기 */
     const handleButtonClick = async () => {
         if (!paymentInfo.cardnumber || paymentInfo.cardnumber.trim() === '') { // - 카드번호가 true 또는 입력 안 할시 카드번호 입력 경고문 출력 
@@ -186,7 +162,7 @@ function Proceedpayment() {
             ),
         },
     ];
-    
+
     /* 결재 금액과 카드번호 입력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     const [paymentInfo, setPaymentInfo] = useState({
@@ -202,7 +178,31 @@ function Proceedpayment() {
         });
     };
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
-    
+
+    /* Tosspayments 위젯(결제위젯) 불러오기 */
+    useEffect(() => {
+        if (Packreservation.length > 0) {
+            const loadWidget = async () => {
+                try {
+                    const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
+                    const paymentMethodsWidget = paymentWidget.renderPaymentMethods("#payment-widget", paymentInfo.payamount);
+
+                    // Ref에 위젯을 할당
+                    paymentWidgetRef.current = paymentWidget;
+                    paymentMethodsWidgetRef.current = paymentMethodsWidget;
+                } catch (error) {
+                    alert('결제 위젯 로드 중 오류 발생:', error);
+                }
+            };
+
+            loadWidget();
+        }
+    }, [paymentInfo.payamount]);
+
+    console.log("결제 위젯에 값이 들어갔는지 확인용(패키지 여행 * 인원 수 가격): " + paymentInfo.payamount);
+    /* --------------------------------------------------------------------------------- */
+    console.log(member.phonNum);
+
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
