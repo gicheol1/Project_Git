@@ -1,6 +1,5 @@
 package com.project.festival.Controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.User;
 import com.project.festival.Entity.orther.UserIdEmail;
 import com.project.festival.Entity.orther.UserNameEmail;
@@ -46,7 +44,7 @@ public class UserController {
 	@GetMapping("/getUserList")
 	public ResponseEntity<?> getUserList(@RequestParam String jwt) {
 		
-		if(authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
 		return ResponseEntity.ok(userService.getUsers());
 	}
@@ -135,7 +133,7 @@ public class UserController {
 		@RequestParam String jwt
 	) {
 
-		if(authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
 		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
 		Optional<User> user = userService.findUser(jwtService.getAuthUser(jwt).get("memId", String.class));
@@ -150,20 +148,6 @@ public class UserController {
 		return ResponseEntity.ok().body(userInfo);
 	}
 	
-	
-	@GetMapping("/getUser2")
-	public ResponseEntity<?> getUser2(
-		@RequestParam String jwt
-	) {
-		
-		
-		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
-		List<User> user = userService.findUserAll();
-		
-	
-		return ResponseEntity.ok().body(user);
-	}
-	
 // ----- ----- ----- ----- ----- ----- ----- ----- -----
 	
 	// JWT로 관리자 확인
@@ -176,12 +160,7 @@ public class UserController {
 		
 		String role = jwtService.getAuthUser(jwt).get("role", String.class);
 		
-		System.out.println(role);
-		System.out.println(!role.equals("ADMIN"));
-		
-		if(!role.equals("ADMIN")) {
-			return ResponseEntity.ok(false);
-		}
+		if(!role.equals("ADMIN")) { return ResponseEntity.ok(false); }
 
 		return ResponseEntity.ok(true);
 	}
@@ -205,8 +184,14 @@ public class UserController {
 
 	// 회원탈퇴
 	@DeleteMapping("/deleteUser")
-	public ResponseEntity<?> deleteUser(@RequestParam User user) {
-		userService.deleteUser(user);
+	public ResponseEntity<?> deleteUser(
+		@RequestParam String memId,
+		@RequestParam String jwt
+	) {
+		
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		
+		userService.deleteUser(memId);
 
 		return ResponseEntity.ok().build();
 	}

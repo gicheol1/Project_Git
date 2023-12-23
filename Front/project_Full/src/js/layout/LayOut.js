@@ -32,12 +32,12 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
                     setIsLogin={setIsLogin}
                 />
 
-                {/* 하위 메뉴 */}
+                {/* 하위 메뉴
                 {isVisible ?
                     <HeaderSub />
                     :
                     <></>
-                }
+                } */}
             </header>
 
             {/* 자식 Route의 element가 위치하는 곳(body 역할) */}

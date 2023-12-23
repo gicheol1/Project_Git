@@ -4,9 +4,9 @@ import { SERVER_URL } from 'js';
 export function useLogin() {
 
     // ----- 로그인 -----
-    const login = useCallback((credentials) => {
+    const login = useCallback(async (credentials) => {
 
-        return fetch(`${SERVER_URL}login`, {
+        return await fetch(`${SERVER_URL}login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
@@ -20,15 +20,9 @@ export function useLogin() {
                 sessionStorage.setItem('jwt', jwtToken);
                 return true;
 
-            } else {
-                throw new Error('로그인에 실패했습니다.');
+            } else { throw new Error('로그인에 실패했습니다.'); }
 
-            }
-
-        }).catch((err) => {
-            console.error(err);
-            return false;
-        });
+        }).catch((err) => { console.error(err); return false; });
     }, []);
 
     return { login };

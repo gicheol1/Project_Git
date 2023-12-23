@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Entity.board.CommentDto;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.UserService;
 import com.project.festival.Service.board.BoardCommService;
@@ -28,6 +29,9 @@ public class BoardCommentController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private AuthService authService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -74,25 +78,9 @@ public class BoardCommentController {
 		@RequestBody CommentDto comment
 	) {
 		
-		Claims claims;
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 		
 		comment.setMemId(memId);
     	comment.setBoardNum(boardNum);
@@ -141,25 +129,7 @@ public class BoardCommentController {
 		@RequestParam String jwt
 	) {
 		
-		Claims claims;
-		
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 
 		try {
 			switch(target) {
@@ -202,25 +172,7 @@ public class BoardCommentController {
 		@RequestParam String jwt
 	) {
 		
-		Claims claims;
-		
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 
 		try {
 			switch(target) {
@@ -268,23 +220,9 @@ public class BoardCommentController {
  		@RequestParam String jwt
  	) {
  		
- 		Claims claims;
+ 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
  		
- 		try {
- 			claims = jwtService.getAuthUser(jwt);
- 		} catch(Exception e) {
- 			return ResponseEntity.ok(false);
- 		}
- 		
- 		// 토큰 만료시
- 		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
- 			return ResponseEntity.ok(false);
- 		}
- 		
- 		String memId = claims.get("memId", String.class);
- 		
- 		// 비회원인 경우
- 		if(userService.findUser(memId).isEmpty()) { return ResponseEntity.ok(false); }
+ 		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
  		
  		boolean isOwner = false;
 

@@ -1,6 +1,7 @@
 import { SERVER_URL } from 'js/component/constants';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserPage } from './useUserPage';
 
 const tableStyle = {
   border: '2px solid black',
@@ -45,54 +46,35 @@ const UserPage = () => {
 
   const [userList, setUserList] = useState();
 
+  const {getUserList, deleteUser} = useUserPage();
+
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-  useEffect(() => {
+  useEffect(() => { loadList(); }, []);
+  useEffect(() => { loadList(); }, []);
+
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+
+  const loadList = async () => {
     getUserList().then(res => {
       if (!res) { alert('데이터가 없습니다.'); navigate('/'); return; }
       setUserList(res);
     });
-  }, []);
-
-  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-
-  const getUserList = async () => {
-    const jwt = sessionStorage.getItem('jwt');
-
-    return fetch(SERVER_URL + `getUserList?jwt=${jwt}`, {
-      method: 'GET'
-
-    }).then((res) => {
-      return res.json();
-
-    }).catch((e) => {
-      console.log(e);
-
-    })
   }
 
   const onDelete = async (memId) => {
-
-    fetch(SERVER_URL + `deleteUser?memId=${memId}`, {
-      method: 'DELETE'
-
-    }).then((res) => {
-      if (!res.ok) { throw new Error(res.status) }
-      alert('삭제했습니다.');
-
-    }).catch((e) => {
-      console.log(e);
-
-    })
-
-    getUserList().then(res => {
-      if (!res) { alert('데이터가 없습니다.'); navigate('/'); return; }
-      setUserList(res);
-    });
+		deleteUser(memId).then((res)=>{
+			if(res){
+				alert('삭제했습니다.');
+			} else {
+				alert('삭제에 실패했습니다.');
+			}
+		});
+		setUserList(userList.filter((user) => user.memId !== memId));
   }
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -111,17 +93,22 @@ const UserPage = () => {
         </tr>
       </thead>
       <tbody>
-        {userList !== undefined && (
-          userList.map(item => (
-            <tr key={item.id}>
-              <td style={cellStyle}>{item.memId}</td>
-              <td style={cellStyle}>{item.name}</td>
-              <td style={cellStyle}>{item.phonNum}</td>
-              <td style={cellStyle}>{item.singupDate}</td>
+        {(userList !== undefined && userList.length !== 0) && (
+          userList.map(user => (
+            <tr key={user.id}>
+              <td style={cellStyle}>{user.memId}</td>
+              <td style={cellStyle}>{user.name}</td>
+              <td style={cellStyle}>{user.phonNum}</td>
+              <td style={cellStyle}>{user.singupDate}</td>
               <td style={cellStyle}>
-                {item.otherInfo}
+                {user.otherInfo}
                 {/* <button style={blackButtonStyle} onClick={() => onDetail(item.id)}>자세히</button> */}
-                <button style={redButtonStyle} onClick={() => onDelete(item.id)}>삭제</button>
+                <button
+									style={redButtonStyle}
+									onClick={() => { onDelete(user.memId); }}
+                >
+                  삭제
+                </button>
                 {/* <button style={purpleButtonStyle} onClick={() => onServiceLimit(item.id)}>서비스 제한</button> */}
               </td>
             </tr>

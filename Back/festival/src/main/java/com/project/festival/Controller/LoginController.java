@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +41,9 @@ public class LoginController {
 	
 	// 로그인
 	@PostMapping("/login")
-	public ResponseEntity<?> logIn(@RequestBody AccountCredentials credentials){
+	public ResponseEntity<?> logIn(
+		@RequestBody AccountCredentials credentials
+	){
 		
 		// 회원 등록 여부 확인 후 토큰 전달
 		String jwts = loginService.logInToken(credentials);
@@ -68,13 +69,15 @@ public class LoginController {
 		@RequestParam String jwt
 	){
 		
-		if(authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		if(!authService.isLogin(jwt)) { return ResponseEntity.notFound().build(); }
 		
-		Optional<User> _user = userService.findUser(jwtService.getAuthUser(jwt).get("memId", String.class));
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
+		
+		Optional<User> _user = userService.findUser(memId);
 		
 		// 비회원인 경우
-		if(_user.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		if(userService.findUser(memId).isEmpty()) {
+			 return ResponseEntity.notFound().build();
 		}
 		
 		// 모든 조건을 충족하면 새 토큰 전달

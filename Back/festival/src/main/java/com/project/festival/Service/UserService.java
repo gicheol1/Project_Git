@@ -1,12 +1,11 @@
 package com.project.festival.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.User;
@@ -14,6 +13,7 @@ import com.project.festival.Entity.Repo.BlackListRepo;
 import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.component.RandomStringGenerator;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,7 +30,15 @@ public class UserService {
 
 	// 회원 정보 출력
     public List<User> getUsers() {
-        return userRepository.findMemIdAndNameAndPhonNumAndSingupDateByRoleNot("ADMIN");
+    	
+    	List<User> _user = new ArrayList<>();
+    	
+    	for(User u : userRepository.findByRoleNot("ADMIN")) {
+    		u.setPw(null);
+    		_user.add(u);
+    	}
+    	
+        return _user;
     }
     
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -95,15 +103,15 @@ public class UserService {
     	// 회원 정보 탐색
     	Optional<User> newPwUser = userRepository.findByMemIdAndEmail(memId, email);
     	
-    	// 수정된 비밀번호를 적용하기 위한 객체
-    	User newUser;
-    	
-    	// 새 비밀번호
-    	String newPW;
-    	String newPWEncoded;
-    	
     	// 회원이 존재하는 경우
     	if(newPwUser.isPresent()) {
+        	
+        	// 수정된 비밀번호를 적용하기 위한 객체
+        	User newUser;
+        	
+        	// 새 비밀번호
+        	String newPW;
+        	String newPWEncoded;
     		
     		newUser = newPwUser.get();
     		
@@ -120,10 +128,10 @@ public class UserService {
     		return newPW;
         	
     	
+    	} else {
+        	// 존재하지 않은 회원
+        	return "";
     	}
-    	
-    	// 존재하지 않은 회원
-    	return "";
     	
     }
 
@@ -150,17 +158,7 @@ public class UserService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원탈퇴
-    public void deleteUser(User user) {
-    	
-  
-    	
-    	userRepository.deleteByMemId(user);
-
-    }
-
-	public Iterable<User> findAll() {
-		// TODO Auto-generated method stub
-		return userRepository.findAll();
-	}
+    @Transactional
+    public void deleteUser(String memId) { userRepository.deleteByMemId(memId); }
 
 }

@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Dto.FestivalDto;
-import com.project.festival.Dto.TravalPackDto;
-import com.project.festival.Entity.festival.Festival;
 import com.project.festival.Service.festival.FestivalService;
 
 @RestController

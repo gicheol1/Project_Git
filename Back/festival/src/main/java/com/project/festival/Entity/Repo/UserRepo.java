@@ -9,18 +9,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.project.festival.Entity.User;
-import com.project.festival.Entity.festival.Festival;
 
 @Repository
 public interface UserRepo extends CrudRepository<User, String> {
 	
-	// 회원 정보 가져오기
-	List<User> findMemIdAndNameAndPhonNumAndSingupDateByRoleNot(String role);
+	// 관리자를 제외한 회원 정보 가져오기
+	List<User> findByRoleNot(String role);
 	
-	// 일치하는 회원 가져오기
+	// 일치하는 회원의 아이디 가져오기
 	String findMemIdByMemId(String memId);
 	
-	// 일치하는 회원 가져오기
+	// 일치하는 회원의 정보 가져오기
 	Optional<User> findByMemId(String memId);
 	
 	List<User> findAll();
@@ -46,5 +45,6 @@ public interface UserRepo extends CrudRepository<User, String> {
 	// 일치하는 회원 가져오기
 	Optional<User> findByMemIdAndEmail(String memId, String email);
 
-	void deleteByMemId(User user);
+	// 특정 회원만 삭제하기
+	void deleteByMemId(String memId);
 }

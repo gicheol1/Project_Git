@@ -10,44 +10,38 @@ export function useCheckLogin() {
     // ========== ========== ========== ========== ========== ========== ========== ========== ==========
     // ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
-    // 관리자 로그인 검사
+    // 로그인 상태인지 검사
     const checkIsLogin = useCallback(async () => {
 
         const jwt = sessionStorage.getItem('jwt');
-
-        // 토큰이 비어있는 경우
-        if (jwt === null || jwt === '') { return false; }
-
-        return fetch(SERVER_URL + `checkIsLogin?jwt=${jwt}`, {
+        
+        if(jwt === undefined || jwt === null) {return false;}
+ 
+        return await fetch(SERVER_URL + `checkIsLogin?jwt=${jwt}`, {
             method: 'GET'
 
         }).then((res) => {
 
             // 토큰이 올바르지 않거나 만료 등
-            if (res.status === 401) {
-                sessionStorage.removeItem('jwt');
-                return false;
-            }
+            if (!res.ok) { throw new Error() }
 
-            if (res.ok) {
-                const jwtToken = res.headers.get('Authorization');
+            const jwtToken = res.headers.get('Authorization');
 
-                // 정상
-                if (jwtToken !== undefined || jwtToken !== '') {
+            if (jwtToken !== undefined && jwtToken !== null) {
 
-                    // 새 토큰 저장
-                    sessionStorage.setItem('jwt', jwtToken);
-                    return true;
+                // console.log(jwtToken);
 
-                } else { // 비정상
-                    return false;
+                // 새 토큰 저장
+                sessionStorage.setItem('jwt', jwtToken);
+                return true;
 
-                }
-            }
+            } else {  return false; }
 
+        }).catch((e) => {
+            console.log(e);
+            sessionStorage.removeItem('jwt');
             return false;
-
-        }).catch((e) => { return false; })
+        })
 
     }, []);
 

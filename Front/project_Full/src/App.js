@@ -45,6 +45,8 @@ function App() {
 
 	// 로그인 여부
 	const [isLogin, setIsLogin] = useState();
+
+	// 관리자 여부
 	const [isAdmin, setIsAdmin] = useState();
 
 	const { checkIsLogin, checkIsAdmin } = useCheckLogin();
@@ -55,13 +57,15 @@ function App() {
 
 	// 경로가 바뀔때마다 로그인 상태 확인
 	useEffect(() => {
-		checkIsLogin().then((res) => { setIsLogin(res); })
+		checkIsLogin().then((res) => {
+
+			if(res){checkIsAdmin().then((r) => { setIsAdmin(r); })}
+			
+
+			setIsLogin(res);
+		})
 
 	}, [window.location.href]);
-
-	useEffect(() => {
-		checkIsAdmin().then((res) => { setIsAdmin(res); })
-	}, [isLogin]);
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
