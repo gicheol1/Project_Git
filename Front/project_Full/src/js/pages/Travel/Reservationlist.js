@@ -70,6 +70,22 @@ function Reservationlist() {
             }).catch(err => console.error(err));
     }, []);
 
+    /* 패키지 여행 예약 취소 */
+    const handleCancel = (resNum) => {
+        fetch(SERVER_URL + `packreservation/${resNum}`, { method: 'DELETE' })
+
+            .then(response => {
+                if (response.ok) {
+                    const updatedPackreservation = Packreservation.filter(deletetravalpack => deletetravalpack.resNum !== resNum);
+                    setPackreservation(updatedPackreservation);
+                    alert('패키지 여행 예약 번호 ' + resNum + '번 이 성공적으로 삭제되었습니다.');
+                } else {
+                    alert('패키지 여행 예약을 삭제하는 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(err => alert(err))
+    };
+
     /*패키지 여행 에약 목록 컬럼*/
     const columns = [
         {
@@ -126,7 +142,18 @@ function Reservationlist() {
             headerClassName: 'column-header',
             sortable: false,
             headerAlign: 'center',
+        },
+        {
+            field: 'packreservationcancel',
+            headerName: '예약 취소',
+            renderCell: row =>
+                <Button onClick={() => { handleCancel(row.row.resNum) }}>
+                    <h1 className='button-font'>예약 취소</h1>
+                </Button>
+            ,
+            width: 110,
         }
+
     ];
 
     /* 화면 출력 */

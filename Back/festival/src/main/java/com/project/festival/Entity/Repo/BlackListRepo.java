@@ -16,6 +16,9 @@ public interface BlackListRepo extends CrudRepository<BlackList, Long> {
 	// User의 회원 아이디에 해당하는 차단 일자와 차단 사유 가져오기
 	Optional<BlackList> findByUser_MemId(String MemId);
 	
+	// 아이디로 회원 차단 여부 확인
+	boolean existsByUser_MemId(String MemId);
+	
 	// 아이디로 회원 차단 해제하기
 	void deleteByUser_MemId(String MemId);
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.Repo.BlackListRepo;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,18 +31,22 @@ public class BlackListService {
 	public long getBlackListCnt() { return blackListRepo.count(); }
 	
 	// 저장된 블랙리스트 갯수 반환
-	public Optional<BlackList> getBlackListDetail(String memId) {
-		return blackListRepo.findByUser_MemId(memId);
+	public Optional<BlackList> getBlackListDetail(long blackId) {
+		return blackListRepo.findById(blackId);
 	}
+	
+	// 차단 여부 반환
+	public boolean isBlackListed(String MemId) { return blackListRepo.existsByUser_MemId(MemId); }
 	
 // ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
-	// 페이지별 차단된 회원 불러오기
-	public void addBlackList(BlackList blackList) { blackListRepo.save(blackList); }
+	// 차단된 회원 추가, 수정
+	public void setBlackList(BlackList blackList) { blackListRepo.save(blackList); }
 	
 // ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
 	// 차단 해제하기
-	public void deleteBlackList(String memId) { blackListRepo.deleteByUser_MemId(memId); }
+    @Transactional
+	public void deleteBlackList(Long blackNum) { blackListRepo.deleteById(blackNum); }
 
 }

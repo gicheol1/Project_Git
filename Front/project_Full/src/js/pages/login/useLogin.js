@@ -12,17 +12,19 @@ export function useLogin() {
             body: JSON.stringify(credentials)
 
         }).then((res) => { // 전송 후
-            if (!res.ok) { throw new Error(res.status); }
+            if (!res.ok) { return res.json(); }
 
             const jwtToken = res.headers.get('Authorization');
 
             if (jwtToken !== undefined || jwtToken !== '') {
                 sessionStorage.setItem('jwt', jwtToken);
-                return true;
+                return res.json();
 
             } else { throw new Error('로그인에 실패했습니다.'); }
 
-        }).catch((err) => { console.error(err); return false; });
+        }).catch((e) => {
+            console.log(e);
+        });
     }, []);
 
     return { login };
