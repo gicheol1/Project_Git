@@ -40,6 +40,8 @@ const UserList = () => {
   // 삭제하기
   const onDelete = async (memId) => {
 
+    if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할수 없습니다!')) { return; }
+
     deleteUser(memId).then((res) => {
 
       if (res) {
@@ -54,8 +56,8 @@ const UserList = () => {
   }
 
   // 회원정보 수정 페이지로
-  const toChangeInfo = () => {
-    navigate();
+  const toChangeInfo = (memId) => {
+    navigate(`/user/${memId}`);
   }
 
   // 페이지 이동 이벤트
@@ -95,7 +97,7 @@ const UserList = () => {
                     <TableCell className='table-cell' align="center" width={30}>{user.phonNum}</TableCell>
                     <TableCell className='table-cell' align="center" width={30}>{user.singupDate}</TableCell>
                     <TableCell className='table-cell' align="center" width={120}>
-                      <button className='btn-gray' onClick={() => { onDelete(user.memId); }} >수정</button>
+                      <button className='btn-gray' onClick={() => { toChangeInfo(user.memId); }} >수정</button>
                       <button className='btn-red' onClick={() => { onDelete(user.memId); }} >삭제</button>
                     </TableCell>
                   </TableRow>

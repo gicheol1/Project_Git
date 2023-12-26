@@ -1,13 +1,14 @@
 import { SERVER_URL } from "js/component/constants";
 import { useCallback } from "react";
 
-export function useUserList() {
+export function useUserDetail() {
 
+    // 회원 상세 정보 가져오기
     const getUserDetail = useCallback(async (memId) => {
 
         const jwt = sessionStorage.getItem('jwt');
 
-        return fetch(SERVER_URL + `getUserListPage?memId=${memId}&jwt=${jwt}`, {
+        return fetch(SERVER_URL + `getUserDetail?memId=${memId}&jwt=${jwt}`, {
             method: 'GET'
 
         }).then((res) => {
@@ -20,13 +21,13 @@ export function useUserList() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    const updateUser = useCallback(async (updatedUser) => {
+    // 회원 정보 수정
+    const updateUser = useCallback(async (newUser) => {
 
-        const jwt = sessionStorage.getItem('jwt');
-
-        return fetch(SERVER_URL + `updateUser?jwt=${jwt}`, {
-            method: 'GET',
-            body: JSON.stringify(updatedUser)
+        return fetch(SERVER_URL + `updateUser`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newUser)
 
         }).then((res) => {
             return res.json();

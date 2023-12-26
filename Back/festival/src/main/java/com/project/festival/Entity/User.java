@@ -61,6 +61,8 @@ public class User {
 	// 이메일
 	@Column(nullable=false)
 	private String email;
+	
+// ---------- ---------- ---------- ---------- ----------
 
 	// 주소(도로명)
 	@Column(nullable=false, length=2500)
@@ -73,6 +75,12 @@ public class User {
 	// 주소(우편번호)
 	@Column(nullable=false)
 	private String addrCode;
+
+	// 주소(상세 주소)
+	@Column
+	private String addrOther;
+	
+// ---------- ---------- ---------- ---------- ----------
 
 	// 가입일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

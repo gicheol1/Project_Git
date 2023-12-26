@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,13 +64,16 @@ public class UserController {
 		@RequestParam String jwt
 	){
 
-		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		if(!authService.isAdmin(jwt)) { return ResponseEntity.ok(false); }
 		
-		User userDetail = userService.getUserById(memId);
+		Optional<User> _user = userService.getUserById(memId);
 		
-		if(userDetail==null) { return ResponseEntity.ok(false); }
+		if(_user.isEmpty()) { return ResponseEntity.ok(false); }
 		
-		return ResponseEntity.ok(userDetail);
+		User user = _user.get();
+		user.setPw(null);
+		
+		return ResponseEntity.ok(user);
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -126,10 +128,12 @@ public class UserController {
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
 		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
-		User user = userService.getUserById(jwtService.getAuthUser(jwt).get("memId", String.class));
-		
+		Optional<User> _user = userService.getUserById(jwtService.getAuthUser(jwt).get("memId", String.class));
+
 		// 없는 경우
-		if(user==null) { return ResponseEntity.ok(false); }
+		if(_user.isEmpty()) { return ResponseEntity.ok(false); }
+		
+		User user = _user.get();
 		
 		// 비밀번호는 비공개
 		user.setPw("");
@@ -177,11 +181,14 @@ public class UserController {
 
 	// 회원수정 (비밀번호, 이메일, 주소)
 	@PutMapping("/updateUser")
-	public ResponseEntity<?> updateUser(@RequestBody User user) {
+	public ResponseEntity<?> updateUser(
+		@RequestBody User user
+	) {
 		
 		try {
 			userService.updateUser(user);
 		}catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.ok(false);
 		}
 		

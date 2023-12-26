@@ -17,12 +17,10 @@ import com.project.festival.Dto.PackReservationDto;
 import com.project.festival.Entity.TravalPack.PackReservation;
 import com.project.festival.Entity.TravalPack.Repo.PackReservationRepository;
 import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
-import com.project.festival.Service.UserService;
 import com.project.festival.Service.TravalPack.PackReservationService;
 
-import io.jsonwebtoken.Claims;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,8 +35,8 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 
 	private final ModelMapper modelMapper;
 
-	private final UserService userService;
 	private final JwtService jwtService;
+	private final AuthService authService;
 
 	/* -----------------------------------------------------------------------------*/
 
@@ -90,26 +88,8 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		@PathVariable String jwt,
 		@RequestBody PackReservationDto packReservationDto
 	) {
-		
-		Claims claims;
-		
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		} catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		// 토큰 만료시
-		if(claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		String memId = claims.get("memId", String.class);
-		
-		// 비회원인 경우
-		if(userService.getUserById(memId).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
 		// 여행 예약
 		try {
@@ -117,7 +97,7 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 				packReservationService.reservationrequest(
 					packReservationDto,
 					packNum,
-					memId
+					jwtService.getAuthUser(jwt).get("jti", String.class)
 			);
 			
 			return ResponseEntity.ok(packReservation);

@@ -123,19 +123,15 @@ function App() {
 				{/* 여행 달력 */}
 				<Route path="/calendar" element={<Calendar />} />
 
-				{/* ===== ===== ===== ===== ===== */}
+				{/* 로그인 */}
+				<Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
 
-				{/* 로그인 상태에 따른 경로 지정 */}
-				{isLogin ?
-					<></>
-					:
-					<>
-						<Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
-						<Route path="/agreement" element={<Agreement />} />
-						<Route path="/singUp" element={<SingUp />} />
-						<Route path="/findAccount" element={<FindAccount />} />
-					</>
-				}
+				{/* 회원 가입 */}
+				<Route path="/agreement" element={<Agreement />} />{/* 동의 페이지 */}
+				<Route path="/singUp" element={<SingUp />} />{/* 회원 정보 기입 */}
+
+				{/* 아이디, 비밀번호 탐색 */}
+				<Route path="/findAccount" element={<FindAccount />} />
 
 				{/* 헤더 경로 설정 */}
 				{/* 축제 관리 */}

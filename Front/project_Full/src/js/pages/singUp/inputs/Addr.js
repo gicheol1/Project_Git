@@ -22,7 +22,8 @@ const Addr = ({ newUser, setNewUser }) => {
     const [addrFull, setAddrFull] = useState({
         addrRoad: '', // 도로
         addrJibun: '', // 지번
-        addrCode: '' // 우편번호
+        addrCode: '', // 우편번호
+        addrOther: '' // 상세주소
     })
 
     const open = useDaumPostcodePopup();
@@ -50,6 +51,10 @@ const Addr = ({ newUser, setNewUser }) => {
         });
     }
 
+    const onChangeOther = (addrOther) => {
+        setNewUser({ ...newUser, addrOther: addrOther });
+    }
+
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -65,7 +70,7 @@ const Addr = ({ newUser, setNewUser }) => {
                 <input type='text' name='jibunAddress' placeholder='지번주소' value={addrFull.addrJ} readOnly={true} />
             </p>
             <p>
-                <input type='text' name='' placeholder='상세주소' />
+                <input type='text' name='' value={newUser.addrOther} onChange={(e) => { onChangeOther(e.target.value) }} placeholder='상세주소' />
             </p>
         </div>
     );
