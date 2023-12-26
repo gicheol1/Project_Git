@@ -7,9 +7,7 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.User;
-import com.project.festival.Entity.Repo.BlackListRepo;
 import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.component.RandomStringGenerator;
 
@@ -21,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepo userRepository;
-	private final BlackListRepo blackListRepository;
     private final PasswordEncoder passwordEncoder;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -142,13 +139,6 @@ public class UserService {
         	return "";
     	}
     	
-    }
-
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-    
-    // 차단된 회원 조회
-    public Optional<BlackList> findBlockedUser(String memId) {
-    	return blackListRepository.findByUser_MemId(memId);
     }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

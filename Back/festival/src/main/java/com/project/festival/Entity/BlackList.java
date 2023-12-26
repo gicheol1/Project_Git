@@ -27,9 +27,9 @@ public class BlackList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long blackId;
     
-    // 회원 아이디
+    // 차단된 회원 아이디
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memId", referencedColumnName = "memId")
+    @JoinColumn(name="memId", referencedColumnName = "memId")
     private User user;
 
 	// 차단 일자

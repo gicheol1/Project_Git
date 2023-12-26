@@ -1,58 +1,23 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserManage } from './useUserManage';
+import { useUserManage } from './useUserManage';
 
-const tableStyle = {
-  border: '2px solid black',
-  background: 'lightgray',
-  width: '100%',
-  borderCollapse: 'collapse',
+import './UserManage.css';
 
-};
-
-const cellStyle = {
-  border: '1px solid black',
-  padding: '8px',
-};
-
-const blackButtonStyle = {
-  background: 'black',
-  color: 'white', // 텍스트 색상을 백그라운드와 대비되도록 흰색으로 설정
-  padding: '5px 10px',
-  margin: '0 5px',
-  cursor: 'pointer',
-};
-
-const redButtonStyle = {
-  background: 'red',
-  color: 'white',
-  padding: '5px 10px',
-  margin: '0 5px',
-  cursor: 'pointer',
-};
-
-const purpleButtonStyle = {
-  background: 'purple',
-  color: 'white',
-  padding: '5px 10px',
-  margin: '0 5px',
-  cursor: 'pointer',
-};
-
-const UserPage = () => {
+const UserManage = () => {
 
   const navigate = useNavigate();
 
+  // 회원 리스트
   const [userList, setUserList] = useState();
 
-  const { getUserList, deleteUser } = UserManage();
+  const { getUserList, deleteUser } = useUserManage();
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-  useEffect(() => { loadList(); }, []);
   useEffect(() => { loadList(); }, []);
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -60,21 +25,30 @@ const UserPage = () => {
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
   const loadList = async () => {
+
     getUserList().then(res => {
+
       if (!res) { alert('데이터가 없습니다.'); navigate('/'); return; }
       setUserList(res);
+
     });
+
   }
 
   const onDelete = async (memId) => {
+
     deleteUser(memId).then((res) => {
+
       if (res) {
         alert('삭제했습니다.');
       } else {
         alert('삭제에 실패했습니다.');
       }
+
     });
+
     setUserList(userList.filter((user) => user.memId !== memId));
+
   }
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -82,29 +56,28 @@ const UserPage = () => {
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
   return (
-    <table style={tableStyle}>
+    <table className='table-container'>
       <thead>
         <tr>
-          <th style={cellStyle}>아이디</th>
-          <th style={cellStyle}>이름</th>
-          <th style={cellStyle}>전화번호</th>
-          <th style={cellStyle}>가입일자</th>
-          <th style={cellStyle}></th>
+          <th className='table-cell'>아이디</th>
+          <th className='table-cell'>이름</th>
+          <th className='table-cell'>전화번호</th>
+          <th className='table-cell'>가입일자</th>
+          <th className='table-cell'></th>
         </tr>
       </thead>
       <tbody>
         {(userList !== undefined && userList.length !== 0) && (
           userList.map(user => (
             <tr key={user.id}>
-              <td style={cellStyle}>{user.memId}</td>
-              <td style={cellStyle}>{user.name}</td>
-              <td style={cellStyle}>{user.phonNum}</td>
-              <td style={cellStyle}>{user.singupDate}</td>
-              <td style={cellStyle}>
+              <td className='table-cell'>{user.memId}</td>
+              <td className='table-cell'>{user.name}</td>
+              <td className='table-cell'>{user.phonNum}</td>
+              <td className='table-cell'>{user.singupDate}</td>
+              <td className='table-cell'>
                 {user.otherInfo}
                 {/* <button style={blackButtonStyle} onClick={() => onDetail(item.id)}>자세히</button> */}
-                <button
-                  style={redButtonStyle}
+                <button className='btn-red'
                   onClick={() => { onDelete(user.memId); }}
                 >
                   삭제
@@ -122,4 +95,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default UserManage;
