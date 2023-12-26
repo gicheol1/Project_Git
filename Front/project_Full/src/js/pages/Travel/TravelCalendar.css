@@ -12,6 +12,7 @@
     font-size: 45px;
     margin-left: 12%;
     margin-right: 2%;
+   
 }
 /*달력 버튼 스타일*/
 .calendar-button-font{
@@ -36,4 +37,14 @@
     font-family: 'Gaegu', sans-serif;
     font-size: 20px;
     font-weight: bold;
+}
+
+/*축제에 대한 색상*/
+.festival-color {
+    background : linear-gradient(to right, #d2d2ff,  #e9fffc);
+}
+
+/*숙소에 대한 색상*/
+.sugso-color {
+    background: linear-gradient(to right, #91a7ff, #cce5ff);
 }
