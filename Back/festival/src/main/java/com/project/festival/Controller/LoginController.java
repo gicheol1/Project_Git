@@ -72,7 +72,7 @@ public class LoginController {
 		if(!authService.isLogin(jwt)) { return ResponseEntity.notFound().build(); }
 		
 		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
-		User _user = userService.getUserById(memId);
+		User _user = userService.getUserByIdToken(memId);
 		
 		// 새 토큰 전달
 		String newJwt = jwtService.getToken(_user);

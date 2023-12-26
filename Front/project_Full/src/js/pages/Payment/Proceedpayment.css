@@ -52,7 +52,28 @@
 }
 
 .cardform{
+    margin-top: 20px;
     width: 160px;
     margin-left: 43%;
 }
 
+.pay-user{
+    width: 50%; 
+    height: 400px; 
+    float: left; 
+}
+
+.user-name{
+    margin-top: 30px;
+    margin-bottom: 70px;
+}
+
+.user-phone{
+    margin-bottom: 70px;
+}
+
+#payment-widget{
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: skyblue;
+}

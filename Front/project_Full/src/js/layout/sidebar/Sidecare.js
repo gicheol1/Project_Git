@@ -19,7 +19,7 @@ function Sidebar() {
         const response = await fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' });
         const data = await response.json();
         setMember(data);
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -43,7 +43,7 @@ function Sidebar() {
         <Link to="/memberinfo" className="link">회원정보 수정</Link>
         <Link to="/servicedown" className="link">서비스 제한</Link>
       </div>
-      </aside>
+    </aside>
   );
 }
 

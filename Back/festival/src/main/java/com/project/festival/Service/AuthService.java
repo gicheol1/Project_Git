@@ -70,4 +70,24 @@ public class AuthService {
 		return true;
     }
     
+    // 관리자 상태를 확인하는 메소드
+    public boolean isAdmin(String jwt) {
+		
+    	// 토큰이 없는 경우
+		if(jwt == null) { return false; }
+		
+		Claims claims;
+		
+		try { claims = jwtService.getAuthUser(jwt); }
+		catch(Exception e) { e.printStackTrace(); return false; }
+		
+		// 토큰 만료시
+		if(claims.isEmpty() || !jwtService.isExistsByJti(claims.get("jti", String.class))) { return false; }
+		
+		// 관리자가 아닌경우
+		if(!(claims.get("role", String.class) != "ADMIN")) { return false; }
+		
+		return true;
+    }
+    
 }

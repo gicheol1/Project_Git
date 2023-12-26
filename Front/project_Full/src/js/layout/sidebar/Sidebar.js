@@ -18,7 +18,7 @@ function Sidebar() {
         const response = await fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' });
         const data = await response.json();
         setMember(data);
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -33,7 +33,7 @@ function Sidebar() {
       </div>
       <h3 className='side-title'>{member.name}님</h3>
       <div className='link-container'>
-      <Link to="/info" className="link">
+        <Link to="/info" className="link">
           예약정보
         </Link>
         <Link to="/saleinfo" className="link">

@@ -43,18 +43,19 @@ public class UserService {
 	// 관리자를 제외한 회원의 수
     public long getUserCnt() { return userRepository.countByRoleNot("ADMIN"); }
     
-    // 회원 정보 가져오기
-    public User getUserById(String memId) {
+    // 회원 정보 가져오기(토큰 전용)
+    public User getUserByIdToken(String memId) {
     	
-    	Optional<User> user = userRepository.findByMemId(memId);
+    	Optional<User> _user = userRepository.findByMemId(memId);
     	
-    	if(user.isEmpty()) { return null; }
+    	// 존재하지 않는 회원인 경우
+    	if(_user.isEmpty()) { return null; }
     	
-    	User _user = user.get();
-    	_user.setPw(null);
-    	
-    	return _user;
+    	return _user.get();
     }
+    
+    // 회원 정보 가져오기
+    public Optional<User> getUserById(String memId) { return userRepository.findByMemId(memId); }
 
     // 회원 존재 여부 확인
     public boolean existsUserById(String memId) { return userRepository.existsByMemId(memId); }
@@ -84,7 +85,7 @@ public class UserService {
     	User beforUser = new User();
     	
     	// 비밀번호 변경시(null이 아닌 경우)
-    	if(!updateUser.getPw().isEmpty()) {
+    	if(updateUser.getPw()!=null) {
     		updateUser.setPw(passwordEncoder.encode(updateUser.getPw()));
     	}
     	
