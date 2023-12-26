@@ -141,7 +141,7 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		}
 	}
 	
-
+	/* 예약 취소 */
 	@DeleteMapping("/{resNum}")
 	public ResponseEntity<Void> deletePackReservation(@PathVariable Long resNum) {
 		packReservationService.cancelPackReservation(resNum);
