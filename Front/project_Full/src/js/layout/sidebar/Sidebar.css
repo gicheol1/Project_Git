@@ -39,6 +39,8 @@
   transition: background-color 0.3s;
   white-space: nowrap; /*줄바꿈 방지*/
   margin-right: 10px;
+  font-family: 'Cute Font', sans-serif;
+  font-size: 20px;
 }
 
 /* 버튼 호버 효과 */
@@ -63,4 +65,9 @@
 .link-container{
   display: flex;
   flex-direction: column;
+}
+
+.side-title{
+  font-family: 'Single Day', cursive;
+  font-size: 32px;
 }

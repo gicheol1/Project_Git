@@ -40,11 +40,11 @@
 }
 
 /*축제에 대한 색상*/
-.festival-color {
+.festival-inform-color {
     background : linear-gradient(to right, #d2d2ff,  #e9fffc);
 }
 
 /*숙소에 대한 색상*/
-.sugso-color {
+.sugso-inform-color {
     background: linear-gradient(to right, #91a7ff, #cce5ff);
 }
