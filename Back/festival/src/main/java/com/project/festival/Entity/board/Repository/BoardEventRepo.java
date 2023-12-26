@@ -1,24 +1,22 @@
 package com.project.festival.Entity.board.Repository;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.project.festival.Entity.board.Entity.BoardEvent;
-import com.project.festival.Entity.board.File.FileEvent;
 
 @Repository
 public interface BoardEventRepo extends CrudRepository<BoardEvent, Long> {
 
+	// 페이지별 날짜기준 내림차순으로 게시판 가져오기
 	Page<BoardEvent> findAllByOrderByDateDesc(Pageable pageable);
-	
+
+	// 게시판 상세 정보 가져오기
 	BoardEvent findByBoardNum(Long boardNum);
 	BoardEvent findByBoardNumAndMemId(Long boardNum, String memId);
-	
-	List<FileEvent> findFilesByBoardNum(Long boardNum);
-	
+
+	// 게시판 소유주인지 확인하는
 	boolean existsByBoardNumAndMemId(Long boardNum, String memId);
 }
