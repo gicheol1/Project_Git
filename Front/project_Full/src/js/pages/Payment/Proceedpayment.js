@@ -7,7 +7,9 @@ import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
 
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-
+import BadgeIcon from '@mui/icons-material/Badge';
+import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
+import EmailIcon from '@mui/icons-material/Email';
 import './Proceedpayment.css';
 
 /* 결제위젯 연동 키 [테스트] */
@@ -239,12 +241,12 @@ function Proceedpayment() {
                 <div>
                     <div style={{ width: '50%', height: '400px', float: 'left' }}>
                         {/* 결제 위젯을 화면에 출력 */}
-                        <div id="payment-widget" />
+                        <div className='widget-style' id="payment-widget" />
                     </div>
-                    <div style={{ width: '50%', height: '400px', float: 'left' }}>
-                        <h2>성명: {member.name}</h2>
-                        <h2>휴대폰 번호: {member.phonNum}</h2>
-                        <h2>회원 이메일: {member.email}</h2>
+                    <div className='pay-user'>
+                        <h2 className='user-name'><BadgeIcon fontSize='large'/> 성명 : {member.name}</h2>
+                        <h2 className='user-phone'><ContactPhoneIcon fontSize='large'/> 휴대폰 번호 : {member.phonNum}</h2>
+                        <h2 className='user-email'><EmailIcon fontSize='large'/> 회원 이메일 : {member.email}</h2>
                     </div>
                 </div>
                 <button className='payment-button' onClick={handleButtonClick}>

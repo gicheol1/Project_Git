@@ -9,7 +9,8 @@
     font-family: 'Single Day', cursive;
     font-size: 54px;
     color: #333;
-    background-color: rgb(248, 249, 250);
+    /* background-color: rgb(248, 249, 250); */
+    
 }
 
 /*헤더 제목 아이콘*/
@@ -85,7 +86,9 @@
     /* background: linear-gradient(to right,  #2c4285, #415d9c, #8088B2, #C7B0C2); */
     /* background: #afeeee, #87ceeb, #b0e0e6, #b0c4de; */
     background : linear-gradient(to right, #fbfbfc, #dbfeff);
-   
+    border: 1px solid #a0a0a0; 
+    border-radius: 20px;
+    
 }
 
 /* 참고: https://stackoverflow.com/questions/76463098/how-to-remove-column-header-of-mui-v5-datagrid-in-react-ts */

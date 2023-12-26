@@ -10,7 +10,7 @@
 .calendar-font{
     font-family: 'Caveat', cursive;
     font-size: 45px;
-    margin-left: 12%;
+    margin-left: 10%;
     margin-right: 2%;
    
 }
@@ -33,10 +33,11 @@
     margin-Bottom: 1%;
     display: flex;
     justify-Content: center;
-    /* border: 1px solid; */
     font-family: 'Gaegu', sans-serif;
     font-size: 20px;
     font-weight: bold;
+    border: 7px solid #a0a0a0; 
+    border-radius: 10px;
 }
 
 /*축제에 대한 색상*/
