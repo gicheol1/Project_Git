@@ -1,6 +1,7 @@
 .MypageMain{
+    margin-top:130px;
     width:80%;
-    height: 1000px;
+    height: 700px;
 }
 
 .MypageFirst{
@@ -11,19 +12,27 @@
 .cardHeader{
     border: 1px solid black;
     text-align: center;
+    border-radius: 20%;
 }
 
 .mycol1{
 
     position: absolute;
-    margin-left: 5%;
+    margin-left: 10%;
     width: 25%;
     border: 1px solid rgb(248,249,250);
     height: 400px;
-
+    
   }
 
 .cardBody{
+    text-align: center;
+    
+
+}
+
+.cardBody > div{
+    margin-top:20px;
     text-align: center;
     
 
@@ -34,8 +43,8 @@
 
     position: absolute;
     margin-left: 40%;
-    width: 25%;
-    border: 1px solid black;
+    width: 20%;
+    border: 1px solid rgb(248,249,250);
     height: 400px;
    
 
@@ -45,9 +54,10 @@
 
     position: absolute;
     width: 25%;
-    margin-left: 75%;
-    border: 1px solid black;
+    margin-left: 50%;
+    border: 1px solid rgb(248,249,250);
     height: 400px;
+    margin-top:10px;
 
 }
 
@@ -76,4 +86,10 @@
     width:42.5%;
     height: 80%;
     border: 1px solid black;
+}
+
+.MypageThird{
+    width:110%;
+    margin-left:-5%;
+    margin-top:300px;
 }
