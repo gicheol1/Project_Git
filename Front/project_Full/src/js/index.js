@@ -8,10 +8,10 @@
 export { SERVER_URL } from './component/constants'; // 벡엔드 주소
 
 // component 폴더 > ToggleCell 폴더(금액 표시 변환)
-export {default as ToggleCell } from './component/ToggleCell/ToggleCell';
+export { default as ToggleCell } from './component/ToggleCell/ToggleCell';
 
 // component 폴더 > Modal 폴더(팝업창)
-export {default as ModalComponent } from './component/Modal/ModalComponent'; // 화면 출력
+export { default as ModalComponent } from './component/Modal/ModalComponent'; // 화면 출력
 export { ModalFunction } from './component/Modal/ModalFunction'; // 화면 동작 기능(열기, 닫기)
 
 // component 폴더 > Pagination 폴더(페이징[페이지네이션])
@@ -122,7 +122,7 @@ export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황
 //Sidebar(m) (추가)
 
 // > UserPage 폴더: 유저 관리
-export { default as UserPage } from './pages/UserPage/UserPage'; // 유저 관리
+export { default as UserManage } from './pages/UserManage/UserManage'; // 유저 관리
 
 // > Blacklist 폴더: 블랙 리스트
 export { default as Blacklist } from './pages/Blacklist/Blacklist'; // 블랙 리스트

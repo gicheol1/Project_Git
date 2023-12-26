@@ -27,7 +27,7 @@ import { ConnectionLog, Festivals } from 'js';
 import { MemberInfo, QnaStatus, ReservationInfo, SaleInfo } from 'js';
 
 //Sidebar(관리자) 추가내용
-import { Blacklist, Membercare, Servicedown, UserPage } from 'js';
+import { Blacklist, Membercare, Servicedown, UserManage } from 'js';
 
 //main
 import { FestivalPage, Likeclick, MainPage, Mymilize } from 'js';
@@ -59,8 +59,8 @@ function App() {
 	useEffect(() => {
 		checkIsLogin().then((res) => {
 
-			if(res){checkIsAdmin().then((r) => { setIsAdmin(r); })}
-			
+			if (res) { checkIsAdmin().then((r) => { setIsAdmin(r); }) }
+
 
 			setIsLogin(res);
 		})
@@ -164,7 +164,7 @@ function App() {
 
 				{/* 사이드바(관리자) 추가내용 경로 설정 */}
 				{/* 유저 관리 */}
-				<Route path="/user" element={<UserPage />} />
+				<Route path="/user" element={<UserManage />} />
 				{/* 블랙 리스트 */}
 				<Route path="/blacklist" element={<Blacklist />} />
 				{/* 회원정보 수정(관리자) */}

@@ -1,7 +1,7 @@
-import { SERVER_URL } from 'js/component/constants';
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserPage } from './useUserPage';
+import { useUserPage } from './useUserManage';
 
 const tableStyle = {
   border: '2px solid black',
@@ -46,7 +46,7 @@ const UserPage = () => {
 
   const [userList, setUserList] = useState();
 
-  const {getUserList, deleteUser} = useUserPage();
+  const { getUserList, deleteUser } = useUserPage();
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -67,14 +67,14 @@ const UserPage = () => {
   }
 
   const onDelete = async (memId) => {
-		deleteUser(memId).then((res)=>{
-			if(res){
-				alert('삭제했습니다.');
-			} else {
-				alert('삭제에 실패했습니다.');
-			}
-		});
-		setUserList(userList.filter((user) => user.memId !== memId));
+    deleteUser(memId).then((res) => {
+      if (res) {
+        alert('삭제했습니다.');
+      } else {
+        alert('삭제에 실패했습니다.');
+      }
+    });
+    setUserList(userList.filter((user) => user.memId !== memId));
   }
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -104,8 +104,8 @@ const UserPage = () => {
                 {user.otherInfo}
                 {/* <button style={blackButtonStyle} onClick={() => onDetail(item.id)}>자세히</button> */}
                 <button
-									style={redButtonStyle}
-									onClick={() => { onDelete(user.memId); }}
+                  style={redButtonStyle}
+                  onClick={() => { onDelete(user.memId); }}
                 >
                   삭제
                 </button>

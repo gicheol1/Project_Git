@@ -73,10 +73,10 @@ public class LoginController {
 		
 		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 		
-		Optional<User> _user = userService.findUser(memId);
+		Optional<User> _user = userService.getUserById(memId);
 		
 		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
+		if(userService.getUserById(memId).isEmpty()) {
 			 return ResponseEntity.notFound().build();
 		}
 		
