@@ -28,7 +28,7 @@ import { ConnectionLog, Festivals } from 'js';
 import { MemberInfo, QnaStatus, ReservationInfo, SaleInfo } from 'js';
 
 //Sidebar(관리자) 추가내용
-import { Blacklist, Membercare, Servicedown, UserList } from 'js';
+import { Blacklist, Membercare, Servicedown, UserList, UserDetail } from 'js';
 
 //main
 import { FestivalPage, Likeclick, MainPage, Mymilize } from 'js';
@@ -167,8 +167,9 @@ function App() {
 				<Route path="/Qna" element={<QnaStatus />} />
 
 				{/* 사이드바(관리자) 추가내용 경로 설정 */}
-				{/* 유저 관리 */}
-				<Route path="/user" element={<UserList />} />
+				{/* 회원 관리 */}
+				<Route path="/user" element={<UserList />} /> {/* 회원 리스트 */}
+				<Route path="/user/:memId" element={<UserDetail />} /> {/* 회원 정보 수정 */}
 
 				{/* 블랙 리스트 */}
 				<Route path="/blacklist" element={<Blacklist />} />

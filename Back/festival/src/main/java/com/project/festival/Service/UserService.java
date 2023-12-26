@@ -42,9 +42,22 @@ public class UserService {
 
 	// 관리자를 제외한 회원의 수
     public long getUserCnt() { return userRepository.countByRoleNot("ADMIN"); }
+    
+    // 회원 정보 가져오기
+    public User getUserById(String memId) {
+    	
+    	Optional<User> user = userRepository.findByMemId(memId);
+    	
+    	if(user.isEmpty()) { return null; }
+    	
+    	User _user = user.get();
+    	_user.setPw(null);
+    	
+    	return _user;
+    }
 
-    // 회원 정보 조회
-    public Optional<User> getUserById(String memId) { return userRepository.findByMemId(memId); }
+    // 회원 존재 여부 확인
+    public boolean existsUserById(String memId) { return userRepository.existsByMemId(memId); }
     
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
