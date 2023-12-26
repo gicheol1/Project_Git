@@ -1,12 +1,12 @@
 import { SERVER_URL } from "js/component/constants";
 
-export function useUserPage(){
+export function UserManage() {
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 관리자를 제외한 사용자 정보 불러오기
+    // 관리자를 제외한 회원 정보 불러오기
     const getUserList = async () => {
 
         const jwt = sessionStorage.getItem('jwt');
@@ -20,8 +20,9 @@ export function useUserPage(){
         }).catch((e) => { console.log(e); })
     }
 
+    // 해당 회원 삭제
     const deleteUser = async (memId) => {
-        
+
         const jwt = sessionStorage.getItem('jwt');
 
         fetch(SERVER_URL + `deleteUser?memId=${memId}&jwt=${jwt}`, {
@@ -32,7 +33,7 @@ export function useUserPage(){
 
             return true;
 
-        }).catch((e) => { console.log(e);  })
+        }).catch((e) => { console.log(e); })
 
     }
 
@@ -40,5 +41,5 @@ export function useUserPage(){
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    return {getUserList, deleteUser};
+    return { getUserList, deleteUser };
 }

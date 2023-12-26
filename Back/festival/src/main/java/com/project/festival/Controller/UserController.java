@@ -136,7 +136,7 @@ public class UserController {
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
 		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
-		Optional<User> user = userService.findUser(jwtService.getAuthUser(jwt).get("memId", String.class));
+		Optional<User> user = userService.getUserById(jwtService.getAuthUser(jwt).get("memId", String.class));
 		
 		// 없는 경우
 		if(user.isEmpty()) { return ResponseEntity.ok(false); }

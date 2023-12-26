@@ -28,11 +28,12 @@ public class UserService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 회원 정보 출력
+	// 관리자를 제외한 회원 정보 출력
     public List<User> getUsers() {
     	
     	List<User> _user = new ArrayList<>();
     	
+    	// 비밀번호 비공개 처리
     	for(User u : userRepository.findByRoleNot("ADMIN")) {
     		u.setPw(null);
     		_user.add(u);
@@ -40,6 +41,11 @@ public class UserService {
     	
         return _user;
     }
+
+    // 회원 정보 조회
+    public Optional<User> getUserById(String memId) { return userRepository.findByMemId(memId); }
+    
+//    public List<User> getUserAll() { return userRepository.findAll(); }
     
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
@@ -59,24 +65,25 @@ public class UserService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원 정보 수정
-    public void updateUser(User newUser) {
+    public void updateUser(User updateUser) {
     	
     	// 기존의 회원 정보 가져오기
-    	Optional<User> _user = userRepository.findByMemId(newUser.getMemId());
+    	Optional<User> _user = userRepository.findByMemId(updateUser.getMemId());
     	User beforUser = new User();
     	
     	// 비밀번호 변경시(null이 아닌 경우)
-    	if(!newUser.getPw().isEmpty()) {
-    		newUser.setPw(passwordEncoder.encode(newUser.getPw()));
+    	if(!updateUser.getPw().isEmpty()) {
+    		updateUser.setPw(passwordEncoder.encode(updateUser.getPw()));
     	}
     	
+    	// 기존 정보에서 수정된 필드만 변경
     	if(_user.isPresent()) {
     		beforUser = _user.get();
-    		newUser.changeUser(beforUser);
-    		
+    		updateUser.changeUser(beforUser);
     	}
         
-        userRepository.save(newUser);
+    	// 수정된 정보 저장(수정시 memId가 같아야 한다.)
+        userRepository.save(updateUser);
     }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -86,6 +93,7 @@ public class UserService {
     	
     	Optional<String> targetUser_id = userRepository.findMemIdByEmailAndName(email, name);
     	
+    	// 회원이 존재하는 경우
     	if(targetUser_id.isPresent()) {
     		return targetUser_id.get();
 
@@ -101,10 +109,10 @@ public class UserService {
     public String resetPW(String memId, String email) {
     	
     	// 회원 정보 탐색
-    	Optional<User> newPwUser = userRepository.findByMemIdAndEmail(memId, email);
+    	Optional<User> _user = userRepository.findByMemIdAndEmail(memId, email);
     	
     	// 회원이 존재하는 경우
-    	if(newPwUser.isPresent()) {
+    	if(_user.isPresent()) {
         	
         	// 수정된 비밀번호를 적용하기 위한 객체
         	User newUser;
@@ -113,7 +121,7 @@ public class UserService {
         	String newPW;
         	String newPWEncoded;
     		
-    		newUser = newPwUser.get();
+    		newUser = _user.get();
     		
     		// 새 15자리 비밀번호 생성
     		newPW = RandomStringGenerator.generateRandomPW();
@@ -125,6 +133,7 @@ public class UserService {
     		// 새 비밀번호를 저장
     		userRepository.save(newUser);
     		
+    		// 생성된 비밀번호 반환
     		return newPW;
         	
     	
@@ -136,22 +145,9 @@ public class UserService {
     }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-    // 회원 정보 조회
-    public Optional<User> findUser(String memId) {
-    	
-    	return userRepository.findByMemId(memId);
-    }
-    
-    public List<User> findUserAll() {
-    	
-    	return userRepository.findAll();
-    }
-    
     
     // 차단된 회원 조회
     public Optional<BlackList> findBlockedUser(String memId) {
-    	
     	return blackListRepository.findByUser_MemId(memId);
     }
 

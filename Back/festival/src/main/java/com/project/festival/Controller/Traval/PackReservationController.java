@@ -106,7 +106,7 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		String memId = claims.get("memId", String.class);
 		
 		// 비회원인 경우
-		if(userService.findUser(memId).isEmpty()) {
+		if(userService.getUserById(memId).isEmpty()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		
