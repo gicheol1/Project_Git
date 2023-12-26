@@ -169,29 +169,24 @@ function TravelCalendar({ packNum }) {
 
     /* eventStyleGetter: 패키지 여행에 숙소와 축제에 색상 부여 */
     const eventStyleGetter = (event, start, end, isSelected) => {
-        let color = 'defaultColor';
+        let className = '';
 
         // - some 메서드는 배열 요소 중 하나라도 주어진 조건을 만족하면 true를 반환
 
         /* 축제에 대한 색상 */
         // - event 객체가 matchedData에 속한 경우 matchedData의 start를 기준으로 색상 선택
         if (matchedData.some(data => data.start === event.start)) {
-            color = 'blue';
+            className='festival-color';
         }
 
         /* 숙소에 대한 색상 */
         // - event 객체가 events에 속한 경우 events의 start를 기준으로 색상 선택
         if (events.some(data => data.start === event.start)) {
-            color = 'skyblue';
+            className='sugso-color';
         }
 
-        const style = {
-            backgroundColor: color,
-            // 기타 스타일 추가 가능
-        };
-
         return {
-            style: style
+            className: className,
         };
     };
 
@@ -203,9 +198,9 @@ function TravelCalendar({ packNum }) {
     const customEventContent = ({ event }) => {
         return (
             <div>
-                <b>{event.title}</b>
+                {event.title}
                 <br />
-                <b>기간: {moment(event.start).format('YYYY-MM-DD')} ~ {moment(event.end).format('YYYY-MM-DD')}</b>
+                기간 : {moment(event.start).format('YYYY-MM-DD')} ~ {moment(event.end).format('YYYY-MM-DD')}
             </div>
         );
     };

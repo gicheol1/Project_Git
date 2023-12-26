@@ -36,7 +36,7 @@
 .link {
   display: block;
   /* 수정된 내용 시작 */
-  width: 7%; /* 수정: 버튼 전체 폭 사용 */
+  width: 100%; /* 수정: 버튼 전체 폭 사용 */
   margin-bottom: 5px;
   /* 수정된 내용 끝 */
   padding: 10px;
@@ -47,6 +47,7 @@
   border: none;
   border-radius: 4px;
   transition: background-color 0.3s;
+  white-space: nowrap; /*줄바꿈 방지*/
 }
 
 /* 버튼 호버 효과 */
@@ -58,6 +59,7 @@
 .link .text {
   text-shadow: none; /* 수정: 텍스트 그림자 제거 */
   transition: all 0.75s;
+  text-align: center;
   transform: translateY(100%) translateZ(0);
   transition-delay: all 0.25s;
 }
@@ -66,4 +68,9 @@
   text-shadow: none; /* 수정: 텍스트 그림자 제거 */
   transform: translateY(0%) translateZ(0) scale(1.1);
   font-weight: 600;
+}
+
+.link-container{
+  display: flex;
+  flex-direction: column;
 }
