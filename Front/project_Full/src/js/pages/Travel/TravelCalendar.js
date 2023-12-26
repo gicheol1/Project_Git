@@ -44,7 +44,7 @@ function TravelCalendar({ packNum }) {
         // name과 festivalname을 기준으로 해당하는 축제 데이터 찾기
         const matchedFestival = FestivalAll.find(festival => festival.name === travalPack.festivalname);
         return {
-            title: matchedFestival.name,
+            title: matchedFestival?.name,
             start: new Date(matchedFestival.startDate),
             end: new Date(matchedFestival.endDate),
             // 포함시키고자 하는 다른 속성 추가
@@ -107,6 +107,11 @@ function TravelCalendar({ packNum }) {
             toolbar.onNavigate("DATE", specificDate);
         };
 
+        const goTofestival = () => {
+            const festivalDate = moment(matchedData[0].start).toDate(); // 첫 번째 축제 시작일로 이동
+            toolbar.onNavigate("DATE", festivalDate);
+        };
+
         const label = () => {
             const date = moment(toolbar.date);
             return (
@@ -143,7 +148,12 @@ function TravelCalendar({ packNum }) {
                 </span>
                 <span className="rbc-btn-group">
                     <button className='calendar-button-font' type="button" onClick={goToSpecificDate}>
-                        예약 시작일로 이동
+                        숙소 예약 기간
+                    </button>
+                </span>
+                <span className="rbc-btn-group">
+                    <button className='calendar-button-font' type="button" onClick={goTofestival}>
+                        축제 기간
                     </button>
                 </span>
                 <span className="rbc-toolbar-label">
@@ -157,25 +167,28 @@ function TravelCalendar({ packNum }) {
     /* =========================================================== */
     /* =========================================================== */
 
-    /* 패키지 여행에 색깔 부여 */
+    /* eventStyleGetter: 패키지 여행에 숙소와 축제에 색상 부여 */
     const eventStyleGetter = (event, start, end, isSelected) => {
-        const startDate = moment(start).toDate(); // 아직 날짜 개체가 아닌 경우 날짜 개체로 변환
+        let color = 'defaultColor';
 
-        const month = startDate.getMonth();// startDate가 속한 월을 가져옵니다(0-인덱스)
+        // - some 메서드는 배열 요소 중 하나라도 주어진 조건을 만족하면 true를 반환
 
-        // 매달 다른 색상을 지정합니다.
-        const monthColors = [
-            // "red", "orange", "skyblue", "green", "blue", "indigo", "violet",
-            // "purple", "pink", "brown", "gray", "black",
-            "lightskyblue",
-        ];
-
-        // 모듈를 사용하여 매월 색상이 반복되도록 합니다.
-        const backgroundColor = monthColors[month % monthColors.length];
-
-        var style = {
-            backgroundColor: backgroundColor,
+        /* 축제에 대한 색상 */
+        // - event 객체가 matchedData에 속한 경우 matchedData의 start를 기준으로 색상 선택
+        if (matchedData.some(data => data.start === event.start)) {
+            color = 'blue';
         }
+
+        /* 숙소에 대한 색상 */
+        // - event 객체가 events에 속한 경우 events의 start를 기준으로 색상 선택
+        if (events.some(data => data.start === event.start)) {
+            color = 'skyblue';
+        }
+
+        const style = {
+            backgroundColor: color,
+            // 기타 스타일 추가 가능
+        };
 
         return {
             style: style
@@ -191,7 +204,8 @@ function TravelCalendar({ packNum }) {
         return (
             <div>
                 <b>{event.title}</b>
-                [{moment(event.start).format('YYYY-MM-DD')} ~ {moment(event.end).format('YYYY-MM-DD')}]
+                <br />
+                <b>기간: {moment(event.start).format('YYYY-MM-DD')} ~ {moment(event.end).format('YYYY-MM-DD')}</b>
             </div>
         );
     };
@@ -214,7 +228,7 @@ function TravelCalendar({ packNum }) {
                     events={[...matchedData, ...events]}
 
                     // 캘린더 몸통 스타일
-                    style={{ height: 800, width: "100%", backgroundColor: '#f8f9fa' }}
+                    style={{ height: 1000, width: "100%", backgroundColor: '#f8f9fa' }}
 
 
                     // toolbar:이전, 오늘, 다음 버튼과 년, 월 타이틀, event: 패키지 여행 이름과 날짜 정보
