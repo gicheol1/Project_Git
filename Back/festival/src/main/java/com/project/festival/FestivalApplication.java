@@ -1,17 +1,20 @@
 package com.project.festival;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.project.festival.Constant.IsPrivated;
+import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.User;
+import com.project.festival.Entity.Repo.BlackListRepo;
 import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Entity.BoardFree;
@@ -33,31 +36,36 @@ import lombok.RequiredArgsConstructor;
  * - 초기화 되지않은 final 필드나, @NonNull 이 붙은 필드에 대해 생성자를 생성
  */
 public class FestivalApplication implements CommandLineRunner {
-	
-	@Autowired
-	private UserRepo userRepository;
-	
-    @Autowired
-	private FestivalRepo festivalRepository;
 
-    @Autowired
-    private BoardFreeRepo BFRepo;
-    @Autowired
-    private CommentFreeRepo CFRepo;
+    /* 테스트용 사용자와 관리자 */
+	private final UserRepo userRepository;
 
-    @Autowired
-    private BoardQARepo BQARepo;
+    /* 테스트용 축제 */
+	private final FestivalRepo festivalRepository;
+
+    /* 테스트용 게시판과 댓글(자유) */
+    private final BoardFreeRepo BFRepo;
+    private final CommentFreeRepo CFRepo;
+
+    /* 테스트용 게시판(QA) */
+    private final BoardQARepo BQARepo;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	Random rand = new Random();
+    /* 테스트용 계정의 비밀번호 암호화 */
+	private final PasswordEncoder passwordEncoder;
 	
 	/* 테스트용 결제 내역 생성 */
 	private final PaymentService paymentService;
 	
 	/* 패키지 여행 예약(예약 내역) 생성 */
 	private final PackReservationService packReservationService;
+	
+	private final BlackListRepo blackListRepo;
+	
+	Random rand = new Random();
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	public static void main(String[] args) {
 		SpringApplication.run(FestivalApplication.class, args);
@@ -156,7 +164,7 @@ public class FestivalApplication implements CommandLineRunner {
 			));
 		}
 		
-	// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 		
 		CFRepo.save(new CommentFree(null, user.get(1+rand.nextInt(user.size()-2)).getMemId(), 1L, "댓글 1", true));
 		CFRepo.save(new CommentFree(null, user.get(1+rand.nextInt(user.size()-2)).getMemId(), 1L, "댓글 2"));
@@ -185,5 +193,22 @@ public class FestivalApplication implements CommandLineRunner {
 		
 		/* (테스트용) 결재내역 생성 */
 		paymentService.creatDefaultPaymemt();
+		
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+		
+		Set<Integer> uniqueNumbers = new HashSet<>();
+
+        while (uniqueNumbers.size() < 5) {
+            int randomNumber = rand.nextInt(15) + 1; // 1부터 15 사이의 랜덤 숫자 생성
+            uniqueNumbers.add(randomNumber); // 중복되지 않는 숫자를 Set에 추가
+        }
+
+        List<Integer> resultList = new ArrayList<>(uniqueNumbers);
+        
+        for(int num : resultList) {
+    		blackListRepo.save(new BlackList(userRepository.findById("user"+num),"사유 "+num));
+        }
+		
 	}
+	
 }

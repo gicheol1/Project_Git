@@ -1,8 +1,6 @@
 package com.project.festival.Controller;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,26 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.festival.Entity.User;
 import com.project.festival.Entity.orther.AccountCredentials;
 import com.project.festival.Service.AuthService;
+import com.project.festival.Service.BlackListService;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.LoginService;
 import com.project.festival.Service.UserService;
 
-import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class LoginController {
 	
-	@Autowired
-	private LoginService loginService;
+	private final LoginService loginService;
 	
-	@Autowired
-	private JwtService jwtService;
+	private final JwtService jwtService;
 	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
-	@Autowired
-	private AuthService authService;
+	private final AuthService authService;
+
+	private final BlackListService blackListService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -48,15 +46,20 @@ public class LoginController {
 		// 회원 등록 여부 확인 후 토큰 전달
 		String jwts = loginService.logInToken(credentials);
 		
+		// 차단된 사용자인 경우
+		if(blackListService.isBlackListed(jwts)) {
+			return ResponseEntity.status(HttpStatus.SC_FORBIDDEN).build();
+		}
+		
 		// 없거나 일치하지 않은 경우
 		if(jwts == null || jwts.equals("Failed")) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(false);
 		}
 		
 		return ResponseEntity.ok()
 			.header(HttpHeaders.AUTHORIZATION, jwts)
 		    .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization") // 헤더 노출 설정
-		    .build();
+		    .body(true);
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

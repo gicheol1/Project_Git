@@ -24,7 +24,10 @@ const Login = ({ setIsLogin }) => {
     const onClickHandle = () => {
 
         login(account).then(res => {
-            if (res) {
+
+            if (res === 403) { alert('차단된 사용자 입니다.'); }
+
+            else if (res) {
                 setIsLogin(true);
                 navigate('/', { replace: true });
             } else {

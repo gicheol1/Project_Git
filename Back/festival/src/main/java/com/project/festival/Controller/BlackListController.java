@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Entity.BlackList;
+import com.project.festival.Service.AuthService;
 import com.project.festival.Service.BlackListService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,15 @@ public class BlackListController {
 	
 	private final BlackListService blackService;
 
+	private final AuthService authService;
+
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 페이지별로 차단된 회원 불러오기
-	@GetMapping("/getBlackList")
-	public ResponseEntity<?> getBlackList(
+	@GetMapping("/getBlackListPage")
+	public ResponseEntity<?> getBlackListPage(
 		@RequestParam int page
 	) {
 		
@@ -46,10 +49,13 @@ public class BlackListController {
 	// 블랙리스트 상세 정보 가져오기
 	@GetMapping("/getBlackListDetail")
 	public ResponseEntity<?> getBlackListDetail(
-		@RequestParam String memId
+		@RequestParam Long blackId,
+		@RequestParam String jwt
 	) {
 		
-		Optional<BlackList> blackList = blackService.getBlackListDetail(memId);
+		if(!authService.isAdmin(jwt)) { return ResponseEntity.ok(false); }
+		
+		Optional<BlackList> blackList = blackService.getBlackListDetail(blackId);
 		
 		if(blackList.isEmpty()) {
 			return ResponseEntity.ok(false);
@@ -84,11 +90,14 @@ public class BlackListController {
 	// 차단 해제하기
 	@DeleteMapping("/deleteBlackList")
 	public ResponseEntity<?> deleteBlackList(
-		@RequestParam String memId
+		@RequestParam Long blackNum,
+		@RequestParam String jwt
 	) {
 		
+		if(!authService.isAdmin(jwt)) { return ResponseEntity.ok(false); }
+		
 		try {
-			blackService.deleteBlackList(memId);
+			blackService.deleteBlackList(blackNum);
 		} catch(Exception e) {
 			return ResponseEntity.ok(false);
 		}

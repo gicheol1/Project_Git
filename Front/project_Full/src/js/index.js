@@ -126,10 +126,11 @@ export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황
 
 // > UserManage 폴더 : 회원 관리
 export { default as UserList } from './pages/UserManage/UserList/UserList'; // 회원 리스트
-export { default as UserDetail } from './pages/UserManage/UserDetail/UserDetail'; // 회원 리스트
+export { default as UserDetail } from './pages/UserManage/UserDetail/UserDetail'; // 회원 수정
 
 // > Blacklist 폴더: 블랙 리스트
-export { default as Blacklist } from './pages/Blacklist/Blacklist'; // 블랙 리스트
+export { default as BlackList } from './pages/Black/BlackList/Blacklist'; // 블랙 리스트
+export { default as BlackDetail } from './pages/Black/BlackDetail/BlackDetail'; // 블랙 상세 정보
 
 // > MemberInfo 폴더: 회원정보 수정(관리자)
 export { default as Membercare } from './pages/MemberInfo/Membercare'; // 회원정보 수정(관리자)

@@ -1,6 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
-import { useUserList } from './useUserList';
+import React, { useEffect, useState } from 'react';
 
 import {
   Pagination, Paper,
@@ -8,28 +6,29 @@ import {
   TableFooter, TableHead, TableRow
 } from "@mui/material";
 
-import './UserList.css';
+import { useBlackList } from './useBlacklist';
 import { useNavigate } from 'react-router-dom';
 
-const UserList = () => {
+const BlackList = () => {
 
   const navigate = useNavigate();
 
-  // 회원 리스트와 회원수
-  const [userList, setUserList] = useState();
-  const [userCnt, setUserCnt] = useState();
+  // 블랙 리스트 목록과 전체 갯수
+  const [blackList, setBlackList] = useState();
+  const [blackListCnt, setBlackListCnt] = useState();
 
+  // 페이지 번호
   const [page, setPage] = useState(1);
 
-  const { getUserListPage, getUserListCnt, deleteUser } = useUserList();
+  const { getBlackListPage, getBlackListCnt, deleteBlackList } = useBlackList();
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
   useEffect(() => {
-    getUserListCnt().then((cnt) => setUserCnt(cnt));
-    getUserListPage(0).then((list) => setUserList(list));
+    getBlackListCnt().then((cnt) => setBlackListCnt(cnt));
+    getBlackListPage(0).then((list) => setBlackList(list));
     setPage(1);
   }, []);
 
@@ -37,31 +36,31 @@ const UserList = () => {
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-  // 삭제하기
-  const onDelete = async (memId) => {
+  // 차단 해제
+  const onDelete = async (blackNum) => {
 
-    if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할수 없습니다!')) { return; }
+    if (!window.confirm('차단 해제 삭제하시겠습니까?')) { return; }
 
-    deleteUser(memId).then((res) => {
+    deleteBlackList(blackNum).then((res) => {
 
       if (res) {
-        alert('삭제가 완료되었습니다.');
-        setUserList(userList.filter((user) => user.memId !== memId));
+        alert('차단 해제되었습니다.');
+        setBlackList(blackList.filter((black) => black.blackNum !== blackNum));
       } else {
-        alert('삭제에 실패했습니다.');
+        alert('차단 해제에 실패했습니다.');
       }
 
     });
 
   }
 
-  // 회원정보 수정 페이지로
-  const toChangeInfo = (memId) => { navigate(`/user/${memId}`); }
+  // 차단 정보 수정 페이지로
+  const toChangeInfo = (memId) => { navigate(`/blackDetail/${memId}`); }
 
   // 페이지 이동 이벤트
   const handlePageChange = (event, page) => {
     setPage(page);
-    getUserListPage(page - 1).then((list) => setUserList(list));
+    getBlackListPage(page - 1).then((list) => setBlackList(list));
   }
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -69,34 +68,32 @@ const UserList = () => {
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
   return (
-    <div className="table-container">
+    <div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
 
           {/* 테이블 헤더 */}
           <TableHead>
             <TableRow className="tableHead">
+              <TableCell className='table-cell' align="center" width={20}>번호</TableCell>
               <TableCell className='table-cell' align="center" width={30}>아이디</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>이름</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>전화번호</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>가입일자</TableCell>
-              <TableCell className='table-cell' align="center" width={120}></TableCell>
+              <TableCell className='table-cell' align="center" width={30}>차단일자</TableCell>
+              <TableCell className='table-cell' align="center" width={150}></TableCell>
             </TableRow>
           </TableHead>
 
           {/* 테이블 바디 */}
           <TableBody>
-            {userList !== undefined && (
-              userList.length !== 0 ?
-                userList.map(user => (
+            {blackList !== undefined && (
+              blackList.length !== 0 ?
+                blackList.map(black => (
                   <TableRow>
-                    <TableCell className='table-cell' align="center" width={30}>{user.memId}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{user.name}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{user.phonNum}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{user.singupDate}</TableCell>
-                    <TableCell className='table-cell' align="center" width={120}>
-                      <button className='btn-gray' onClick={() => { toChangeInfo(user.memId); }} >수정</button>
-                      <button className='btn-red' onClick={() => { onDelete(user.memId); }} >삭제</button>
+                    <TableCell className='table-cell' align="center" width={30}>{black.blackId}</TableCell>
+                    <TableCell className='table-cell' align="center" width={30}>{black.memId}</TableCell>
+                    <TableCell className='table-cell' align="center" width={30}>{black.banDate}</TableCell>
+                    <TableCell className='table-cell' align="center" width={150}>
+                      <button className='btn-gray' onClick={() => { toChangeInfo(black.blackNum); }} >수정</button>
+                      <button className='btn-red' onClick={() => { onDelete(black.blackNum); }} >삭제</button>
                     </TableCell>
                   </TableRow>
                 ))
@@ -110,9 +107,9 @@ const UserList = () => {
 
           {/* 테이블 푸터 */}
           <TableFooter>
-            <TableCell colSpan={5}>
+            <TableCell colSpan={4}>
               <Pagination
-                count={userCnt % 10 !== 0 ? Math.ceil(userCnt / 10) : userCnt / 10}
+                count={blackListCnt % 10 !== 0 ? Math.ceil(blackListCnt / 10) : blackListCnt / 10}
                 page={page}
                 onChange={handlePageChange}
               />
@@ -125,4 +122,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default BlackList;
