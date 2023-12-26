@@ -104,7 +104,8 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 //					packNum,
 //					jwtService.getAuthUser(jwt).get("jti", String.class)
 //			);
-		
+
+// 여기서 부터
 		Claims claims;
 
 		try {
@@ -129,6 +130,8 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		try {
 			PackReservation packReservation = packReservationService.reservationrequest(packReservationDto, packNum,
 					memId);
+			
+// 여기까지 전에 코드를 적용(예약이 안되는 현상으로 인한 임시 방편)
 			
 			return ResponseEntity.ok(packReservation);
 			
