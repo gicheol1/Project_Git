@@ -176,15 +176,15 @@ function TravelPackList() {
             </div>
 
             {/* 페이징(페이지 네이션) */}
-            
 
-                <PaginationComponent
-                    count={Math.ceil(TravalPack.length / itemsPerPage)}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                />
 
-            
+            <PaginationComponent
+                count={Math.ceil(TravalPack.length / itemsPerPage)}
+                page={currentPage}
+                onChange={handlePageChange}
+            />
+
+
         </div>
     );
 

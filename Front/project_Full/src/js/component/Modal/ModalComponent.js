@@ -49,6 +49,7 @@ const ModalComponent = ({ showModal, handleClose, selectedImage, params, festiva
                             <p>예약한 인원: {params.row.count}</p>
                             <p>숙박기간: {params.row.dateCnt}</p>
                             <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                            <p style={{ float: 'left', marginRight: '5px' }}>결제 금액: </p><ToggleCell value={params.row.price * params.row.count} />
                         </div>
                     </div>
                 ) : (

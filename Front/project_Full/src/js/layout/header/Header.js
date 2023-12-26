@@ -46,6 +46,7 @@ const Header = ({ isLogin, isAdmin, setIsLogin, isVisible }) => {
                     <>
                         <li><Link to="/festivalList" className="nav-link px-2 link-dark">축제관리</Link></li>
                         <li><Link to="/travalpackadd" className="nav-link px-2 link-dark">패키지관리</Link></li>
+                        {/* <li><Link to="/Paymenthistory" className="nav-link px-2 link-dark">결제 내역</Link></li> */}
                     </>
                 )}
             </ul>
@@ -58,6 +59,7 @@ const Header = ({ isLogin, isAdmin, setIsLogin, isVisible }) => {
                         <li><Link to='/myPage' className="btn btn-outline-primary me-2">👤 마이페이지</Link></li>
                         <li><Link to='/mycart' className="btn btn-outline-primary me-2">🛒 장바구니</Link></li>
                         <li><Link to='/packreservation/memberpackreservation' className="btn btn-outline-primary me-2">⏱ 예약 목록</Link></li>
+                        <li><Link to="/Paymenthistory" className="btn btn-outline-primary me-2">결제 내역</Link></li>
                     </ul>
                 </div>
                 :

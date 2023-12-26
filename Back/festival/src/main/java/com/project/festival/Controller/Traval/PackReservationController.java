@@ -74,6 +74,7 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		for (PackReservation packRes : packReservationRepository.findByMemId(memId)) {
 			PackReservationDto packDto = modelMapper.map(packRes, PackReservationDto.class);
 			packDto.setPackName(travalPackRepository.findByPackNum(packRes.getPackNum()).getName());
+			packDto.setPrice(travalPackRepository.findByPackNum(packDto.getPackNum()).getPrice());
 			packList.add(packDto);
 		}
 		

@@ -11,6 +11,7 @@ import {
 	Calendar,
 
 	Home,
+	Paymenthistory,
 	Proceedpayment,
 	Reservationlist,
 	SuccessPage,
@@ -112,6 +113,9 @@ function App() {
 				{/* 여행 결제 페이지 */}
 				<Route path="/payment/:resNum" element={<Proceedpayment />} />
 				<Route path="/success" element={<SuccessPage />} />
+
+				{/* 결제 내역 */}
+				<Route path="/Paymenthistory" element={<Paymenthistory />} />
 
 				{/* 여행 지도 */}
 				<Route path="/travelKaKaoMap" element={<TravelKaKaoMap />} />

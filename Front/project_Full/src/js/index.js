@@ -59,6 +59,9 @@ export { default as Reservationlist } from './pages/Travel/Reservationlist';
 // 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)
 export { default as Proceedpayment } from './pages/Payment/Proceedpayment';
 
+// 2. 결제내역
+export {default as Paymenthistory} from './pages/Payment/Paymenthistory'
+
 // > Payment(결제) 폴더 > Tosspayments(토스 결제 위젯) 폴더
 export { SuccessPage } from './pages/Payment/Tosspayments/Success';
 
