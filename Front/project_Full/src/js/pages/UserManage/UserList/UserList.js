@@ -9,8 +9,11 @@ import {
 } from "@mui/material";
 
 import './UserList.css';
+import { useNavigate } from 'react-router-dom';
 
 const UserList = () => {
+
+  const navigate = useNavigate();
 
   // 회원 리스트와 회원수
   const [userList, setUserList] = useState();
@@ -50,6 +53,11 @@ const UserList = () => {
 
   }
 
+  // 회원정보 수정 페이지로
+  const toChangeInfo = () => {
+    navigate();
+  }
+
   // 페이지 이동 이벤트
   const handlePageChange = (event, page) => {
     setPage(page);
@@ -87,6 +95,7 @@ const UserList = () => {
                     <TableCell className='table-cell' align="center" width={30}>{user.phonNum}</TableCell>
                     <TableCell className='table-cell' align="center" width={30}>{user.singupDate}</TableCell>
                     <TableCell className='table-cell' align="center" width={120}>
+                      <button className='btn-gray' onClick={() => { onDelete(user.memId); }} >수정</button>
                       <button className='btn-red' onClick={() => { onDelete(user.memId); }} >삭제</button>
                     </TableCell>
                   </TableRow>

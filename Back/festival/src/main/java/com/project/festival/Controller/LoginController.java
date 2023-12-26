@@ -72,16 +72,10 @@ public class LoginController {
 		if(!authService.isLogin(jwt)) { return ResponseEntity.notFound().build(); }
 		
 		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
+		User _user = userService.getUserById(memId);
 		
-		Optional<User> _user = userService.getUserById(memId);
-		
-		// 비회원인 경우
-		if(userService.getUserById(memId).isEmpty()) {
-			 return ResponseEntity.notFound().build();
-		}
-		
-		// 모든 조건을 충족하면 새 토큰 전달
-		String newJwt = jwtService.getToken(_user.get());
+		// 새 토큰 전달
+		String newJwt = jwtService.getToken(_user);
 		
 		return ResponseEntity.ok()
 				.header(HttpHeaders.AUTHORIZATION, newJwt)

@@ -62,14 +62,10 @@ public class AuthService {
 		catch(Exception e) { return false; }
 		
 		// 토큰 만료시
-		if(claims.isEmpty() || !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return false;
-		}
+		if(claims.isEmpty() || !jwtService.isExistsByJti(claims.get("jti", String.class))) { return false; }
 		
 		// 비회원인 경우
-		if(!userRepository.existsByMemId(claims.get("memId", String.class))) {
-			return false;
-		}
+		if(!userRepository.existsByMemId(claims.get("memId", String.class))) { return false; }
 		
 		return true;
     }

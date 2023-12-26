@@ -1,0 +1,79 @@
+.MypageMain{
+    width:80%;
+    height: 1000px;
+}
+
+.MypageFirst{
+    position: relative;
+    top: 10px;
+}
+
+.cardHeader{
+    border: 1px solid black;
+    text-align: center;
+}
+
+.mycol1{
+
+    position: absolute;
+    margin-left: 5%;
+    width: 25%;
+    border: 1px solid rgb(248,249,250);
+    height: 400px;
+
+  }
+
+.cardBody{
+    text-align: center;
+    
+
+}
+
+
+.mycol2{
+
+    position: absolute;
+    margin-left: 40%;
+    width: 25%;
+    border: 1px solid black;
+    height: 400px;
+   
+
+}
+
+.mycol3{
+
+    position: absolute;
+    width: 25%;
+    margin-left: 75%;
+    border: 1px solid black;
+    height: 400px;
+
+}
+
+.MypageSecond{
+    position: relative;
+    width:80%;
+    height: 200px;
+    border: 1px solid black;
+    top: 500px;
+    left:10%;
+}
+
+.MyBoard{
+    position: absolute;
+    left:5%;
+    top:10%;
+    width:42.5%;
+    height: 80%;
+    border: 1px solid black;
+}
+
+.MyHeart{
+    position: absolute;
+    left:52.5%;
+    top:10%;
+    width:42.5%;
+    height: 80%;
+    border: 1px solid black;
+}

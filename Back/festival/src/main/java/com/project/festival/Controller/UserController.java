@@ -57,6 +57,22 @@ public class UserController {
 	// 등록된 회원 총 갯수
 	@GetMapping("/getUserListCnt")
 	public ResponseEntity<?> getUserListCnt(){ return ResponseEntity.ok(userService.getUserCnt()); }
+	
+	// 회원 상세정보 가져오기
+	@GetMapping("/getUserDetail")
+	public ResponseEntity<?> getUserDetail(
+		@RequestParam String memId,
+		@RequestParam String jwt
+	){
+
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		
+		User userDetail = userService.getUserById(memId);
+		
+		if(userDetail==null) { return ResponseEntity.ok(false); }
+		
+		return ResponseEntity.ok(userDetail);
+	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -110,16 +126,15 @@ public class UserController {
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
 		// 토큰에 저장된 회원 아이디로 회원 정보 가져오기
-		Optional<User> user = userService.getUserById(jwtService.getAuthUser(jwt).get("memId", String.class));
+		User user = userService.getUserById(jwtService.getAuthUser(jwt).get("memId", String.class));
 		
 		// 없는 경우
-		if(user.isEmpty()) { return ResponseEntity.ok(false); }
+		if(user==null) { return ResponseEntity.ok(false); }
 		
 		// 비밀번호는 비공개
-		User userInfo = user.get();
-		userInfo.setPw("");
+		user.setPw("");
 
-		return ResponseEntity.ok(userInfo);
+		return ResponseEntity.ok(user);
 	}
 	
 // ----- ----- ----- ----- ----- ----- ----- ----- -----
@@ -164,9 +179,13 @@ public class UserController {
 	@PutMapping("/updateUser")
 	public ResponseEntity<?> updateUser(@RequestBody User user) {
 		
-		userService.updateUser(user);
+		try {
+			userService.updateUser(user);
+		}catch (Exception e) {
+			return ResponseEntity.ok(false);
+		}
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(true);
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
