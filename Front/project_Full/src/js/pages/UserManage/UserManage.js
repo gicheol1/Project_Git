@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserPage } from './useUserManage';
+import { UserManage } from './useUserManage';
 
 const tableStyle = {
   border: '2px solid black',
@@ -46,7 +46,7 @@ const UserPage = () => {
 
   const [userList, setUserList] = useState();
 
-  const { getUserList, deleteUser } = useUserPage();
+  const { getUserList, deleteUser } = UserManage();
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦

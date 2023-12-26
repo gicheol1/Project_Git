@@ -122,7 +122,7 @@ export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황
 //Sidebar(m) (추가)
 
 // > UserPage 폴더: 유저 관리
-export { default as UserManage } from './pages/UserManage/UserManage'; // 유저 관리
+export { default as UserPage } from './pages/UserManage/UserManage'; // 유저 관리
 
 // > Blacklist 폴더: 블랙 리스트
 export { default as Blacklist } from './pages/Blacklist/Blacklist'; // 블랙 리스트
