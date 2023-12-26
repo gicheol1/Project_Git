@@ -3,6 +3,9 @@ package com.project.festival.Controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,31 +42,22 @@ public class UserController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-	// 회원가입
-	@GetMapping("/getUserList")
-	public ResponseEntity<?> getUserList(@RequestParam String jwt) {
+    
+    // 페이지 별 회원 목록 가져오기
+	@GetMapping("/getUserListPage")
+	public ResponseEntity<?> getUserListPage(
+		@RequestParam int page
+	){
 		
-		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("singupDate").descending());
 		
-		return ResponseEntity.ok(userService.getUsers());
+		return ResponseEntity.ok(userService.getUserListPage(pageable));
 	}
-
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-	// 회원가입
-	@PostMapping("/singUp")
-	public ResponseEntity<?> singUp(@RequestBody User newUser) {
-		
-		// 가입일, 권한 설정
-		newUser.singUpBasic();
-		
-		// DB 추가
-		userService.saveUser(newUser);
-		
-		return ResponseEntity.ok().build();
+	
+	// 등록된 회원 총 갯수
+	@GetMapping("/getUserListCnt")
+	public ResponseEntity<?> getUserListCnt(){
+		return ResponseEntity.ok(userService.getUserCnt());
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -169,6 +163,23 @@ public class UserController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
+	// 회원가입
+	@PostMapping("/singUp")
+	public ResponseEntity<?> singUp(@RequestBody User newUser) {
+		
+		// 가입일, 권한 설정
+		newUser.singUpBasic();
+		
+		// DB 추가
+		userService.saveUser(newUser);
+		
+		return ResponseEntity.ok().build();
+	}
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
 	// 회원수정 (비밀번호, 이메일, 주소)
 	@PutMapping("/updateUser")
 	public ResponseEntity<?> updateUser(@RequestBody User user) {
@@ -193,6 +204,6 @@ public class UserController {
 		
 		userService.deleteUser(memId);
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(true);
 	}
 }

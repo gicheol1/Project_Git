@@ -1,7 +1,7 @@
 .table-container {
   border: 2px solid black;
   background: lightgray;
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
 }
 
@@ -9,6 +9,10 @@
   border: 1px solid black;
   padding: 8px;
 }
+
+/* ========== ========== ========== ========== ========== */
+/* ========== ========== ========== ========== ========== */
+/* ========== ========== ========== ========== ========== */
 
 .btn-black {
   background: black;

@@ -13,12 +13,12 @@ function Sidebar() {
       </div>
       <h2>OOO님</h2>
       <header>
-        <Link to="/info" className="link">예약 정보 관리</Link>          
-        <Link to="/saleInfo" className="link">판매 정보 관리</Link>              
-        <Link to="/qna" className="link">Q&A 관리</Link>              
-        <Link to="/festivals" className="link">축제 관리</Link>               
-        <Link to="/user" className="link">유저 관리</Link>
-        <Link to="/blacklist" className="link">블랙 리스트</Link>                
+        <Link to="/info" className="link">예약 정보 관리</Link>
+        <Link to="/saleInfo" className="link">판매 정보 관리</Link>
+        <Link to="/qna" className="link">Q&A 관리</Link>
+        <Link to="/festivals" className="link">축제 관리</Link>
+        <Link to="/user" className="link">회원 관리</Link>
+        <Link to="/blacklist" className="link">블랙 리스트</Link>
         <Link to="/memberinfo" className="link">회원정보 수정</Link>
         <Link to="/servicedown" className="link">서비스 제한</Link>
       </header>

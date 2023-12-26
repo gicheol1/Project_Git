@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +26,13 @@ public class UserService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 관리자를 제외한 회원 정보 출력
-    public List<User> getUsers() {
+	// 페이지별 관리자를 제외한 회원 리스트 출력
+    public List<User> getUserListPage(Pageable pageable) {
     	
     	List<User> _user = new ArrayList<>();
     	
     	// 비밀번호 비공개 처리
-    	for(User u : userRepository.findByRoleNot("ADMIN")) {
+    	for(User u : userRepository.findByRoleNotOrderBySingupDateDesc("ADMIN", pageable).getContent()) {
     		u.setPw(null);
     		_user.add(u);
     	}
@@ -39,10 +40,11 @@ public class UserService {
         return _user;
     }
 
+	// 관리자를 제외한 회원의 수
+    public long getUserCnt() { return userRepository.countByRoleNot("ADMIN"); }
+
     // 회원 정보 조회
     public Optional<User> getUserById(String memId) { return userRepository.findByMemId(memId); }
-    
-//    public List<User> getUserAll() { return userRepository.findAll(); }
     
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 

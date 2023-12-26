@@ -11,9 +11,7 @@ header {
 
 main {
   /* Outlet을 화면의 나머지 영역을 차지하도록 설정 */
-  min-height: 70vh;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

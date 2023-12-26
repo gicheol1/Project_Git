@@ -178,6 +178,8 @@ const BoardList = ({ isLogin }) => {
 							<></>
 						}
 					</TableBody>
+
+					{/* 테이블 푸터 */}
 					<TableFooter>
 						<TableCell colSpan={5}>
 							<Pagination

@@ -3,6 +3,8 @@ package com.project.festival.Entity.Repo;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +15,15 @@ import com.project.festival.Entity.User;
 @Repository
 public interface UserRepo extends CrudRepository<User, String> {
 	
-	// 관리자를 제외한 회원 정보 가져오기
+	// 페이지별로 관리자를 제외한 회원 리스트 가져오기
+    Page<User> findByRoleNotOrderBySingupDateDesc(String role, Pageable pageable);
+    
+	// 관리자를 제외한 회원의 수
+    long countByRoleNot(String role);
+    
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+	
+	// 관리자를 제외한 회원 리스트 가져오기
 	List<User> findByRoleNot(String role);
 	
 	// 일치하는 회원의 아이디 가져오기
@@ -24,7 +34,7 @@ public interface UserRepo extends CrudRepository<User, String> {
 	
 	List<User> findAll();
 	
-	// 회원 아이디가 존재하는지 확인
+	// 회원 아이디, 이메일 존재 확인
 	boolean existsByMemId(String memId);
 	boolean existsByEmail(String email);
 	

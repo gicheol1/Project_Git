@@ -81,11 +81,12 @@ public class FestivalApplication implements CommandLineRunner {
 		));
 		
 		// 사용자
-		for (int i=1; i<10; i++) {
+		for (int i=1; i<16; i++) {
+			
 			user.add(new User (
 					"user"+i, passwordEncoder.encode("user"+i),
-					"사용자"+i, "010-1234-5678", "2000-01-0"+i, "test"+i+"@mail.com",
-					"대전", "서구", "동서대로 "+i, "2023-10-1"+i, "USER"
+					"사용자"+i, "010-1234-5678", (i<10) ? "2000-01-0"+i : "2000-01-"+i, "test"+i+"@mail.com",
+					"대전", "서구", "동서대로 "+i, (i<10) ? "2023-10-0"+i : "2023-10-"+i, "USER"
 			));
 		}
 		
