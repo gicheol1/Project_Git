@@ -86,8 +86,8 @@
     /* background: linear-gradient(to right,  #2c4285, #415d9c, #8088B2, #C7B0C2); */
     /* background: #afeeee, #87ceeb, #b0e0e6, #b0c4de; */
     background : linear-gradient(to right, #fbfbfc, #dbfeff);
-    border: 1px solid #a0a0a0; 
-    border-radius: 20px;
+    border: 3px solid #a0a0a0; 
+    border-radius: 8px;
     
 }
 
