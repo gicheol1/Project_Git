@@ -11,7 +11,7 @@ import './TravelPackList.css'; // CSS 파일을 임포트
 
 /* 여행 예약 1번*/
 /* - 여행 패키지 목록 페이지 */
-function TravelPackList() {
+function TravelPackList({ isAdmin }) {
 
     /* useState(함수의 상태관리), useNavigate(라우터 내에서 경로를 변경), ModalFunction(모달창의 열고 닫는 기능) */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -167,17 +167,21 @@ function TravelPackList() {
             ,
             width: 110,
         },
-        {
+    ];
+
+    /* 만약 관리자 가 로그인하면 삭제하기 활성화 
+    - 배열에 새로운 객체를 추가하고 싶을 때 push()를 사용 */ 
+    if (isAdmin) {
+        columns.push({
             field: 'travalpackdelete',
             headerName: '삭제하기',
             renderCell: row =>
                 <Button onClick={() => { handleDelete(row.row.packNum) }}>
                     <h1 className='button-font'>삭제하기</h1>
-                </Button>
-            ,
+                </Button>,
             width: 110,
-        }
-    ];
+        });
+    }
 
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */

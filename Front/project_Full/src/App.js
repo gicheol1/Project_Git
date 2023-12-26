@@ -102,7 +102,7 @@ function App() {
 				{/* ===== ===== ===== ===== ===== */}
 
 				{/* 여행 목록 페이지 */}
-				<Route path="/packreservationList" element={<TravelPackList />} />
+				<Route path="/packreservationList" element={<TravelPackList  isAdmin={isAdmin} />} />
 
 				{/* 여행 예약 페이지(캘린더, 지도) */}
 				<Route path="/packreservation/reservation/:packNum" element={<TravelReservation isLogin={isLogin} />} />
