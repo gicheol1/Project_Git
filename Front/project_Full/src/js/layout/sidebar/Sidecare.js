@@ -4,14 +4,28 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // 부트스트랩 임포트
 import './Sidecare.css';
 import profileImage from './profile-image.png';
+import { useEffect, useState } from 'react';
+import { SERVER_URL } from 'js';
 
 function Sidebar() {
+  const [member, setMember] = useState([]);
+  useEffect(() => {
+
+    const jwt = sessionStorage.getItem('jwt');
+    if (jwt === undefined || jwt === '') { return; }
+
+    // - 회원 
+    fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' })
+        .then((response) => response.json())
+        .then((data) => { setMember(data); console.log(data); })
+        .catch(err => console.error(err));
+  });
   return (
     <aside className="sidebar">
       <div className="text-center"> {/* 부트스트랩 클래스 */}
         <img src={profileImage} alt="Profile" className="profile-image" />
       </div>
-      <h2>OOO님</h2>
+      <h2>{member.name}님</h2>
       <div className='link-container'>
         <Link to="/info" className="link">예약 정보 관리</Link>
         <Link to="/saleInfo" className="link">판매 정보 관리</Link>
