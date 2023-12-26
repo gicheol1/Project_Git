@@ -61,9 +61,4 @@ public class PackReservationService {
 		return packReservationRepository.save(packReservation);
 	}
 
-	/* 패키지 여행 예약 취소 */
-	public void cancelPackReservation(Long resNum) {
-		packReservationRepository.deleteById(resNum);
-    }
-	
 }
