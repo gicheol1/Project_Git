@@ -13,18 +13,25 @@ function Sidebar() {
     const jwt = sessionStorage.getItem('jwt');
     if (jwt === undefined || jwt === '') { return; }
 
-    // - 회원 
-    fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' })
-        .then((response) => response.json())
-        .then((data) => { setMember(data); console.log(data); })
-        .catch(err => console.error(err));
-  });
+    const fetchMemberData = async () => {
+      try {
+        const response = await fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' });
+        const data = await response.json();
+        setMember(data);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMemberData();
+  }, []); // 두 번째 매개변수로 빈 배열을 전달하여 한번만 실행하게 설정
   return (
     <aside className="sidebar">
       <div className="text-center"> {/* Bootstrap class */}
         <img src={profileImage} alt="Profile" className="profile-image" />
       </div>
-      <h3>{member.name}님</h3>
+      <h3 className='side-title'>{member.name}님</h3>
       <div className='link-container'>
       <Link to="/info" className="link">
           예약정보

@@ -45,8 +45,8 @@ function TravelCalendar({ packNum }) {
         const matchedFestival = FestivalAll.find(festival => festival.name === travalPack.festivalname);
         return {
             title: matchedFestival?.name,
-            start: new Date(matchedFestival.startDate),
-            end: new Date(matchedFestival.endDate),
+            start: new Date(matchedFestival?.startDate),
+            end: new Date(matchedFestival?.endDate),
             // 포함시키고자 하는 다른 속성 추가
         };
     });
@@ -78,6 +78,7 @@ function TravelCalendar({ packNum }) {
         fetch(SERVER_URL + "festivalAll", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 setFestivalAll(data); // 전체 데이터를 그대로 설정
             })
             .catch(err => { console.error(err); });
@@ -176,13 +177,13 @@ function TravelCalendar({ packNum }) {
         /* 축제에 대한 색상 */
         // - event 객체가 matchedData에 속한 경우 matchedData의 start를 기준으로 색상 선택
         if (matchedData.some(data => data.start === event.start)) {
-            className='festival-color';
+            className='festival-inform-color';
         }
 
         /* 숙소에 대한 색상 */
         // - event 객체가 events에 속한 경우 events의 start를 기준으로 색상 선택
         if (events.some(data => data.start === event.start)) {
-            className='sugso-color';
+            className='sugso-inform-color';
         }
 
         return {
