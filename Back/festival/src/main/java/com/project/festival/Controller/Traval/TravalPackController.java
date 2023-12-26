@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,11 +45,18 @@ public class TravalPackController {
 		ArrayList<TravalPackDto> TravalPackList = TravalPackDto.createTravalPack();
 		packService.createTravalPack(TravalPackList);
 	}
-	
+
 	@PostMapping("/travalpack/new")
 	public ResponseEntity<TravalPackService> addPack(@RequestBody TravalPackDto packDto) {
 		TravalPackService pack = packService.addPack(packDto);
 		return ResponseEntity.ok(pack);
+	}
+
+	// 패키지 여행 삭제
+	@DeleteMapping("/travalpack/{packNum}")
+	public ResponseEntity<Void> deletetravalpack(@PathVariable Long packNum) {
+		packService.deleteTravalpack(packNum);
+		return ResponseEntity.noContent().build();// No Content(204) 상태 코드를 반환
 	}
 
 }

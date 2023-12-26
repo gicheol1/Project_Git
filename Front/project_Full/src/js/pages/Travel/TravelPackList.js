@@ -89,6 +89,21 @@ function TravelPackList() {
         }
     };
 
+    /* 패키지 여행 삭제 */
+    const handleDelete = (packNum) => {
+        fetch(SERVER_URL + `travalpack/${packNum}`, { method: 'DELETE' })
+
+            .then(response => {
+                if (response.ok) {
+                    const updatedTravalPack = TravalPack.filter(deletetravalpack => deletetravalpack.packNum !== packNum);
+                    setTravalPack(updatedTravalPack);
+                    alert('패키지 여행 ' + packNum + '번 이 성공적으로 삭제되었습니다.');
+                } else {
+                    alert('패키지 여행을 삭제하는 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(err => alert(err))
+    };
 
     /* 패키지 여행의 컬럼 */
     const columns = [
@@ -151,6 +166,16 @@ function TravelPackList() {
                 </Button>
             ,
             width: 110,
+        },
+        {
+            field: 'travalpackdelete',
+            headerName: '삭제하기',
+            renderCell: row =>
+                <Button onClick={() => { handleDelete(row.row.packNum) }}>
+                    <h1 className='button-font'>삭제하기</h1>
+                </Button>
+            ,
+            width: 110,
         }
     ];
 
@@ -158,33 +183,38 @@ function TravelPackList() {
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
         <div>
+
             {/* 패키지 여행 목록 */}
             <div className="PackageTravelList">
                 <h1 className="traval-pack-list-header">
                     <HotelIcon fontSize='large' className='custom-hotel-icon' /> 숙소 목록
                 </h1>
+
                 {/* DataGrid를 이용한 여행 패키지 목록 표시 */}
-                <DataGrid
-                    className="hideHeaders" // 컬럼 헤더 숨기기
-                    rows={currentPageData} // 표시할 행 데이터
-                    columns={columns}// 열(컬럼) 설정
-                    getRowId={row => row.packNum}// 각 행의 고유 ID 설정
-                    checkboxSelection={false} // 체크박스(false(비활성화))
-                    hideFooter={true} // 표의 푸터바 제거
-                    getRowHeight={params => 400} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
-                />
+                {TravalPack.length === 0 ? ( // TravalPack(패키지 여행)의 데이터가 없으면 p 있으면 DataGrid를 출력
+                    <div>
+                        <p>표시할 패키지 여행 데이터가 없습니다.</p>
+                        <p>패키지 여행 데이터를 등록해주세요.</p>
+                    </div>
+                ) : (
+                    <DataGrid
+                        className="hideHeaders" // 컬럼 헤더 숨기기
+                        rows={currentPageData} // 표시할 행 데이터
+                        columns={columns}// 열(컬럼) 설정
+                        getRowId={row => row.packNum}// 각 행의 고유 ID 설정
+                        checkboxSelection={false} // 체크박스(false(비활성화))
+                        hideFooter={true} // 표의 푸터바 제거
+                        getRowHeight={params => 400} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
+                    />
+                )}
             </div>
 
             {/* 페이징(페이지 네이션) */}
-
-
             <PaginationComponent
                 count={Math.ceil(TravalPack.length / itemsPerPage)}
                 page={currentPage}
                 onChange={handlePageChange}
             />
-
-
         </div>
     );
 

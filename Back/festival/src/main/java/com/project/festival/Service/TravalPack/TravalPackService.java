@@ -23,12 +23,13 @@ public class TravalPackService {
 
 	private final ModelMapper modelMapper;
 	private final TravalPackRepository packRepository;
-	
+
+	// - 패키지 여행 생성
 	public void createTravalPack(ArrayList<TravalPackDto> TravalPackList) {
-		
+
 		for (TravalPackDto TravalPackDto : TravalPackList) {
 			TravalPack travalPack = modelMapper.map(TravalPackDto, TravalPack.class);
-			
+
 //			TravalPack travalPack = new TravalPack();
 //			
 //			travalPack.setName(TravalPackDto.getName());
@@ -42,7 +43,7 @@ public class TravalPackService {
 //			travalPack.setText(TravalPackDto.getText());
 //			travalPack.setPerson(TravalPackDto.getPerson());
 //			travalPack.setReservation(TravalPackDto.getReservation());
-			
+
 			packRepository.save(travalPack);
 		}
 	}
@@ -52,6 +53,11 @@ public class TravalPackService {
 		travalPack.setSingupDate(LocalDate.now());
 		packRepository.save(travalPack);
 		return null;
+	}
+
+	// 패키지 여행 삭제
+	public void deleteTravalpack(Long packNum) {
+		packRepository.deleteById(packNum);
 	}
 
 }
