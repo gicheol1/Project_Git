@@ -56,9 +56,7 @@ public class UserController {
 	
 	// 등록된 회원 총 갯수
 	@GetMapping("/getUserListCnt")
-	public ResponseEntity<?> getUserListCnt(){
-		return ResponseEntity.ok(userService.getUserCnt());
-	}
+	public ResponseEntity<?> getUserListCnt(){ return ResponseEntity.ok(userService.getUserCnt()); }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -71,21 +69,12 @@ public class UserController {
 		String _id = userService.findUserId(user.getEmail(), user.getName());
 		
 		// 회원이 존재하지 않은 경우
-		if(_id.isEmpty()) {
-			return ResponseEntity.ok()
-				.header("findUserResult", "false")
-    			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "findUserResult")
-    			.build();
-			
-		}
+		if(_id.isEmpty()) { return ResponseEntity.ok(false); }
 		
 		// 이메일로 전송
 		emailService.sendUserId(user.getEmail(), _id);
 		
-		return ResponseEntity.ok()
-			.header("findUserResult", "true")
-			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "findUserResult")
-			.build();
+		return ResponseEntity.ok(true);
 		
 	}
 
@@ -99,21 +88,12 @@ public class UserController {
 		String _pw = userService.resetPW(user.getMemId(), user.getEmail());
 		
 		// 회원이 존재하지 않은 경우
-		if(_pw.isEmpty()) {
-			return ResponseEntity.ok()
-				.header("findUserResult", "false")
-    			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "findUserResult")
-				.build();
-			
-		}
+		if(_pw.isEmpty()) { return ResponseEntity.ok(false); }
 		
 		// 이메일로 전송
 		emailService.sendNewPW(user.getEmail(), _pw);
 		
-		return ResponseEntity.ok()
-			.header("findUserResult", "true")
-			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "findUserResult")
-			.build();
+		return ResponseEntity.ok(true);
 		
 	}
 
@@ -139,7 +119,7 @@ public class UserController {
 		User userInfo = user.get();
 		userInfo.setPw("");
 
-		return ResponseEntity.ok().body(userInfo);
+		return ResponseEntity.ok(userInfo);
 	}
 	
 // ----- ----- ----- ----- ----- ----- ----- ----- -----
@@ -152,8 +132,8 @@ public class UserController {
 		
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
+		// 관리자인지 확인
 		String role = jwtService.getAuthUser(jwt).get("role", String.class);
-		
 		if(!role.equals("ADMIN")) { return ResponseEntity.ok(false); }
 
 		return ResponseEntity.ok(true);

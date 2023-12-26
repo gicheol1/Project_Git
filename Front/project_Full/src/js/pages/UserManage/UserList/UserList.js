@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUserManage } from './useUserManage';
+import { useUserList } from './useUserList';
 
 import {
   Pagination, Paper,
@@ -9,9 +8,9 @@ import {
   TableFooter, TableHead, TableRow
 } from "@mui/material";
 
-import './UserManage.css';
+import './UserList.css';
 
-const UserManage = () => {
+const UserList = () => {
 
   // 회원 리스트와 회원수
   const [userList, setUserList] = useState();
@@ -19,7 +18,7 @@ const UserManage = () => {
 
   const [page, setPage] = useState(1);
 
-  const { getUserListPage, getUserListCnt, deleteUser } = useUserManage();
+  const { getUserListPage, getUserListCnt, deleteUser } = useUserList();
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -117,4 +116,4 @@ const UserManage = () => {
   );
 };
 
-export default UserManage;
+export default UserList;

@@ -60,7 +60,7 @@ export { default as Reservationlist } from './pages/Travel/Reservationlist';
 export { default as Proceedpayment } from './pages/Payment/Proceedpayment';
 
 // 2. 결제내역
-export {default as Paymenthistory} from './pages/Payment/Paymenthistory'
+export { default as Paymenthistory } from './pages/Payment/Paymenthistory'
 
 // > Payment(결제) 폴더 > Tosspayments(토스 결제 위젯) 폴더
 export { SuccessPage } from './pages/Payment/Tosspayments/Success';
@@ -125,7 +125,7 @@ export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황
 //Sidebar(m) (추가)
 
 // > UserPage 폴더: 유저 관리
-export { default as UserManage } from './pages/UserManage/UserManage'; // 유저 관리
+export { default as UserList } from './pages/UserManage/UserList/UserList'; // 유저 관리
 
 // > Blacklist 폴더: 블랙 리스트
 export { default as Blacklist } from './pages/Blacklist/Blacklist'; // 블랙 리스트

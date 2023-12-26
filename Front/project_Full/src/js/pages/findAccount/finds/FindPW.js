@@ -23,13 +23,13 @@ const FindPW = () => {
             body: JSON.stringify(target)
 
         }).then((response) => {
-            if (response.ok) {
-                return response.headers
-            } else {
+            if (!response.ok) {
                 throw new Error(response.status);
             }
+            return response.json();
+
         }).then((data) => {
-            if (JSON.parse(data.get('findUserResult'))) {
+            if (data) {
                 setFindResult('새 비밀번호가 전송되었습니다.');
 
             } else {

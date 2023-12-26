@@ -23,16 +23,13 @@ const FindId = () => {
             body: JSON.stringify(target)
 
         }).then((response) => {
-            if (response.ok) {
-                return response.headers;
-
-            } else {
+            if (!response.ok) {
                 throw new Error(response.status);
-
             }
+            return response.json();
 
         }).then((data) => {
-            if (JSON.parse(data.get('findUserResult'))) {
+            if (data) {
                 setFindResult('이메일로 회원 아이디를 전송하였습니다.');
 
             } else {
