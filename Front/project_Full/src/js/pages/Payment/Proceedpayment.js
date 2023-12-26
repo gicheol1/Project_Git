@@ -43,7 +43,7 @@ function Proceedpayment() {
         // - 회원 
         fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' })
             .then((response) => response.json())
-            .then((data) => { setMember(data); })
+            .then((data) => { setMember(data); console.log(data); })
             .catch(err => console.error(err));
 
         // - 패키지 여행에 대한 상세 정보
@@ -51,7 +51,7 @@ function Proceedpayment() {
             .then(response => response.json())
             .then(data => {
 
-                console.log(data) // 패키지여행의 데이터를 잘가져오는지 확인
+                console.log(data); // 패키지여행의 데이터를 잘가져오는지 확인
 
                 // data에서 "travalPack"을 추출하고 그 안의 "price"(가격)와 예약한 인원 수 "count"(인원 수)를 곱한 값 
                 const packreservation = data.price * data.count;
@@ -104,8 +104,9 @@ function Proceedpayment() {
                 await paymentWidget?.requestPayment({
                     orderId: member.memId + clientKey, // 주문아이디가 6~21자리가 넘어가야 하므로 내 클라이언트 키를 삽입
                     orderName: Packreservation[0].packName, // 패키지 예약내역의 여행 상품 이름
-                    customerName: member.nema, // 회원 이름
+                    customerName: member.name, // 회원 이름
                     customerEmail: member.email, // 회원 이메일
+                    // customerMobilePhone: member.phonNum, 완전 숫자만 적용가능
                     successUrl: `${window.location.origin}/success`, // 성공시 결제 성공 창으로
                     failUrl: `${window.location.origin}/fail`, // 실패시 결제 실패창으로(아직 미구현)
                 });
@@ -158,6 +159,7 @@ function Proceedpayment() {
                     <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
                     <p>숙박기간: {params.row.dateCnt}</p>
                     <p>예약한 인원: {params.row.count}</p>
+                    <p style={{ float: 'left', marginRight: '5px' }}>결제 금액: </p><ToggleCell value={params.row.price * params.row.count} />
                 </div>
             ),
         },
@@ -200,8 +202,7 @@ function Proceedpayment() {
     }, [paymentInfo.payamount]);
 
     console.log("결제 위젯에 값이 들어갔는지 확인용(패키지 여행 * 인원 수 가격): " + paymentInfo.payamount);
-    /* --------------------------------------------------------------------------------- */
-    console.log(member.phonNum);
+    /* --------------------------------------------------------------------------------- */   
 
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -220,33 +221,32 @@ function Proceedpayment() {
                     getRowHeight={params => 350} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
                 />
 
-                <div >
+                <div>
                     <label className='cardform'>
                         <h1>카드 번호</h1>
                         <input type="text" name="cardnumber" value={paymentInfo.cardnumber} onChange={handleInputChange} />
                     </label>
                 </div>
 
-                {/* <div style={{ textAlign: 'center' }}>
-                    <h1>패키지 여행 가격 정보</h1>
-                    {Packreservation.map((reservation, index) => (
-                        <div key={index}>
-                            <h2 onClick={handleToggleFormat}>패키지 여행의 가격: {isKoreanFormat ? formatPrice(reservation.price) : reservation.price.toLocaleString() + '원' }</h2>
-                            <h2>예약인원: {reservation.count}</h2>
-                            <h2>{reservation.price.toLocaleString() + ' X ' + reservation.count}</h2>
-                        </div>
-                    ))}
-                </div> */}
-
                 <div>
-                    <h1>최종 결제 금액</h1>
+                    <h1>결제 금액</h1>
                     {/* 금액(~원)을 클릭시 '금액'과 '한국 통화 형식'변환 */}
-                    <h2><ToggleCell value={paymentInfo.payamount} /></h2>
+                    <h2 style={{ float: 'left', marginLeft: '46%' }}><ToggleCell value={paymentInfo.payamount} /></h2>
                 </div>
+                <br />
 
-                {/* 결제 위젯을 화면에 출력 */}
-                <div id="payment-widget" />
-
+                {/* 결제 위젯과 예약자 정보 확인 */}
+                <div>
+                    <div style={{ width: '50%', height: '400px', float: 'left' }}>
+                        {/* 결제 위젯을 화면에 출력 */}
+                        <div id="payment-widget" />
+                    </div>
+                    <div style={{ width: '50%', height: '400px', float: 'left' }}>
+                        <h2>성명: {member.name}</h2>
+                        <h2>휴대폰 번호: {member.phonNum}</h2>
+                        <h2>회원 이메일: {member.email}</h2>
+                    </div>
+                </div>
                 <button className='payment-button' onClick={handleButtonClick}>
                     결제하기
                 </button>
@@ -261,5 +261,22 @@ export default Proceedpayment;
     - 참고
         - React로 결제 페이지 개발하기 (ft. 결제위젯)
         > https://velog.io/@tosspayments/React%EB%A1%9C-%EA%B2%B0%EC%A0%9C-%ED%8E%98%EC%9D%B4%EC%A7%80-%EA%B0%9C%EB%B0%9C%ED%95%98%EA%B8%B0-ft.-%EA%B2%B0%EC%A0%9C%EC%9C%84%EC%A0%AF
-
+ 
 */
+
+// 패키지 여행의 가격 정보
+{/* <div style={{ textAlign: 'center' }}>
+    <h1>패키지 여행 가격 정보</h1>
+    {Packreservation.map((reservation, index) => (
+        <div key={index}>
+            <h2>패키지 여행의 가격: <ToggleCell value={reservation.price} /></h2>
+            <h2>예약인원: {reservation.count}</h2>
+            <h2>{reservation.price.toLocaleString() + ' X ' + reservation.count}</h2>
+        </div>
+    ))}
+</div> */}
+
+// 버튼 뛰어쓰기 배치
+{/* <button className='payment-button' onClick={handleButtonClick}>
+    <ToggleCell value={paymentInfo.payamount} />&nbsp;결제하기
+</button> */}

@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 
 import { DataGrid } from '@mui/x-data-grid';
 
-import { ModalComponent, ModalFunction, SERVER_URL } from 'js';
+import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
 import { useCheckLogin } from 'js/useCheckLogin';
 import { usePagination, PaginationComponent } from 'js';
 
@@ -57,7 +57,9 @@ function Reservationlist() {
                 /* 회원이 예약한 패키지 여행 내역 데이터 가져오기 */
                 fetch(SERVER_URL + `packreservation/memberpackreservation/${data.memId}`, { method: 'POST' })
                     .then(response => response.json())
-                    .then(data => { console.log(data); setPackreservation(data); })
+                    .then(data => {
+                        console.log(data); setPackreservation(data);
+                    })
                     .catch(err => { console.error(err); });
 
                 /* >로그인한 회원의 이름을 출력하기위한 코드 */
@@ -104,6 +106,9 @@ function Reservationlist() {
                     <p>숙박 기간: {params.row.dateCnt}</p>
                     <p>예약한 인원: {params.row.count}</p>
                     <p>예약한 날: {params.row.startDate}</p>
+                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                    <p style={{ float: 'left', marginRight: '5px' }}>결제 금액: </p><ToggleCell value={params.row.price * params.row.count} />
+                    {/* 참고: https://ojji.wayful.com/2013/12/HTML-set-Two-Parallel-DIVs-columns.html */}
                 </div>
             ),
         },
@@ -142,7 +147,7 @@ function Reservationlist() {
                     columns={columns}
                     getRowId={row => row.resNum}
                     hideFooter={true} // 표의 푸터바 제거
-                    getRowHeight={params => 300} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
+                    getRowHeight={params => 320} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
                     disableColumnMenu // 컬럼메뉴 비활성화
                 />
             </div>
