@@ -6,6 +6,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +20,10 @@ import com.project.festival.Entity.TravalPack.Repo.PackReservationRepository;
 import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
+import com.project.festival.Service.UserService;
 import com.project.festival.Service.TravalPack.PackReservationService;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -38,6 +41,8 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 	private final JwtService jwtService;
 	private final AuthService authService;
 
+	private final UserService userService;
+	
 	/* -----------------------------------------------------------------------------*/
 
 	/* 패키지 여행 예약자 전체 조회 */
@@ -89,16 +94,44 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		@RequestBody PackReservationDto packReservationDto
 	) {
 
-		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
-		
+//		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+//		
+//		// 여행 예약
+//		try {
+//			PackReservation packReservation = 
+//				packReservationService.reservationrequest(
+//					packReservationDto,
+//					packNum,
+//					jwtService.getAuthUser(jwt).get("jti", String.class)
+//			);
+
+// 여기서 부터
+		Claims claims;
+
+		try {
+			claims = jwtService.getAuthUser(jwt);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+
+		// 토큰 만료시
+		if (claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+
+		String memId = claims.get("memId", String.class);
+
+		// 비회원인 경우
+		if (userService.getUserById(memId).isEmpty()) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+
 		// 여행 예약
 		try {
-			PackReservation packReservation = 
-				packReservationService.reservationrequest(
-					packReservationDto,
-					packNum,
-					jwtService.getAuthUser(jwt).get("jti", String.class)
-			);
+			PackReservation packReservation = packReservationService.reservationrequest(packReservationDto, packNum,
+					memId);
+			
+// 여기까지 전에 코드를 적용(예약이 안되는 현상으로 인한 임시 방편)
 			
 			return ResponseEntity.ok(packReservation);
 			
@@ -106,6 +139,13 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
 		}
+	}
+	
+	/* 예약 취소 */
+	@DeleteMapping("/{resNum}")
+	public ResponseEntity<Void> deletePackReservation(@PathVariable Long resNum) {
+		packReservationService.cancelPackReservation(resNum);
+		return ResponseEntity.noContent().build();
 	}
 
 }
