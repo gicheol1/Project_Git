@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef} from 'react';
+import {useParams } from 'react-router-dom';
 import { SERVER_URL } from 'js';
 import './TravalPackAdd.css';
 import PopupDom from './PopupDom';
@@ -6,7 +7,8 @@ import PopupPostCode from './PopupPostCode';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-
+import { TravalPackMU } from './TravalPackMU';
+import { Button } from '@mui/material';
 
 
 const TravalPackAdd = () => {
@@ -21,6 +23,14 @@ const TravalPackAdd = () => {
     const [price, setPrice] = useState("0");
     const [smoke, setSmoke] = useState("흡연실");
     const [text, setText] = useState([]);
+    const {
+        encodeFile,
+
+        submitFile,
+        deleteFile
+    } = TravalPackMU();
+    const inputRef = useRef(null);
+    const { target, boardNum } = useParams();
 
 
     
@@ -51,12 +61,31 @@ const TravalPackAdd = () => {
             const response = await axios.post(url, data);
             console.log(data);
             console.log('POST 요청 성공:', response.data); // 콘솔창에 성공했다는 내용을 표시
+            submitFile(imgList, boardNum).then((res) => {
+
+                if (res !== undefined) {
+
+                    // 실패한 경우(false)
+                    if (!res) { return; }
+
+                    // console.log(imgList);
+
+                    // 성공시 
+                    if (res > 0) { submitFile(target, imgList, res); }
+                }
+
+            });
             alert('패키지 추가가 완료되었습니다.'); // 예약이 성공적으로 완료되면 alert으로 메시지 표시
 
         } catch (error) {
             console.error('POST 요청 오류:', error);
         }
     };
+        // 버튼 비활성화 여부
+        const [btnDisable, setBtnDisable] = useState(false);
+
+        // 저장된 이미지
+        const [imgList, setImgList] = useState([]);
 
 
 
@@ -100,6 +129,57 @@ const TravalPackAdd = () => {
         setIsPopupOpen(false)
         onChangeAddress(data);
     }
+
+    const handleButton = () => { inputRef.current.click(); };
+
+    // 파일 추가 및 저장
+    const handleFileChange = async (e) => {
+
+        const selectedFiles = e.target.files;
+        const imageFiles = [];
+
+        for (let i = 0; i < selectedFiles.length; i++) {
+            const file = selectedFiles[i];
+            const fileType = file.type.toLowerCase();
+
+            // 이미지 파일인지 확인 (이미지 파일 확장자: 'image/jpeg', 'image/png', 'image/gif', 등)
+            if (
+                fileType === 'image/jpg' ||
+                fileType === 'image/jpeg' ||
+                fileType === 'image/png' ||
+                fileType === 'image/gif'
+            ) { imageFiles.push(file); }
+        }
+
+        // 비동기 처리를 위한 내부 함수
+        const encodeImageFiles = async () => {
+            for (const imgFile of imageFiles) {
+                const res = await encodeFile(target, imgFile);
+                setImgList(prevList => [...prevList, res]);
+            }
+        };
+
+        setBtnDisable(true);
+        encodeImageFiles();
+        setBtnDisable(false);
+    };
+
+    // 선택한 파일 제거 함수
+    const handleCancel = async (indexTarget) => {
+
+        const deleteOneFile = async () => {
+            deleteFile(target, boardNum, imgList.find((images, index) => index !== indexTarget)).then(() => {
+                setImgList(imgList.filter((images, index) => index !== indexTarget));
+            });
+        }
+
+        setBtnDisable(true);
+        deleteOneFile();
+        setBtnDisable(false);
+
+    }
+
+
     
     
   
@@ -108,7 +188,44 @@ const TravalPackAdd = () => {
     return(
         <div>
             <div className='ImgBox'>
-                사진
+
+                        <div className="board-div">
+                            <Button onClick={handleButton}>파일 추가</Button>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }}
+
+                                // 해당 태그를 참조하는 변수 설정
+                                ref={inputRef}
+                            />
+
+                            {/* 첨부한 파일들을 표시 */}
+                            {imgList !== undefined && (
+                                imgList.map((image, index) => (
+                                    <div>
+                                        <img
+                                            key={`image ${index}`}
+                                            alt={`image ${image.orgName}`}
+                                            src={`data:image/png;base64,${image.imgFile}`}
+                                            style={{ width: '150px', height: '150px' }}
+                                        />
+                                        <Button
+                                            key={index}
+                                            onClick={() => handleCancel(index)}
+                                        >
+                                            취소
+                                        </Button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+
+
+
             </div>
             <div>
             <input maxLength='20' placeholder='패키지명을 입력해주세요.'  onChange={onChangeName}/><br></br>
