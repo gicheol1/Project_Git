@@ -183,6 +183,7 @@ function App() {
 				<Route path="/copyright" element={<Copyright />} />
 				{/* 패키지 추가 */}
 				<Route path="/travalpackadd" element={<TravalPackAdd />} />
+				<Route path="/travalpackadd/:packNum" element={<TravalPackAdd />} />
 
 
 

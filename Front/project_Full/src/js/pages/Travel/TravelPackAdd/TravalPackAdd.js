@@ -38,7 +38,7 @@ const TravalPackAdd = () => {
     // 다음 주소 검색 창
     const open = useDaumPostcodePopup();
 
-    const { encodeFile, submitTravalPack, submitFile, deleteFile } = useTravalPackAdd();
+    const { getTravalpack, getFile, encodeFile, submitTravalPack, submitFile, deleteFile } = useTravalPackAdd();
 
     const inputRef = useRef(null);
 
@@ -47,7 +47,10 @@ const TravalPackAdd = () => {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     useEffect(() => {
-
+        if (packNum !== undefined && packNum !== '') {
+            getTravalpack(packNum).then(res => setPackInfo(res));
+            getFile(packNum).then(res => setImgList(res));
+        }
     }, [packNum])
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -58,14 +61,15 @@ const TravalPackAdd = () => {
     const handleSubmit = async () => {
 
         // 축제 정보 먼저 저장
-        submitTravalPack(packInfo).then((res) => {
-            if (res === undefined) { alert('저장에 실패했습니다.'); return; }
+        submitTravalPack(packInfo).then((packNum) => {
+            console.log(packNum);
+            if (packNum === undefined) { alert('저장에 실패했습니다.'); return; }
 
-            submitFile(submitFile).then(result => {
+            submitFile(imgList, packNum).then(result => {
                 if (result) {
                     alert('저장이 완료되었습니다.');
                 } else {
-                    alert('저장에 실패했습니다.'); return;
+                    alert('저장에 실패했습니다.');
                 }
             })
         })
