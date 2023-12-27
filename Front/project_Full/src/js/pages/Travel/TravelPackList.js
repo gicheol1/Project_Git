@@ -151,7 +151,7 @@ function TravelPackList({ isAdmin }) {
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행의 전체 정보, 축제정보 불러오기 */
     useEffect(() => {
-        fetch(SERVER_URL + "travalpackAll", { method: 'GET' })
+        fetch(SERVER_URL + "getTravalpackAll", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 setTravalPack(data); // 수정된 전체 데이터   
@@ -195,7 +195,7 @@ function TravelPackList({ isAdmin }) {
 
     /* 패키지 여행 삭제 */
     const handleDelete = (packNum) => {
-        fetch(SERVER_URL + `travalpack/${packNum}`, { method: 'DELETE' })
+        fetch(SERVER_URL + `deleteTravalpack?packNum=${packNum}`, { method: 'DELETE' })
 
             .then(response => {
                 if (response.ok) {

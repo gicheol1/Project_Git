@@ -58,7 +58,7 @@ function TravelCalendar({ packNum }) {
 
     /* 벡엔드에서 설정한 패키지여행, 축제 정보 DB 연결 */
     useEffect(() => {
-        fetch(SERVER_URL + `travalpack/${packNum}`) // 패키지 여행의 상세정보(테스트)
+        fetch(SERVER_URL + `getTravalpack?packNum=${packNum}`) // 패키지 여행의 상세정보(테스트)
             .then((response) => response.json())
             .then((data) => {
                 // 패키지 상세 정보가 객체 형태인 경우
