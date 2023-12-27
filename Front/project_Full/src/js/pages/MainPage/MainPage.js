@@ -90,6 +90,7 @@ function MainPage() {
           <div class="cardHeader">
             <h4>한국 날씨</h4>
           </div>
+          <div class="weather">
           {weatherData && (
             <div>
               <br />
@@ -98,6 +99,7 @@ function MainPage() {
               <h2>온도: {Math.floor(weatherData.main.temp - 273.15)} 도</h2>
             </div>
           )}
+          </div>
         </div>
       </div>
 
@@ -124,8 +126,7 @@ function MainPage() {
 
             </div>
           </div>
-          <div class="product-device shadow-sm d-none d-md-block"></div>
-          <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+
         </div>
 
       </div>
