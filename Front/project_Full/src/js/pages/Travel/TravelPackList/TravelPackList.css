@@ -131,12 +131,29 @@
 .checkbox-container {
     display: flex;
     flex-direction: row;
+    
 }
 
 .checkbox-container label {
+    
     margin-right: 20px;
     /* 각 라벨 사이의 간격 조절 */
     font-family: 'Cute Font', sans-serif;
     font-size: 20px;
     margin-bottom: 10px;
 }
+
+.search-fes{
+    width: 200px;
+    margin-left: 34.2%;
+}
+
+.checkbox-container label .search-btn{
+    margin: 20px 0px 0px 0px;
+    margin-right: 10px;
+}
+
+.search-festival{
+    margin-right: 15px;
+}
+
