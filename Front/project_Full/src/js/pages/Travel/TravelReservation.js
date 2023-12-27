@@ -213,13 +213,7 @@ function TravelReservation() {
 
             {/* - 카카오 지도를 이용한 패키지 여행의 장소를 출력 
                 - packNum을 TravelKaKaoMap 컴포넌트로 전달*/}
-            <div style={{
-                marginRight: "20%",
-                marginLeft: "20%",
-                marginBottom: "1%",
-                backgroundColor: 'white',
-                border: '1px solid'
-            }}>
+            <div className='map-style'>
                 <TravelPackMap packNum={packNum} />
             </div>
 

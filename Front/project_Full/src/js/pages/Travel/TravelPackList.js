@@ -300,17 +300,7 @@ function TravelPackList({ isAdmin }) {
                     <HotelIcon fontSize='large' className='custom-hotel-icon' /> 숙소 목록
                 </h1>
 
-                <div className="search-container">
-                    <input
-                        type="text"
-                        placeholder="축제 검색"
-                        // value={searchKeyword}
-                        value={searchInput}
-                        onChange={handleSearchInputChange}
-                    />
-                    <button onClick={handleSearch}>검색</button>
-                    <button onClick={handleSearchReset}>검색 초기화</button>
-                </div>
+
 
 
 
@@ -348,6 +338,27 @@ function TravelPackList({ isAdmin }) {
                             <option value="대전광역시">대전광역시</option>
                             <option value="전라북도">전라북도</option>
                         </select>
+                    </label>
+                    <label className='search-fes'>
+
+                        {/* <div className="search-container"> */}
+                            <input
+                                className='search-festival'
+                                type="text"
+                                placeholder="축제 검색"
+                                // value={searchKeyword}
+                                value={searchInput}
+                                onChange={handleSearchInputChange}
+                            />
+
+                        {/* </div> */}
+                    </label>
+                    <label className='search-btn'>
+                        <button onClick={handleSearch}>검색</button>
+                    </label >
+                    <label className='search-reset-btn'>
+
+                        <button onClick={handleSearchReset}>검색 초기화</button>
                     </label>
                 </div>
 
