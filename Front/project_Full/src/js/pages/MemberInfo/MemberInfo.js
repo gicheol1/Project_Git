@@ -14,7 +14,7 @@ import profileImage from './profile-image.png'; // 이미지 파일 임포트
 function MemberInfo() {
 
 
-  
+
   // 초기 상태 설정
   const [userInfo, setUserInfo] = useState({
     name: '',
@@ -54,23 +54,23 @@ function MemberInfo() {
 
       try {
         // 서버로 파일 경로를 포함한 사용자 정보 전송
-    const response = await fetch('http://localhost:8090/api/upload', {
-      method: 'POST',
-      body: formData,  // 이미지 업로드로 얻은 FormData 객체
-  });
+        const response = await fetch('http://localhost:8090/api/upload', {
+          method: 'POST',
+          body: formData,  // 이미지 업로드로 얻은 FormData 객체
+        });
 
-  const filePath = await response.text();
+        const filePath = await response.text();
 
-  // filePath를 userInfo에 추가
+        // filePath를 userInfo에 추가
 
-  // 사용자 등록 요청
-  await fetch('http://localhost:8090/api/users/register', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userInfo),
-  });
+        // 사용자 등록 요청
+        await fetch('http://localhost:8090/api/users/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userInfo),
+        });
 
         // 서버에서의 응답을 처리
         if (response.ok) {
@@ -134,10 +134,10 @@ function MemberInfo() {
   };
 
 
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // TODO: 서버로 데이터 전송
     fetch('http://localhost:8090/api/register', {
       method: 'POST',
@@ -161,20 +161,20 @@ function MemberInfo() {
 
   return (
     <div className="container">
-     
+
       <div className="header">
         <img src={profileImage} alt="Profile" className="profile-image" />
-        <div style={{ display: 'flex', flexDirection: 'column',  marginLeft: '200px'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '200px' }}>
           <button type="button" onClick={handleImageUpdate}>
             이미지 수정
           </button>
         </div>
       </div>
-      
-      <h2>마이페이지</h2>
-      
-      
-      <form>
+
+      <h2 className='user-page'>마이페이지</h2>
+
+
+      <form className='user-page-form'>
         <label htmlFor="name">이름:</label>
         <input
           type="text"
@@ -234,8 +234,8 @@ function MemberInfo() {
           onChange={handleChange}
           required
         />
-       
-        
+
+
 
 
 
@@ -249,7 +249,7 @@ function MemberInfo() {
             onChange={handleChange}
             required
           />
-          <button
+          <button className='email-button'
             type="button"
             style={{ marginLeft: '10px' }}
             onClick={handleEmailVerification}
@@ -261,24 +261,25 @@ function MemberInfo() {
 
 
         <div style={{ marginTop: '10px' }}>
-        <label htmlFor="verificationCode">인증코드:</label>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-        <input
-            type="text"
-            id="verificationCode"
-            name="verificationCode"
-            value={userInfo.verificationCode}
-            onChange={handleChange}
-            required
-          />
-          <button
-            type="button"
-            style={{ marginLeft: '10px' }}
-            onClick={handleVerificationConfirmation}
-          >
-            인증 확인
-          </button>
-        </div>
+          <label className='check-code' htmlFor="verificationCode">인증코드:</label>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+              type="text"
+              id="verificationCode"
+              name="verificationCode"
+              value={userInfo.verificationCode}
+              onChange={handleChange}
+              required
+            />
+            <button
+              className='email-check'
+              type="button"
+              style={{ marginLeft: '10px' }}
+              onClick={handleVerificationConfirmation}
+            >
+              인증 확인
+            </button>
+          </div>
         </div>
 
 
@@ -294,7 +295,7 @@ function MemberInfo() {
           완료
         </button>
       </form>
-      
+
     </div>
   );
 }
