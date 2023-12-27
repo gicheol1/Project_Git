@@ -1,24 +1,83 @@
 package com.project.festival.Entity.TravalPack.Repo;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 
 import com.project.festival.Entity.TravalPack.TravalPack;
 
-public interface TravalPackRepository extends JpaRepository<TravalPack, Long> {
+public interface TravalPackRepository extends CrudRepository<TravalPack, Long> {
 	
-	// 페이지별 날짜기준 내림차순으로 게시판 가져오기
-	Page<TravalPack> findAllByOrderBySingupDateDesc(Pageable pageable);
+	// 페이지별 패키지 여행 가져오기
+	Page<TravalPack> findAll(Pageable pageable);
 	
-    @Query("SELECT tp FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) = :day")
-    Page<TravalPack> findAllWithDateDifference(Pageable pageable, int day);
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+	
+	// 페이지별 기간에 맟는 패키지 여행 가져오기
+    @Query("SELECT tp FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day")
+    Page<TravalPack> findAllByDateDifference(Pageable pageable, List<Integer> days);
     
-    @Query("SELECT COUNT(tp) FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) = :day")
-    long countByDateDifference(int day);
+    @Query("SELECT COUNT(tp) FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day")
+    long countByDateDifference(List<Integer> days);
 	
-	TravalPack findByPackNum(Long packNum);
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+    
+    // 페이지별 특정 위치의 패키지 여행 가져오기
+    Page<TravalPack> findByAddressContaining(Pageable pageable, String address);
+    
+    long countByAddressContaining(String addresses);
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+    
+    // 페이지별 검색어에 맟는 패키지 여행 가져오기
+    Page<TravalPack> findByNameContaining(Pageable pageable, String search);
+    
+    long countByNameContaining(String search);
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+	
+	// 페이지별 기간에 맟는 패키지 여행 가져오기
+    @Query("SELECT tp FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day AND tp.name LIKE %:search%")
+    Page<TravalPack> findAllByDateDifferenceAndNameContaining(Pageable pageable, List<Integer> days, String search);
+    
+    @Query("SELECT COUNT(tp) FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day AND tp.name LIKE %:search%")
+    long countByDateDifferenceAndNameContaining(List<Integer> days, String search);
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+    
+    // 페이지별 특정 위치의 패키지 여행 가져오기
+    Page<TravalPack> findByAddressContainingAndNameContaining(Pageable pageable, String address, String search);
+    
+    long countByAddressContainingAndNameContaining(String addresses, String search);
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
-	Long findPackNumByPackNum(Long packNum);
+	// 페이지별 특정 위치의 기간에 맟는 패키지 여행 가져오기
+    @Query("SELECT tp FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day AND tp.address LIKE %:address%")
+    Page<TravalPack> findAllByDateDifferenceAndAddressContaining(Pageable pageable, List<Integer> days, String address);
+    
+    @Query("SELECT COUNT(tp) FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day AND tp.address LIKE %:addresses%")
+    long countByDateDifferenceAndAddressContaining(List<Integer> days, String addresses);
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+
+	// 페이지별 특정 위치의 기간과 검색어에 맟는 패키지 여행 가져오기
+    @Query("SELECT tp FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day AND tp.address LIKE %:address% AND tp.name LIKE %:search%\"")
+    Page<TravalPack> findAllByDateDifferenceAndAddressContainingAndNameContaining(Pageable pageable, List<Integer> days, String address, String search);
+    
+    @Query("SELECT COUNT(tp) FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) IN :day AND tp.address LIKE %:addresses% AND tp.name LIKE %:search%\"")
+    long countByDateDifferenceAndAddressContainingAndNameContaining(List<Integer> days, String addresses, String search);
+    
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+	
+    // 패키지 번호로 가져오기
+	TravalPack findByPackNum(Long packNum);
+	
 }

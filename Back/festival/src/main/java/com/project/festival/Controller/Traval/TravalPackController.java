@@ -1,6 +1,7 @@
 package com.project.festival.Controller.Traval;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -35,45 +36,51 @@ public class TravalPackController {
     // 페이지 별 패키지 여행 가져오기
 	@GetMapping("/getTravalPackPage")
 	public ResponseEntity<?> getTravalPackPage(
-		@RequestParam int page
+		@RequestParam int page,
+		@RequestParam List<Integer> days,
+		@RequestParam String location,
+		@RequestParam String search
 	){
 		
 		Pageable pageable = PageRequest.of(page, 10, Sort.by("boardNum").descending());
 		
-		return ResponseEntity.ok(packService.getTravalPackPage(pageable));
+		List<TravalPack> tp = new ArrayList<>();
+		
+		if(days.size()!=0 && location!=null) {
+			tp = packService.getTravalPageDateAndLocation(pageable, days, location);
+		} else if(days.size()!=0) {
+			tp = packService.getTravalPageDateDiff(pageable, days);
+		} else if(location!=null) {
+			tp = packService.getTravalPageLocation(pageable, location);
+		} else {
+			tp = packService.getTravalPage(pageable);
+		}
+		
+		return ResponseEntity.ok(tp);
 		
 	}
 	
 	// 패키지 여행 전체 갯수
 	@GetMapping("/getTravalPackCnt")
 	public ResponseEntity<?> getTravalPackCnt(
-	){
-		return ResponseEntity.ok(packService.getTravalPackCnt());
-	}
-	
-// ========== ========== ========== ========== ========== ========== ========== ========== ==========
-    
-    // 페이지 별 독박, 1박2일, 2박3일 기간 패키지 여행 가져오기
-	@GetMapping("/getTravalPackPageDateDiff")
-	public ResponseEntity<?> getTravalPackPageDateDiff(
-		@RequestParam int page,
-		@RequestParam int day
+		@RequestParam List<Integer> days,
+		@RequestParam String location,
+		@RequestParam String search
 	){
 		
-		Pageable pageable = PageRequest.of(page, 10, Sort.by("boardNum").descending());
+		Long cnt = 0L;
 		
+		if(days.size()!=0 && location!=null) {
+			cnt = packService.getTravalDateAndLocationCnt(days, location);
+		} else if(days.size()!=0) {
+			cnt = packService.getTravalDateDiffCnt(days);
+		} else if(location!=null) {
+			cnt = packService.getTravalLocationCnt(location);
+		} else {
+			cnt = packService.getTravalCnt();
+		}
 		
-		
-		return ResponseEntity.ok(packService.getTravalPackPageDateDiff(pageable, day));
-		
-	}
-	
-	// 독박, 1박2일, 2박3일 기간 패키지 여행의 갯수
-	@GetMapping("/getTravalPackDateDiffCnt")
-	public ResponseEntity<?> getTravalPackDateDiffCnt(
-		@RequestParam int day
-	){
-		return ResponseEntity.ok(packService.getTravalPackDateDiffCnt(day));
+		return ResponseEntity.ok(cnt);
 	}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

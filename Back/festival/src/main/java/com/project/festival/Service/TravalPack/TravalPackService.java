@@ -25,20 +25,46 @@ public class TravalPackService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-	
-	public List<TravalPack> getTravalPackPage(Pageable pageable) {
-		return packRepository.findAllByOrderBySingupDateDesc(pageable).getContent();
+
+	// 페이지별 모든 패키지 여행 가져오기
+	public List<TravalPack> getTravalPage(Pageable pageable) {
+		return packRepository.findAll(pageable).getContent();
 	}
 	
-	public long getTravalPackCnt() { return packRepository.count(); }
+	public long getTravalCnt() { return packRepository.count(); }
 	
 // ========== ========== ========== ========== ========== ========== ========== ========== ==========
-	
-	public List<TravalPack> getTravalPackPageDateDiff(Pageable pageable, int day) {
-		return packRepository.findAllWithDateDifference(pageable, day).getContent();
+
+	// 페이지별 기간에 맟는 패키지 여행 가져오기
+	public List<TravalPack> getTravalPageDateDiff(Pageable pageable, List<Integer> days) {
+		return packRepository.findAllByDateDifference(pageable, days).getContent();
 	}
 	
-	public long getTravalPackDateDiffCnt(int day) { return packRepository.countByDateDifference(day); }
+	public long getTravalDateDiffCnt(List<Integer> days) { return packRepository.countByDateDifference(days); }
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+
+    // 페이지별 특정 위치의 패키지 여행 가져오기
+	public List<TravalPack> getTravalPageLocation(Pageable pageable, String address) {
+		return packRepository.findByAddressContaining(pageable, address).getContent();
+	}
+	
+	public long getTravalLocationCnt(String address) { return packRepository.countByAddressContaining(address); }
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+
+    // 페이지별 특정 위치의 기간에 맟는 패키지 여행 가져오기
+	public List<TravalPack> getTravalPageDateAndLocation(Pageable pageable, List<Integer> days, String address) {
+		return packRepository.findAllByDateDifferenceAndAddressContaining(pageable, days, address).getContent();
+	}
+	
+	public long getTravalDateAndLocationCnt(List<Integer> days, String address) {
+		return packRepository.countByDateDifferenceAndAddressContaining(days, address);
+	}
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
