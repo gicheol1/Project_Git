@@ -28,11 +28,14 @@
 /*모달창 바디*/
 .modal-body{
     background : linear-gradient(to right, #fbfbfc, #dbfeff);
+    border: 8px;
+    border-left: 7px solid #ccc;
+    border-right: 7px solid #ccc;
 }
 
 /*모달창 상단 텍스트*/
 .Modal-title{
-    font-family: 'Cute Font', sans-serif;
+    font-family: 'Gaegu', sans-serif;
     font-size: 25px;
     margin-left: 50px;
     
@@ -43,6 +46,8 @@
     margin-left: 30px;
     width: 300px;
     height: 390px;
+    border-radius: 8px;
+    border: 5px solid #ccc;
 }
 
 .custom-modal-dialog modal-lg{
@@ -52,10 +57,12 @@
 /*모달창 상단*/
 .modal-back{
     background : linear-gradient(to right, #fbfbfc, #dbfeff);
+    border: 7px solid #ccc;
 }
 
 /*모달창 하단*/
 .modal-footer{
     background : linear-gradient(to right, #fbfbfc, #dbfeff);
+    border: 7px solid #ccc;
 }
 

@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import './QnaStatus.css';
 import axios from 'axios';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const PostQnaStatus = () => {
   // 페이지당 항목 수와 현재 페이지를 관리하는 상태
@@ -69,17 +70,17 @@ const PostQnaStatus = () => {
 
   return (
     <div className="board-container">
-      <p>내 Q&A 계시글</p>
+      <p className='qna-head'><HelpOutlineIcon fontSize='large' /> 내 Q&A 게시글</p>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>번호</th>
-            <th>제목</th>
+            <th className='brd-style'>번호</th>
+            <th className='brd-style'>제목</th>
             <th>작성자</th>
             <th>작성 날짜</th>
             <th>리뷰</th>
-            <th>답변 여부</th>
-            <th>비공개여부</th>
+            <th className='brd-style'>답변여부</th>
+            <th className='brd-style'>비공개여부</th>
           </tr>
         </thead>
         <tbody>

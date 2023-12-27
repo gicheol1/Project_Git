@@ -210,14 +210,14 @@ const TravalPackAdd = () => {
             </div>
 
             <p>성인:</p>
-            <select value={packInfo.person} onChange={(e) => { setPackInfo({ ...packInfo, person: e.target.value }); }}>
+            <select value={packInfo.person} onChange={(e) => { setPackInfo({ ...packInfo, person: e.target.value }); }} className='select-form'> 
                 <option className="perSelectBox1" key="person1" value="0">0</option>
                 <option className="perSelectBox2" key="person2" value="1">1</option>
                 <option className="perSelectBox3" key="person3" value="2">2</option>
             </select>
 
             <p>흡연실</p>
-            <select value={packInfo.smoke} onChange={(e) => { setPackInfo({ ...packInfo, smoke: e.target.value }); }}>
+            <select value={packInfo.smoke} onChange={(e) => { setPackInfo({ ...packInfo, smoke: e.target.value }); }} className='select-form'>
                 <option name="select" className="selectBox4" key="smoke" value="흡연실">O</option>
                 <option name="select" className="selectBox4" key="smoke1" value="금연실">X</option>
             </select>
@@ -225,7 +225,7 @@ const TravalPackAdd = () => {
             <br></br>
 
             <p>방 갯수</p>
-            <select value={packInfo.count} onChange={(e) => { setPackInfo({ ...packInfo, count: e.target.value }); }}>
+            <select value={packInfo.count} onChange={(e) => { setPackInfo({ ...packInfo, count: e.target.value }); }}  className='select-form'>
                 <option className="selectBox5" key="count1" value="0">0</option>
                 <option className="selectBox5" key="count2" value="1">1</option>
                 <option className="selectBox5" key="count3" value="2">2</option>

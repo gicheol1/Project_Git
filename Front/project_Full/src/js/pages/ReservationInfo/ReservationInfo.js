@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ReservationInfo.css'; // 새로운 CSS 파일 추가
-
+import FaceIcon from '@mui/icons-material/Face';
 const ReservationInfo = () => {
   // 사용자 정보 및 초기 상태 설정
   const [userInfo, setUserInfo] = useState({
@@ -81,21 +81,21 @@ const ReservationInfo = () => {
   return (
     <div className="my-page-container">
       <div>
-        <h3>회원 정보</h3>
-        <p>User ID: {userInfo.userId}</p>
-        <p>Name: {userInfo.name}</p>
+        <h3 className='user-information'><FaceIcon fontSize='large' /> 회원 정보</h3>
+        <p className='user-information-id'>User ID : {userInfo.userId}</p>
+        <p className='user-information-id'>Name : {userInfo.name}</p>
       </div>
 
       <div>
-        <h3>날짜 범위 선택</h3>
-        <label htmlFor="startDate">시작 날짜:</label>
+        <h3 className='date-information'>날짜 범위 선택</h3>
+        <label className='stdate-style' htmlFor="startDate">시작 날짜:</label>
         <input
           type="date"
           id="startDate"
           value={selectedStartDate}
           onChange={handleStartDateChange}
         />
-        <label htmlFor="endDate">종료 날짜:</label>
+        <label className='stdate-style' htmlFor="endDate">종료 날짜:</label>
         <input
           type="date"
           id="endDate"
