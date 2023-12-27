@@ -117,13 +117,13 @@ function Reservationlist() {
             width: 900,
             renderCell: (params) => (
                 <div className="travelinformation">
-                    <p>숙소: {params.row.packName}</p>
-                    <p>회원: {params.row.memId}</p>
-                    <p>숙박 기간: {params.row.dateCnt}</p>
-                    <p>예약한 인원: {params.row.count}</p>
-                    <p>예약한 날: {params.row.startDate}</p>
-                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
-                    <p style={{ float: 'left', marginRight: '5px' }}>결제 금액: </p><ToggleCell value={params.row.price * params.row.count} />
+                    <p>숙소 : {params.row.packName}</p>
+                    <p>회원 : {params.row.memId}</p>
+                    <p>숙박 기간 : {params.row.dateCnt}</p>
+                    <p>예약한 인원 : {params.row.count}</p>
+                    <p>예약한 날 : {params.row.startDate}</p>
+                    <p className='inform2'>가격 :</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                    <p style={{ float: 'left', marginRight: '5px' }}>결제 금액 : </p><ToggleCell value={params.row.price * params.row.count} />
                     {/* 참고: https://ojji.wayful.com/2013/12/HTML-set-Two-Parallel-DIVs-columns.html */}
                 </div>
             ),

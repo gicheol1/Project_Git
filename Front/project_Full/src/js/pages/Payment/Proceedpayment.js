@@ -154,14 +154,14 @@ function Proceedpayment() {
             width: 900,
             renderCell: (params) => (
                 <div className="travelinformation">
-                    <p>예약한 회원: {params.row.memId}</p>
-                    <p>숙소: {params.row.packName}</p>
-                    <p>예약한 날: {params.row.startDate}</p>
+                    <p>예약한 회원 : {params.row.memId}</p>
+                    <p>숙소 : {params.row.packName}</p>
+                    <p>예약한 날 : {params.row.startDate}</p>
                     {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                    <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
-                    <p>숙박기간: {params.row.dateCnt}</p>
-                    <p>예약한 인원: {params.row.count}</p>
-                    <p style={{ float: 'left', marginRight: '5px' }}>결제 금액: </p><ToggleCell value={params.row.price * params.row.count} />
+                    <p className='inform2'>가격 :</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                    <p>숙박기간 : {params.row.dateCnt}</p>
+                    <p>예약한 인원 : {params.row.count}</p>
+                    <p style={{ float: 'left', marginRight: '5px' }}>결제 금액 : </p><ToggleCell value={params.row.price * params.row.count} />
                 </div>
             ),
         },

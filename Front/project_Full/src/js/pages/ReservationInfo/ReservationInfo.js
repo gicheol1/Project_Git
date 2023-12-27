@@ -75,14 +75,14 @@ const ReservationInfo = () => {
 
       <div>
         <h3 className='date-information'>날짜 범위 선택</h3>
-        <label htmlFor="startDate">시작 날짜:</label>
+        <label className='stdate-style' htmlFor="startDate">시작 날짜:</label>
         <input
           type="date"
           id="startDate"
           value={selectedStartDate}
           onChange={handleStartDateChange}
         />
-        <label htmlFor="endDate">종료 날짜:</label>
+        <label className='stdate-style' htmlFor="endDate">종료 날짜:</label>
         <input
           type="date"
           id="endDate"

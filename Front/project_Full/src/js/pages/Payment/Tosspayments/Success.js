@@ -23,7 +23,7 @@ export function SuccessPage() {
     <div>
       
       <div><h1 className="success"><EventAvailableIcon fontSize="large"/> {`${member.memId}님의 예약이 완료되었습니다.`}</h1></div>
-      <div><h1 className="success">{`결제 금액: ${Number(searchParams.get("amount")).toLocaleString()}원`}</h1></div>
+      <div><h1 className="success">{`결제 금액 : ${Number(searchParams.get("amount")).toLocaleString()}원`}</h1></div>
       <br/>
       <hr/>
       <h1 className="success-inform">예약내역 확인은 "마이페이지 / 예약정보" 에서 확인하실 수 있습니다.</h1>

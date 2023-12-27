@@ -1,5 +1,7 @@
 /* Board.css */
 
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
+
 .board-container {
     display: flex;
     flex-direction: column;
@@ -42,4 +44,14 @@
   
   .pagination li:hover {
     text-decoration: underline;
+  }
+
+  .qna-head{
+    font-size: 45px;
+    font-family: 'Single Day', cursive;
+  }
+
+  .brd-style{
+    font-family: 'Cute Font', sans-serif;
+    font-size: 20px;
   }

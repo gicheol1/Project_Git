@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
+
+.product-left-button{
+    margin-right: 10px;
+    margin-left: 20px;
+    font-family: 'Cute Font', sans-serif;
+}
+
+.product-right-button{
+    margin-left: 10px;
+    font-family: 'Cute Font', sans-serif;
+}
+
+.current-page{
+    font-size: 20px;
+}
+
+.product-head{
+    font-family: 'SingleDay', cursive;
+    font-size: 45px;
+}

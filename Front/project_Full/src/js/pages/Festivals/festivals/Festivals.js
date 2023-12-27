@@ -224,15 +224,16 @@ const Festivals = () => {
 						min={festival.startDate}
 						onChange={handleChange}
 						disabled={festival.startDate !== '' ? false : true}
+						style={{marginTop: '60px'}}
 					/>
 				</div>
 
 				{/* ===== 축제 위치 ===== */}
 				<div className="form-group">
-					<p>축제 위치</p>
+					<p className='fes-loc'>축제 위치</p>
 					<div>
 						<p>
-							<Button onClick={handlePopup}>주소 찾기</Button>
+							<Button className='addr-button' onClick={handlePopup}>주소 찾기</Button>
 							<input type='text' name='roadAddress' placeholder='축제 위치' value={festival.location} readOnly={true} />
 							<input type='text' name='' placeholder='상세주소' />
 						</p>
@@ -256,7 +257,7 @@ const Festivals = () => {
 					<label style={{ marginRight: '30px' }}>태그</label>
 					<div style={{ display: 'flex' }}>
 						<label>축제</label>
-						<input
+						<input className='fes-button'
 							value="축제"
 							type='radio'
 							name="tag"

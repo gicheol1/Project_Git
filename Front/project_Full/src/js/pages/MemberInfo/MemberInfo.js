@@ -166,15 +166,15 @@ function MemberInfo() {
         <img src={profileImage} alt="Profile" className="profile-image" />
         <div style={{ display: 'flex', flexDirection: 'column',  marginLeft: '200px'}}>
           <button type="button" onClick={handleImageUpdate}>
-            이미지 수정
+          이미지 수정
           </button>
         </div>
       </div>
       
-      <h2>마이페이지</h2>
+      <h2 className='user-page'>마이페이지</h2>
       
       
-      <form>
+      <form className='user-page-form'>
         <label htmlFor="name">이름:</label>
         <input
           type="text"
@@ -235,10 +235,6 @@ function MemberInfo() {
           required
         />
        
-        
-
-
-
         <label htmlFor="email">이메일:</label>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <input
@@ -249,7 +245,7 @@ function MemberInfo() {
             onChange={handleChange}
             required
           />
-          <button
+          <button className='email-button'
             type="button"
             style={{ marginLeft: '10px' }}
             onClick={handleEmailVerification}
@@ -261,7 +257,7 @@ function MemberInfo() {
 
 
         <div style={{ marginTop: '10px' }}>
-        <label htmlFor="verificationCode">인증코드:</label>
+        <label className='check-code' htmlFor="verificationCode">인증코드:</label>
         <div style={{ display: 'flex', alignItems: 'center' }}>
         <input
             type="text"
@@ -272,6 +268,7 @@ function MemberInfo() {
             required
           />
           <button
+            className='email-check'
             type="button"
             style={{ marginLeft: '10px' }}
             onClick={handleVerificationConfirmation}

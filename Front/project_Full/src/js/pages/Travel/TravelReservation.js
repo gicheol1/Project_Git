@@ -82,14 +82,16 @@ function TravelReservation() {
         }).then((res) => {
             if (!res.ok) {
                 throw new Error(res);
-            }
+            }  
+
 
             return res.json();
 
         }).then((data) => {
+            
             alert(data.memId + '님의 예약이 완료되었습니다.');
-            navigate(`/packreservation/memberpackreservation`); // 패키지 여행 예약 목록으로 리다이렉트
-
+            navigate(`/packreservation/memberpackreservation/${data.memId}`); // 패키지 여행 예약 목록으로 
+            
         }).catch((e) => {
             if (e.status === 401) {
                 alert('로그인이 필요합니다.');
@@ -97,7 +99,6 @@ function TravelReservation() {
 
             } else if (e.status === 500) {
                 alert('서버에서 데이터를 저장하지 못했습니다.');
-
             }
         });
 
@@ -164,19 +165,19 @@ function TravelReservation() {
                 const festivalData2 = FestivalfilteredData.find(festivallist => festivallist.name === params.row.festivalname);
                 return (
                     <div className="travelinformation">
-                        <p>패키지번호: {params.row.packNum}</p>
-                        <p>숙소: {params.row.name}</p>
+                        <p>패키지번호 : {params.row.packNum}</p>
+                        <p>숙소 : {params.row.name}</p>
                         {/* 클릭시'금액'과 '한국 통화 형식'변환 */}
-                        <p className='inform2'>가격:</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
-                        <p>숙박기간: {params.row.startDate} ~ {params.row.endDate}</p>
-                        <p>최대인원: {params.row.count}</p>
-                        <p>주소: {params.row.address}</p>
-                        <p>흡연실(금연실): {params.row.smoke}</p>
-                        <p>몇 인실: {params.row.person}</p>
-                        <p>상세내용: {params.row.text}</p>
-                        <p>예약 가능한 상태: {params.row.reservation}</p>
-                        <p>축제: {festivalData2?.name}</p>
-                        <p>축제기간: {festivalData2?.startDate} ~ {festivalData2?.endDate}</p>
+                        <p className='inform2'>가격 :</p><p className='inform3'><ToggleCell value={params.row.price} /></p>
+                        <p>숙박기간 : {params.row.startDate} ~ {params.row.endDate}</p>
+                        <p>최대인원 : {params.row.count}</p>
+                        <p>주소 : {params.row.address}</p>
+                        <p>흡연실(금연실) : {params.row.smoke}</p>
+                        <p>몇 인실 : {params.row.person}</p>
+                        <p>상세내용 : {params.row.text}</p>
+                        <p>예약 가능한 상태 : {params.row.reservation}</p>
+                        <p>축제 : {festivalData2?.name}</p>
+                        <p>축제기간 : {festivalData2?.startDate} ~ {festivalData2?.endDate}</p>
                     </div>
                 );
             },

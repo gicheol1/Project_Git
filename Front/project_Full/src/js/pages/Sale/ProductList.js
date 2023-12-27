@@ -72,7 +72,8 @@
 // ProductList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import './ProductList.css';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 const ProductList = ({ onAddToCart }) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -105,28 +106,28 @@ const ProductList = ({ onAddToCart }) => {
 
   return (
     <div>
-      <h2>Product List</h2>
+      <h2 className='product-head'><ProductionQuantityLimitsIcon fontSize='large'/> Product List</h2>
       <ul className="product-list">
         {products.map((product) => (
           <li key={product.id}>
             <img src={product.image} alt={product.name} className="product-image" />
             <div className="product-details">
               <h3>{product.name}</h3>
-              <p>가격: {product.price}원</p>
+              <p>가격 : {product.price}원</p>
               <button onClick={() => onAddToCart(product.id)}>장바구니에 추가</button>
             </div>
           </li>
         ))}
       </ul>
       <div>
-        <button
+        <button className='product-left-button'
           onClick={() => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))}
           disabled={currentPage === 1}
         >
           이전 페이지
         </button>
-        <span>현재 페이지: {currentPage}</span>
-        <button
+        <span className='current-page'>현재 페이지 : {currentPage}</span>
+        <button className='product-right-button'
           onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
           disabled={products.length < productsPerPage}
         >

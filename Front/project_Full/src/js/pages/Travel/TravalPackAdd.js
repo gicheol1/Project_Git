@@ -248,21 +248,21 @@ const TravalPackAdd = () => {
             
             <p>성인:</p>
             <select onChange={(e) => {
-					onChangePerson(e.target.value);}}>
+					onChangePerson(e.target.value);}} className='select-form'>
             <option className = "perSelectBox1" key="person1" value="0">0</option>
             <option className = "perSelectBox2" key="person2" value="1">1</option>
             <option className = "perSelectBox3" key="person3" value="2">2</option>
             </select>
             <p>흡연실</p>
             <select onChange={(e) => {
-					onChangeSmoke(e.target.value);}}>
+					onChangeSmoke(e.target.value);}} className='select-form'>
             <option name = "select" className = "selectBox4" key="smoke" value="흡연실">O</option>
             <option name = "select" className = "selectBox4" key="smoke1" value="금연실">X</option>
             </select>
             <br></br>
             <p>방 갯수</p>
             <select onChange={(e) => {
-					onChangeCount(e.target.value);}}>
+					onChangeCount(e.target.value);}} className='select-form'>
             <option className = "selectBox5" key="count1" value="0">0</option>
             <option className = "selectBox5" key="count2" value="1">1</option>
             <option className = "selectBox5" key="count3" value="2">2</option>

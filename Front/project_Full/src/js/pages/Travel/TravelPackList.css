@@ -136,4 +136,7 @@
 .checkbox-container label {
     margin-right: 20px;
     /* 각 라벨 사이의 간격 조절 */
+    font-family: 'Cute Font', sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
