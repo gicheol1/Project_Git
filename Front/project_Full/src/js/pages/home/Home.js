@@ -3,8 +3,11 @@ import './Home.css';
 import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from 'react-alice-carousel';
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+
+  const navigate = useNavigate(); // 페이지 이동을 위한 함수   
 
   const handleDragStart = (e) => e.preventDefault();
   {/* 축제 DB값이랑 같은 이미지 불러옴*/}
@@ -26,7 +29,7 @@ function Home() {
     </div>
 
   ];
-
+  
 
   // ===== ===== ===== ===== ===== ===== ===== ===== =====
   // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -39,10 +42,9 @@ function Home() {
 
       <div class="p-5 mb-4 bg-body-tertiary rounded-3">
         <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold" align="center">Custom jumbotron</h1>
-          <p class="col-md-8 fs-4" align="center"><p class="mainfont">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
+          <h1 class="display-5 fw-bold" align="center">축제</h1>
+          <p class="col-md-8 fs-4" align="center"><p class="mainfont">빛나는 무대, 환상의 놀이, 풍요로운 음식, 특별한 순간,<br /> 우리와 함께하세요. 최고의 축제가 여러분을 기다립니다!</p>
           </p>
-          <button class="mainbtn" type="button" >Example button</button>
         </div>
       </div>
 
@@ -65,17 +67,16 @@ function Home() {
       <div class="row align-items-md-stretch">
         <div class="col-md-6">
           <div class="h-100 p-5 text-bg-dark rounded-3">
-            <h2>축제</h2>
-            <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-            <button class="btn btn-outline-light" type="button">축제 더 보기</button>
+            <h4>음악과 미술, <br></br>다양한 축제 활동으로 가득 찬 특별한 날을 만나보세요.</h4>
+            <button class="btn btn-outline-light" type="button" onClick={() => navigate(`/calendar`)}>축제 보기</button>
           </div>
         </div>
       </div>
       <div class="col-md-7">
         <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-          <h2>패키지 예약</h2>
-          <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-          <button class="btn btn-outline-secondary" type="button">패키지 보기</button>
+          <h4>특별한 순간을 예약하세요. 여행의 시작은 지금부터입니다!</h4>
+          
+          <button class="btn btn-outline-secondary" type="button" onClick={() => navigate(`/packreservationList`)}>패키지 보기</button>
         </div>
       </div>
     </div>
