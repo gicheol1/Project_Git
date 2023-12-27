@@ -13,41 +13,25 @@ const Calendar = () => {
     const [TagList, setTag] = useState("");
     const [RegionList, setRegion] = useState("");
 
-
     useEffect(() => {
         getFestival();
     }, [])
 
 //-------------------------------------------------------------------
-
+    /* 페스티벌 DB 연동 */
     const getFestival = (Check) => {
         fetch(SERVER_URL + 'festivalAll', {
          method: 'GET',
          headers: { 'Content-Type': 'application/json' }
-
     }).then((response) => {
-
-        if (response.ok) {
-            return response.json();
-
-        } else {
-            throw new Error(response.status);
-
-        }
-
-    }).then((data) => {
-
-        setAddr(data);
-        setCheck(data);
-  
-    }).catch((e) => {
-        alert(e)
-
-    })
+        if (response.ok) { return response.json();
+        } else { throw new Error(response.status); }
+    }).then((data) => {setAddr(data); setCheck(data);})
+    .catch((e) => {alert(e)})
 }
 
+/* 체크박스(TAG) 작용 */
 const onCheckedItem = (Check,CheckName,CheckThis) =>{
-
     const checkboxes = document.getElementsByName('check');
 	for (let i = 0; i < checkboxes.length; i++) {
 	  if (checkboxes[i] !== CheckThis) {
@@ -71,18 +55,13 @@ const onCheckedItem = (Check,CheckName,CheckThis) =>{
 
     else{
         setTag("");
-        if(RegionList === ""){
-           getFestival();
-        }
+        if(RegionList === ""){ getFestival();}
         else{
             const camp = addrList.filter((data) => data.region === RegionList);
             setCheck(camp);
-        }
+        }}}
 
-    }
-    
-}
-
+/* 셀렉트박스(지역) */
 const onSelectedItem = (Select) => {
     if(Select === "X"){
         setRegion("");
@@ -94,8 +73,7 @@ const onSelectedItem = (Select) => {
         }
     }
     else{
-        setRegion(Select);
-        
+        setRegion(Select);        
         if(TagList===""){
             const camp = addrList.filter((data) => data.region === Select);
             setCheck(camp);
@@ -103,13 +81,7 @@ const onSelectedItem = (Select) => {
         else{
             const camp = addrList.filter((data) => data.region === Select && data.tag === TagList);
             setCheck(camp);
-        }
-    
-    
-    }
-
-
-}
+        }}}
 
 
 //--------------------------------------------------------------------------
@@ -161,17 +133,16 @@ const onSelectedItem = (Select) => {
                 <FullCalendar
                 plugins={[ dayGridPlugin ]}
                 headerToolbar={{
-                    left:'prev',
-                    center: 'title',
-                    right: 'next',
-                
+                    left:'prev', /* 전 월로 넘기기 */
+                    center: 'title', /* 달력 중간에 띄울 것 */
+                    right: 'next', /* 다음 월로 넘기기 */
                 }}
-                
-                initialView="dayGridMonth"
-                height={900}
-                locale= {'ko'}
+                initialView="dayGridMonth" 
+                height={900} 
+                locale= {'ko'} /* 한국어 */
                 nowIndicator={true}
                 selectable={true}
+                /* 달력에 축제 기간 띄우기 */
                 events={CheckList.map((addr) => ({
                     title:`(` + addr.tag + `)` + addr.name,
                     start:addr.endDate,
@@ -180,33 +151,18 @@ const onSelectedItem = (Select) => {
                 }
                 ))}
             />
-   
-            
-
             <div className='line'>
-
             </div>
-
             <div className='boxGroup'>
                 
-   
                 {CheckList.map(addr => 
-
+                    /* 축제 이름 비교해서 같은 사진 불러와서 출력 */
                      <span class="card">
-   
                          <h4>{addr.name}</h4>
-   
                          <img src={require("./img/"+addr.name+".png")}/>
-      
                      </span>
-
-                
                 )}
-     
-                
             </div>
           </div>);
-                
 }
-
 export default Calendar;
