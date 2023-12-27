@@ -7,7 +7,7 @@ import React from 'react';
 function Home() {
 
   const handleDragStart = (e) => e.preventDefault();
-
+  {/* 축제 DB값이랑 같은 이미지 불러옴*/}
   const items = [
     <div>
       <img src={require("./img/고양이1.png")} />
@@ -47,6 +47,7 @@ function Home() {
       </div>
 
       <div class="imgGroup">
+        {/* 슬라이드 애니메이션 */}
         <AliceCarousel
           autoPlay
           autoPlayStrategy="none"

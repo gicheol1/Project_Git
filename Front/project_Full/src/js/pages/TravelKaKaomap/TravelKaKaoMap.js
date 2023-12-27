@@ -55,9 +55,10 @@ const TravelKaKaoMap = () => {
 
 		})
 	}
-
+	/* tag 체크박스 */
 	const onCheckedItem = (Check, Check1, CheckThis) => {
-
+		
+		/* 체크박스 중복 금지 */
 		const checkboxes = document.getElementsByName('check')
 		for (let i = 0; i < checkboxes.length; i++) {
 			if (checkboxes[i] !== CheckThis) {
@@ -67,13 +68,13 @@ const TravelKaKaoMap = () => {
 
 		if (Check) {
 			setCheck(Check1);
-			if (RegionList === "") {
-				const camp = addrList.filter((data) => data.tag === Check1);
+			if (RegionList === "") {/* 지역셀렉트 박스가 NUll값일때  */
+				const camp = addrList.filter((data) => data.tag === Check1); /* 체크박스 값이랑 같은 값만 추출*/
 				showMap(camp);
 				console.log(camp);
 
 			} else {
-				const camp = addrList.filter((data) => data.tag === Check1 && data.region === RegionList);
+				const camp = addrList.filter((data) => data.tag === Check1 && data.region === RegionList); /* 체크박스 값이랑 셀렉트 박스 값 추출*/
 				showMap(camp);
 
 			}
@@ -82,7 +83,7 @@ const TravelKaKaoMap = () => {
 		//-----------------------------------------------------------------------
 		else {
 			setCheck("");
-			if (RegionList === "")
+			if (RegionList === "") 
 				getFestival();
 			else {
 				const camp = addrList.filter((data) => data.region === RegionList);
@@ -90,7 +91,7 @@ const TravelKaKaoMap = () => {
 			}
 		}
 	}
-
+	/* 지역 셀렉트 박스 */
 	const onSelectedItem = (Select) => {
 		if (Select === "X") {
 			setRegion("");
@@ -114,7 +115,7 @@ const TravelKaKaoMap = () => {
 			}
 		}
 	}
-
+	/* 지도표시 버튼을 눌렀을 경우 */
 	const result = () => {
 		if (CheckList === "" && RegionList === "")
 			getFestival();
@@ -131,11 +132,12 @@ const TravelKaKaoMap = () => {
 			showMap(camp)
 		}
 	}
-
+	/* 검색 텍스트 박스*/
 	const handleChange = (event) => {
 		setText(event.target.value);
 	};
 
+	/* 텍스트 박스 검색 버튼*/
 	const onTextBox = () => {
 
 		const checkboxes = document.getElementsByName('check');
@@ -235,6 +237,7 @@ const TravelKaKaoMap = () => {
 	return (
 
 		<div>
+			
 			<div id="btnGroup">
 				<div>
 
