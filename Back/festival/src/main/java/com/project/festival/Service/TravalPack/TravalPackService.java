@@ -29,6 +29,16 @@ public class TravalPackService {
 	public List<TravalPack> getTravalPackPage(Pageable pageable) {
 		return packRepository.findAllByOrderBySingupDateDesc(pageable).getContent();
 	}
+	
+	public long getTravalPackCnt() { return packRepository.count(); }
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+	
+	public List<TravalPack> getTravalPackPageDateDiff(Pageable pageable, int day) {
+		return packRepository.findAllWithDateDifference(pageable, day).getContent();
+	}
+	
+	public long getTravalPackDateDiffCnt(int day) { return packRepository.countByDateDifference(day); }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

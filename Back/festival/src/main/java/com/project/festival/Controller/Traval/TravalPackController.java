@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,52 @@ public class TravalPackController {
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+    
+    // 페이지 별 패키지 여행 가져오기
+	@GetMapping("/getTravalPackPage")
+	public ResponseEntity<?> getTravalPackPage(
+		@RequestParam int page
+	){
+		
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("boardNum").descending());
+		
+		return ResponseEntity.ok(packService.getTravalPackPage(pageable));
+		
+	}
+	
+	// 패키지 여행 전체 갯수
+	@GetMapping("/getTravalPackCnt")
+	public ResponseEntity<?> getTravalPackCnt(
+	){
+		return ResponseEntity.ok(packService.getTravalPackCnt());
+	}
+	
+// ========== ========== ========== ========== ========== ========== ========== ========== ==========
+    
+    // 페이지 별 독박, 1박2일, 2박3일 기간 패키지 여행 가져오기
+	@GetMapping("/getTravalPackPageDateDiff")
+	public ResponseEntity<?> getTravalPackPageDateDiff(
+		@RequestParam int page,
+		@RequestParam int day
+	){
+		
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("boardNum").descending());
+		
+		
+		
+		return ResponseEntity.ok(packService.getTravalPackPageDateDiff(pageable, day));
+		
+	}
+	
+	// 독박, 1박2일, 2박3일 기간 패키지 여행의 갯수
+	@GetMapping("/getTravalPackDateDiffCnt")
+	public ResponseEntity<?> getTravalPackDateDiffCnt(
+		@RequestParam int day
+	){
+		return ResponseEntity.ok(packService.getTravalPackDateDiffCnt(day));
+	}
+	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 패키지 여행 전체 조회

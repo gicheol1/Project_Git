@@ -12,11 +12,11 @@ public interface TravalPackRepository extends JpaRepository<TravalPack, Long> {
 	// 페이지별 날짜기준 내림차순으로 게시판 가져오기
 	Page<TravalPack> findAllByOrderBySingupDateDesc(Pageable pageable);
 	
-    @Query("SELECT tp FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) = :date")
-    Page<TravalPack> findAllWithDateDifference(Pageable pageable, int date);
+    @Query("SELECT tp FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) = :day")
+    Page<TravalPack> findAllWithDateDifference(Pageable pageable, int day);
     
-    @Query("SELECT COUNT(tp) FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) = :dateDifference")
-    long countByDateDifference(int dateDifference);
+    @Query("SELECT COUNT(tp) FROM TravalPack tp WHERE DATEDIFF(tp.endDate, tp.startDate) = :day")
+    long countByDateDifference(int day);
 	
 	TravalPack findByPackNum(Long packNum);
 
