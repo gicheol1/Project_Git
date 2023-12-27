@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.project.festival.Dto.BlackListDto;
 import com.project.festival.Entity.BlackList;
+import com.project.festival.Entity.User;
 import com.project.festival.Entity.Repo.BlackListRepo;
+import com.project.festival.Entity.Repo.UserRepo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class BlackListService {
 	
 	private final BlackListRepo blackListRepo;
+	private final UserRepo userRepo;
+	
 	private final ModelMapper modelMapper;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -44,8 +48,8 @@ public class BlackListService {
 	public long getBlackListCnt() { return blackListRepo.count(); }
 	
 	// 저장된 블랙리스트 갯수 반환
-	public Optional<BlackList> getBlackListDetail(long blackId) {
-		return blackListRepo.findById(blackId);
+	public Optional<BlackList> getBlackListDetail(long blackNum) {
+		return blackListRepo.findById(blackNum);
 	}
 	
 	// 차단 여부 반환
@@ -54,7 +58,18 @@ public class BlackListService {
 // ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
 	// 차단된 회원 추가, 수정
-	public void setBlackList(BlackList blackList) { blackListRepo.save(blackList); }
+	public boolean setBlackList(BlackListDto dto) {
+		
+		Optional<User> user = userRepo.findById(dto.getMemId());
+		
+		if(user.isEmpty()) {return false;}
+		
+		BlackList black = modelMapper.map(dto, BlackList.class);
+		black.setUser(user.get());
+		
+		blackListRepo.save(black);
+		return true;
+	}
 	
 // ========== ========== ========== ========== ========== ========== ========== ========== ==========
 

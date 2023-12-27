@@ -16,7 +16,10 @@ public class BlackListDto {
     private String memId;
 
 	// 차단 일자
-	private LocalDate banDate;
+	private LocalDate banDate = LocalDate.now();
+
+	// 차단 종료 일자
+	private LocalDate banEndDate;
 
 	// 차단 사유
 	private String reason;

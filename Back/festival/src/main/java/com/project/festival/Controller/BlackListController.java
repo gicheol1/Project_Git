@@ -8,18 +8,24 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.festival.Dto.BlackListDto;
 import com.project.festival.Entity.BlackList;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.BlackListService;
+import com.project.festival.Service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 public class BlackListController {
+	
+	private final UserService userService;
 	
 	private final BlackListService blackService;
 
@@ -47,15 +53,15 @@ public class BlackListController {
 	}
 
 	// 블랙리스트 상세 정보 가져오기
-	@GetMapping("/getBlackListDetail")
-	public ResponseEntity<?> getBlackListDetail(
-		@RequestParam Long blackId,
+	@GetMapping("/getBlackDetail")
+	public ResponseEntity<?> getBlackDetail(
+		@RequestParam Long blackNum,
 		@RequestParam String jwt
 	) {
 		
 		if(!authService.isAdmin(jwt)) { return ResponseEntity.ok(false); }
 		
-		Optional<BlackList> blackList = blackService.getBlackListDetail(blackId);
+		Optional<BlackList> blackList = blackService.getBlackListDetail(blackNum);
 		
 		if(blackList.isEmpty()) {
 			return ResponseEntity.ok(false);
@@ -69,18 +75,11 @@ public class BlackListController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 회원 차단하기
-	@GetMapping("/addBlackList")
+	@PostMapping("/addBlackList")
 	public ResponseEntity<?> addBlackList(
-		@RequestParam BlackList blackList
+		@RequestBody BlackListDto dto
 	) {
-		
-		try {
-			blackService.setBlackList(blackList);
-		} catch(Exception e) {
-			return ResponseEntity.ok(false);
-		}
-		
-		return ResponseEntity.ok(true);
+		return ResponseEntity.ok(blackService.setBlackList(dto));
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

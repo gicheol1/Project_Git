@@ -28,7 +28,7 @@ import { ConnectionLog, Festivals } from 'js';
 import { MemberInfo, QnaStatus, ReservationInfo, SaleInfo } from 'js';
 
 //Sidebar(관리자) 추가내용
-import { BlackList, BlackDetail, Membercare, Servicedown, UserList, UserDetail } from 'js';
+import { BlackList, Membercare, Servicedown, UserList, UserDetail } from 'js';
 
 //main
 import { FestivalPage, Likeclick, MainPage, Mymilize } from 'js';
@@ -102,7 +102,7 @@ function App() {
 				{/* ===== ===== ===== ===== ===== */}
 
 				{/* 여행 목록 페이지 */}
-				<Route path="/packreservationList" element={<TravelPackList  isAdmin={isAdmin} />} />
+				<Route path="/packreservationList" element={<TravelPackList isAdmin={isAdmin} />} />
 
 				{/* 여행 예약 페이지(캘린더, 지도) */}
 				<Route path="/packreservation/reservation/:packNum" element={<TravelReservation isLogin={isLogin} />} />
@@ -168,12 +168,11 @@ function App() {
 				<Route path="/user/:memId" element={<UserDetail />} /> {/* 회원 정보 수정 */}
 
 				{/* 블랙 리스트 */}
-				<Route path="/blackList" element={<BlackList />} /> {/* 블랙 리스트 */}
-				<Route path="/blackDetail/:blackNum" element={<BlackDetail />} /> {/* 블랙 정보 수정 */}
+				<Route path="/blackList" element={<BlackList />} />
 				{/* 회원정보 수정(관리자) */}
 				<Route path="/memberinfo" element={<Membercare />} />
 				{/* 서비스 제한 */}
-				<Route path="/servicedown" element={<Servicedown />} />
+				<Route path="/servicedown/:blackNum" element={<Servicedown />} />
 
 				{/* 푸터 경로 설정 */}
 				{/* 개인 정보 처리 방침 */}

@@ -55,7 +55,7 @@ const BlackList = () => {
   }
 
   // 차단 정보 수정 페이지로
-  const toChangeInfo = (memId) => { navigate(`/blackDetail/${memId}`); }
+  const toChangeInfo = (memId) => { navigate(`/servicedown/${memId}`); }
 
   // 페이지 이동 이벤트
   const handlePageChange = (event, page) => {
@@ -70,7 +70,7 @@ const BlackList = () => {
   return (
     <div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 750 }} aria-label="simple table">
 
           {/* 테이블 헤더 */}
           <TableHead>
@@ -78,6 +78,7 @@ const BlackList = () => {
               <TableCell className='table-cell' align="center" width={20}>번호</TableCell>
               <TableCell className='table-cell' align="center" width={30}>아이디</TableCell>
               <TableCell className='table-cell' align="center" width={30}>차단일자</TableCell>
+              <TableCell className='table-cell' align="center" width={100}>차단 종료 일자</TableCell>
               <TableCell className='table-cell' align="center" width={150}></TableCell>
             </TableRow>
           </TableHead>
@@ -91,6 +92,7 @@ const BlackList = () => {
                     <TableCell className='table-cell' align="center" width={30}>{black.blackId}</TableCell>
                     <TableCell className='table-cell' align="center" width={30}>{black.memId}</TableCell>
                     <TableCell className='table-cell' align="center" width={30}>{black.banDate}</TableCell>
+                    <TableCell className='table-cell' align="center" width={30}>{black.banEndDate === null ? `무기한` : black.banEndDate}</TableCell>
                     <TableCell className='table-cell' align="center" width={150}>
                       <button className='btn-gray' onClick={() => { toChangeInfo(black.blackNum); }} >수정</button>
                       <button className='btn-red' onClick={() => { onDelete(black.blackNum); }} >삭제</button>
