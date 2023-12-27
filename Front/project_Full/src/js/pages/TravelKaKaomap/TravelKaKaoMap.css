@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
 #map {
   margin-top: 5%;
   margin-bottom: 5%;
@@ -9,64 +10,71 @@
 #btnGroup {
   display: block;
   width:100%;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .cam{
   position: relative;
   margin-left:10%;
-  margin-top:20px;
+  margin-top:15px;
   float: left;
-  font-size: 15px;
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }
 .cam > .캠핑{
   position: absolute;
   margin-left: 0px;
   height: 15px;
-  margin-top:4px;
+  margin-top:8px;
   accent-color: skyblue;
 }
 .cul{
   position: relative;
   margin-left:5%;
-  margin-top:19px;
+  margin-top:15px;
   float: left;
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }
 
 .cul > .문화{
   position:absolute;
   margin-left: 0px;
   height: 15px;
-  margin-top:4px;
+  margin-top:8px;
   accent-color: skyblue;
 }
 
 .fes{
   position: relative;
   margin-left:5%;
-  margin-top:19px;
+  margin-top:15px;
   float: left;
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }
 .fes > .축제{
   position: absolute;
   margin-left: 0px;
   height: 15px;
-  margin-top:4px;
+  margin-top:8px;
   accent-color: skyblue;
 }
 
 .mapshow{
   position: relative;
   margin-left:5%;
-  margin-top:19px;
+  margin-top:15px;
   float: left;
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }
 
 .mapshow > .공연행사{
   position: absolute;
-  margin-left: -20px;
+  margin-left: -18px;
   height: 15px;
-  margin-top:4px;
+  margin-top:8px;
   accent-color: skyblue;
 }
 
@@ -81,23 +89,28 @@ line-height: 12px;
   margin-left:68.5%;
   margin-top:-25px;
   float: left;
-  
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }
 
 
 .Search{
   margin-top: 30px;
-  margin-right: 13%;
+  margin-right: 16%;
   float: right;
   background-color:blue;
+  font-size: 17px;
+  font-family: 'Cute Font', sans-serif;
 }
 
 .Text{
-  margin-left:11%;
+  margin-left:9%;
   margin-top: 30px; 
   width:70%;
   border: 1px solid #C4C4C4;
   border-radius: 5px;
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }
 
 .mapBtn{
@@ -105,6 +118,8 @@ line-height: 12px;
   margin-left: 45%;
   background-color:blue;
   margin-top: 30px;
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }
 
 .selectInputName{
@@ -112,4 +127,6 @@ line-height: 12px;
   float: left;
   margin-top: 18px;
   margin-left:62%;
+  font-size: 20px;
+  font-family: 'Cute Font', sans-serif;
 }

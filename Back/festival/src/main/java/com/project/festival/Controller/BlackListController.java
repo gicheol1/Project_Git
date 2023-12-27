@@ -75,7 +75,7 @@ public class BlackListController {
 	) {
 		
 		try {
-			blackService.addBlackList(blackList);
+			blackService.setBlackList(blackList);
 		} catch(Exception e) {
 			return ResponseEntity.ok(false);
 		}

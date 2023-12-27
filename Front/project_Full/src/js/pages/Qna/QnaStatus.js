@@ -62,7 +62,7 @@ const PostQnaStatus = () => {
 
   return (
     <div className="board-container">
-      <p>내 Q&A 계시글</p>
+      <p>내 Q&A 게시글</p>
       <Table striped bordered hover>
         <thead>
           <tr>

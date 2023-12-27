@@ -6,7 +6,7 @@ import {
   TableFooter, TableHead, TableRow
 } from "@mui/material";
 
-import { useBlackList } from './useBlacklist';
+import { useBlackList } from './useBlackList';
 import { useNavigate } from 'react-router-dom';
 
 const BlackList = () => {

@@ -11,7 +11,7 @@ import com.project.festival.Entity.BlackList;
 public interface BlackListRepo extends CrudRepository<BlackList, Long> {
 	
 	// 페이지별 날짜기준 내림차순으로 차단된 사용자 불러오기
-	Page<BlackList> findAllByOrderByBanDateDesc(Pageable pageable);
+	Page<BlackList> findByOrderByBanDateDesc(Pageable pageable);
 	
 	// User의 회원 아이디에 해당하는 차단 일자와 차단 사유 가져오기
 	Optional<BlackList> findByUser_MemId(String MemId);

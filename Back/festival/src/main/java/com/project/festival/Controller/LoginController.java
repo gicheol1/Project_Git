@@ -47,7 +47,7 @@ public class LoginController {
 		String jwts = loginService.logInToken(credentials);
 		
 		// 차단된 사용자인 경우
-		if(blackListService.isBlackListed(jwts)) {
+		if(blackListService.isBlackListed(credentials.getMemId())) {
 			return ResponseEntity.status(HttpStatus.SC_FORBIDDEN).build();
 		}
 		

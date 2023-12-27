@@ -25,13 +25,17 @@ const Login = ({ setIsLogin }) => {
 
         login(account).then(res => {
 
-            if (res === 403) { alert('차단된 사용자 입니다.'); }
+            if (res === 403) {
+                alert('차단된 사용자 입니다.');
+                setIsLogin(false);
+                return;
+            }
 
-            else if (res) {
+            if (res) {
                 setIsLogin(true);
                 navigate('/', { replace: true });
             } else {
-                alert('아이니다 빌번호를 다시 입력하세요');
+                alert('아이니다 비밀번호를 다시 입력하세요');
                 setIsLogin(false);
             }
         })
