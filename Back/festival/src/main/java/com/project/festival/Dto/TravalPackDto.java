@@ -25,7 +25,9 @@ public class TravalPackDto {
 
 	// 시작기간, 끝나는 기간, 등록일
 	@NotBlank
-	private LocalDate startDate, endDate, singupDate;
+	private LocalDate startDate, endDate;
+	
+	private LocalDate singupDate = LocalDate.now();
 
 	// 예약여부
 	@NotBlank

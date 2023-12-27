@@ -1,30 +1,20 @@
 import { SERVER_URL } from "js";
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 
-export function TravalPackMU() {
-
-    const navigate = useNavigate();
-
-    // 기존 게시판 정보 가져오기
+export function useTravalPackAdd() {
 
     // 기존 첨부파일 가져오기
-    const getFile = useCallback(async (target, festivalNum) => {
+    const getFile = useCallback(async (packNum) => {
 
-        return fetch(SERVER_URL + `getFileFeatival?target=${target}&festivalNum=${festivalNum}`, {
+        return fetch(SERVER_URL + `getFileTravalPack?packNum=${packNum}`, {
             method: 'GET'
 
         }).then((response) => {
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
+            if (!response.ok) { throw new Error(response.status); }
 
             return response.json();
 
-        }).catch((e) => {
-            console.log(e);
-
-        })
+        }).catch((e) => { console.log(e); })
     }, [])
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -32,12 +22,12 @@ export function TravalPackMU() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 첨푸파일 인코딩
-    const encodeFile = useCallback(async (target, file) => {
+    const encodeFile = useCallback(async (file) => {
 
         const formData = new FormData();
         formData.append('file', file);
 
-        return fetch(SERVER_URL + `encodeFile?target=${target}&orgName=${file.name}`, {
+        return fetch(SERVER_URL + `encodeFileTravalPack?orgName=${file.name}`, {
             method: 'POST',
             body: formData
 
@@ -53,6 +43,20 @@ export function TravalPackMU() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
+    // 패키지 등록
+    const submitTravalPack = useCallback(async (travalInfo) => {
+
+        fetch(SERVER_URL + `travalpack/new`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(travalInfo)
+
+        }).then((response) => {
+            if (!response.ok) { throw new Error(response.status); }
+            return response.json();
+
+        }).catch((e) => { console.log(e); return undefined; })
+    }, [])
 
     // 이미지 정보 등록 및 파일 저장 
     const submitFile = useCallback(async (fileList, festivalNum) => {
@@ -70,10 +74,11 @@ export function TravalPackMU() {
             if (!response.ok) {
                 throw new Error(response.status);
             }
-
+            return true;
 
         }).catch((e) => {
             console.log(e);
+            return false;
         })
     }, [])
 
@@ -81,16 +86,14 @@ export function TravalPackMU() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 게시판 삭제
-
-    // 특정 이미지 정보와 파일 제거 -----
-    const deleteFile = useCallback(async (target, bNum, fileDto) => {
+    // ----- 특정 이미지 정보와 파일 제거 -----
+    const deleteFile = useCallback(async (packNum, fileDto) => {
 
         if (!window.confirm('이미지를 삭제하시겠습니까?')) { return; }
 
         const jwt = sessionStorage.getItem('jwt');
 
-        fetch(SERVER_URL + `deleteFile?target=${target}&festivalNum=${bNum}&jwt=${jwt}`, {
+        fetch(SERVER_URL + `deleteFileTravalPack?packNum=${packNum === undefined ? 0 : packNum}&jwt=${jwt}`, {
             method: 'DELETE',
             body: JSON.stringify(fileDto)
 
@@ -108,8 +111,8 @@ export function TravalPackMU() {
 
         encodeFile,
 
+        submitTravalPack,
         submitFile,
-
 
         deleteFile
     }
