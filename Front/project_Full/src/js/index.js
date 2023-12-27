@@ -138,4 +138,4 @@ export { default as Membercare } from './pages/MemberInfo/Membercare'; // 회원
 export { default as Servicedown } from './pages/Servicedown/Servicedown'; // 서비스 제한
 
 // > 패키지 추가 사이트
-export { default as TravalPackAdd } from './pages/Travel/TravalPackAdd'; // 패키지 추가
+export { default as TravalPackAdd } from './pages/Travel/TravelPackAdd/TravalPackAdd'; // 패키지 추가

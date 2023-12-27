@@ -48,11 +48,10 @@ public class TravalPackService {
 		}
 	}
 
-	public TravalPackService addPack(TravalPackDto packDto) {
+	public TravalPack addPack(TravalPackDto packDto) {
 		TravalPack travalPack = modelMapper.map(packDto, TravalPack.class);
-		travalPack.setSingupDate(LocalDate.now());
-		packRepository.save(travalPack);
-		return null;
+		travalPack = packRepository.save(travalPack);
+		return travalPack;
 	}
 
 	// 패키지 여행 삭제

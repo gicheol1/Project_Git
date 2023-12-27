@@ -20,7 +20,7 @@ function MainPage() {
   const [isOwner, setIsOwner] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
   const [city, setCity] = useState('');
-
+  /* 날씨 api 사용 */
   const getWeatherData = async () => {
     try {
       const response = await axios.get(
@@ -33,12 +33,10 @@ function MainPage() {
   };
 
   useEffect(() => {
-
     MyBoard();
     getWeatherData();
-
   }, [])
-
+  /* jwt 인증받아서 DB 연동 */
   const MyBoard = () => {
     const jwt = sessionStorage.getItem('jwt');
 
@@ -60,14 +58,10 @@ function MainPage() {
         // 회원의 이름을 가져온다고 가정하고, data에 이름이 담겨있다고 가정합니다.
         const memberName = data.name; // data에서 이름 필드를 가져온다
         setUserName(memberName);
-        const regionName = data.addrRoad;
+        const regionName = data.addrRoad; //data에서 사용자 지역을 가져온다
         setRegion(regionName);
-        console.log(data);
       }).catch(err => console.error(err));
-
-
   }
-
   return (
     <div class="MypageMain">
       <div class="MypageFirst">
@@ -82,10 +76,8 @@ function MainPage() {
                 <p>예약날짜: {data.startDate}</p>
               </div>
             )}
-
           </div>
         </div>
-
         <div class="mycol2">
           <div class="cardHeader">
             <h4>한국 날씨</h4>
@@ -102,12 +94,10 @@ function MainPage() {
           </div>
         </div>
       </div>
-
       <div class="mycol3">
         <div class="cardHeader">
           <h4>{userName}님의 지역</h4>
         </div>
-
         <div class="cardBody">
           <ul class="list-unstyled mt-3 mb-4">
             <br />
@@ -123,18 +113,11 @@ function MainPage() {
             <h1 class="display-3 fw-bold">방문해주셔서 감사합니다.</h1>
             <h3 class="fw-normal text-muted mb-3">Thank you for visiting</h3>
             <div class="d-flex gap-3 justify-content-center lead fw-normal">
-
             </div>
           </div>
-
         </div>
-
       </div>
-
-
     </div>
-
-
   );
 }
 
