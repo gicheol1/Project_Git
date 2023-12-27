@@ -42,7 +42,7 @@ export { default as Comment } from './pages/board/boardDetail/comments/Comment';
 // > Travel(여행) 폴더: 여행 예약에 대한 기능
 
 // 1. 여행 패키지 목록 페이지
-export { default as TravelPackList } from './pages/Travel/TravelPackList';
+export { default as TravelPackList } from './pages/Travel/TravelPackList/TravelPackList';
 
 // 2. 여행 패키지 예약 페이지(날짜와 상품갯수 선택)
 export { default as TravelReservation } from './pages/Travel/TravelReservation';

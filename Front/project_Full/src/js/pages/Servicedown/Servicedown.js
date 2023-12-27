@@ -34,11 +34,10 @@ const Servicedown = () => {
 
   useEffect(() => {
 
-    if (blackNum !== 'null') {
+    if (blackNum !== undefined || blackNum !== '') {
       getBlackDetail(blackNum).then(result => {
 
         if (!result) { alert('데이터가 없습니다.'); navigate(`/blacklist`); }
-
         setBlackInfo({ result });
 
       });
@@ -160,7 +159,9 @@ const Servicedown = () => {
         value={blackInfo.memId}
         onChange={(e) => setBlackInfo({ ...blackInfo, memId: e.target.value })}
         required
-      /><br />
+      />
+
+      <br />
 
       <label htmlFor="blockReason">차단 사유:</label>
       <select
@@ -173,7 +174,9 @@ const Servicedown = () => {
         <option value="self">-직접 입력-</option>
         <option value="maner">부적절한 행위</option>
         <option value="bug">버그 발생</option>
-      </select><br />
+      </select>
+
+      <br />
 
       {switchs.textEnable && (
         <>
@@ -183,7 +186,8 @@ const Servicedown = () => {
             value={blackInfo.reason}
             onChange={(e) => setBlackInfo({ ...blackInfo, reason: e.target.value })}
             style={{ border: '1px solid black', marginTop: '10px', width: '100%', height: '100px', resize: 'none' }}
-          /><br />
+          />
+          <br />
         </>
       )}
 
@@ -198,7 +202,9 @@ const Servicedown = () => {
         <option value="self">직접 선택</option>
         <option value="10">차단 10일</option>
         <option value="infinity">영구 차단</option>
-      </select><br />
+      </select>
+
+      <br />
 
       {switchs.selfEndDate && (
         <>
@@ -211,7 +217,8 @@ const Servicedown = () => {
             value={blackInfo.banEndDate}
             onChange={(e) => setBlackInfo({ ...blackInfo, banEndDate: e.target.value })}
             required
-          /><br />
+          />
+          <br />
         </>
       )}
 
