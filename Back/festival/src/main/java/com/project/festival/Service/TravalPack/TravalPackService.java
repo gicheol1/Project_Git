@@ -1,16 +1,12 @@
 package com.project.festival.Service.TravalPack;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.festival.Dto.PaymentStatus;
 import com.project.festival.Dto.TravalPackDto;
-import com.project.festival.Entity.TravalPack.PackReservation;
-import com.project.festival.Entity.TravalPack.Payment;
 import com.project.festival.Entity.TravalPack.TravalPack;
 import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
 
@@ -30,28 +26,16 @@ public class TravalPackService {
 		for (TravalPackDto TravalPackDto : TravalPackList) {
 			TravalPack travalPack = modelMapper.map(TravalPackDto, TravalPack.class);
 
-//			TravalPack travalPack = new TravalPack();
-//			
-//			travalPack.setName(TravalPackDto.getName());
-//			travalPack.setPrice(TravalPackDto.getPrice());
-//			travalPack.setStartDate(TravalPackDto.getStartDate());
-//			travalPack.setEndDate(TravalPackDto.getEndDate());
-//			travalPack.setSingupDate(TravalPackDto.getSingupDate());
-//			travalPack.setCount(TravalPackDto.getCount());
-//			travalPack.setSmoke(TravalPackDto.getSmoke());
-//			travalPack.setAddress(TravalPackDto.getAddress());
-//			travalPack.setText(TravalPackDto.getText());
-//			travalPack.setPerson(TravalPackDto.getPerson());
-//			travalPack.setReservation(TravalPackDto.getReservation());
-
 			packRepository.save(travalPack);
 		}
 	}
 
-	public TravalPack addPack(TravalPackDto packDto) {
+	// 패키지 여행 생성, 수정
+	public Long addPack(TravalPackDto packDto) {
 		TravalPack travalPack = modelMapper.map(packDto, TravalPack.class);
-		travalPack = packRepository.save(travalPack);
-		return travalPack;
+		
+		// 생성, 수정시 패키지 번호 반환
+		return packRepository.save(travalPack).getPackNum();
 	}
 
 	// 패키지 여행 삭제

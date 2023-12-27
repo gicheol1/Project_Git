@@ -3,6 +3,20 @@ import { useCallback } from "react";
 
 export function useTravalPackAdd() {
 
+    // 기존 패키지 여행 정보 가져오기
+    const getTravalpack = useCallback(async (packNum) => {
+
+        return fetch(SERVER_URL + `getTravalpack?packNum=${packNum}`, {
+            method: 'GET'
+
+        }).then((response) => {
+            if (!response.ok) { throw new Error(response.status); }
+
+            return response.json();
+
+        }).catch((e) => { console.log(e); return false; })
+    }, [])
+
     // 기존 첨부파일 가져오기
     const getFile = useCallback(async (packNum) => {
 
@@ -46,26 +60,25 @@ export function useTravalPackAdd() {
     // 패키지 등록
     const submitTravalPack = useCallback(async (travalInfo) => {
 
-        fetch(SERVER_URL + `travalpack/new`, {
+        return fetch(SERVER_URL + `setTravalpack`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(travalInfo)
 
         }).then((response) => {
             if (!response.ok) { throw new Error(response.status); }
+
             return response.json();
 
         }).catch((e) => { console.log(e); return undefined; })
     }, [])
 
     // 이미지 정보 등록 및 파일 저장 
-    const submitFile = useCallback(async (fileList, festivalNum) => {
+    const submitFile = useCallback(async (fileList, packNum) => {
 
-        if (fileList === undefined || fileList.length === 0) {
-            return;
-        }
+        if (fileList === undefined || fileList.length === 0) { return true; }
 
-        fetch(SERVER_URL + `submitFileFeatival?festivalNum=${festivalNum}`, {
+        return fetch(SERVER_URL + `submitFileFileTravalPack?packNum=${packNum}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(fileList)
@@ -107,6 +120,7 @@ export function useTravalPackAdd() {
 
     return {
 
+        getTravalpack,
         getFile,
 
         encodeFile,
