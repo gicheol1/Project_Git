@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { Button } from '@mui/material';
 import DatePicker from 'react-datepicker';
-
+import { SERVER_URL } from 'js';
 import { useTravalPackAdd } from './useTravalPackAdd';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -14,18 +14,26 @@ const TravalPackAdd = () => {
 
     // 패키지 여행 번호(수정시)
     const { packNum } = useParams();
+    const [addr,setAddr] = useState([]);
+    const per=([]);
+
+    for(let i=0; i<31; i++){
+        per[i]=i;
+    }
+
 
     // 패키지 여행 정보
     const [packInfo, setPackInfo] = useState({
         name: '',
         address: '',
-        count: '',
+        count: '0',
         startDate: '',
         endDate: '',
-        person: '',
+        person: '0',
         price: '',
-        smoke: '',
+        smoke: 'O',
         text: '',
+        festival: '선택안함',
         reservation: 'YES',
     });
 
@@ -51,7 +59,26 @@ const TravalPackAdd = () => {
             getTravalpack(packNum).then(res => setPackInfo(res));
             getFile(packNum).then(res => setImgList(res));
         }
+        getFestival();
     }, [packNum])
+
+    const getFestival = () => {
+		fetch(SERVER_URL + 'festivalAll', {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+		}).then((response) => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error(response.status);
+			}
+		}).then((data) => {
+			setAddr(data);
+		}).catch((e) => {
+			alert(e)
+		})
+	}
+
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -60,10 +87,19 @@ const TravalPackAdd = () => {
     // '추가'버튼을 누를 시
     const handleSubmit = async () => {
 
+        if (packInfo.name ==='' || packInfo.address==='' || packInfo.count==='0' || packInfo.startDate==='' || packInfo.endDate === '' || packInfo.person=== '0' || packInfo.price=== '' || packInfo.smoke=== '' || packInfo.text=== '' || packInfo.festival=== '선택안함'){
+            alert('빈칸에 빈 곳이 있습니다.'); return;
+        }
+        if(imgList === false){
+            alert('사진을 추가해 주세요'); return;
+        }
+
+
         // 축제 정보 먼저 저장
         submitTravalPack(packInfo).then((packNum) => {
             console.log(packNum);
             if (packNum === undefined) { alert('저장에 실패했습니다.'); return; }
+            
 
             submitFile(imgList, packNum).then(result => {
                 if (result) {
@@ -130,50 +166,12 @@ const TravalPackAdd = () => {
         setBtnDisable(false);
     }
 
-    // ===== (테스트용) 데이터 확인 =====
-    const showData = () => { console.log(packInfo); }
-
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
-        <div>
-
-            <div className="ImgBox">
-                <Button onClick={handleButton}>파일 추가</Button>
-                <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-
-                    // 해당 태그를 참조하는 변수 설정
-                    ref={inputRef}
-                />
-
-                {/* 첨부한 파일들을 표시 */}
-                {imgList !== undefined && (
-                    imgList.map((image, index) => (
-                        <div>
-                            <img
-                                key={`image ${index}`}
-                                alt={`image ${image.orgName}`}
-                                src={`data:image/png;base64,${image.imgFile}`}
-                                style={{ width: '150px', height: '150px' }}
-                            />
-                            <Button
-                                key={index}
-                                onClick={() => handleCancel(index)}
-                            >
-                                취소
-                            </Button>
-                        </div>
-                    ))
-                )}
-            </div>
-
+        <div className='TravalPackAdd'>
             <div>
                 <input
                     maxLength='20'
@@ -208,29 +206,41 @@ const TravalPackAdd = () => {
                     style={{ width: '30px' }}
                 />
             </div>
+            <p>축제 이름</p>
+            <select value={packInfo.festival} onChange={(e)=>{ setPackInfo({ ...packInfo, festival: e.target.value }); }} className='select-form'>
+                <option className="fesSelectBox" key="선택안함" value="선택안함">선택안함</option>
+            {addr.map((data) => 
+                <option className="fesSelectBox" key={data.name} value={data.name}>{data.name}</option>
+            )}
+            </select>
 
-            <p>성인:</p>
-            <select value={packInfo.person} onChange={(e) => { setPackInfo({ ...packInfo, person: e.target.value }); }} className='select-form'>
-                <option className="perSelectBox1" key="person1" value="">===== 선택 =====</option>
-                <option className="perSelectBox2" key="person2" value="1">1</option>
-                <option className="perSelectBox3" key="person3" value="2">2</option>
+            <p>성인</p>
+            <select value={packInfo.person} onChange={(e) => { setPackInfo({ ...packInfo, person: e.target.value }); }} className='select-form'> 
+                
+                {per.map((i) =>
+                    <option className="fesSelectBox" key={i} value={i}>{i}명</option>
+                )
+                }
+  
+            </select>
+
+            <p>방 갯수</p>
+            <select value={packInfo.count} onChange={(e) => { setPackInfo({ ...packInfo, count: e.target.value }); }}  className='select-form'>
+            {per.map((i) =>
+                    <option className="RoomSelectBox" key={i} value={i}>{i}개</option>
+                )
+            }
             </select>
 
             <p>흡연실</p>
             <select value={packInfo.smoke} onChange={(e) => { setPackInfo({ ...packInfo, smoke: e.target.value }); }} className='select-form'>
-                <option name="select" className="selectBox4" key="smoke" value="">===== 선택 =====</option>
                 <option name="select" className="selectBox4" key="smoke" value="흡연실">O</option>
                 <option name="select" className="selectBox4" key="smoke1" value="금연실">X</option>
             </select>
 
             <br></br>
 
-            <p>방 갯수</p>
-            <select value={packInfo.count} onChange={(e) => { setPackInfo({ ...packInfo, count: e.target.value }); }} className='select-form'>
-                <option className="selectBox5" key="count1" value="">===== 선택 =====</option>
-                <option className="selectBox5" key="count2" value="1">1</option>
-                <option className="selectBox5" key="count3" value="2">2</option>
-            </select>
+            
 
             <input
                 maxLength='20'
@@ -239,16 +249,47 @@ const TravalPackAdd = () => {
             />
 
             <div>
-                <button type='button' onClick={handlePopup}>숙소위치 검색</button>
                 <input value={packInfo.address} readOnly={true} />
+                <button className='roomSearch' type='button' onClick={handlePopup}>숙소위치 검색</button>
             </div>
 
+            <div className="ImgBox">
+                <Button onClick={handleButton}>파일 추가</Button>
+                <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+
+                    // 해당 태그를 참조하는 변수 설정
+                    ref={inputRef}
+                />
+
+                {/* 첨부한 파일들을 표시 */}
+                {imgList !== undefined && (
+                    imgList.map((image, index) => (
+                        <div>
+                            <img
+                                key={`image ${index}`}
+                                alt={`image ${image.orgName}`}
+                                src={`data:image/png;base64,${image.imgFile}`}
+                                style={{ width: '150px', height: '150px' }}
+                            />
+                            <Button
+                                key={index}
+                                onClick={() => handleCancel(index)}
+                            >
+                                취소
+                            </Button>
+                        </div>
+                    ))
+                )}
+            </div>
             <button className="Search" onClick={handleSubmit} disabled={btnDisable}>추가</button>
+      </div>
 
-            <button onClick={showData}>데이터 확인</button>
-
-        </div>
-
+            
 
     );
 
