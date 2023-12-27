@@ -41,7 +41,7 @@ function Sidebar() {
         <Link to="/user" className="link">유저 관리</Link>
         <Link to="/blackList" className="link">블랙 리스트</Link>
         <Link to="/memberinfo" className="link">회원정보 수정</Link>
-        <Link to="/servicedown" className="link">서비스 제한</Link>
+        <Link to={`/servicedown/${null}`} className="link">서비스 제한</Link>
       </div>
     </aside>
   );

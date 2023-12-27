@@ -38,8 +38,13 @@ public class BlackList {
 
 	// 차단 일자
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(nullable=true)
+	@Column(nullable=false)
 	private LocalDate banDate = LocalDate.now();
+
+	// 차단 종료 일자
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(nullable=true)
+	private LocalDate banEndDate;
 
 	// 차단 사유
 	@Column(nullable=false, length=2500)

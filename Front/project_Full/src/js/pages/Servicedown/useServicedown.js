@@ -1,14 +1,14 @@
 import { SERVER_URL } from "js/component/constants";
 import { useCallback } from "react";
 
-export function useBlackDetail() {
+export function useServicedown() {
 
-    // 회원 상세 정보 가져오기
-    const getBlackDetail = useCallback(async (blackId) => {
+    // 차단 상세 정보 가져오기
+    const getBlackDetail = useCallback(async (blackNum) => {
 
         const jwt = sessionStorage.getItem('jwt');
 
-        return fetch(SERVER_URL + `getBlackListDetail?blackId=${blackId}&jwt=${jwt}`, {
+        return fetch(SERVER_URL + `getBlackDetail?blackNum=${blackNum}&jwt=${jwt}`, {
             method: 'GET'
 
         }).then((res) => {
@@ -21,11 +21,11 @@ export function useBlackDetail() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 회원 정보 수정
+    // 차단 정보 수정
     const updateBlack = useCallback(async (newBlack) => {
 
-        return fetch(SERVER_URL + `updateUser`, {
-            method: 'PUT',
+        return fetch(SERVER_URL + `addBlackList`, {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newBlack)
 
@@ -39,12 +39,12 @@ export function useBlackDetail() {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // 회원 삭제
+    // 차단 해제
     const deleteBlack = useCallback(async (blackNum) => {
 
         const jwt = sessionStorage.getItem('jwt');
 
-        return fetch(SERVER_URL + `deleteUser?memId=${blackNum}&jwt=${jwt}`, {
+        return fetch(SERVER_URL + `deleteBlackList?memId=${blackNum}&jwt=${jwt}`, {
             method: 'DELETE'
 
         }).then((res) => {

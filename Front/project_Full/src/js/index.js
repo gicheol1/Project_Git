@@ -129,8 +129,7 @@ export { default as UserList } from './pages/UserManage/UserList/UserList'; // �
 export { default as UserDetail } from './pages/UserManage/UserDetail/UserDetail'; // 회원 수정
 
 // > Blacklist 폴더: 블랙 리스트
-export { default as BlackList } from './pages/Black/BlackList/BlackList'; // 블랙 리스트
-export { default as BlackDetail } from './pages/Black/BlackDetail/BlackDetail'; // 블랙 상세 정보
+export { default as BlackList } from './pages/BlackList/BlackList'; // 블랙 리스트
 
 // > MemberInfo 폴더: 회원정보 수정(관리자)
 export { default as Membercare } from './pages/MemberInfo/Membercare'; // 회원정보 수정(관리자)
