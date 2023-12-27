@@ -12,7 +12,7 @@ export function useLogin() {
             body: JSON.stringify(credentials)
 
         }).then((res) => { // 전송 후
-            if (!res.ok) { return res.json(); }
+            if (!res.ok) { return res.status; }
 
             const jwtToken = res.headers.get('Authorization');
 

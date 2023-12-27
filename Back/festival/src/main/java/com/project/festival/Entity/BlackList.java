@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,7 +32,7 @@ public class BlackList {
     private Long blackId;
     
     // 차단된 회원 아이디
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="memId", referencedColumnName = "memId")
     private User user;
 
