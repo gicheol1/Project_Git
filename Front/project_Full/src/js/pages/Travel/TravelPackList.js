@@ -36,7 +36,10 @@ function TravelPackList({ isAdmin }) {
     /* 패키지 여행 데이터 로딩 */
     const [loading, setLoading] = useState(true);
 
-
+    /* 검색 기능*/
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [filteredRowssearch, setFilteredRowssearch] = useState(TravalPack);
+    const [searchInput, setSearchInput] = useState(''); // 입력 값 저장
 
     /* 체크박스 필터링(당일, 1박 2일, 2박 3일) */
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
@@ -46,10 +49,12 @@ function TravelPackList({ isAdmin }) {
     // - 필터링된 행 데이터를 반환하는 함수 //
     const getFilteredRows = () => {
         if (!showSelectedOnly && !showOneNightTwoDays && !showTwoNightsThreeDays) {
-            return TravalPack; // 모든 필터가 비활성화된 경우 전체 데이터 반환
+            // return TravalPack; // 모든 필터가 비활성화된 경우 전체 데이터 반환
+            return filteredRowssearch; // 모든 필터가 비활성화된 경우 전체 데이터 반환
         }
 
-        return TravalPack.filter(row => {
+        // return TravalPack.filter(row => {
+        return filteredRowssearch.filter(row => {
             const start = new Date(row.startDate);
             const end = new Date(row.endDate);
             const duration = (end - start) / (1000 * 60 * 60 * 24); // 일 단위로 계산
@@ -84,6 +89,37 @@ function TravelPackList({ isAdmin }) {
             setTravalPack(originalTravalPack);
         }
 
+    };
+
+    /* 검색 기능 */
+    useEffect(() => {
+        const getFilteredRowsBySearch = () => {
+            if (!searchKeyword.trim()) {
+                return TravalPack;
+            }
+
+            const keyword = searchKeyword.toLowerCase().trim();
+            return TravalPack.filter(row => row.festivalname.toLowerCase().includes(keyword));
+        };
+
+        setFilteredRowssearch(getFilteredRowsBySearch());
+    }, [searchKeyword, TravalPack]);
+
+    const handleSearchInputChange = (event) => {
+        setSearchInput(event.target.value);
+    };
+
+    const handleSearch = () => {
+        setSearchKeyword(searchInput); // 검색어를 적용하기 위해 상태 업데이트
+        handleFilterChange();
+    };
+
+    // 검색어 초기화 함수
+    const handleSearchReset = () => {
+        setSearchKeyword(''); // 검색어 초기화
+        setSearchInput(''); // 입력 값 초기화
+        setFilteredRowssearch(originalTravalPack); // 필터된 결과를 원래 데이터로 초기화
+        handleFilterChange(); // 필터링 변경 핸들러 호출
     };
 
     /* 페이지네이션 동작 */
@@ -252,9 +288,6 @@ function TravelPackList({ isAdmin }) {
         });
     }
 
-    /* 검색 기능 테스트 */
-
-
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     return (
@@ -267,13 +300,27 @@ function TravelPackList({ isAdmin }) {
                     <HotelIcon fontSize='large' className='custom-hotel-icon' /> 숙소 목록
                 </h1>
 
+                <div className="search-container">
+                    <input
+                        type="text"
+                        placeholder="축제 검색"
+                        // value={searchKeyword}
+                        value={searchInput}
+                        onChange={handleSearchInputChange}
+                    />
+                    <button onClick={handleSearch}>검색</button>
+                    <button onClick={handleSearchReset}>검색 초기화</button>
+                </div>
+
+
+
                 {/* 예약할 일정 선택 */}
                 <div className="checkbox-container">
                     <label>
                         <input
                             type="checkbox"
                             checked={showSelectedOnly}
-                            onChange={() => {setShowSelectedOnly(!showSelectedOnly); handleFilterChange();}}
+                            onChange={() => { setShowSelectedOnly(!showSelectedOnly); handleFilterChange(); }}
                         />
                         1일 여행만 보기
                     </label>
@@ -281,7 +328,7 @@ function TravelPackList({ isAdmin }) {
                         <input
                             type="checkbox"
                             checked={showOneNightTwoDays}
-                            onChange={() => {setShowOneNightTwoDays(!showOneNightTwoDays); handleFilterChange();}}
+                            onChange={() => { setShowOneNightTwoDays(!showOneNightTwoDays); handleFilterChange(); }}
                         />
                         1박 2일 여행만 보기
                     </label>
@@ -289,13 +336,13 @@ function TravelPackList({ isAdmin }) {
                         <input
                             type="checkbox"
                             checked={showTwoNightsThreeDays}
-                            onChange={() => {setShowTwoNightsThreeDays(!showTwoNightsThreeDays); handleFilterChange();}}
+                            onChange={() => { setShowTwoNightsThreeDays(!showTwoNightsThreeDays); handleFilterChange(); }}
                         />
                         2박 3일 여행만 보기
                     </label>
                     <label>
                         {/* 지역 선택 */}
-                        <select onChange={(e) => { handleCityChange(e.target.value); handleFilterChange();}}>
+                        <select onChange={(e) => { handleCityChange(e.target.value); handleFilterChange(); }}>
                             <option value="">지역 선택</option>
                             <option value="서울특별시">서울특별시</option>
                             <option value="대전광역시">대전광역시</option>
