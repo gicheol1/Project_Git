@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ReservationInfo.css'; // 새로운 CSS 파일 추가
-
+import FaceIcon from '@mui/icons-material/Face';
 const ReservationInfo = () => {
   const [userInfo, setUserInfo] = useState({
     userId: 'user123',
@@ -68,13 +68,13 @@ const ReservationInfo = () => {
   return (
     <div className="my-page-container">
       <div>
-        <h3>회원 정보</h3>
-        <p>User ID: {userInfo.userId}</p>
-        <p>Name: {userInfo.name}</p>
+        <h3 className='user-information'><FaceIcon fontSize='large'/> 회원 정보</h3>
+        <p className='user-information-id'>User ID : {userInfo.userId}</p>
+        <p className='user-information-id'>Name : {userInfo.name}</p>
       </div>
 
       <div>
-        <h3>날짜 범위 선택</h3>
+        <h3 className='date-information'>날짜 범위 선택</h3>
         <label htmlFor="startDate">시작 날짜:</label>
         <input
           type="date"
@@ -92,7 +92,7 @@ const ReservationInfo = () => {
       </div>
 
       <div>
-        <h3>예약 정보</h3>
+        <h3 className='reserve-information'>예약 정보</h3>
         {filteredReservations.length === 0 ? (
           <p>선택된 기간에 예약된 서비스가 없습니다.</p>
         ) : (

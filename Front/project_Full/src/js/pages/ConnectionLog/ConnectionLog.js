@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ConnectionLog.css';
-
+import RestoreIcon from '@mui/icons-material/Restore';
 const ConnectionLog = () => {
   const [recentConnections, setRecentConnections] = useState([]);
 
@@ -13,7 +13,7 @@ const ConnectionLog = () => {
 
   return (
     <div>
-      <h2>최근 본 내역</h2>
+      <h2 className='current-see'><RestoreIcon fontSize='large'/> 최근 본 내역</h2>
       <div className="table-container">
         {Array.isArray(recentConnections) && recentConnections.length > 0 ? (
           <table>

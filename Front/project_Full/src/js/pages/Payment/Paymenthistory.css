@@ -3,26 +3,16 @@
 .All-user-pay{
     font-family: 'Single Day', cursive;
     font-size: 54px;
+    margin-bottom: 5%;
 }
 
-/* .MuiDataGrid-virtualScroller {
-    margin-top: 0 !important;
-    background : linear-gradient(to right, #fbfbfc, #dbfeff);
-    border: 3px solid #a0a0a0; 
-    border-radius: 8px;
-    
-} */
-
-.MuiDataGrid-root .MuiDataGrid-headerCell{
+.All-user-pay-column{
+    border: 1px solid skyblue;
+    background-color: skyblue;
     font-family: 'Cute Font', sans-serif;
     font-size: 20px;
-    background : linear-gradient(to right, #fbfbfc, #dbfeff);
 }
 
-/* .All-user-pay-column{
-    background : linear-gradient(to right, #fbfbfc, #dbfeff);
-    border: 3px solid #a0a0a0; 
-    border-radius: 8px;
-    font-family: 'Cute Font', sans-serif;
-    font-size: 20px;
-} */
+.DataGrid-color{
+    background-color: white;
+}
