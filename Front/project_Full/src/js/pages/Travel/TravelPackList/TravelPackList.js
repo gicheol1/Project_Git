@@ -75,6 +75,7 @@ function TravelPackList({ isAdmin }) {
         });
 
     };
+
     const filteredRows = getFilteredRows();
 
     /* 지역 선택 */
@@ -148,10 +149,12 @@ function TravelPackList({ isAdmin }) {
     const navigate = useNavigate(); // 페이지 이동을 위한 함수                            
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행의 전체 정보, 축제정보 불러오기 */
     useEffect(() => {
-        fetch(SERVER_URL + "travalpackAll", { method: 'GET' })
+        fetch(SERVER_URL + "getTravalpackAll", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 setTravalPack(data); // 수정된 전체 데이터   
@@ -169,6 +172,10 @@ function TravelPackList({ isAdmin }) {
             .catch(err => { console.error(err); setLoading(false); });
 
     }, []);
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 패키지 여행 로딩 상태 관리 */
     if (loading) {

@@ -6,9 +6,6 @@ import java.util.Random;
 
 import com.project.festival.Constant.Reservation;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -22,30 +19,18 @@ public class TravalPackDto {
 	private Long packNum;
 
 	// 패키지 이름, 흡연실(금연실), 주소, 내용
-	private String name;
-
 	@NotNull
-	private String smoke;
-	@NotNull
-	private String address;
-	@NotNull
-	private String text;
+	private String name, smoke, address, text;
 	
 	private String festivalname;
 
 	// 가격, 최대 인원수
 	@NotBlank
-	private int price;
-	@NotNull
-	private int count;
-	@NotNull
-	private int person;
+	private int price, count, person;
 
 	// 시작기간, 끝나는 기간, 등록일
 	@NotBlank
-	private LocalDate startDate;
-	@NotNull
-	private LocalDate endDate;
+	private LocalDate startDate, endDate;
 	
 	@NotBlank
 	private LocalDate singupDate = LocalDate.now();

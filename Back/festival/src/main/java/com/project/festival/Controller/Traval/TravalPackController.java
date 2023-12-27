@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,3 +81,12 @@ public class TravalPackController {
 		packService.createTravalPack(TravalPackList);
 	}
 }
+
+
+/* 
+ * - ResponseEntity: HTTP 응답을 나타내는 Spring의 클래스로, 응답의 상태코드, 헤더, 본문(body) 등을 포함합니다.
+ * - @RequestParam: 클라이언트로부터 전달된 요청 매개변수를 메서드의 매개변수에 매핑하는 어노테이션입니다.
+ * - Long packNum: "packNum"이라는 요청 매개변수를 Long 타입으로 받습니다.
+ * - packRepository.findByPackNum(packNum): packRepository에서 packNum을 사용하여 해당하는 데이터를 찾아옵니다. 
+ * - 예시: http://localhost:8090/getTravalpack?packNum=123
+ *  */

@@ -172,6 +172,7 @@ function App() {
 				{/* 회원정보 수정(관리자) */}
 				<Route path="/memberinfo" element={<Membercare />} />
 				{/* 서비스 제한 */}
+				<Route path="/servicedown" element={<Servicedown />} />
 				<Route path="/servicedown/:blackNum" element={<Servicedown />} />
 
 				{/* 푸터 경로 설정 */}
