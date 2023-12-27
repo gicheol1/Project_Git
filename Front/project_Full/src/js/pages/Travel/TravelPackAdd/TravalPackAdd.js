@@ -5,6 +5,7 @@ import { Button } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import { SERVER_URL } from 'js';
 import { useTravalPackAdd } from './useTravalPackAdd';
+import { useNavigate } from "react-router-dom";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './TravalPackAdd.css';
@@ -16,6 +17,7 @@ const TravalPackAdd = () => {
     const { packNum } = useParams();
     const [addr,setAddr] = useState([]);
     const per=([]);
+    const navigate = useNavigate(); // 페이지 이동을 위한 함수   
 
     for(let i=0; i<31; i++){
         per[i]=i;
@@ -104,6 +106,7 @@ const TravalPackAdd = () => {
             submitFile(imgList, packNum).then(result => {
                 if (result) {
                     alert('저장이 완료되었습니다.');
+                    navigate(`/packreservationList`)
                 } else {
                     alert('저장에 실패했습니다.');
                 }
