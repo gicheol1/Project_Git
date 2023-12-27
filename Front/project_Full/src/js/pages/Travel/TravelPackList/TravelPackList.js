@@ -202,7 +202,7 @@ function TravelPackList({ isAdmin }) {
 
     /* 패키지 여행 삭제 */
     const handleDelete = (packNum) => {
-        fetch(SERVER_URL + `travalpack/${packNum}`, { method: 'DELETE' })
+        fetch(SERVER_URL + `deleteTravalpack?packNum=${packNum}`, { method: 'DELETE' })
 
             .then(response => {
                 if (response.ok) {

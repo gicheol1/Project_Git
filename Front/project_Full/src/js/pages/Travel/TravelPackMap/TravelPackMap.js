@@ -21,7 +21,7 @@ const TravelPackMap = ({ packNum }) => {
 	/* =========================================================== */
 
 	useEffect(() => {
-		fetch(SERVER_URL + `travalpack/${packNum}`)
+		fetch(SERVER_URL + `getTravalpack?packNum=${packNum}`)
 			.then((response) => response.json())
 			.then(data => {
 				showMap([data]);

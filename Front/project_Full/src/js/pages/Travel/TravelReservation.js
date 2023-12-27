@@ -41,7 +41,7 @@ function TravelReservation() {
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 번호에 맞는 상세정보, 축제 정보 불러오기 */
     useEffect(() => {
-        fetch(SERVER_URL + `travalpack/${packNum}`)
+        fetch(SERVER_URL + `getTravalpack?packNum=${packNum}`)
             .then((response) => response.json())
             .then((data) => {
                 setTravalPack([data]) // 번호(기본키)에 해당되는 여행 패키지 정보 
