@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
-
 예약 정보 테이블 스타일 추가
 table {
   width: 80%; /* 너비 조절 */
@@ -50,28 +48,4 @@ table td {
   justify-content: center;
   text-align: center;
   margin: 50px auto; /* 조절 가능한 여백 */
-}
-
-.user-information{
-  font-family: 'Single Day', cursive;
-  font-size: 54px;
-}
-
-.user-information-id{
-  font-size: 20px;
-}
-
-.date-information{
-  font-family: 'Single Day', cursive;
-  font-size: 32px;
-  margin-top: 50px;
-}
-
-#endDate{
-  margin-bottom: 80px;
-}
-
-.reserve-information{
-  font-family: 'Single Day', cursive;
-  font-size: 32px;
 }
