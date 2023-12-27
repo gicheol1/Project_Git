@@ -161,8 +161,7 @@ function Reservationlist() {
     return (
         <div>
             <h1 className='reserve-list-header'>
-                <FaceIcon fontSize='large' />
-                {userName}님의 숙소 예약 목록
+                <FaceIcon fontSize='large' /> {userName}님의 숙소 예약 목록
             </h1>
 
             {/* 패키지 여행 예약 목록 */}

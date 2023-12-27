@@ -246,7 +246,7 @@ const TravalPackAdd = () => {
             </div>
             
             
-            <p>성인:</p>
+            <p>성인</p>
             <select onChange={(e) => {
 					onChangePerson(e.target.value);}} className='select-form'>
             <option className = "perSelectBox1" key="person1" value="0">0</option>
