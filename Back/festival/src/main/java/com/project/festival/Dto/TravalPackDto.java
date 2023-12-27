@@ -154,6 +154,27 @@ public class TravalPackDto {
 			TravalPackList.add(TravalPack4);
 		}
 
+		// 패키지 여행 숙소(당일) 목록 3
+		for (int i = 21; i <= 26; i++) {
+			TravalPackDto TravalPack5 = new TravalPackDto();
+			TravalPack5.setName("패키지 여행 숙소 테스트" + i);
+			TravalPack5.setPrice(random.nextInt(20000));
+			TravalPack5.setStartDate(LocalDate.of(2024, 1, random.nextInt(29) + 1)); // 1 ~ 30까지 랜덤 일
+			LocalDate startDate5 = TravalPack5.getStartDate(); // 시작일 가져오기
+			LocalDate endDate5 = startDate5.plusDays(0); // 시작일로부터 2일 후를 종료일로 설정
+			TravalPack5.setEndDate(endDate5); // 종료일 설정
+			TravalPack5.setSingupDate(LocalDate.now());
+			TravalPack5.setCount(20 + i);
+			TravalPack5.setSmoke("금연실");
+			TravalPack5.setPerson(11 + i);
+			TravalPack5.setReservation(Reservation.NO);
+			TravalPack5.setAddress(getRandomRoadAddress());
+			TravalPack5.setText("상새내용" + i);
+			TravalPack5.setFestivalname(getRandomfestivalnames());
+			
+			TravalPackList.add(TravalPack5);
+		}
+
 		return TravalPackList;
 	}
 }
