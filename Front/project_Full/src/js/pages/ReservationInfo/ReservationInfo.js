@@ -105,12 +105,12 @@ const ReservationInfo = () => {
       </div>
 
       <div>
-        <h3>예약 정보</h3>
+        <h3 className='reserve-information'>예약 정보</h3>
         {filteredReservations.length === 0 ? (
           <p>선택된 기간에 예약된 서비스가 없습니다.</p>
         ) : (
           <>
-            <table>
+            <table className='reserve-table'>
               <thead>
                 <tr>
                   <th>회원</th>
