@@ -89,7 +89,7 @@ public class User {
 
 	// 권한
 	@Column(length=10)
-	private String role;
+	private String role = "USER";
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -176,60 +176,60 @@ public class User {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 삼항 연산자를 활용한 회원 정보 변경
-	public void changeUser(User beforUser) {
-		
-		// newUser에 해당 데이터가 null이면 기존 데이터로 설정
-		this.memId = memId==null ?
-			beforUser.getMemId() :
-			this.memId;
-		
-		this.pw = pw==null ? 
-			beforUser.getPw() : 
-			this.pw;
-		
-		this.name = name==null ? 
-			beforUser.getName() : 
-			this.name;
-		
-		this.phonNum = phonNum==null ? 
-			beforUser.getPhonNum() : 
-			this.phonNum;
-		
-		this.birth = LocalDate.parse(
-			birth==null ? 
-				beforUser.getBirth().toString() : 
-				this.birth.toString());
-		
-		this.email = email==null ? 
-			beforUser.getEmail() : 
-			this.email;
-
-		this.addrRoad = addrRoad==null ? 
-			beforUser.getAddrRoad() : 
-			addrRoad;
-		
-		this.addrJibun = addrJibun==null ? 
-			beforUser.getAddrJibun() : 
-			addrJibun;
-		
-		this.addrCode = addrCode==null ? 
-			beforUser.getAddrCode() : 
-			addrCode;
-		
-		this.singupDate = LocalDate.parse(
-			singupDate==null ? 
-				beforUser.getSingupDate().toString() : 
-				this.singupDate.toString());
-		
-		this.role = role==null ? 
-			beforUser.getRole() : 
-			this.role;
-	}
+//	public void changeUser(User beforUser) {
+//		
+//		// newUser에 해당 데이터가 null이면 기존 데이터로 설정
+//		this.memId = memId==null ?
+//			beforUser.getMemId() :
+//			this.memId;
+//		
+//		this.pw = pw==null ? 
+//			beforUser.getPw() : 
+//			this.pw;
+//		
+//		this.name = name==null ? 
+//			beforUser.getName() : 
+//			this.name;
+//		
+//		this.phonNum = phonNum==null ? 
+//			beforUser.getPhonNum() : 
+//			this.phonNum;
+//		
+//		this.birth = LocalDate.parse(
+//			birth==null ? 
+//				beforUser.getBirth().toString() : 
+//				this.birth.toString());
+//		
+//		this.email = email==null ? 
+//			beforUser.getEmail() : 
+//			this.email;
+//
+//		this.addrRoad = addrRoad==null ? 
+//			beforUser.getAddrRoad() : 
+//			addrRoad;
+//		
+//		this.addrJibun = addrJibun==null ? 
+//			beforUser.getAddrJibun() : 
+//			addrJibun;
+//		
+//		this.addrCode = addrCode==null ? 
+//			beforUser.getAddrCode() : 
+//			addrCode;
+//		
+//		this.singupDate = LocalDate.parse(
+//			singupDate==null ? 
+//				beforUser.getSingupDate().toString() : 
+//				this.singupDate.toString());
+//		
+//		this.role = role==null ? 
+//			beforUser.getRole() : 
+//			this.role;
+//	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	// 회원 가입 날짜, 기본 권한 부여
-	public void singUpBasic() {
-		this.role = "USER";
-	}
+	// 기본 권한 부여
+//	public void singUpBasic() {
+//		this.role = "USER";
+//	}
 }

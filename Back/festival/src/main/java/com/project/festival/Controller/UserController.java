@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Entity.User;
-import com.project.festival.Entity.orther.UserIdEmail;
-import com.project.festival.Entity.orther.UserNameEmail;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.EmailService;
 import com.project.festival.Service.JwtService;
@@ -80,15 +78,18 @@ public class UserController {
 
 	// 회원 아이디 탐색
 	@PostMapping("/findUserId")
-	public ResponseEntity<?> findUserId(@RequestBody UserNameEmail user) {
+	public ResponseEntity<?> findUserId(
+		@RequestParam String name,
+		@RequestParam String email
+	) {
 		
-		String _id = userService.findUserId(user.getEmail(), user.getName());
+		String _id = userService.findUserId(email, name);
 		
 		// 회원이 존재하지 않은 경우
 		if(_id.isEmpty()) { return ResponseEntity.ok(false); }
 		
 		// 이메일로 전송
-		emailService.sendUserId(user.getEmail(), _id);
+		emailService.sendUserId(email, _id);
 		
 		return ResponseEntity.ok(true);
 		
@@ -98,16 +99,19 @@ public class UserController {
 	
 	// 회원 비밀번호 재발급
 	@PostMapping("/resetPW")
-	public ResponseEntity<?> resetPW(@RequestBody UserIdEmail user) {
+	public ResponseEntity<?> resetPW(
+		@RequestParam String memId,
+		@RequestParam String email
+	) {
 		
 		// 새 비밀번호 받기(회원이 존재하는 경우에만)
-		String _pw = userService.resetPW(user.getMemId(), user.getEmail());
+		String _pw = userService.resetPW(memId, email);
 		
 		// 회원이 존재하지 않은 경우
 		if(_pw.isEmpty()) { return ResponseEntity.ok(false); }
 		
 		// 이메일로 전송
-		emailService.sendNewPW(user.getEmail(), _pw);
+		emailService.sendNewPW(email, _pw);
 		
 		return ResponseEntity.ok(true);
 		
@@ -164,10 +168,7 @@ public class UserController {
 	@PostMapping("/singUp")
 	public ResponseEntity<?> singUp(@RequestBody User newUser) {
 		
-		// 가입일, 권한 설정
-		newUser.singUpBasic();
-		
-		// DB 추가
+		// 새 회원 추가
 		userService.saveUser(newUser);
 		
 		return ResponseEntity.ok().build();
@@ -182,13 +183,8 @@ public class UserController {
 	public ResponseEntity<?> updateUser(
 		@RequestBody User user
 	) {
-		
-		try {
-			userService.updateUser(user);
-		}catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.ok(false);
-		}
+		try { userService.updateUser(user); }
+		catch (Exception e) { e.printStackTrace(); return ResponseEntity.ok(false); }
 		
 		return ResponseEntity.ok(true);
 	}
@@ -206,6 +202,10 @@ public class UserController {
 		
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
+		// 회원 아이디로 삭제
+		//
+		// JWT의 회원 아이디로 삭제를 시도할시
+		// 로그인 상태인 본인의 정보가 삭제되가 때문
 		userService.deleteUser(memId);
 
 		return ResponseEntity.ok(true);

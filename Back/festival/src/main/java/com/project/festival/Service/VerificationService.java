@@ -46,7 +46,14 @@ public class VerificationService {
         
         // 코드가 null이 아니면
     	if(savedCode != null) {
-    		return savedCode.equals(code);
+    		
+            // 입력한 코드가 일치한 경우
+    		if(savedCode.equals(code)) {
+    			
+    			// 맵에 저장된 코드를 지우고 true 반환
+    			veriCodes.remove(email);
+        		return true;
+    		}
     	}
     	
     	return false;

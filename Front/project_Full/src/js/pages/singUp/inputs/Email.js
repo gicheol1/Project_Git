@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 
 const Email = ({ newUser, setNewUser }) => {
 
-    // 이메일과 코드
+    // 이메일과 인증 코드
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
@@ -36,12 +36,12 @@ const Email = ({ newUser, setNewUser }) => {
     // 입력한 이메일로 인증번호 전송
     const sendCode = () => {
 
+        if (isEmail) { setMessageEmail('유효하지 않은 이메일 형식입니다.'); return; }
+
         setMessageEmail('인증번호 전송중...');
 
-        fetch(SERVER_URL + 'sendCode', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email })
+        fetch(SERVER_URL + `sendCode?email=${email}`, {
+            method: 'POST'
 
         }).then((response) => {
             if (response.ok) {
@@ -63,7 +63,7 @@ const Email = ({ newUser, setNewUser }) => {
     // 인증번호 인증받기
     const verifyCode = () => {
 
-        fetch(SERVER_URL + 'verifyCode', {
+        fetch(SERVER_URL + `verifyCode?email=${email}&code=${code}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -104,11 +104,11 @@ const Email = ({ newUser, setNewUser }) => {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
-        <div className="email">
+        <div>
 
             {/* ===== 이메일 입력 ===== */}
-            <div>
-                <span>이메일 : </span>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">이메일 : </span>
                 <input
                     type="text"
                     placeholder="사용자명"
@@ -119,20 +119,20 @@ const Email = ({ newUser, setNewUser }) => {
                     }}
                     disabled={disableEmail}
                 />
-                <div>
-                    <Button
-                        onClick={sendCode}
-                        disabled={disableEmail}
-                    >
-                        인증번호 전송
-                    </Button>
-                </div>
-                <p>{messageEmail}</p>
+                <Button
+                    style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
+                    onClick={sendCode}
+                    disabled={disableEmail}
+                >
+                    인증번호 전송
+                </Button>
             </div>
 
+            <p>{messageEmail}</p>
+
             {/* ===== 인증번호 입력 ===== */}
-            <div>
-                <span>인증번호 : </span>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">인증번호 : </span>
                 <input
                     type="text"
                     placeholder="인증번호 입력"
@@ -141,11 +141,14 @@ const Email = ({ newUser, setNewUser }) => {
                     disabled={disableCode}
                 />
                 <Button
+                    style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
                     onClick={verifyCode}
                     disabled={disableCode}
                 >확인</Button>
-                <p>{messageCode}</p>
             </div>
+
+            <p>{messageCode}</p>
+
         </div>
     );
 }

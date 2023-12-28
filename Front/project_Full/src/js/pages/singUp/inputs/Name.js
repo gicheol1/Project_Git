@@ -10,14 +10,13 @@ const Name = ({ newUser, setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="pNum">
-            <p>
-                <span>이름 : </span>
-                <input
-                    type="text"
-                    onChange={onChangeName}
-                />
-            </p>
+        <div style={{ display: 'flex' }}>
+            <span className="inputLabel">이름 : </span>
+            <input
+                type="text"
+                placeholder="이름"
+                onChange={onChangeName}
+            />
         </div>
     );
 }

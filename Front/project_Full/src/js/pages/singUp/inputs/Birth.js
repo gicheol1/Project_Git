@@ -14,9 +14,12 @@ const Birth = ({ newUser, setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="birth">
-            <span>생년월일 : </span>
-            <input type="date" onChange={ohandleChange} />
+        <div style={{ display: 'flex' }}>
+            <span className="inputLabel">생년월일 : </span>
+            <input
+                type="date"
+                onChange={ohandleChange}
+            />
         </div>
     );
 }

@@ -1,13 +1,11 @@
 package com.project.festival.Controller;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.festival.Entity.orther.EmailCode;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.EmailService;
 import com.project.festival.Service.VerificationService;
@@ -21,57 +19,52 @@ public class AuthController {
 	private final AuthService authService;
 	private final EmailService emailService;
 	private final VerificationService verService;
-	
-// ===== ===== ===== ===== ===== ===== ===== ===== =====
-// ===== ===== ===== ===== ===== ===== ===== ===== =====
-// ===== ===== ===== ===== ===== ===== ===== ===== =====
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 아이디 중복 체크
-	@PostMapping("/idCheck/{id}")
-	public ResponseEntity<?> idCheck(@PathVariable String id) {
-		
-		if(authService.idCheck(id)) {
-			return ResponseEntity.ok()
-    			.header("idCheckResult", "false")
-    			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "idCheckResult")
-    			.build();
-			
-		}
-		
-		return ResponseEntity.ok()
-			.header("idCheckResult", "true")
-			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "idCheckResult")
-			.build();
-		
+	@PostMapping("/idCheck")
+	public ResponseEntity<?> idCheck(@RequestParam String memId) {
+		return ResponseEntity.ok(authService.idCheck(memId));
 	}
-	
-// ===== ===== ===== ===== ===== ===== ===== ===== =====
-// ===== ===== ===== ===== ===== ===== ===== ===== =====
-// ===== ===== ===== ===== ===== ===== ===== ===== =====
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	// 이메일 인증코드 전송
 	@PostMapping("/sendCode")
-    public ResponseEntity<?> sendCode(@RequestBody EmailCode emailCode) {
+    public ResponseEntity<?> sendCode(@RequestParam String email) {
 		
-        String code = verService.generateVerificationCode(emailCode.getEmail());
+		// 랜덤한 코드 생성
+        String code = verService.generateVerificationCode(email);
         
-        if(code.equals("Duplication")) {
-            return ResponseEntity.ok(false);
-        }
+        // 이미 사용중인 이메일인 경우
+        if(code.equals("Duplication")) { return ResponseEntity.ok(false); }
         
-        emailService.sendCode(emailCode.getEmail(), code);
+        // 이메일로 코드 전송
+        emailService.sendCode(email, code);
 
         return ResponseEntity.ok(true);
     }
 
-	// 인증번호 확인
+	// 인증코드 확인
     @PostMapping("/verifyCode")
-    public ResponseEntity<?> verifyCode(@RequestBody EmailCode emailCode) {
+    public ResponseEntity<?> verifyCode(
+		@RequestParam String email,
+		@RequestParam String code
+    ) {
     	
-        boolean vResult = verService.verifyCode(emailCode.getEmail(), emailCode.getCode());
-		
+    	// 인증코드 확인
+        boolean vResult = verService.verifyCode(email, code);
         return ResponseEntity.ok(vResult);
         
     }
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 }

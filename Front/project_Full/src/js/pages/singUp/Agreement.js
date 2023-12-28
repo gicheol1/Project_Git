@@ -55,16 +55,17 @@ const Agreement = () => {
                     />
                 </div>
                 <div className="agree-checkBoxs">
-                    <label>
+                    <span>
                         위 사항을 읽었으며 동의합니다.
-                        <input
-                            type="checkbox"
-                            name='agree1'
-                            checked={isAgreed.agree1}
-                            onChange={(e) =>
-                                setIsAgreed({ ...isAgreed, [e.target.name]: !isAgreed.agree1 })
-                            } />
-                    </label>
+                    </span>
+                    <input
+                        type="checkbox"
+                        name='agree1'
+                        checked={isAgreed.agree1}
+                        onChange={(e) =>
+                            setIsAgreed({ ...isAgreed, [e.target.name]: !isAgreed.agree1 })
+                        }
+                    />
                 </div>
 
                 <br />
@@ -76,17 +77,18 @@ const Agreement = () => {
                         readOnly={true}
                     />
                 </div>
-                <div className="checkBoxs">
-                    <label>
+                <div className="agree-checkBoxs">
+                    <span>
                         위 사항을 읽었으며 맹세의 피로 서명합니다.
-                        <input
-                            type="checkbox"
-                            name='agree2'
-                            checked={isAgreed.agree2}
-                            onChange={(e) =>
-                                setIsAgreed({ ...isAgreed, [e.target.name]: !isAgreed.agree2 })
-                            } />
-                    </label>
+                    </span>
+                    <input
+                        type="checkbox"
+                        name='agree2'
+                        checked={isAgreed.agree2}
+                        onChange={(e) =>
+                            setIsAgreed({ ...isAgreed, [e.target.name]: !isAgreed.agree2 })
+                        }
+                    />
                 </div>
             </div>
 

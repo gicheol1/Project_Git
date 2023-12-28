@@ -2,25 +2,21 @@ package com.project.festival.Service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.festival.Entity.User;
-import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.Entity.orther.AccountCredentials;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
-	@Autowired
-    private UserRepo userRepository;
-
-	@Autowired
-    private JwtService jwtService;
-
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -32,14 +28,12 @@ public class LoginService {
     	String _memId=credentials.getMemId();
     	String _pw=credentials.getPw();
 
+        Optional<User> _user = userService.getUserById(_memId);
+
         // 없거나 일치하지 않은 경우
-        Optional<User> _user = userRepository.findById(_memId);
+        if (_user.isEmpty() || !passwordEncoder.matches(_pw, _user.get().getPw())) { return "Failed"; }
         
-        if (_user.isEmpty() || !passwordEncoder.matches(_pw, _user.get().getPw())) {
-            return "Failed";
-        }
-        
-        // 토큰 생성
+        // 토큰 생성후 전달
         User user = _user.get();
         return jwtService.getToken(user);
     }

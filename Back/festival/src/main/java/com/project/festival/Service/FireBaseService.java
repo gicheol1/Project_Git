@@ -38,6 +38,7 @@ public class FireBaseService {
                 .build()
                 .getService();
 
+        // FireBase Storage에 접근
         BlobId blobId = BlobId.of(BUCKET, fileName);
         Blob blob = storage.get(blobId);
         
@@ -93,9 +94,10 @@ public class FireBaseService {
             .build()
             .getService();
 
+        // FireBase Storage의 저장된 파일에 접근
         BlobId blobId = BlobId.of(BUCKET, dto.getFileName());
 
-        // FireBase Storage에서 해당 Blob 삭제
+        // 해당 파일 삭제
         storage.delete(blobId);
     }
 }

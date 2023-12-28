@@ -19,7 +19,17 @@ const SingUp = () => {
 
     const [newUser, setNewUser] = useState('');
 
-    const { singUp } = useSingUp();
+    const { singUp } = useSingUp({
+        memId: '',
+        pw: '',
+        name: '',
+        phonNum: '',
+        birth: '',
+        email: '',
+        addrRoad: '',
+        addrJibun: '',
+        addrCode: ''
+    });
 
     const navigate = useNavigate();
 
@@ -29,16 +39,13 @@ const SingUp = () => {
 
     const onClickSginUp = () => {
         singUp(newUser).then((res) => {
-            if (res.success) {
+            if (res) {
+                alert('회원 가입이 완료되었습니다.')
                 navigate('/', { replace: true })
             } else {
-                alert(res.error);
+                alert('회원 가입이 실패되었습니다. 다시시도하세요.');
             }
         });
-    }
-
-    const onShow = () => {
-        console.log(newUser);
     }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -46,17 +53,21 @@ const SingUp = () => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div>
-            <MemId newUser={newUser} setNewUser={setNewUser} />
-            <PW newUser={newUser} setNewUser={setNewUser} />
-            <Name newUser={newUser} setNewUser={setNewUser} />
-            <PhonNum newUser={newUser} setNewUser={setNewUser} />
-            <Birth newUser={newUser} setNewUser={setNewUser} />
-            <Email newUser={newUser} setNewUser={setNewUser} />
+        <div style={{ marginTop: '50px', alignContent: 'center' }}>
+            <MemId newUser={newUser} setNewUser={setNewUser} /><hr />
+            <PW newUser={newUser} setNewUser={setNewUser} /><hr />
+            <Name newUser={newUser} setNewUser={setNewUser} /><hr />
+            <PhonNum newUser={newUser} setNewUser={setNewUser} /><hr />
+            <Birth newUser={newUser} setNewUser={setNewUser} /><hr />
+            <Email newUser={newUser} setNewUser={setNewUser} /><hr />
             <Addr newUser={newUser} setNewUser={setNewUser} />
-            <br />
-            <Button onClick={onClickSginUp}>회원가입</Button>
-            <Button onClick={onShow}>데이터 확인</Button>
+
+            <Button
+                variant="contained"
+                onClick={onClickSginUp}
+            >
+                회원가입
+            </Button>
         </div>
     );
 }

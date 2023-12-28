@@ -25,11 +25,13 @@ const Login = ({ setIsLogin }) => {
 
         login(account).then(res => {
 
+            // 차단된 사용자인 경우(403)
             if (res === 403) {
                 alert('차단된 사용자 입니다.');
                 setIsLogin(false);
                 return;
             }
+
 
             if (res) {
                 setIsLogin(true);

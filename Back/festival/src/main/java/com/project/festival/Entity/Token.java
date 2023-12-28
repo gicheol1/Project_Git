@@ -30,7 +30,7 @@ public class Token {
     private String jti;
     
     // 회원 아이디
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "memId", referencedColumnName = "memId")
     private User user;
     
