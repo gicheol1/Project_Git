@@ -1,13 +1,9 @@
 package com.project.festival.Controller.Traval;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,58 +27,6 @@ public class TravalPackController {
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-    
-    // 페이지 별 패키지 여행 가져오기
-	@GetMapping("/getTravalPackPage")
-	public ResponseEntity<?> getTravalPackPage(
-		@RequestParam int page,
-		@RequestParam List<Integer> days,
-		@RequestParam String location,
-		@RequestParam String search
-	){
-		
-		Pageable pageable = PageRequest.of(page, 10, Sort.by("boardNum").descending());
-		
-		List<TravalPack> tp = new ArrayList<>();
-		
-		if(days.size()!=0 && location!=null) {
-			tp = packService.getTravalPageDateAndLocation(pageable, days, location);
-		} else if(days.size()!=0) {
-			tp = packService.getTravalPageDateDiff(pageable, days);
-		} else if(location!=null) {
-			tp = packService.getTravalPageLocation(pageable, location);
-		} else {
-			tp = packService.getTravalPage(pageable);
-		}
-		
-		return ResponseEntity.ok(tp);
-		
-	}
-	
-	// 패키지 여행 전체 갯수
-	@GetMapping("/getTravalPackCnt")
-	public ResponseEntity<?> getTravalPackCnt(
-		@RequestParam List<Integer> days,
-		@RequestParam String location,
-		@RequestParam String search
-	){
-		
-		Long cnt = 0L;
-		
-		if(days.size()!=0 && location!=null) {
-			cnt = packService.getTravalDateAndLocationCnt(days, location);
-		} else if(days.size()!=0) {
-			cnt = packService.getTravalDateDiffCnt(days);
-		} else if(location!=null) {
-			cnt = packService.getTravalLocationCnt(location);
-		} else {
-			cnt = packService.getTravalCnt();
-		}
-		
-		return ResponseEntity.ok(cnt);
-	}
-	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 패키지 여행 전체 조회
@@ -119,11 +63,15 @@ public class TravalPackController {
 
 	// 패키지 여행 삭제
 	@DeleteMapping("/deleteTravalpack")
-	public ResponseEntity<Void> deleteTravalpack(
+	public ResponseEntity<?> deleteTravalpack(
 		@RequestParam Long packNum
 	) {
-		packService.deleteTravalpack(packNum);
-		return ResponseEntity.noContent().build();// No Content(204) 상태 코드를 반환
+		try {
+			packService.deleteTravalpack(packNum);
+		}catch (Exception e) {
+			return ResponseEntity.ok(false);
+		}
+		return ResponseEntity.ok(true);
 	}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -137,7 +85,6 @@ public class TravalPackController {
 		packService.createTravalPack(TravalPackList);
 	}
 }
-
 
 /* 
  * - ResponseEntity: HTTP 응답을 나타내는 Spring의 클래스로, 응답의 상태코드, 헤더, 본문(body) 등을 포함합니다.

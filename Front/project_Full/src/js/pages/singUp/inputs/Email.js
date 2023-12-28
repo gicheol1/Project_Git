@@ -18,9 +18,9 @@ const Email = ({ newUser, setNewUser }) => {
     const [messageEmail, setMessageEmail] = useState(' ');
     const [messageCode, setMessageCode] = useState(' ');
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     const isEmail = (_email) => {
         return !/^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/.test(_email);
@@ -31,12 +31,10 @@ const Email = ({ newUser, setNewUser }) => {
         else { setMessageEmail(''); }
     }
 
-    // ----- ----- ----- ----- ----- ----- ----- ----- -----
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 입력한 이메일로 인증번호 전송
     const sendCode = () => {
-
-
 
         setMessageEmail('인증번호 전송중...');
 
@@ -75,14 +73,14 @@ const Email = ({ newUser, setNewUser }) => {
 
         }).then((response) => {
             if (response.ok) {
-                return response.headers;
+                return response.json();
 
             } else {
                 throw new Error();
 
             }
-        }).then((head) => {
-            if (JSON.parse(head.get("verifyResult"))) {
+        }).then((res) => {
+            if (res) {
                 setMessageEmail('');
                 setMessageCode(' ----- 인증 성공 ----- ');
 
@@ -101,9 +99,9 @@ const Email = ({ newUser, setNewUser }) => {
         })
     }
 
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
-    // ===== ===== ===== ===== ===== ===== ===== ===== =====
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
         <div className="email">

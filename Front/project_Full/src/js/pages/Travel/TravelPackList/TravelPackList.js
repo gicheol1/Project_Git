@@ -8,10 +8,13 @@ import { usePagination, PaginationComponent } from 'js';
 import HotelIcon from '@mui/icons-material/Hotel';
 import { Button } from '@mui/material';
 import './TravelPackList.css'; // CSS 파일을 임포트
+import { useTravelPackList } from './useTravelPackList';
 
 /* 여행 예약 1번*/
 /* - 여행 패키지 목록 페이지 */
 function TravelPackList({ isAdmin }) {
+
+    const navigate = useNavigate(); // 페이지 이동을 위한 함수
 
     /* useState(함수의 상태관리), useNavigate(라우터 내에서 경로를 변경), ModalFunction(모달창의 열고 닫는 기능) */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -19,8 +22,8 @@ function TravelPackList({ isAdmin }) {
     /* 여행 패키지 */
     const [originalTravalPack, setOriginalTravalPack] = useState([]); // 원본 여행 패키지 데이터
     const [TravalPack, setTravalPack] = useState([]); // 수정된 여행 패키지
-    console.log(TravalPack);
-    console.log(originalTravalPack);
+    // console.log(TravalPack);
+    // console.log(originalTravalPack);
 
     /* 축제 정보 */
     const [FestivalAll, setFestivalAll] = useState([]);
@@ -31,7 +34,7 @@ function TravelPackList({ isAdmin }) {
         startDate: festivallist.startDate,
         endDate: festivallist.endDate
     }));
-    console.log(FestivalfilteredData);
+    // console.log(FestivalfilteredData);
 
     /* 패키지 여행 데이터 로딩 */
     const [loading, setLoading] = useState(true);
@@ -92,20 +95,6 @@ function TravelPackList({ isAdmin }) {
 
     };
 
-    /* 검색 기능 */
-    useEffect(() => {
-        const getFilteredRowsBySearch = () => {
-            if (!searchKeyword.trim()) {
-                return TravalPack;
-            }
-
-            const keyword = searchKeyword.toLowerCase().trim();
-            return TravalPack.filter(row => row.festivalname.toLowerCase().includes(keyword));
-        };
-
-        setFilteredRowssearch(getFilteredRowsBySearch());
-    }, [searchKeyword, TravalPack]);
-
     const handleSearchInputChange = (event) => {
         setSearchInput(event.target.value);
     };
@@ -146,7 +135,8 @@ function TravelPackList({ isAdmin }) {
     /* 부트 스트랩 팝업창 기능 */
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
-    const navigate = useNavigate(); // 페이지 이동을 위한 함수                            
+    // Spring Boot 연동 함수
+    const { getTravalpack, getFestival, deleteTravalpack } = useTravelPackList();
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -154,37 +144,43 @@ function TravelPackList({ isAdmin }) {
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행의 전체 정보, 축제정보 불러오기 */
     useEffect(() => {
-        fetch(SERVER_URL + "getTravalpackAll", { method: 'GET' })
-            .then(response => response.json())
-            .then(data => {
-                setTravalPack(data); // 수정된 전체 데이터   
-                setOriginalTravalPack(data); // 다시불러오는 전체데이터
-                setLoading(false);
-            })
-            .catch(err => { console.error(err); setLoading(false); });
 
-        fetch(SERVER_URL + "festivalAll", { method: 'GET' })
-            .then(response => response.json())
-            .then(data => {
-                setFestivalAll(data); // 전체 데이터를 그대로 설정
-                setLoading(false);
-            })
-            .catch(err => { console.error(err); setLoading(false); });
+        getTravalpack().then((res) => {
+            if (!res) { alert('여행 패키지를 불러오는데 실패했습니다.'); return; }
+
+            setTravalPack(res); // 수정된 전체 데이터   
+            setOriginalTravalPack(res); // 다시불러오는 전체데이터
+            setLoading(false);
+
+        })
+
+        getFestival().then((res) => {
+            if (!res) { alert('축제 목록을 불러오는데 실패했습니다.'); return; }
+
+            setFestivalAll(res); // 전체 데이터를 그대로 설정
+            setLoading(false);
+
+        })
 
     }, []);
 
-    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
-    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
-    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* 검색 기능 */
+    useEffect(() => {
+        const getFilteredRowsBySearch = () => {
+            if (!searchKeyword.trim()) {
+                return TravalPack;
+            }
 
-    /* 패키지 여행 로딩 상태 관리 */
-    if (loading) {
-        return (
-            <div>
-                <p>패키지 여행 데이터를 불러오는 중입니다...</p>
-            </div>
-        );
-    }
+            const keyword = searchKeyword.toLowerCase().trim();
+            return TravalPack.filter(row => row.festivalname.toLowerCase().includes(keyword));
+        };
+
+        setFilteredRowssearch(getFilteredRowsBySearch());
+    }, [searchKeyword, TravalPack]);
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 행의 예약하기 버튼 클릭시 여행 예약 페이지로 이동(로그인이 안되어 있으면 로그인창으로 보내기)*/
     const handleCellClick = (params) => {
@@ -202,19 +198,20 @@ function TravelPackList({ isAdmin }) {
 
     /* 패키지 여행 삭제 */
     const handleDelete = (packNum) => {
-        fetch(SERVER_URL + `deleteTravalpack?packNum=${packNum}`, { method: 'DELETE' })
-
-            .then(response => {
-                if (response.ok) {
-                    const updatedTravalPack = TravalPack.filter(deletetravalpack => deletetravalpack.packNum !== packNum);
-                    setTravalPack(updatedTravalPack);
-                    alert('패키지 여행 ' + packNum + '번 이 성공적으로 삭제되었습니다.');
-                } else {
-                    alert('패키지 여행을 삭제하는 중 오류가 발생했습니다.');
-                }
-            })
-            .catch(err => alert(err))
+        deleteTravalpack(packNum).then(res => {
+            if (res) {
+                const updatedTravalPack = TravalPack.filter(deletetravalpack => deletetravalpack.packNum !== packNum);
+                setTravalPack(updatedTravalPack);
+                alert('패키지 여행 ' + packNum + '번 이 성공적으로 삭제되었습니다.');
+            } else {
+                alert('패키지 여행을 삭제하는 중 오류가 발생했습니다.');
+            }
+        })
     };
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 패키지 여행의 컬럼 */
     const columns = [
@@ -297,110 +294,111 @@ function TravelPackList({ isAdmin }) {
 
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
-    return (
-        <div>
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-            {/* 패키지 여행 목록 */}
-            <div className="PackageTravelList">
+    /* 패키지 여행 로딩 상태 관리 */
+    if (loading) {
+        return (
+            <div>
+                <p>패키지 여행 데이터를 불러오는 중입니다...</p>
+            </div>
+        );
+    } else {
+        return (
+            <div>
 
-                <h1 className="traval-pack-list-header">
-                    <HotelIcon fontSize='large' className='custom-hotel-icon' /> 숙소 목록
-                </h1>
+                {/* 패키지 여행 목록 */}
+                <div className="PackageTravelList">
 
+                    <h1 className="traval-pack-list-header">
+                        <HotelIcon fontSize='large' className='custom-hotel-icon' /> 숙소 목록
+                    </h1>
 
-
-
-
-                {/* 예약할 일정 선택 */}
-                <div className="checkbox-container">
-                    <label>
+                    <div className="search-container">
                         <input
-                            type="checkbox"
-                            checked={showSelectedOnly}
-                            onChange={() => { setShowSelectedOnly(!showSelectedOnly); handleFilterChange(); }}
+                            type="text"
+                            placeholder="축제 검색"
+                            // value={searchKeyword}
+                            value={searchInput}
+                            onChange={handleSearchInputChange}
                         />
-                        1일 여행만 보기
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={showOneNightTwoDays}
-                            onChange={() => { setShowOneNightTwoDays(!showOneNightTwoDays); handleFilterChange(); }}
-                        />
-                        1박 2일 여행만 보기
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={showTwoNightsThreeDays}
-                            onChange={() => { setShowTwoNightsThreeDays(!showTwoNightsThreeDays); handleFilterChange(); }}
-                        />
-                        2박 3일 여행만 보기
-                    </label>
-                    <label>
-                        {/* 지역 선택 */}
-                        <select onChange={(e) => { handleCityChange(e.target.value); handleFilterChange(); }}>
-                            <option value="">지역 선택</option>
-                            <option value="서울특별시">서울특별시</option>
-                            <option value="대전광역시">대전광역시</option>
-                            <option value="전라북도">전라북도</option>
-                        </select>
-                    </label>
-                    <label className='search-fes'>
-
-                        {/* <div className="search-container"> */}
-                            <input
-                                className='search-festival'
-                                type="text"
-                                placeholder="축제 검색"
-                                // value={searchKeyword}
-                                value={searchInput}
-                                onChange={handleSearchInputChange}
-                            />
-
-                        {/* </div> */}
-                    </label>
-                    <label className='search-btn'>
                         <button onClick={handleSearch}>검색</button>
-                    </label >
-                    <label className='search-reset-btn'>
-
                         <button onClick={handleSearchReset}>검색 초기화</button>
-                    </label>
+                    </div>
+
+
+
+                    {/* 예약할 일정 선택 */}
+                    <div className="checkbox-container">
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={showSelectedOnly}
+                                onChange={() => { setShowSelectedOnly(!showSelectedOnly); handleFilterChange(); }}
+                            />
+                            1일 여행만 보기
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={showOneNightTwoDays}
+                                onChange={() => { setShowOneNightTwoDays(!showOneNightTwoDays); handleFilterChange(); }}
+                            />
+                            1박 2일 여행만 보기
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={showTwoNightsThreeDays}
+                                onChange={() => { setShowTwoNightsThreeDays(!showTwoNightsThreeDays); handleFilterChange(); }}
+                            />
+                            2박 3일 여행만 보기
+                        </label>
+                        <label>
+                            {/* 지역 선택 */}
+                            <select onChange={(e) => { handleCityChange(e.target.value); handleFilterChange(); }}>
+                                <option value="">지역 선택</option>
+                                <option value="서울특별시">서울특별시</option>
+                                <option value="대전광역시">대전광역시</option>
+                                <option value="전라북도">전라북도</option>
+                            </select>
+                        </label>
+                    </div>
+
+
+                    {/* DataGrid를 이용한 여행 패키지 목록 표시 */}
+                    {TravalPack.length === 0 ? ( // TravalPack(패키지 여행)의 데이터가 없으면 p 있으면 DataGrid를 출력
+                        <div>
+                            <p>표시할 패키지 여행 데이터가 없습니다.</p>
+                            <p>패키지 여행 데이터를 등록해주세요.</p>
+                        </div>
+                    ) : (
+                        <DataGrid
+                            className="hideHeaders" // 컬럼 헤더 숨기기
+                            rows={currentPageData} // 표시할 행 데이터
+                            // rows={filteredRows} // 표시할 행 데이터(필터링)
+                            columns={columns}// 열(컬럼) 설정
+                            getRowId={row => row.packNum}// 각 행의 고유 ID 설정
+                            checkboxSelection={false} // 체크박스(false(비활성화))
+                            hideFooter={true} // 표의 푸터바 제거
+                            getRowHeight={params => 450} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
+                        />
+                    )}
+
                 </div>
 
-
-                {/* DataGrid를 이용한 여행 패키지 목록 표시 */}
-                {TravalPack.length === 0 ? ( // TravalPack(패키지 여행)의 데이터가 없으면 p 있으면 DataGrid를 출력
-                    <div>
-                        <p>표시할 패키지 여행 데이터가 없습니다.</p>
-                        <p>패키지 여행 데이터를 등록해주세요.</p>
-                    </div>
-                ) : (
-                    <DataGrid
-                        className="hideHeaders" // 컬럼 헤더 숨기기
-                        rows={currentPageData} // 표시할 행 데이터
-                        // rows={filteredRows} // 표시할 행 데이터(필터링)
-                        columns={columns}// 열(컬럼) 설정
-                        getRowId={row => row.packNum}// 각 행의 고유 ID 설정
-                        checkboxSelection={false} // 체크박스(false(비활성화))
-                        hideFooter={true} // 표의 푸터바 제거
-                        getRowHeight={params => 450} // DataGrid의 특정 행의 높이를 100 픽셀로 설정(CSS로 분리불가)
-                    />
-                )}
-
+                {/* 페이징(페이지 네이션) */}
+                <PaginationComponent
+                    // count={Math.ceil(TravalPack.length / itemsPerPage)} // 전체 데이터
+                    count={Math.ceil(filteredRows.length / itemsPerPage)}
+                    page={currentPage}
+                    // onChange={handlePageChange} // 페이지 초기화 적용전
+                    onChange={handlePaginationChange}
+                />
             </div>
-
-            {/* 페이징(페이지 네이션) */}
-            <PaginationComponent
-                // count={Math.ceil(TravalPack.length / itemsPerPage)} // 전체 데이터
-                count={Math.ceil(filteredRows.length / itemsPerPage)}
-                page={currentPage}
-                // onChange={handlePageChange} // 페이지 초기화 적용전
-                onChange={handlePaginationChange}
-            />
-        </div>
-    );
+        );
+    }
 
 };
 

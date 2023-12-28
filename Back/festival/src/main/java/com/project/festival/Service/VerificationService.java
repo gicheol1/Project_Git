@@ -25,6 +25,7 @@ public class VerificationService {
 
     public String generateVerificationCode(String email) {
     	
+    	// 이미 등록된 이메일인 경우
     	if(userRepository.existsByEmail(email)) {return "Duplication";}
     	
     	// 코드 생성

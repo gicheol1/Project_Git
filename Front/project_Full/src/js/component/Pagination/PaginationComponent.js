@@ -1,11 +1,12 @@
-import { Pagination} from '@mui/material';
+import { Pagination } from '@mui/material';
 import { useState } from 'react';
 
 import './PaginationComponent.css';
+
 // 페이징 기능을 사용하기 위한 커스텀 훅
 export function usePagination(values) {
     // 현재 페이지와 페이지당 아이템 수를 상태로 갖는 useState 훅 사용
-    const [currentPage, setCurrentPage] = useState(1); 
+    const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5; // 페이지당 표시할 행의 수
 
     // 현재 페이지의 시작 인덱스를 계산
@@ -32,7 +33,7 @@ export function usePagination(values) {
 // 페이지네이션 UI를 렌더링하는 컴포넌트
 export function PaginationComponent({ count, page, onChange }) {
     return (
-        
+
         <Pagination className='Pagination'
             count={count} // 전체 페이지 수
             page={page} // 현재 페이지
@@ -40,6 +41,6 @@ export function PaginationComponent({ count, page, onChange }) {
             variant="outlined" // 외곽선 스타일
             shape="rounded" // 모서리 둥글게
         />
-        
+
     );
 }

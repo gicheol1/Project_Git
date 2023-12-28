@@ -1,6 +1,5 @@
 package com.project.festival.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,17 +12,15 @@ import com.project.festival.Service.AuthService;
 import com.project.festival.Service.EmailService;
 import com.project.festival.Service.VerificationService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class AuthController {
 	
-	@Autowired
-	private AuthService authService;
-	
-	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
-	private VerificationService verService;
+	private final AuthService authService;
+	private final EmailService emailService;
+	private final VerificationService verService;
 	
 // ===== ===== ===== ===== ===== ===== ===== ===== =====
 // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -59,12 +56,12 @@ public class AuthController {
         String code = verService.generateVerificationCode(emailCode.getEmail());
         
         if(code.equals("Duplication")) {
-        	return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(false);
         }
         
         emailService.sendCode(emailCode.getEmail(), code);
-		
-		return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok(true);
     }
 
 	// 인증번호 확인
@@ -73,17 +70,7 @@ public class AuthController {
     	
         boolean vResult = verService.verifyCode(emailCode.getEmail(), emailCode.getCode());
 		
-        if(vResult) {
-        	return ResponseEntity.ok()
-    			.header("verifyResult", "true")
-    			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "verifyResult")
-    			.build();
-        }
-        
-    	return ResponseEntity.ok()
-			.header("verifyResult", "false")
-			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "verifyResult")
-			.build();
+        return ResponseEntity.ok(vResult);
         
     }
 	
