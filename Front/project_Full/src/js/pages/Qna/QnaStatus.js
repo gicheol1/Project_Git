@@ -10,11 +10,18 @@ import axios from 'axios';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const PostQnaStatus = () => {
+
   // 페이지당 항목 수와 현재 페이지를 관리하는 상태
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+
   // 게시판의 Q&A 목록을 관리하는 상태
   const [boardQAs, setBoardQAs] = useState([]);
+
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+
   // 페이지가 로드될 때 API에서 데이터를 가져오는 효과
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +36,11 @@ const PostQnaStatus = () => {
 
     fetchData();
   }, []);
+
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+
   // 답변 토글 함수
   const toggleAnswer = (postId) => {
     const updatedBoardQAs = boardQAs.map(boardQA =>
@@ -36,6 +48,7 @@ const PostQnaStatus = () => {
     );
     setBoardQAs(updatedBoardQAs);
   };
+
   // 비공개 토글 함수
   const togglePrivacy = (postId) => {
     const updatedBoardQAs = boardQAs.map(boardQA =>
@@ -43,14 +56,17 @@ const PostQnaStatus = () => {
     );
     setBoardQAs(updatedBoardQAs);
   };
+
   // 현재 페이지의 항목 범위 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = boardQAs.slice(indexOfFirstItem, indexOfLastItem);
+
   // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   // 페이지 번호 렌더링 함수
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -67,6 +83,10 @@ const PostQnaStatus = () => {
     }
     return pageNumbers;
   };
+
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
   return (
     <div className="board-container">

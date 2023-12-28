@@ -9,7 +9,7 @@
   box-shadow: 0 4px 5px rgba(240, 233, 233, 0.75);
   position: fixed;
 
-  bottom: 30px; /* 수정: 유효한 닫는 괄호 추가 */
+  bottom: 150px; /* 수정: 유효한 닫는 괄호 추가 */
 }
 
 .profile-image {

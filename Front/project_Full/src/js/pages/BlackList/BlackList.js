@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import {
+  Button,
   Pagination, Paper,
-  Table, TableBody, TableCell, TableContainer,
+  Table, TableBody, TableCell,
   TableFooter, TableHead, TableRow
 } from "@mui/material";
 
@@ -69,57 +70,55 @@ const BlackList = () => {
 
   return (
     <div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 750 }} aria-label="simple table">
+      <Table component={Paper} sx={{ minWidth: 750 }} aria-label="simple table">
 
-          {/* 테이블 헤더 */}
-          <TableHead>
-            <TableRow className="tableHead">
-              <TableCell className='table-cell' align="center" width={20}>번호</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>아이디</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>차단일자</TableCell>
-              <TableCell className='table-cell' align="center" width={100}>차단 종료 일자</TableCell>
-              <TableCell className='table-cell' align="center" width={150}></TableCell>
-            </TableRow>
-          </TableHead>
+        {/* 테이블 헤더 */}
+        <TableHead>
+          <TableRow className="tableHead">
+            <TableCell className='table-cell' align="center" width={20}>번호</TableCell>
+            <TableCell className='table-cell' align="center" width={30}>아이디</TableCell>
+            <TableCell className='table-cell' align="center" width={30}>차단일자</TableCell>
+            <TableCell className='table-cell' align="center" width={100}>차단 종료 일자</TableCell>
+            <TableCell className='table-cell' align="center" width={150}></TableCell>
+          </TableRow>
+        </TableHead>
 
-          {/* 테이블 바디 */}
-          <TableBody>
-            {blackList !== undefined && (
-              blackList.length !== 0 ?
-                blackList.map(black => (
-                  <TableRow>
-                    <TableCell className='table-cell' align="center" width={30}>{black.blackId}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{black.memId}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{black.banDate}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{black.banEndDate === null ? `무기한` : black.banEndDate}</TableCell>
-                    <TableCell className='table-cell' align="center" width={150}>
-                      <button className='btn-gray' onClick={() => { toChangeInfo(black.blackNum); }} >수정</button>
-                      <button className='btn-red' onClick={() => { onDelete(black.blackNum); }} >삭제</button>
-                    </TableCell>
-                  </TableRow>
-                ))
-                :
+        {/* 테이블 바디 */}
+        <TableBody>
+          {blackList !== undefined && (
+            blackList.length !== 0 ?
+              blackList.map(black => (
                 <TableRow>
-                  <TableCell className='table-cell' colSpan={5} align="center">No Data</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{black.blackId}</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{black.memId}</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{black.banDate}</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{black.banEndDate === null ? `무기한` : black.banEndDate}</TableCell>
+                  <TableCell className='table-cell' align="center" width={150}>
+                    <Button variant="contained" onClick={() => { toChangeInfo(black.blackNum); }} >수정</Button>
+                    <Button variant="contained" color="error" style={{ marginLeft: '10px' }} onClick={() => { onDelete(black.blackNum); }} >삭제</Button>
+                  </TableCell>
                 </TableRow>
-            )
-            }
-          </TableBody>
+              ))
+              :
+              <TableRow>
+                <TableCell className='table-cell' colSpan={5} align="center">No Data</TableCell>
+              </TableRow>
+          )
+          }
+        </TableBody>
 
-          {/* 테이블 푸터 */}
-          <TableFooter>
-            <TableCell colSpan={4}>
-              <Pagination
-                count={blackListCnt % 10 !== 0 ? Math.ceil(blackListCnt / 10) : blackListCnt / 10}
-                page={page}
-                onChange={handlePageChange}
-              />
-            </TableCell>
-          </TableFooter>
+        {/* 테이블 푸터 */}
+        <TableFooter>
+          <TableCell colSpan={5}>
+            <Pagination
+              count={blackListCnt % 10 !== 0 ? Math.ceil(blackListCnt / 10) : blackListCnt / 10}
+              page={page}
+              onChange={handlePageChange}
+            />
+          </TableCell>
+        </TableFooter>
 
-        </Table>
-      </TableContainer>
+      </Table>
     </div>
   );
 };

@@ -1,15 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap");
 /* Sidecare.css */
-
-/* 측면 바 스타일링 */
 .sidebar {
-  max-width: 160px;
+  max-width: 160px; /* 수정: 최소한 부트스트랩 너비에 맞게 조정 */
   background: rgba(238, 235, 235, 0.75);
+  margin: 40px auto;
+  padding: 15px; /* 수정: 중복된 속성 제거 */
   border: 1px solid #e0c2c2;
   border-radius: 4px;
   box-shadow: 0 4px 5px rgba(240, 233, 233, 0.75);
-
-  margin: 280px auto;
 }
 
 /* 프로필 이미지 스타일링 */

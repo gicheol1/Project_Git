@@ -37,7 +37,7 @@ const Header = ({ isLogin, isAdmin, setIsLogin, isVisible }) => {
             {/* 메뉴 */}
             <ul className="nav col align-items-center justify-content-center col-md-auto mb-2 mb-md-0">
                 <li><Link to="/" className="nav-link px-3 link-dark">홈</Link></li>
-                <li><Link to="*" className="nav-link px-3 link-dark">게시판</Link></li>
+                <li><Link to={`${window.location.pathname}`} className="nav-link px-3 link-dark">게시판</Link></li>
                 <li><Link to="/travelKaKaoMap" className="nav-link px-3 link-dark">여행지도</Link></li>
                 <li><Link to="/calendar" className="nav-link px-3 link-dark">여행달력</Link></li>
                 <li><Link to="/packreservationList" className="nav-link px-3 link-dark">여행상품</Link></li>

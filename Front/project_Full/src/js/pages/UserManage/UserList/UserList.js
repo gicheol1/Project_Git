@@ -5,7 +5,7 @@ import { useUserList } from './useUserList';
 import {
   Button,
   Pagination, Paper,
-  Table, TableBody, TableCell, TableContainer,
+  Table, TableBody, TableCell,
   TableFooter, TableHead, TableRow
 } from "@mui/material";
 
@@ -71,57 +71,55 @@ const UserList = () => {
 
   return (
     <div className="table-container">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table component={Paper} sx={{ minWidth: 650 }} aria-label="simple table">
 
-          {/* 테이블 헤더 */}
-          <TableHead>
-            <TableRow className="tableHead">
-              <TableCell className='table-cell' align="center" width={30}>아이디</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>이름</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>전화번호</TableCell>
-              <TableCell className='table-cell' align="center" width={30}>가입일자</TableCell>
-              <TableCell className='table-cell' align="center" width={120}></TableCell>
-            </TableRow>
-          </TableHead>
+        {/* 테이블 헤더 */}
+        <TableHead>
+          <TableRow className="tableHead">
+            <TableCell className='table-cell' align="center" width={30}>아이디</TableCell>
+            <TableCell className='table-cell' align="center" width={30}>이름</TableCell>
+            <TableCell className='table-cell' align="center" width={30}>전화번호</TableCell>
+            <TableCell className='table-cell' align="center" width={30}>가입일자</TableCell>
+            <TableCell className='table-cell' align="center" width={120}></TableCell>
+          </TableRow>
+        </TableHead>
 
-          {/* 테이블 바디 */}
-          <TableBody>
-            {userList !== undefined && (
-              userList.length !== 0 ?
-                userList.map(user => (
-                  <TableRow>
-                    <TableCell className='table-cell' align="center" width={30}>{user.memId}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{user.name}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{user.phonNum}</TableCell>
-                    <TableCell className='table-cell' align="center" width={30}>{user.singupDate}</TableCell>
-                    <TableCell className='table-cell' align="center" width={120}>
-                      <Button variant="contained" onClick={() => { toChangeInfo(user.memId); }} >수정</Button>
-                      <Button variant="contained" color="error" onClick={() => { onDelete(user.memId); }} >삭제</Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-                :
+        {/* 테이블 바디 */}
+        <TableBody>
+          {userList !== undefined && (
+            userList.length !== 0 ?
+              userList.map(user => (
                 <TableRow>
-                  <TableCell className='table-cell' colSpan={5} align="center">No Data</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{user.memId}</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{user.name}</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{user.phonNum}</TableCell>
+                  <TableCell className='table-cell' align="center" width={30}>{user.singupDate}</TableCell>
+                  <TableCell className='table-cell' align="center" width={120}>
+                    <Button variant="contained" onClick={() => { toChangeInfo(user.memId); }} >수정</Button>
+                    <Button variant="contained" color="error" style={{ marginLeft: '10px' }} onClick={() => { onDelete(user.memId); }} >삭제</Button>
+                  </TableCell>
                 </TableRow>
-            )
-            }
-          </TableBody>
+              ))
+              :
+              <TableRow>
+                <TableCell className='table-cell' colSpan={5} align="center">No Data</TableCell>
+              </TableRow>
+          )
+          }
+        </TableBody>
 
-          {/* 테이블 푸터 */}
-          <TableFooter>
-            <TableCell colSpan={5}>
-              <Pagination
-                count={userCnt % 10 !== 0 ? Math.ceil(userCnt / 10) : userCnt / 10}
-                page={page}
-                onChange={handlePageChange}
-              />
-            </TableCell>
-          </TableFooter>
+        {/* 테이블 푸터 */}
+        <TableFooter>
+          <TableCell colSpan={5}>
+            <Pagination
+              count={userCnt % 10 !== 0 ? Math.ceil(userCnt / 10) : userCnt / 10}
+              page={page}
+              onChange={handlePageChange}
+            />
+          </TableCell>
+        </TableFooter>
 
-        </Table>
-      </TableContainer>
+      </Table>
     </div>
   );
 };
