@@ -2,33 +2,57 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from 'react-alice-carousel';
-import React from 'react';
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from 'js';
+import React, { useEffect,useState } from "react";
 
 function Home() {
+
+
+  useEffect(() => { getFestival(); }, [])
 
   const navigate = useNavigate(); // 페이지 이동을 위한 함수   
 
   const handleDragStart = (e) => e.preventDefault();
+  const [imgList, setImgList] = useState([]);
+
+
   {/* 축제 DB값이랑 같은 이미지 불러옴*/ }
   const items = [
     <div>
-      <img src={require("./img/고양이1.png")} />
-      <img src={require("./img/고양이2.png")} />
-      <img src={require("./img/고양이3.png")} />
-    </div>,
-    <div>
-      <img src={require("./img/고양이2.png")} />
-      <img src={require("./img/고양이3.png")} />
-      <img src={require("./img/고양이4.png")} />
-    </div>,
-    <div>
-      <img src={require("./img/고양이3.png")} />
-      <img src={require("./img/고양이4.png")} />
-      <img src={require("./img/고양이5.png")} />
+      {imgList.map((image, index) => (
+        <img
+          key={`image ${index}`}
+          alt={`image ${image.orgName}`}
+          src={`data:image/png;base64,${image.imgFile}`}
+        />))
+                }
     </div>
-
   ];
+
+  const getFestival = () => {
+		fetch(SERVER_URL + 'getFileFestivalAll', {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' }
+
+		}).then((response) => {
+
+			if (response.ok) {
+				return response.json();
+
+			} else {
+				throw new Error(response.status);
+
+			}
+
+		}).then((data) => {
+      setImgList(data);
+      console.log(data);  
+		}).catch((e) => {
+			alert(e)
+
+		})
+	}
 
 
   // ===== ===== ===== ===== ===== ===== ===== ===== =====

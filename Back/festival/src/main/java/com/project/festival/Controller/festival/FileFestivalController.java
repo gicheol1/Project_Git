@@ -44,8 +44,8 @@ public class FileFestivalController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 축제 이미지 가져오기
-	@GetMapping("/getFileFeatival")
-	public ResponseEntity<?> getFileFeatival(
+	@GetMapping("/getFileFestival")
+	public ResponseEntity<?> getFileFestival(
 		@RequestParam Long festivalNum
 	) {
 		
@@ -59,9 +59,24 @@ public class FileFestivalController {
 				
 			} catch (IOException e) { e.printStackTrace(); continue; }
 		}
-		
 		return ResponseEntity.ok(dto);
 	}
+	//축제 이미지 전부 가져오기
+	@GetMapping("/getFileFestivalAll")
+	public ResponseEntity<?> getFileFestivalAll() {
+		
+		List<FileDto> dto = new ArrayList<>();
+		
+		for(FileFestival files : fileFestivalService.getFilesAll()) {
+			try {
+				FileDto fd = modelMapper.map(files, FileDto.class);
+				fd.setImgFile(storageService.getImageFile(files.getFileName()));
+				dto.add(fd);
+			} catch (IOException e) { e.printStackTrace(); continue; }
+		}
+		return ResponseEntity.ok(dto);
+	}
+
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
