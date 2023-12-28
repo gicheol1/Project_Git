@@ -157,3 +157,16 @@
     margin-right: 15px;
 }
 
+.search-container{
+    width: 500px;
+    margin-left: 10%;
+}
+
+.search-button{
+    height: 45px;
+}
+
+.search-btn-title{
+    font-size: 20px;
+    font-family: 'Cute Font', sans-serif;
+}
