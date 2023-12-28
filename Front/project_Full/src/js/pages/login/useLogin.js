@@ -14,7 +14,7 @@ export function useLogin() {
         }).then((res) => {
 
             // 차단된 사용자인 경우(403)
-            if (!res.ok) { return res.status; }
+            if (res.status === 403) { return 403; }
 
             // 해더에서 토큰 받기
             const jwtToken = res.headers.get('Authorization');

@@ -1,6 +1,5 @@
 package com.project.festival.Controller.board;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,18 +16,18 @@ import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
 import com.project.festival.Service.board.BoardService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class BoardController {
 	
 	// 게시판
-    @Autowired
-    private BoardService borderService;
+    private final BoardService borderService;
 	
-	@Autowired
-	private JwtService jwtService;
+	private final JwtService jwtService;
 
-	@Autowired
-	private AuthService authService;
+	private final AuthService authService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

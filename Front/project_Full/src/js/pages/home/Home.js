@@ -4,20 +4,19 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from 'react-alice-carousel';
 import { useNavigate } from "react-router-dom";
 import { SERVER_URL } from 'js';
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Home() {
 
+  // 페이지 이동을 위한 함수   
+  const navigate = useNavigate();
 
-  useEffect(() => { getFestival(); }, [])
-
-  const navigate = useNavigate(); // 페이지 이동을 위한 함수   
-
-  const handleDragStart = (e) => e.preventDefault();
+  // 슬라이드에 출력할 이미지 배열
   const [imgList, setImgList] = useState([]);
 
+  const handleDragStart = (e) => e.preventDefault();
 
-  {/* 축제 DB값이랑 같은 이미지 불러옴*/ }
+  // 슬라이드 애니메이션에 추가할 이미지 태그
   const items = [
     <div>
       {imgList.map((image, index) => (
@@ -26,41 +25,43 @@ function Home() {
           alt={`image ${image.orgName}`}
           src={`data:image/png;base64,${image.imgFile}`}
         />))
-                }
+      }
     </div>
   ];
 
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+
+  useEffect(() => { getFestival(); }, [])
+
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+
+  // DB에 저장된 파일 이름으로 이미지 불러오기
   const getFestival = () => {
-		fetch(SERVER_URL + 'getFileFestivalAll', {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' }
+    fetch(SERVER_URL + 'getFileFestivalAll', {
+      method: 'GET'
 
-		}).then((response) => {
+    }).then((response) => {
 
-			if (response.ok) {
-				return response.json();
+      if (!response.ok) { return []; }
 
-			} else {
-				throw new Error(response.status);
+      return response.json();
 
-			}
-
-		}).then((data) => {
+    }).then((data) => {
       setImgList(data);
-      console.log(data);  
-		}).catch((e) => {
-			alert(e)
+      console.log(data);
 
-		})
-	}
+    }).catch((e) => { console.log(e) });
+  }
 
-
-  // ===== ===== ===== ===== ===== ===== ===== ===== =====
-  // ===== ===== ===== ===== ===== ===== ===== ===== =====
-  // ===== ===== ===== ===== ===== ===== ===== ===== =====
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+  // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
   return (
-
 
     <div class="container-xl">
 

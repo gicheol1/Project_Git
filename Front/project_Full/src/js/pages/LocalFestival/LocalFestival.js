@@ -1,10 +1,10 @@
-// FestivalPage.js
+// LocalFestival.js
 
 import React, { useState, useEffect } from 'react';
 import SelectRegion from './SelectRegion';
 import FestivalList from './FestivalList';
 
-const FestivalPage = () => {
+const LocalFestival = () => {
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [festivals, setFestivals] = useState([]);
 
@@ -30,4 +30,4 @@ const FestivalPage = () => {
   );
 };
 
-export default FestivalPage;
+export default LocalFestival;

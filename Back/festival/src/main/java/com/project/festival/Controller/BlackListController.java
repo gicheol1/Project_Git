@@ -63,9 +63,7 @@ public class BlackListController {
 		
 		Optional<BlackList> blackList = blackService.getBlackListDetail(blackNum);
 		
-		if(blackList.isEmpty()) {
-			return ResponseEntity.ok(false);
-		}
+		if(blackList.isEmpty()) { return ResponseEntity.ok(false); }
 		
 		return ResponseEntity.ok(blackList.get());
 	}

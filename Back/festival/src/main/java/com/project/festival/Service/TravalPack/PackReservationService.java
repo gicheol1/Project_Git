@@ -73,7 +73,7 @@ public class PackReservationService {
 		}
 	}
 
-		// ※ (테스트용) 패키지 예약자 확인하기
+	// ※ (테스트용) 패키지 예약자 확인하기
 	public void createDefaultPackReservations() {
 		ArrayList<PackReservationDto> PackReservation = PackReservationDto.createPackReservations();
 		createPackReservations(PackReservation);

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.festival.Constant.Role;
 import com.project.festival.Dto.UserDto;
 import com.project.festival.Entity.User;
 import com.project.festival.Entity.Repo.UserRepo;
@@ -33,26 +34,28 @@ public class UserService {
 	// 페이지별 관리자를 제외한 회원 리스트 출력
     public List<UserDto> getUserListPage(Pageable pageable) {
     	
-    	List<UserDto> _user = new ArrayList<>();
+    	List<UserDto> userDto = new ArrayList<>();
     	
-    	for(User u : userRepository.findByRoleNotOrderBySingupDateDesc("ADMIN", pageable).getContent()) {
+    	for(User user : userRepository.findByRoleNot(Role.ADMIN, pageable).getContent()) {
     		
-    		UserDto dto = modelMapper.map(u, UserDto.class);
-    		_user.add(dto);
+    		UserDto dto = modelMapper.map(user, UserDto.class);
+    		userDto.add(dto);
     	}
     	
-        return _user;
+        return userDto;
     }
 
 	// 관리자를 제외한 회원의 수
-    public long getUserCnt() { return userRepository.countByRoleNot("ADMIN"); }
+    public long getUserCnt() { return userRepository.countByRoleNot(Role.ADMIN); }
     
     // 아이디로 회원 정보 가져오기
     public Optional<User> getUserById(String memId) { return userRepository.findByMemId(memId); }
 
     // 회원 존재 여부 확인
     public boolean existsUserById(String memId) { return userRepository.existsByMemId(memId); }
-    
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원가입
@@ -68,8 +71,6 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
     // 회원 정보 수정
     public void updateUser(User updateUser) {
     	
@@ -83,28 +84,30 @@ public class UserService {
     	}
     	
     	// 기존 정보에서 수정된 필드만 변경
-    	if(_user.isPresent()) { updateUser = modelMapper.map(beforUser, User.class); }
-        
+    	if(_user.isPresent()) {
+    		beforUser = _user.get();
+    		beforUser = modelMapper.map(updateUser, User.class);
+    	}
+    	
     	// 수정된 정보 저장(수정시 memId가 같아야 한다.)
-        userRepository.save(updateUser);
+        userRepository.save(beforUser);
     }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원 아이디 탐색
-    public String findUserId(String email, String name) {
+    public String findUserId(String name, String email) {
     	
-    	Optional<String> targetUser_id = userRepository.findMemIdByEmailAndName(email, name);
+    	Optional<String> targetUser_id = userRepository.findMemIdByNameAndEmail(name, email);
     	
     	// 회원이 존재하는 경우
     	if(targetUser_id.isPresent()) {
     		return targetUser_id.get();
 
     	// 존재하지 않은 회원
-    	} else {
-    		return "";
-    		
-    	}
+    	} else { return ""; }
     	
     }
 
@@ -136,15 +139,14 @@ public class UserService {
     		
     		// 생성된 비밀번호 반환
     		return newPW;
-        	
-    	
-    	} else {
-        	// 존재하지 않은 회원
-        	return "";
-    	}
+
+    	// 존재하지 않은 회원
+    	} else { return ""; }
     	
     }
 
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원탈퇴

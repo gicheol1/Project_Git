@@ -16,15 +16,14 @@ export function useCheckLogin() {
         const jwt = sessionStorage.getItem('jwt');
 
         // 토큰이 없는 경우
-        if (jwt === undefined || jwt === null) {
-            sessionStorage.removeItem('jwt');
-            return false;
-        }
+        if (jwt === undefined || jwt === null) { sessionStorage.removeItem('jwt'); return false; }
 
         return await fetch(SERVER_URL + `checkIsLogin?jwt=${jwt}`, {
             method: 'GET'
 
         }).then((res) => {
+
+            if (!res.ok) { return false; }
 
             // 해더에서 토큰 받아오기
             const jwtToken = res.headers.get('Authorization');
@@ -61,7 +60,7 @@ export function useCheckLogin() {
             method: 'GET'
 
         }).then((res) => {
-            if (!res.ok) { throw new Error(res.status) }
+            if (!res.ok) { return false; }
 
             return res.json();
 

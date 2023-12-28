@@ -87,7 +87,7 @@ public class UserController {
 		@RequestParam String email
 	) {
 		
-		String _id = userService.findUserId(email, name);
+		String _id = userService.findUserId(name, email);
 		
 		// 회원이 존재하지 않은 경우
 		if(_id.isEmpty()) { return ResponseEntity.ok(false); }

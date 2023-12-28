@@ -43,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .withUsername(currentUser.getName()) // 사용자 이름 설정
                 .username(currentUser.getMemId()) // 사용자 ID 설정
                 .password(currentUser.getPw()) // 사용자 비밀번호 설정
-                .roles(currentUser.getRole()) // 사용자 역할(roles) 설정
+                .roles(currentUser.getRole().toString()) // 사용자 역할(roles) 설정
                 .build();
     }
 }

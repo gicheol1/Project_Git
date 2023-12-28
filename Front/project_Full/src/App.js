@@ -31,7 +31,7 @@ import { QnaStatus, ReservationInfo, SaleInfo } from 'js';
 import { BlackList, Servicedown, UserList, UserDetail } from 'js';
 
 //main
-import { FestivalPage, Likeclick, MainPage, Mymilize } from 'js';
+import { LocalFestival, Likeclick, MainPage, Mymilize } from 'js';
 
 //footer
 import { Copyright, Privacy, Terms } from 'js';
@@ -146,7 +146,7 @@ function App() {
 				{/* OOO님의 마일리지 */}
 				<Route path="/mymilize" element={<Mymilize />} />
 				{/* 지역 */}
-				<Route path="/festival" element={<FestivalPage />} />
+				<Route path="/festival" element={<LocalFestival />} />
 
 				{/* ===== 사이드바 경로 설정 ===== */}
 

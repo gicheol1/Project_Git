@@ -88,8 +88,8 @@ export { default as MainPage } from './pages/MainPage/MainPage'; // 메인페이
 // > Likeclick 폴더: 좋아요 누른 계시글 보기 페이지
 export { default as Likeclick } from './pages/Likeclick/Likeclick'; // 좋아요 누른 계시글 보기 페이지
 
-// > FestivalPage 폴더: 지역 페이지
-export { default as FestivalPage } from './pages/FestivalPage/FestivalPage'; // 지역 페이지
+// > LocalFestival 폴더: 지역 페이지
+export { default as LocalFestival } from './pages/LocalFestival/LocalFestival'; // 지역 페이지
 
 // > Mymilize 폴더: 마일리지 페이지
 export { default as Mymilize } from './pages/Mymilize/Mymilize'; // 마일리지 페이지
@@ -126,10 +126,10 @@ export { default as UserList } from './pages/UserManage/UserList/UserList'; // �
 export { default as UserDetail } from './pages/UserManage/UserDetail/UserDetail'; // 회원 수정
 
 // > Blacklist 폴더: 블랙 리스트
-export { default as BlackList } from './pages/BlackList/BlackList'; // 블랙 리스트
+export { default as BlackList } from './pages/Black/BlackList/BlackList'; // 블랙 리스트
 
 // > Servicedown 폴더: 서비스 제한
-export { default as Servicedown } from './pages/Servicedown/Servicedown'; // 서비스 제한
+export { default as Servicedown } from './pages/Black/Servicedown/Servicedown'; // 서비스 제한
 
 // > 패키지 추가 사이트
 export { default as TravalPackAdd } from './pages/Travel/TravelPackAdd/TravalPackAdd'; // 패키지 추가

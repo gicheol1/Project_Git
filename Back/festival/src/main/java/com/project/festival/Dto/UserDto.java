@@ -47,5 +47,5 @@ public class UserDto {
 // ---------- ---------- ---------- ---------- ----------
 
 	// 가입일
-	private LocalDate singupDate = LocalDate.now();
+	private LocalDate singupDate;
 }

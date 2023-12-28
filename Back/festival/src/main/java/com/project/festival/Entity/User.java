@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.project.festival.Constant.Role;
 import com.project.festival.Entity.TravalPack.PackReservation;
 import com.project.festival.Entity.board.Comm.CommentEvent;
 import com.project.festival.Entity.board.Comm.CommentFree;
@@ -20,6 +21,8 @@ import com.project.festival.Entity.board.Entity.BoardQA;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -88,8 +91,8 @@ public class User {
 	private LocalDate singupDate = LocalDate.now();
 
 	// 권한
-	@Column(length=10)
-	private String role = "USER";
+	@Enumerated(EnumType.STRING)
+	private Role role = Role.USER;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -158,7 +161,7 @@ public class User {
 		String memId, String pw, String name,
 		String phonNum, String birth, String email,
 		String addrRoad, String addrJibun, String addrCode,
-		String singupDate, String role
+		String singupDate, Role role
 	) {
 		this.memId = memId;
 		this.pw = pw;

@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.project.festival.Constant.IsPrivated;
+import com.project.festival.Constant.Role;
 import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.User;
 import com.project.festival.Entity.Repo.BlackListRepo;
@@ -85,7 +86,7 @@ public class FestivalApplication implements CommandLineRunner {
 		user.add(new User (
 				"admin", passwordEncoder.encode("admin"),
 				"관리자", "010-1337-8282", "1987-01-01", "Admin@mail.com",
-				"대전", "서구", "Admin ", "2023-11-20", "ADMIN"
+				"대전", "서구", "Admin ", "2023-11-20", Role.ADMIN
 		));
 		
 		// 사용자
@@ -94,7 +95,7 @@ public class FestivalApplication implements CommandLineRunner {
 			user.add(new User (
 					"user"+i, passwordEncoder.encode("user"+i),
 					"사용자"+i, "010-1234-5678", (i<10) ? "2000-01-0"+i : "2000-01-"+i, "test"+i+"@mail.com",
-					"대전", "서구", "동서대로 "+i, (i<10) ? "2023-10-0"+i : "2023-10-"+i, "USER"
+					"대전", "서구", "동서대로 "+i, (i<10) ? "2023-10-0"+i : "2023-10-"+i, Role.USER
 			));
 		}
 		
@@ -195,18 +196,9 @@ public class FestivalApplication implements CommandLineRunner {
 		paymentService.creatDefaultPaymemt();
 		
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-		
-		Set<Integer> uniqueNumbers = new HashSet<>();
-
-        while (uniqueNumbers.size() < 5) {
-            int randomNumber = rand.nextInt(15) + 1; // 1부터 15 사이의 랜덤 숫자 생성
-            uniqueNumbers.add(randomNumber); // 중복되지 않는 숫자를 Set에 추가
-        }
-
-        List<Integer> resultList = new ArrayList<>(uniqueNumbers);
         
-        for(int num : resultList) {
-    		blackListRepo.save(new BlackList(userRepository.findById("user"+num),"사유 "+num));
+        for(int i=15; i>=10; i--) {
+    		blackListRepo.save(new BlackList(userRepository.findById("user"+i),"사유 "+i));
         }
 		
 	}

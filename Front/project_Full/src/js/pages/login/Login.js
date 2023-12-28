@@ -32,7 +32,6 @@ const Login = ({ setIsLogin }) => {
                 return;
             }
 
-
             if (res) {
                 setIsLogin(true);
                 navigate('/', { replace: true });
@@ -41,7 +40,6 @@ const Login = ({ setIsLogin }) => {
                 setIsLogin(false);
             }
         })
-
 
     };
 

@@ -28,9 +28,8 @@ public class LoginService {
     	String _memId=credentials.getMemId();
     	String _pw=credentials.getPw();
 
+        // 미가입자 이거나 비밀번호가 일치하지 않은 경우
         Optional<User> _user = userService.getUserById(_memId);
-
-        // 없거나 일치하지 않은 경우
         if (_user.isEmpty() || !passwordEncoder.matches(_pw, _user.get().getPw())) { return ""; }
         
         // 토큰 생성후 전달
@@ -45,7 +44,8 @@ public class LoginService {
     	
     	// 토큰에 저장된 식별 번호 받기
     	String jti = jwtService.getAuthUser(jwt).get("jti", String.class);
-    	
+
+    	// 식별 번호로 DB에 저장된 데이터 제거
     	if(!jti.isEmpty()) { jwtService.deleteTokenByJti(jti); }
     	
     }

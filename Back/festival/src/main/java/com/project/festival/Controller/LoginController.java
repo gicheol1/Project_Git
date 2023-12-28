@@ -40,7 +40,6 @@ public class LoginController {
 	public ResponseEntity<?> logIn(
 		@RequestBody AccountCredentials credentials
 	){
-		String jwts = "";
 		
 		// 차단된 사용자인 경우
 		if(blackListService.isBlackListed(credentials.getMemId())) {
@@ -48,7 +47,7 @@ public class LoginController {
 		}
 		
 		// 회원 등록 여부 확인 후 토큰 전달
-		jwts = loginService.logInToken(credentials);
+		String jwts = loginService.logInToken(credentials);
 		
 		return ResponseEntity.ok()
 			.header(HttpHeaders.AUTHORIZATION, jwts)
@@ -66,6 +65,7 @@ public class LoginController {
 		@RequestParam String jwt
 	){
 		
+		// 로그인 상태가 아닌 경우
 		if(!authService.isLogin(jwt)) {
 			return ResponseEntity.ok()
 				.header(HttpHeaders.AUTHORIZATION, "")
@@ -77,10 +77,7 @@ public class LoginController {
 		Optional<User> _user = userService.getUserById(memId);
 		
 		// 새 토큰을 담을 변수
-		String newJwt = "";
-		
-		// 회원이 존재하는 경우 새 토큰 전달
-		if(_user.isPresent()) { newJwt = jwtService.getToken(_user.get()); }
+		String newJwt = jwtService.getToken(_user.get());
 		
 		return ResponseEntity.ok()
 				.header(HttpHeaders.AUTHORIZATION, newJwt)
