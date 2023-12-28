@@ -1,28 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap");
 /* Sidecare.css */
 
 /* 측면 바 스타일링 */
 .sidebar {
   max-width: 160px;
   background: rgba(238, 235, 235, 0.75);
-  margin: 220px auto;
-  padding: 10px 0 20px 0;
   border: 1px solid #e0c2c2;
   border-radius: 4px;
   box-shadow: 0 4px 5px rgba(240, 233, 233, 0.75);
 
-  /* 수정된 내용 시작 */
-  padding: 15px;
-  width: 200px; /* 수정: 최소한 부트스트랩 너비에 맞게 조정 */
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 20px; /* 수정: 유효한 닫는 괄호 추가 */
-  /* 수정된 내용 끝 */
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  margin: 280px auto;
 }
 
 /* 프로필 이미지 스타일링 */
@@ -35,22 +22,26 @@
 
 /* 링크를 위한 버튼 스타일링 */
 .link {
-  display: block;
-  /* 수정된 내용 시작 */
-  width: 100%; /* 수정: 버튼 전체 폭 사용 */
-  margin-bottom: 3px;
-  /* 수정된 내용 끝 */
-  padding: 10px;
-  background-color: transparent; /* 수정: 배경색 제거 */
-  color: #2c0be9;
-  text-align: left; /* 수정: 텍스트 왼쪽 정렬 */
-  text-decoration: none;
+  width: 100%;
+
   border: none;
   border-radius: 4px;
+
+  background-color: transparent; /* 수정: 배경색 제거 */
+  color: #2c0be9;
   transition: background-color 0.3s;
+
   white-space: nowrap; /*줄바꿈 방지*/
-  font-family: 'Cute Font', sans-serif;
+
+  font-family: "Cute Font", sans-serif;
   font-size: 20px;
+
+  height: 30px;
+
+  display: flex;
+  text-decoration: none;
+  justify-content: center; /* 좌우 중앙 정렬 */
+  align-items: center; /* 상하 중앙 정렬 */
 }
 
 /* 버튼 호버 효과 */
@@ -73,12 +64,12 @@
   font-weight: 600;
 }
 
-.link-container{
+.link-container {
   display: flex;
   flex-direction: column;
 }
 
-.side-title{
-  font-family: 'Single Day', cursive;
+.side-title {
+  font-family: "Single Day", cursive;
   font-size: 32px;
 }

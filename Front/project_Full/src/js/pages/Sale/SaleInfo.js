@@ -1,7 +1,7 @@
 //SaleInfo.js
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import ProductList from './ProductList';
+import ProductList from './ProductList/ProductList';
 import Cart from './Cart';
 import OrderConfirmation from './OrderConfirmation';
 import './SaleInfo.css';

@@ -1,6 +1,6 @@
 /* Sidebar.css */
 .sidebar {
-  max-width: 220px; /* 수정: 최소한 부트스트랩 너비에 맞게 조정 */
+  max-width: 160px; /* 수정: 최소한 부트스트랩 너비에 맞게 조정 */
   background: rgba(238, 235, 235, 0.75);
   margin: 40px auto;
   padding: 15px; /* 수정: 중복된 속성 제거 */
@@ -8,13 +8,8 @@
   border-radius: 4px;
   box-shadow: 0 4px 5px rgba(240, 233, 233, 0.75);
   position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 20px; /* 수정: 유효한 닫는 괄호 추가 */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  display: flex;
+
+  bottom: 30px; /* 수정: 유효한 닫는 괄호 추가 */
 }
 
 .profile-image {
@@ -26,21 +21,26 @@
 
 /* 링크를 위한 버튼 스타일링 */
 .link {
-  display: block;
-  width: 7%;
-  padding: 10px;
-  background-color: transparent; /* 수정: 배경색 제거 */
-  color: #2c0be9;
-  text-align: left; /* 수정: 텍스트 왼쪽 정렬 */
-  text-decoration: none;
+  width: 100%;
+
   border: none;
   border-radius: 4px;
-  margin-bottom: 5px; /* 버튼 사이에 간격 추가 */
+
+  background-color: transparent; /* 수정: 배경색 제거 */
+  color: #2c0be9;
   transition: background-color 0.3s;
+
   white-space: nowrap; /*줄바꿈 방지*/
-  margin-right: 10px;
-  font-family: 'Cute Font', sans-serif;
+
+  font-family: "Cute Font", sans-serif;
   font-size: 20px;
+
+  height: 30px;
+
+  display: flex;
+  text-decoration: none;
+  justify-content: center; /* 좌우 중앙 정렬 */
+  align-items: center; /* 상하 중앙 정렬 */
 }
 
 /* 버튼 호버 효과 */
@@ -62,12 +62,12 @@
   font-weight: 600;
 }
 
-.link-container{
+.link-container {
   display: flex;
   flex-direction: column;
 }
 
-.side-title{
-  font-family: 'Single Day', cursive;
+.side-title {
+  font-family: "Single Day", cursive;
   font-size: 32px;
 }

@@ -1,9 +1,9 @@
 import Header from "./header/Header";
-import Sidebar from './sidebar/Sidebar';
-import Sidecare from './sidebar/Sidecare';
+import Sidebar from './sidebar/Sidebar/Sidebar';
+import Sidecare from './sidebar/Sidecare/Sidecare';
 import Footer from './footer/Footer';
 
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useState } from 'react';
 
 import HeaderSub from './header/HeaderSub';
@@ -47,17 +47,19 @@ const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
 
             {/* 사이드바 */}
             {isLogin && (
-                <sidebar>
-                    {isAdmin ?
-                        // 사이드바(관리자)
+                isAdmin ?
+                    // 사이드바(관리자)
+                    <sidebar>
                         <Sidecare />
+                    </sidebar>
 
-                        :
-                        // 사이드바(회원)
+                    :
+                    // 사이드바(회원)
+                    <sidebar>
                         <Sidebar />
+                    </sidebar>
 
-                    }
-                </sidebar>
+
             )}
 
             {/* 푸터 */}
