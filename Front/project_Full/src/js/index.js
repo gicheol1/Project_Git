@@ -116,9 +116,6 @@ export { default as ReservationInfo } from './pages/ReservationInfo/ReservationI
 // > SaleInfo 폴더: 판매 정보
 export { default as SaleInfo } from './pages/Sale/SaleInfo'; // 판매 정보
 
-// > MemberInfo 폴더: 회원 정보 수정
-export { default as MemberInfo } from './pages/MemberInfo/MemberInfo'; // 회원 정보 수정
-
 // > QnaStatus 폴더: 내 Q&A 현황
 export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황
 
@@ -130,9 +127,6 @@ export { default as UserDetail } from './pages/UserManage/UserDetail/UserDetail'
 
 // > Blacklist 폴더: 블랙 리스트
 export { default as BlackList } from './pages/BlackList/BlackList'; // 블랙 리스트
-
-// > MemberInfo 폴더: 회원정보 수정(관리자)
-export { default as Membercare } from './pages/MemberInfo/Membercare'; // 회원정보 수정(관리자)
 
 // > Servicedown 폴더: 서비스 제한
 export { default as Servicedown } from './pages/Servicedown/Servicedown'; // 서비스 제한

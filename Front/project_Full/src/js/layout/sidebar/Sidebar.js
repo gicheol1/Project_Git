@@ -39,7 +39,7 @@ function Sidebar() {
         <Link to="/saleinfo" className="link">
           판매 정보
         </Link>
-        <Link to="/membercut" className="link">
+        <Link to={`/userDetail/${member.memId}`} className="link">
           회원정보 수정
         </Link>
         <Link to="/Qna" className="link">

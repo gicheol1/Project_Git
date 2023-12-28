@@ -1,0 +1,29 @@
+.detailContainer {
+  width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.profile-image {
+  width: 50px;
+  /* 필요한 크기에 맞게 조절 */
+  height: 50px;
+  /* 필요한 크기에 맞게 조절 */
+  border-radius: 50%;
+  /* 선택 사항: 이미지를 동그랗게 만들기 위한 둥근 경계 */
+  margin-bottom: 10px;
+  /* 선택 사항: 이미지 아래에 여백 추가 */
+}
+
+.inputLabel {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 15px;
+}
+
+input {
+  flex: 1;
+}

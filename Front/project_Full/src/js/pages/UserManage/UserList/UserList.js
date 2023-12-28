@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useUserList } from './useUserList';
 
 import {
+  Button,
   Pagination, Paper,
   Table, TableBody, TableCell, TableContainer,
   TableFooter, TableHead, TableRow
@@ -56,7 +57,7 @@ const UserList = () => {
   }
 
   // 회원정보 수정 페이지로
-  const toChangeInfo = (memId) => { navigate(`/user/${memId}`); }
+  const toChangeInfo = (memId) => { navigate(`/userDetail/${memId}`); }
 
   // 페이지 이동 이벤트
   const handlePageChange = (event, page) => {
@@ -95,8 +96,8 @@ const UserList = () => {
                     <TableCell className='table-cell' align="center" width={30}>{user.phonNum}</TableCell>
                     <TableCell className='table-cell' align="center" width={30}>{user.singupDate}</TableCell>
                     <TableCell className='table-cell' align="center" width={120}>
-                      <button className='btn-gray' onClick={() => { toChangeInfo(user.memId); }} >수정</button>
-                      <button className='btn-red' onClick={() => { onDelete(user.memId); }} >삭제</button>
+                      <Button variant="contained" onClick={() => { toChangeInfo(user.memId); }} >수정</Button>
+                      <Button variant="contained" color="error" onClick={() => { onDelete(user.memId); }} >삭제</Button>
                     </TableCell>
                   </TableRow>
                 ))
