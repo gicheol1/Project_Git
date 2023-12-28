@@ -50,11 +50,6 @@ public class LoginController {
 		// 회원 등록 여부 확인 후 토큰 전달
 		jwts = loginService.logInToken(credentials);
 		
-		// 없거나 일치하지 않은 경우
-		if(jwts == null || jwts.equals("Failed")) {
-			return ResponseEntity.ok(false);
-		}
-		
 		return ResponseEntity.ok()
 			.header(HttpHeaders.AUTHORIZATION, jwts)
 		    .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization") // 헤더 노출 설정
@@ -71,7 +66,11 @@ public class LoginController {
 		@RequestParam String jwt
 	){
 		
-		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		if(!authService.isLogin(jwt)) {
+			return ResponseEntity.ok()
+				.header(HttpHeaders.AUTHORIZATION, "")
+			    .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization") // 헤더 노출 설정
+			    .build(); }
 		
 		// 토큰에서 회원 아이디 추출
 		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);

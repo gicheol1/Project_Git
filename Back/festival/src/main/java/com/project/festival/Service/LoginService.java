@@ -31,7 +31,7 @@ public class LoginService {
         Optional<User> _user = userService.getUserById(_memId);
 
         // 없거나 일치하지 않은 경우
-        if (_user.isEmpty() || !passwordEncoder.matches(_pw, _user.get().getPw())) { return "Failed"; }
+        if (_user.isEmpty() || !passwordEncoder.matches(_pw, _user.get().getPw())) { return ""; }
         
         // 토큰 생성후 전달
         User user = _user.get();

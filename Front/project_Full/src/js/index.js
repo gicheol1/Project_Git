@@ -45,15 +45,15 @@ export { default as Comment } from './pages/board/boardDetail/comments/Comment';
 export { default as TravelPackList } from './pages/Travel/TravelPackList/TravelPackList';
 
 // 2. 여행 패키지 예약 페이지(날짜와 상품갯수 선택)
-export { default as TravelReservation } from './pages/Travel/TravelReservation';
+export { default as TravelReservation } from './pages/Travel/TravelReservation/TravelReservation';
 
 // 2-1. 패키지 여행 예약 달력(여행 패키지 예약 페이지)
-export { default as TravelCalendar } from './pages/Travel/TravelCalendar';
+export { default as TravelCalendar } from './pages/Travel/TravelCalendar/TravelCalendar';
 // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
 export { default as TravelPackMap } from './pages/Travel/TravelPackMap/TravelPackMap';
 
 // 3. 패키지 여행 예약 목록 페이지
-export { default as Reservationlist } from './pages/Travel/Reservationlist';
+export { default as Reservationlist } from './pages/Travel/Reservationlist/Reservationlist';
 
 // > Payment(결제) 폴더: 결제 기능에 대한 JS 파일 모음
 // 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)

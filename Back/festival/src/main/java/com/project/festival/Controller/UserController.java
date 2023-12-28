@@ -2,6 +2,7 @@ package com.project.festival.Controller;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.festival.Dto.UserDto;
 import com.project.festival.Entity.User;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.EmailService;
@@ -34,6 +36,8 @@ public class UserController {
 
 	private final EmailService emailService;
 
+	private final ModelMapper modelMapper;
+
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -45,8 +49,8 @@ public class UserController {
 	){
 		
 		Pageable pageable = PageRequest.of(page, 10, Sort.by("singupDate").descending());
-		
 		return ResponseEntity.ok(userService.getUserListPage(pageable));
+		
 	}
 	
 	// 등록된 회원 총 갯수
@@ -121,7 +125,7 @@ public class UserController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
-	// JWT로 회원 정보(비밀번호 제외) 가져오기
+	// JWT로 회원 정보 가져오기
 	@GetMapping("/getUser")
 	public ResponseEntity<?> getUser(
 		@RequestParam String jwt
@@ -135,12 +139,8 @@ public class UserController {
 		// 없는 경우
 		if(_user.isEmpty()) { return ResponseEntity.ok(false); }
 		
-		User user = _user.get();
-		
-		// 비밀번호는 비공개
-		user.setPw("");
-
-		return ResponseEntity.ok(user);
+		UserDto dto = modelMapper.map(_user.get(), UserDto.class);
+		return ResponseEntity.ok(dto);
 	}
 	
 // ----- ----- ----- ----- ----- ----- ----- ----- -----

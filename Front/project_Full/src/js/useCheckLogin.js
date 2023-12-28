@@ -26,12 +26,6 @@ export function useCheckLogin() {
 
         }).then((res) => {
 
-            // 토큰이 올바르지 않거나 만료 등
-            if (res.json()) {
-                sessionStorage.removeItem('jwt');
-                return false;
-            }
-
             // 해더에서 토큰 받아오기
             const jwtToken = res.headers.get('Authorization');
 

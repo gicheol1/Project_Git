@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat&family=Cute+Font&family=Gaegu:wght@300&family=Nanum+Pen+Script&family=Orbit&family=Single+Day&display=swap");
 
-예약 정보 테이블 스타일 추가 table {
+/*예약 정보 테이블 스타일 추가*/
+table {
   width: 80%;
   /* 너비 조절 */
   margin: 20px auto;
@@ -57,12 +58,13 @@ table td {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin: 50px auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
   /* 조절 가능한 여백 */
 }
 
 .user-information {
-  font-family: 'Single Day', cursive;
+  font-family: "Single Day", cursive;
   font-size: 54px;
 }
 
@@ -71,7 +73,7 @@ table td {
 }
 
 .date-information {
-  font-family: 'Single Day', cursive;
+  font-family: "Single Day", cursive;
   font-size: 32px;
   margin-top: 50px;
 }
@@ -81,18 +83,18 @@ table td {
 }
 
 .reserve-information {
-  font-family: 'Single Day', cursive;
+  font-family: "Single Day", cursive;
   font-size: 32px;
 }
 
 .stdate-style {
-  font-family: 'Cute Font', sans-serif;
+  font-family: "Cute Font", sans-serif;
   font-size: 25px;
 }
 
-.reserve-table{
+.reserve-table {
   margin-left: 10%;
-  font-family: 'Cute Font', sans-serif;
+  font-family: "Cute Font", sans-serif;
   font-size: 23px;
   text-align: center;
 }

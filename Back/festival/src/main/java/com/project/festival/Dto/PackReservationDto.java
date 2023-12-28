@@ -33,7 +33,7 @@ public class PackReservationDto { /* 패키지 여행 예약 DTO */
 
 	// 시작일(여행을 예약한 날짜)
 	@NotNull
-	private LocalDate startDate;
+	private LocalDate startDate = LocalDate.now();
 
 	// 인원수
 	@NotNull
