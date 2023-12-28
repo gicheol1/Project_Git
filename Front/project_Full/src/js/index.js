@@ -45,15 +45,15 @@ export { default as Comment } from './pages/board/boardDetail/comments/Comment';
 export { default as TravelPackList } from './pages/Travel/TravelPackList/TravelPackList';
 
 // 2. 여행 패키지 예약 페이지(날짜와 상품갯수 선택)
-export { default as TravelReservation } from './pages/Travel/TravelReservation';
+export { default as TravelReservation } from './pages/Travel/TravelReservation/TravelReservation';
 
 // 2-1. 패키지 여행 예약 달력(여행 패키지 예약 페이지)
-export { default as TravelCalendar } from './pages/Travel/TravelCalendar';
+export { default as TravelCalendar } from './pages/Travel/TravelCalendar/TravelCalendar';
 // 2-2. 패키지 여행 지도(여행 패키지 예약 페이지)
 export { default as TravelPackMap } from './pages/Travel/TravelPackMap/TravelPackMap';
 
 // 3. 패키지 여행 예약 목록 페이지
-export { default as Reservationlist } from './pages/Travel/Reservationlist';
+export { default as Reservationlist } from './pages/Travel/Reservationlist/Reservationlist';
 
 // > Payment(결제) 폴더: 결제 기능에 대한 JS 파일 모음
 // 1. 패키지 여행 결제 페이지(여행예약 마지막 페이지)
@@ -116,9 +116,6 @@ export { default as ReservationInfo } from './pages/ReservationInfo/ReservationI
 // > SaleInfo 폴더: 판매 정보
 export { default as SaleInfo } from './pages/Sale/SaleInfo'; // 판매 정보
 
-// > MemberInfo 폴더: 회원 정보 수정
-export { default as MemberInfo } from './pages/MemberInfo/MemberInfo'; // 회원 정보 수정
-
 // > QnaStatus 폴더: 내 Q&A 현황
 export { default as QnaStatus } from './pages/Qna/QnaStatus'; // 내 Q&A 현황
 
@@ -130,9 +127,6 @@ export { default as UserDetail } from './pages/UserManage/UserDetail/UserDetail'
 
 // > Blacklist 폴더: 블랙 리스트
 export { default as BlackList } from './pages/BlackList/BlackList'; // 블랙 리스트
-
-// > MemberInfo 폴더: 회원정보 수정(관리자)
-export { default as Membercare } from './pages/MemberInfo/Membercare'; // 회원정보 수정(관리자)
 
 // > Servicedown 폴더: 서비스 제한
 export { default as Servicedown } from './pages/Servicedown/Servicedown'; // 서비스 제한

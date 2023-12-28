@@ -28,25 +28,25 @@ const PW = ({ newUser, setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div>
-            <p>
+        <>
+            <div>
                 <span>비밀번호 : </span>
                 <input
                     type="text"
                     onChange={onChangePW}
                 />
-                <div>
-                    <span>비밀번호 확인 : </span>
-                    <input
-                        type="text"
-                        onChange={onChangePWCheck}
-                    />
-                </div>
-                <div>
-                    <span>{isCorrect}</span>
-                </div>
-            </p>
-        </div>
+            </div>
+            <div>
+                <span>비밀번호 확인 : </span>
+                <input
+                    type="text"
+                    onChange={onChangePWCheck}
+                />
+            </div>
+            <div>
+                <span>{isCorrect}</span>
+            </div>
+        </>
     );
 }
 

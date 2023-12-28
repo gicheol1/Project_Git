@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { SERVER_URL } from 'js';
+import { Button } from "@mui/material";
 
 const FindPW = () => {
 
@@ -17,10 +18,8 @@ const FindPW = () => {
             return;
         };
 
-        fetch(SERVER_URL + 'resetPW', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(target)
+        fetch(SERVER_URL + `resetPW?memId=${target.memId}&email=${target.email}`, {
+            method: 'POST'
 
         }).then((response) => {
             if (!response.ok) {
@@ -44,26 +43,26 @@ const FindPW = () => {
 
     return (
         <div>
-            <p>
-                <span>아이디 : </span>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">아이디 : </span>
                 <input
                     type="text"
                     name="memId"
                     placeholder="아이디"
                     onChange={(e) => setTarget({ ...target, [e.target.name]: e.target.value })}
                 />
-            </p>
-            <p>
-                <span>이메일 : </span>
+            </div>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">이메일 : </span>
                 <input
                     type="text"
                     name="email"
                     placeholder="이메일"
                     onChange={(e) => setTarget({ ...target, [e.target.name]: e.target.value })}
                 />
-            </p>
+            </div>
             <p>{findResult}</p>
-            <button onClick={onClickHandle}>새 비밀번호 전송</button>
+            <Button onClick={onClickHandle}>새 비밀번호 전송</Button>
         </div>
     );
 

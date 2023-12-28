@@ -14,28 +14,28 @@ export function useCheckLogin() {
     const checkIsLogin = useCallback(async () => {
 
         const jwt = sessionStorage.getItem('jwt');
-        
-        if(jwt === undefined || jwt === null) {return false;}
- 
+
+        // 토큰이 없는 경우
+        if (jwt === undefined || jwt === null) {
+            sessionStorage.removeItem('jwt');
+            return false;
+        }
+
         return await fetch(SERVER_URL + `checkIsLogin?jwt=${jwt}`, {
             method: 'GET'
 
         }).then((res) => {
 
-            // 토큰이 올바르지 않거나 만료 등
-            if (!res.ok) { throw new Error() }
-
+            // 해더에서 토큰 받아오기
             const jwtToken = res.headers.get('Authorization');
 
-            if (jwtToken !== undefined && jwtToken !== null) {
-
-                // console.log(jwtToken);
+            if (jwtToken !== undefined && jwtToken !== '') {
 
                 // 새 토큰 저장
                 sessionStorage.setItem('jwt', jwtToken);
                 return true;
 
-            } else {  return false; }
+            } else { return false; }
 
         }).catch((e) => {
             console.log(e);
@@ -77,7 +77,6 @@ export function useCheckLogin() {
     const toLogin = useCallback(async () => {
         alert('로그인이 필요합니다.');
         navigate('/login');
-
     }, []);
 
     return { checkIsLogin, checkIsAdmin, toLogin };

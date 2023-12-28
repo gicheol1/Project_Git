@@ -12,32 +12,25 @@ const MemId = ({ newUser, setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     const onClickBtn = () => {
-        fetch(SERVER_URL + `idCheck/${memId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: memId
+        fetch(SERVER_URL + `idCheck?memId=${memId}`, {
+            method: 'POST'
 
-        }).then((response) => {
+        }).then((res) => {
 
-            if (response.ok) {
+            if (res.ok) {
 
-                if (JSON.parse(response.headers.get('idCheckResult'))) {
-                    alert('사용 가능한 아이디 입니다.');
-                    setNewUser({ ...newUser, memId: memId });
-                    setIsStatic(true);
+                if (res.json) {
 
-                } else { // 이미 존재하는 경우
-                    alert('이미 사용중인 아이디 입니다.');
+                    if (window.confirm('사용 가능한 아이디 입니다. 사용하시겠습니까?')) {
+                        setNewUser({ ...newUser, memId: memId });
+                        setIsStatic(true);
+                    }
 
-                }
+                } else { alert('이미 사용중인 아이디 입니다.'); }
 
-            } else {
-                throw new Error(' ----- 서버 전송 실패 -----\n다시 시도하세요');
-            }
+            } else { throw new Error(' ----- 서버 전송 실패 -----\n다시 시도하세요'); }
 
-        }).catch((e) => {
-            console.log(e);
-        })
+        }).catch((e) => { console.log(e); })
     }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -45,16 +38,20 @@ const MemId = ({ newUser, setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="memid">
-            <p>
-                <span>아이디 : </span>
-                <input
-                    type="text"
-                    onChange={(e) => { setMemId(e.target.value) }}
-                    disabled={isStatic}
-                />
-                <Button onClick={onClickBtn}>중복확인</Button>
-            </p>
+        <div style={{ display: 'flex' }}>
+            <span className="inputLabel">아이디 : </span>
+            <input
+                type="text"
+                placeholder="아이디"
+                onChange={(e) => { setMemId(e.target.value) }}
+                disabled={isStatic}
+            />
+            <Button
+                style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}
+                onClick={onClickBtn}
+            >
+                중복확인
+            </Button>
         </div>
     );
 }

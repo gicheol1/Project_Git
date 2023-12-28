@@ -12,7 +12,6 @@ function MainPage() {
 
   const [packreservation, setPackreservation] = useState([]); // 패키지 여행 예약 목록
   const [userName, setUserName] = useState(''); // 회원 이름 
-  const [test, setTest] = useState([]);
   const [region, setRegion] = useState('');
   const { isOwnerBoard } = useBoardDetail();
   const [board, setBoard] = useState({});
@@ -20,6 +19,7 @@ function MainPage() {
   const [isOwner, setIsOwner] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
   const [city, setCity] = useState('');
+
   /* 날씨 api 사용 */
   const getWeatherData = async () => {
     try {
@@ -36,32 +36,25 @@ function MainPage() {
     MyBoard();
     getWeatherData();
   }, [])
+
   /* jwt 인증받아서 DB 연동 */
   const MyBoard = () => {
+
     const jwt = sessionStorage.getItem('jwt');
 
     fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' })
       .then(response => response.json())
       .then(data => {
 
-        /* 회원이 예약한 패키지 여행 내역 데이터 가져오기 */
-        fetch(SERVER_URL + `packreservation/memberpackreservation/${data.memId}`, { method: 'POST' })
-          .then(response => response.json())
-
-          .then(data => {
-            setPackreservation(data); console.log(data);
-            setTest(data);
-          })
-          .catch(err => { console.error(err); });
-
-        /* >로그인한 회원의 이름을 출력하기위한 코드 */
-        // 회원의 이름을 가져온다고 가정하고, data에 이름이 담겨있다고 가정합니다.
-        const memberName = data.name; // data에서 이름 필드를 가져온다
-        setUserName(memberName);
-        const regionName = data.addrRoad; //data에서 사용자 지역을 가져온다
-        setRegion(regionName);
       }).catch(err => console.error(err));
+
+    /* 회원이 예약한 패키지 여행 내역 데이터 가져오기 */
+    fetch(SERVER_URL + `packreservation/${jwt}`, { method: 'POST' }
+    ).then(response => response.json()
+    ).then(data => { setPackreservation(data); }
+    ).catch(err => { console.error(err); });
   }
+
   return (
     <div class="MypageMain">
       <div class="MypageFirst">
@@ -83,14 +76,14 @@ function MainPage() {
             <h4>한국 날씨</h4>
           </div>
           <div class="weather">
-          {weatherData && (
-            <div>
-              <br />
-              <br />
-              <br />
-              <h2>온도: {Math.floor(weatherData.main.temp - 273.15)} 도</h2>
-            </div>
-          )}
+            {weatherData && (
+              <div>
+                <br />
+                <br />
+                <br />
+                <h2>온도: {Math.floor(weatherData.main.temp - 273.15)} 도</h2>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -98,7 +98,7 @@ const Email = ({ email, newUser, setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="email">
+        <>
 
             {/* ===== 이메일 입력 ===== */}
             <div>
@@ -113,14 +113,12 @@ const Email = ({ email, newUser, setNewUser }) => {
                     }}
                     disabled={disableEmail}
                 />
-                <div>
-                    <Button
-                        onClick={sendCode}
-                        disabled={disableEmail}
-                    >
-                        인증번호 전송
-                    </Button>
-                </div>
+                <Button
+                    onClick={sendCode}
+                    disabled={disableEmail}
+                >
+                    인증번호 전송
+                </Button>
                 <p>{messageEmail}</p>
             </div>
 
@@ -140,7 +138,7 @@ const Email = ({ email, newUser, setNewUser }) => {
                 >확인</Button>
                 <p>{messageCode}</p>
             </div>
-        </div>
+        </>
     );
 }
 

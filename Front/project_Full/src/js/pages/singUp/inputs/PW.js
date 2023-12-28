@@ -28,24 +28,28 @@ const PW = ({ newUser, setNewUser }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     return (
-        <div className="pw">
-            <p>
-                <span>비밀번호 : </span>
+        <div>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">비밀번호 : </span>
                 <input
+                    style={{ flex: '1' }}
                     type="text"
+                    placeholder="비밀번호"
                     onChange={onChangePW}
                 />
-                <div>
-                    <span>비밀번호 확인 : </span>
-                    <input
-                        type="text"
-                        onChange={onChangePWCheck}
-                    />
-                </div>
-                <div>
-                    <span>{isCorrect}</span>
-                </div>
-            </p>
+            </div>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">비밀번호 확인 : </span>
+                <input
+                    style={{ flex: '1' }}
+                    type="text"
+                    placeholder="비밀번호 확인"
+                    onChange={onChangePWCheck}
+                />
+            </div>
+            <div>
+                <span>{isCorrect}</span>
+            </div>
         </div>
     );
 }

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.festival.Dto.UserDto;
 import com.project.festival.Entity.User;
 import com.project.festival.Entity.Repo.UserRepo;
 import com.project.festival.component.RandomStringGenerator;
@@ -22,19 +24,21 @@ public class UserService {
 	private final UserRepo userRepository;
     private final PasswordEncoder passwordEncoder;
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+    private final ModelMapper modelMapper;
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 페이지별 관리자를 제외한 회원 리스트 출력
-    public List<User> getUserListPage(Pageable pageable) {
+    public List<UserDto> getUserListPage(Pageable pageable) {
     	
-    	List<User> _user = new ArrayList<>();
+    	List<UserDto> _user = new ArrayList<>();
     	
-    	// 비밀번호 비공개 처리
     	for(User u : userRepository.findByRoleNotOrderBySingupDateDesc("ADMIN", pageable).getContent()) {
-    		u.setPw(null);
-    		_user.add(u);
+    		
+    		UserDto dto = modelMapper.map(u, UserDto.class);
+    		_user.add(dto);
     	}
     	
         return _user;
@@ -43,24 +47,13 @@ public class UserService {
 	// 관리자를 제외한 회원의 수
     public long getUserCnt() { return userRepository.countByRoleNot("ADMIN"); }
     
-    // 회원 정보 가져오기(토큰 전용)
-    public User getUserByIdToken(String memId) {
-    	
-    	Optional<User> _user = userRepository.findByMemId(memId);
-    	
-    	// 존재하지 않는 회원인 경우
-    	if(_user.isEmpty()) { return null; }
-    	
-    	return _user.get();
-    }
-    
-    // 회원 정보 가져오기
+    // 아이디로 회원 정보 가져오기
     public Optional<User> getUserById(String memId) { return userRepository.findByMemId(memId); }
 
     // 회원 존재 여부 확인
     public boolean existsUserById(String memId) { return userRepository.existsByMemId(memId); }
     
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원가입
     public void saveUser(User newUser) {
@@ -75,7 +68,7 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원 정보 수정
     public void updateUser(User updateUser) {
@@ -90,16 +83,13 @@ public class UserService {
     	}
     	
     	// 기존 정보에서 수정된 필드만 변경
-    	if(_user.isPresent()) {
-    		beforUser = _user.get();
-    		updateUser.changeUser(beforUser);
-    	}
+    	if(_user.isPresent()) { updateUser = modelMapper.map(beforUser, User.class); }
         
     	// 수정된 정보 저장(수정시 memId가 같아야 한다.)
         userRepository.save(updateUser);
     }
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원 아이디 탐색
     public String findUserId(String email, String name) {
@@ -128,13 +118,11 @@ public class UserService {
     	if(_user.isPresent()) {
         	
         	// 수정된 비밀번호를 적용하기 위한 객체
-        	User newUser;
+        	User newUser = _user.get();
         	
         	// 새 비밀번호
         	String newPW;
         	String newPWEncoded;
-    		
-    		newUser = _user.get();
     		
     		// 새 15자리 비밀번호 생성
     		newPW = RandomStringGenerator.generateRandomPW();
@@ -157,7 +145,7 @@ public class UserService {
     	
     }
 
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
     // 회원탈퇴
     @Transactional

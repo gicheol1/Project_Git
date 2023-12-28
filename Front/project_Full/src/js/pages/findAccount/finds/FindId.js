@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SERVER_URL } from 'js';
+import { Button } from "@mui/material";
 
 const FindId = () => {
 
@@ -17,10 +18,8 @@ const FindId = () => {
             return;
         };
 
-        fetch(SERVER_URL + 'findUserId', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(target)
+        fetch(SERVER_URL + `findUserId?name=${target.name}&email=${target.email}`, {
+            method: 'POST'
 
         }).then((response) => {
             if (!response.ok) {
@@ -45,26 +44,26 @@ const FindId = () => {
 
     return (
         <div>
-            <p>
-                <span>이름 : </span>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">이름 : </span>
                 <input
                     type="text"
                     name="name"
                     placeholder="회원 이름"
                     onChange={(e) => setTarget({ ...target, [e.target.name]: e.target.value })}
                 />
-            </p>
-            <p>
-                <span>이메일 : </span>
+            </div>
+            <div style={{ display: 'flex' }}>
+                <span className="inputLabel">이메일 : </span>
                 <input
                     type="text"
                     name="email"
                     placeholder="이메일"
                     onChange={(e) => setTarget({ ...target, [e.target.name]: e.target.value })}
                 />
-            </p>
+            </div>
             <p>{findResult}</p>
-            <button onClick={onClickHandle}>아이디 전송</button>
+            <Button onClick={onClickHandle}>아이디 전송</Button>
         </div>
     );
 }

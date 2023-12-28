@@ -2,7 +2,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ModalComponent, ModalFunction, SERVER_URL, ToggleCell } from 'js';
+import { ModalComponent, ModalFunction, ToggleCell } from 'js';
 import { usePagination, PaginationComponent } from 'js';
 
 import HotelIcon from '@mui/icons-material/Hotel';
@@ -315,20 +315,6 @@ function TravelPackList({ isAdmin }) {
                         <HotelIcon fontSize='large' className='custom-hotel-icon' /> 숙소 목록
                     </h1>
 
-                    <div className="search-container">
-                        <input
-                            type="text"
-                            placeholder="축제 검색"
-                            // value={searchKeyword}
-                            value={searchInput}
-                            onChange={handleSearchInputChange}
-                        />
-                        <button onClick={handleSearch}>검색</button>
-                        <button onClick={handleSearchReset}>검색 초기화</button>
-                    </div>
-
-
-
                     {/* 예약할 일정 선택 */}
                     <div className="checkbox-container">
                         <label>
@@ -364,8 +350,18 @@ function TravelPackList({ isAdmin }) {
                                 <option value="전라북도">전라북도</option>
                             </select>
                         </label>
+                        <div className="search-container">
+                            <input
+                                type="text"
+                                placeholder="축제 검색"
+                                // value={searchKeyword}
+                                value={searchInput}
+                                onChange={handleSearchInputChange}
+                            />
+                        </div>
+                        <button className='search-button' onClick={handleSearch}><h1 className='search-btn-title'>검색</h1></button>
+                        <button className='search-button' onClick={handleSearchReset}><h1 className='search-btn-title'>검색 초기화</h1></button>
                     </div>
-
 
                     {/* DataGrid를 이용한 여행 패키지 목록 표시 */}
                     {TravalPack.length === 0 ? ( // TravalPack(패키지 여행)의 데이터가 없으면 p 있으면 DataGrid를 출력

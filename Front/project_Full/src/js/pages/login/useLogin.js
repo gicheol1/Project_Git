@@ -11,20 +11,21 @@ export function useLogin() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
 
-        }).then((res) => { // 전송 후
+        }).then((res) => {
+
+            // 차단된 사용자인 경우(403)
             if (!res.ok) { return res.status; }
 
+            // 해더에서 토큰 받기
             const jwtToken = res.headers.get('Authorization');
 
             if (jwtToken !== undefined || jwtToken !== '') {
                 sessionStorage.setItem('jwt', jwtToken);
                 return res.json();
 
-            } else { throw new Error('로그인에 실패했습니다.'); }
+            } else { return false; }
 
-        }).catch((e) => {
-            console.log(e);
-        });
+        }).catch((e) => { console.log(e); return false; });
     }, []);
 
     return { login };

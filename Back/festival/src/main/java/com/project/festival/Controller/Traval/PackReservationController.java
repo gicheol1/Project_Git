@@ -1,9 +1,13 @@
 package com.project.festival.Controller.Traval;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.festival.Dto.PackReservationDto;
@@ -23,7 +28,6 @@ import com.project.festival.Service.JwtService;
 import com.project.festival.Service.UserService;
 import com.project.festival.Service.TravalPack.PackReservationService;
 
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -42,8 +46,10 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 	private final AuthService authService;
 
 	private final UserService userService;
-	
-	/* -----------------------------------------------------------------------------*/
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	/* 패키지 여행 예약자 전체 조회 */
 	@GetMapping
@@ -51,7 +57,55 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		return packReservationService.getAllPackReservations();
 	}
 
-	/* -----------------------------------------------------------------------------*/
+	/* ========== ========== ========== ========== ========== ========== ========== ========== ========== */
+	
+	/* 페이지별 회원 아이디로 날짜기준 내림차순으로 페키지 예약 정보 가져오기 */
+	@GetMapping("/getPackReservPage")
+	public ResponseEntity<?> getPackReservPage(
+		@RequestParam String memId,
+		@RequestParam int page
+	) {
+		
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("resNum").descending());
+		
+		return ResponseEntity.ok(packReservationService.getPackReservPage(pageable, memId));
+	}
+
+	/* 회원 아이디로 예약한 페키지 갯수 가져오기 */
+	@GetMapping("/getPackReservCnt")
+	public ResponseEntity<?> getPackReservCnt(
+		@RequestParam String memId
+	) {
+		return ResponseEntity.ok(packReservationService.getPackReservCnt(memId));
+	}
+	
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+	
+	/* 페이지별 회원 아이디로 날짜기준 내림차순으로 페키지 예약 정보 가져오기 */
+	@GetMapping("/getPackReservDatePage")
+	public ResponseEntity<?> getPackReservDatePage(
+		@RequestParam String memId,
+		@RequestParam int page,
+		@RequestParam LocalDate startDate,
+		@RequestParam LocalDate endDate
+	) {
+		
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("resNum").descending());
+		
+		return ResponseEntity.ok(packReservationService.getPackReservDatePage(pageable, memId, startDate, endDate));
+	}
+
+	/* 회원 아이디로 예약한 페키지 갯수 가져오기 */
+	@GetMapping("/getPackReservDateCnt")
+	public ResponseEntity<?> getPackReservDateCnt(
+		@RequestParam String memId,
+		@RequestParam LocalDate startDate,
+		@RequestParam LocalDate endDate
+	) {
+		return ResponseEntity.ok(packReservationService.getPackReservDateCnt(memId, startDate, endDate));
+	}
+	
+	/* ========== ========== ========== ========== ========== ========== ========== ========== ========== */
 	
 	/* 패키지 여행 상세 내역 조회(번호를 통한 조회) */
 	@GetMapping("/{resNum}")
@@ -66,11 +120,17 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		return packDto;
 	}
 
-	/* -----------------------------------------------------------------------------*/
+	/* ========== ========== ========== ========== ========== ========== ========== ========== ========== */
 
 	/* 패키지 여행 예약한 회원아이디로 여행예약내역 요청 */
-	@PostMapping("/memberpackreservation/{memId}")
-	public List<PackReservationDto> getPackReservationBymemId(@PathVariable String memId) {
+	@PostMapping("/{jwt}")
+	public ResponseEntity<?> getPackReservationBymemId(
+		@PathVariable String jwt
+	) {
+
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 		
 		List<PackReservationDto> packList = new ArrayList<>();
 		
@@ -81,10 +141,12 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 			packList.add(packDto);
 		}
 		
-		return packList;
+		return ResponseEntity.ok(packList);
 	}
 
-	/* -----------------------------------------------------------------------------*/
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	/* 패키지여행의 번호(기본키를 통한 정보)와 회원아이디를 통해 여행 예약하기(생성하기) */
 	@PostMapping("/reservation/{packNum}/{jwt}")
@@ -94,44 +156,17 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 		@RequestBody PackReservationDto packReservationDto
 	) {
 
-//		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
-//		
-//		// 여행 예약
-//		try {
-//			PackReservation packReservation = 
-//				packReservationService.reservationrequest(
-//					packReservationDto,
-//					packNum,
-//					jwtService.getAuthUser(jwt).get("jti", String.class)
-//			);
+		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 
-// 여기서 부터
-		Claims claims;
-
-		try {
-			claims = jwtService.getAuthUser(jwt);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-
-		// 토큰 만료시
-		if (claims.isEmpty() && !jwtService.isExistsByJti(claims.get("jti", String.class))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-
-		String memId = claims.get("memId", String.class);
-
-		// 비회원인 경우
-		if (userService.getUserById(memId).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
+		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
 
 		// 여행 예약
 		try {
-			PackReservation packReservation = packReservationService.reservationrequest(packReservationDto, packNum,
+			PackReservation packReservation = 
+				packReservationService.reservationrequest(
+					packReservationDto,
+					packNum,
 					memId);
-			
-// 여기까지 전에 코드를 적용(예약이 안되는 현상으로 인한 임시 방편)
 			
 			return ResponseEntity.ok(packReservation);
 			
@@ -140,6 +175,10 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
 		}
 	}
+
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	/* 예약 취소 */
 	@DeleteMapping("/{resNum}")

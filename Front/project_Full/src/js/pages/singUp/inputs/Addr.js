@@ -61,13 +61,18 @@ const Addr = ({ newUser, setNewUser }) => {
 
     return (
         <div>
-            <p style={{ display: 'flex', alignItems: 'center' }}>
-                <input style={{ flex: '1' }} type='text' name='zonecode' placeholder='우편번호' value={addrFull.zCode} readOnly={true} />
-                <Button style={{ marginBottom: '15px' }} onClick={handlePopup}>우편번호 찾기</Button>
+            <p style={{ display: 'flex' }}>
+                <input type='text' name='zonecode' placeholder='우편번호' value={addrFull.zCode} disabled={true} />
+                <Button
+                    style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '15px' }}
+                    onClick={handlePopup}
+                >
+                    우편번호 찾기
+                </Button>
             </p>
             <p>
-                <input type='text' name='roadAddress' placeholder='도로명' value={addrFull.addrR} readOnly={true} />
-                <input type='text' name='jibunAddress' placeholder='지번주소' value={addrFull.addrJ} readOnly={true} />
+                <input type='text' name='roadAddress' placeholder='도로명' value={addrFull.addrR} disabled={true} />
+                <input type='text' name='jibunAddress' placeholder='지번주소' value={addrFull.addrJ} disabled={true} />
             </p>
             <p>
                 <input type='text' name='' value={newUser.addrOther} onChange={(e) => { onChangeOther(e.target.value) }} placeholder='상세주소' />

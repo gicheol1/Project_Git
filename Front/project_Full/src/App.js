@@ -25,10 +25,10 @@ import {
 import { ConnectionLog, Festivals } from 'js';
 
 //Sidebar
-import { MemberInfo, QnaStatus, ReservationInfo, SaleInfo } from 'js';
+import { QnaStatus, ReservationInfo, SaleInfo } from 'js';
 
 //Sidebar(관리자) 추가내용
-import { BlackList, Membercare, Servicedown, UserList, UserDetail } from 'js';
+import { BlackList, Servicedown, UserList, UserDetail } from 'js';
 
 //main
 import { FestivalPage, Likeclick, MainPage, Mymilize } from 'js';
@@ -58,14 +58,8 @@ function App() {
 
 	// 경로가 바뀔때마다 로그인 상태 확인
 	useEffect(() => {
-		checkIsLogin().then((res) => {
-
-			if (res) { checkIsAdmin().then((r) => { setIsAdmin(r); }) }
-
-
-			setIsLogin(res);
-		})
-
+		checkIsLogin().then((res) => { setIsLogin(res); });
+		checkIsAdmin().then((res) => { setIsAdmin(res); });
 	}, [window.location.href]);
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -133,7 +127,8 @@ function App() {
 				{/* 아이디, 비밀번호 탐색 */}
 				<Route path="/findAccount" element={<FindAccount />} />
 
-				{/* 헤더 경로 설정 */}
+				{/* ===== 헤더 경로 설정 ===== */}
+
 				{/* 축제 관리 */}
 				<Route path="/festivalList" element={<FestivalList />} />
 				<Route path="/festivalDetail/:festivalNum" element={<FestivalDetail />} />
@@ -144,7 +139,8 @@ function App() {
 				{/* 마이 페이지 */}
 				<Route path="/myPage" element={<MainPage />} />
 
-				{/* 메인페이지 경로 설정 */}
+				{/* ===== 메인페이지 경로 설정 ===== */}
+
 				{/* 좋아요 누른 계시글 */}
 				<Route path="/likeclick" element={<Likeclick />} />
 				{/* OOO님의 마일리지 */}
@@ -152,30 +148,34 @@ function App() {
 				{/* 지역 */}
 				<Route path="/festival" element={<FestivalPage />} />
 
-				{/* 사이드바 경로 설정 */}
+				{/* ===== 사이드바 경로 설정 ===== */}
+
 				{/* 예약정보, 예약정보 관리 */}
 				<Route path="/info" element={<ReservationInfo />} />
 				{/* 판매 정보 */}
 				<Route path="/saleinfo" element={<SaleInfo />} />
 				{/* 회원 정보 수정 */}
-				<Route path="/membercut" element={<MemberInfo />} />
+				<Route path="/userDetail/:memId" element={<UserDetail />} />
 				{/* 내Q&A 현황, Q&A관리 */}
 				<Route path="/Qna" element={<QnaStatus />} />
 
-				{/* 사이드바(관리자) 추가내용 경로 설정 */}
+				{/* ===== 사이드바(관리자) ===== */}
+
 				{/* 회원 관리 */}
 				<Route path="/user" element={<UserList />} /> {/* 회원 리스트 */}
-				<Route path="/user/:memId" element={<UserDetail />} /> {/* 회원 정보 수정 */}
 
 				{/* 블랙 리스트 */}
 				<Route path="/blackList" element={<BlackList />} />
-				{/* 회원정보 수정(관리자) */}
-				<Route path="/memberinfo" element={<Membercare />} />
+
+				{/* 관리자 정보 수정 */}
+				<Route path="/adminInfo/:memId" element={<UserDetail />} />
+
 				{/* 서비스 제한 */}
 				<Route path="/servicedown" element={<Servicedown />} />
 				<Route path="/servicedown/:blackNum" element={<Servicedown />} />
 
-				{/* 푸터 경로 설정 */}
+				{/* ===== 푸터 경로 설정 ===== */}
+
 				{/* 개인 정보 처리 방침 */}
 				<Route path="/privacy" element={<Privacy />} />
 				{/* 이용약관 */}
@@ -185,8 +185,6 @@ function App() {
 				{/* 패키지 추가 */}
 				<Route path="/travalpackadd" element={<TravalPackAdd />} />
 				<Route path="/travalpackadd/:packNum" element={<TravalPackAdd />} />
-
-
 
 			</Route>
 
