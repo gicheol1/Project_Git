@@ -1,13 +1,9 @@
 package com.project.festival.Controller.Traval;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,53 +49,10 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 	public List<PackReservation> getAllPackReservations() {
 		return packReservationService.getAllPackReservations();
 	}
-
-	/* ========== ========== ========== ========== ========== ========== ========== ========== ========== */
 	
-	/* 페이지별 회원 아이디로 날짜기준 내림차순으로 페키지 예약 정보 가져오기 */
-	@GetMapping("/getPackReservPage")
-	public ResponseEntity<?> getPackReservPage(
-		@RequestParam String memId,
-		@RequestParam int page
-	) {
-		
-		Pageable pageable = PageRequest.of(page, 10, Sort.by("resNum").descending());
-		
-		return ResponseEntity.ok(packReservationService.getPackReservPage(pageable, memId));
-	}
-
-	/* 회원 아이디로 예약한 페키지 갯수 가져오기 */
-	@GetMapping("/getPackReservCnt")
-	public ResponseEntity<?> getPackReservCnt(
-		@RequestParam String memId
-	) {
-		return ResponseEntity.ok(packReservationService.getPackReservCnt(memId));
-	}
-	
-// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-	
-	/* 페이지별 회원 아이디로 날짜기준 내림차순으로 페키지 예약 정보 가져오기 */
-	@GetMapping("/getPackReservDatePage")
-	public ResponseEntity<?> getPackReservDatePage(
-		@RequestParam String memId,
-		@RequestParam int page,
-		@RequestParam LocalDate startDate,
-		@RequestParam LocalDate endDate
-	) {
-		
-		Pageable pageable = PageRequest.of(page, 10, Sort.by("resNum").descending());
-		
-		return ResponseEntity.ok(packReservationService.getPackReservDatePage(pageable, memId, startDate, endDate));
-	}
-
-	/* 회원 아이디로 예약한 페키지 갯수 가져오기 */
-	@GetMapping("/getPackReservDateCnt")
-	public ResponseEntity<?> getPackReservDateCnt(
-		@RequestParam String memId,
-		@RequestParam LocalDate startDate,
-		@RequestParam LocalDate endDate
-	) {
-		return ResponseEntity.ok(packReservationService.getPackReservDateCnt(memId, startDate, endDate));
+	@GetMapping("/getPackReservationMemId")
+	public List<PackReservation> getPackReservationMemId(@RequestParam String memId) {
+		return packReservationService.getPackReservationMemId(memId);
 	}
 	
 	/* ========== ========== ========== ========== ========== ========== ========== ========== ========== */

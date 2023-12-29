@@ -33,6 +33,9 @@ public class PackReservation { // <패키지 예약자>
 	
 	// 패키지 번호 외래키
 	private Long packNum;
+	
+	// 가격
+	private int price;
 
 	// 시작일(예약한 날짜)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

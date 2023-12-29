@@ -51,15 +51,13 @@ function Reservationlist() {
         }
 
         fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' })
-            .then(response => response.json())
+            .then(response => { return response.json() })
             .then(data => {
 
                 /* 회원이 예약한 패키지 여행 내역 데이터 가져오기 */
-                fetch(SERVER_URL + `packreservation/memberpackreservation/${data.memId}`, { method: 'POST' })
+                fetch(SERVER_URL + `packreservation/getPackReservationMemId?memId=${data.memId}`, { method: 'GET' })
                     .then(response => response.json())
-                    .then(data => {
-                        console.log(data); setPackreservation(data);
-                    })
+                    .then(data => { console.log(data[0]); setPackreservation(data); })
                     .catch(err => { console.error(err); });
 
                 /* >로그인한 회원의 이름을 출력하기위한 코드 */
@@ -68,7 +66,13 @@ function Reservationlist() {
                 setUserName(memberName);
 
             }).catch(err => console.error(err));
+
+
     }, []);
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 패키지 여행 예약 취소 */
     const handleCancel = (resNum) => {
@@ -85,6 +89,10 @@ function Reservationlist() {
             })
             .catch(err => alert(err))
     };
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /*패키지 여행 에약 목록 컬럼*/
     const columns = [
@@ -158,6 +166,9 @@ function Reservationlist() {
 
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+
     return (
         <div>
             <h1 className='reserve-list-header'>

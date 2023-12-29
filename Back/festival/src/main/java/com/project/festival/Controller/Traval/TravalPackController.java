@@ -1,6 +1,7 @@
 package com.project.festival.Controller.Traval;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -31,7 +32,7 @@ public class TravalPackController {
 
 	// 패키지 여행 전체 조회
 	@GetMapping("/getTravalpackAll")
-	private Iterable<TravalPack> getTravalpackAll() { return packRepository.findAll(); }
+	private List<TravalPack> getTravalpackAll() { return (List<TravalPack>) packRepository.findAll(); }
 
 	// 패키지 여행 세부조회(번호를 통한 조회)
 	@GetMapping("/getTravalpack")

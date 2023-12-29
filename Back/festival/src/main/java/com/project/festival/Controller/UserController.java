@@ -140,6 +140,7 @@ public class UserController {
 		if(_user.isEmpty()) { return ResponseEntity.ok(false); }
 		
 		UserDto dto = modelMapper.map(_user.get(), UserDto.class);
+		
 		return ResponseEntity.ok(dto);
 	}
 	

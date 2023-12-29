@@ -75,11 +75,11 @@ public class FestivalController {
 	}
 
 	/* 테스트용 축제 데이터 */
-	@PostConstruct
-	private void createFestival() {
-		ArrayList<FestivalDto> festivalDtos = FestivalDto.createFestival();
-		festivalService.createFestival(festivalDtos);
-	}
+//	@PostConstruct
+//	private void createFestival() {
+//		ArrayList<FestivalDto> festivalDtos = FestivalDto.createFestival();
+//		festivalService.createFestival(festivalDtos);
+//	}
 
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 //▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

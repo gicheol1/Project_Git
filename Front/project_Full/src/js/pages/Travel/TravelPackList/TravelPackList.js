@@ -261,7 +261,7 @@ function TravelPackList({ isAdmin }) {
                         <p>몇 인실: {params.row.person}</p>
                         <p>예약 가능한 상태: {params.row.reservation}</p>
                         <p>축제: {params.row.festivalname}</p>
-                        <p>축제기간: {festivalData.startDate} ~ {festivalData.endDate}</p>
+                        <p>축제기간: {params.row.startDate} ~ {params.row.endDate}</p>
                     </div>
                 );
             },

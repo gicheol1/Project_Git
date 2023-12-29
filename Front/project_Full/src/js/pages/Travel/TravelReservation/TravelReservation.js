@@ -38,15 +38,18 @@ function TravelReservation() {
     console.log(FestivalfilteredData);
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 번호에 맞는 상세정보, 축제 정보 불러오기 */
     useEffect(() => {
         fetch(SERVER_URL + `getTravalpack?packNum=${packNum}`)
-            .then((response) => response.json())
+            .then((response) => { return response.json(); })
             .then((data) => {
-                setTravalPack([data]) // 번호(기본키)에 해당되는 여행 패키지 정보 
+                setTravalPack(data) // 번호(기본키)에 해당되는 여행 패키지 정보 
 
                 setReservationInfo({
+                    price: data.price,
                     startDate: data.startDate,
                     dateCnt: `${data.startDate} ~ ${data.endDate}`,
                     count: count
@@ -62,6 +65,10 @@ function TravelReservation() {
             .catch(err => { console.error(err); });
 
     }, []);
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 패키지 예약 신청정보 DB(데이터베이스)로 보내기(POST) */
     const handleButtonClick = async () => {
