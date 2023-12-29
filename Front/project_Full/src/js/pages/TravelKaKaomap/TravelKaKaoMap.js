@@ -13,9 +13,13 @@ const TravelKaKaoMap = () => {
 	// 주소-좌표 변환 객체를 생성
 	const geocoder = new kakao.maps.services.Geocoder();
 
+	// 주소 리스트
 	const [addrList, setAddr] = useState([]);
+
+	// 지역 리스트
 	const [RegionList, setRegion] = useState("");
 	const [CheckList, setCheck] = useState("");
+
 	const [text, setText] = useState("");
 	const [Search, setSearch] = useState({});
 
@@ -57,7 +61,7 @@ const TravelKaKaoMap = () => {
 	}
 	/* tag 체크박스 */
 	const onCheckedItem = (Check, Check1, CheckThis) => {
-		
+
 		/* 체크박스 중복 금지 */
 		const checkboxes = document.getElementsByName('check')
 		for (let i = 0; i < checkboxes.length; i++) {
@@ -83,7 +87,7 @@ const TravelKaKaoMap = () => {
 		//-----------------------------------------------------------------------
 		else {
 			setCheck("");
-			if (RegionList === "") 
+			if (RegionList === "")
 				getFestival();
 			else {
 				const camp = addrList.filter((data) => data.region === RegionList);
@@ -237,47 +241,47 @@ const TravelKaKaoMap = () => {
 	return (
 
 		<div>
-			
+
 			<div id="btnGroup">
 				<div>
 
 					<span className="cam">
-					캠핑
-					<input className="캠핑" type='checkbox' name="check"
-						onChange={(e) => {
-							onCheckedItem(e.target.checked, e.target.className, e.target);
-						}} />
+						캠핑
+						<input className="캠핑" type='checkbox' name="check"
+							onChange={(e) => {
+								onCheckedItem(e.target.checked, e.target.className, e.target);
+							}} />
 					</span>
 
 					<span className="cul">
-					문화
-					<input className="문화" type='checkbox' name="check"
-						onChange={(e) => {
-							onCheckedItem(e.target.checked, e.target.className, e.target);
-						}} />
+						문화
+						<input className="문화" type='checkbox' name="check"
+							onChange={(e) => {
+								onCheckedItem(e.target.checked, e.target.className, e.target);
+							}} />
 					</span>
 
 					<span className="fes">
-					축제
-					<input className="축제" type='checkbox' name="check"
-						onChange={(e) => {
-							onCheckedItem(e.target.checked, e.target.className, e.target);
-						}} />
+						축제
+						<input className="축제" type='checkbox' name="check"
+							onChange={(e) => {
+								onCheckedItem(e.target.checked, e.target.className, e.target);
+							}} />
 					</span>
-					
+
 					<span className="mapshow">
-					공연/행사
-					<input className="공연행사" type='checkbox' name="check"
-						onChange={(e) => {
-							onCheckedItem(e.target.checked, e.target.className, e.target);
-						}} />
+						공연/행사
+						<input className="공연행사" type='checkbox' name="check"
+							onChange={(e) => {
+								onCheckedItem(e.target.checked, e.target.className, e.target);
+							}} />
 					</span>
 					{/* <input className="checkBox5" type='checkbox' />태그
 					<input className="checkBox6" type='checkbox' />태그
 					<input className="checkBox7" type='checkbox' />태그
 					<input className="checkBox8" type='checkbox' />태그 */}
 					<p className="selectInputName">지역 선택</p>
-						<select className="selectInput" onChange={(e) => {
+					<select className="selectInput" onChange={(e) => {
 						onSelectedItem(e.target.value);
 					}}>
 						<option name="select" className="selectBox" key="X" value="X">선택 안함</option>
@@ -286,16 +290,16 @@ const TravelKaKaoMap = () => {
 						<option name="select" className="selectBox" key="Daegu" value="대구">대구</option>
 						<option name="select" className="selectBox" key="Busan" value="부산">부산</option>
 					</select>
-					
+
 
 				</div>
-					
 
-					<input className="Text" maxLength='20' placeholder='검색어를 입력해주세요.' onChange={handleChange} value={text || ""} />
-					<button className="Search" onClick={onTextBox} >검색</button>
 
-				</div>
-				<button className="mapBtn" onClick={() => { result(); }} >지도 표시</button>
+				<input className="Text" maxLength='20' placeholder='검색어를 입력해주세요.' onChange={handleChange} value={text || ""} />
+				<button className="Search" onClick={onTextBox} >검색</button>
+
+			</div>
+			<button className="mapBtn" onClick={() => { result(); }} >지도 표시</button>
 
 			<div id="map"></div>
 

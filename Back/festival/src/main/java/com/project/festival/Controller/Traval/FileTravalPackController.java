@@ -144,7 +144,8 @@ public class FileTravalPackController {
 		// FireBase의 이미지 삭제 (없으면 넘기기)
 		try { storageService.deleteImage(dto); }
 		catch (Exception e) {}
-		
+
+		// DB에 저장된 데이터 삭제
 		fileTravalPackService.deleteFile(dto.getFileName());
 		
 		return ResponseEntity.ok().build();
@@ -167,7 +168,8 @@ public class FileTravalPackController {
 				continue;
 			}
 		}
-		
+
+		// DB에 저장된 데이터 삭제
 		fileTravalPackService.deleteAllFile(packNum);
 		
 		return ResponseEntity.ok().build();

@@ -279,6 +279,11 @@ public class BoardFileController {
 		
 		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
 		
+		// FireBase의 이미지 삭제 (없으면 넘기기)
+		try { storageService.deleteImage(dto); }
+		catch (Exception e) {}
+		
+		// DB에 저장된 데이터 삭제
 		switch(target) {
 		
 			case "free": fileService.deleteFileFree(dto.getFileName()); break;
@@ -294,12 +299,8 @@ public class BoardFileController {
 			default:
 				return ResponseEntity.ok(false);
 		}
-		
-		// FireBase의 이미지 삭제 (없으면 넘기기)
-		try { storageService.deleteImage(dto); }
-		catch (Exception e) {}
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(true);
 	}
 	
 	// 게시판에 첨부된 모든 첨부파일 삭제
@@ -314,7 +315,8 @@ public class BoardFileController {
 		
 		// 파일 이름을 받기 위한 리스트
 		List<FileDto> fileDto = new ArrayList<>();
-		
+
+		// DTO 리스트를 저장하고 DB에 저장된 데이터 삭제
 		switch(target) {
 		
 			case "free": 
@@ -384,9 +386,8 @@ public class BoardFileController {
 				continue;
 			}
 		}
-		
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(true);
 	}
 
 }

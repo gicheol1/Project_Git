@@ -134,20 +134,6 @@ export function useBoard() {
     // 게시판 삭제
     const deleteBoard = useCallback(async (target, bNum) => {
 
-        const jwt = sessionStorage.getItem('jwt');
-
-        if (!window.confirm('정말로 삭제하시겠습니까? 다시 복수할수 없습니다!')) { return; }
-        if (jwt === undefined || jwt === '') { alert('로그인이 필요합니다'); return; }
-
-        // ----- 저장된 이미지 정보와 파일 제거 -----
-        fetch(SERVER_URL + `deleteAllFile?target=${target}&boardNum=${bNum}&jwt=${jwt}`, {
-            method: 'DELETE'
-
-        }).then((res) => {
-            if (!res.json()) { throw new Error(res.status); }
-
-        }).catch((e) => { console.log(e); alert("삭제에 실패하였습니다."); })
-
         // ----- 저장된 게시판 정보 제거 -----
         fetch(SERVER_URL + `boardDelete?target=${target}&boardNum=${bNum}`, {
             method: 'DELETE'
@@ -155,14 +141,13 @@ export function useBoard() {
         }).then((res) => {
             if (!res.ok) { throw new Error(res.status); }
 
-            alert("삭제가 완료되었습니다.");
-            navigate(`/boardList/${target}`);
+            return res.json();
 
-        }).catch((e) => { console.log(e); alert("삭제에 실패하였습니다."); })
+        }).catch((e) => { console.log(e); return false; })
 
     }, [])
 
-    // 특정 이미지 정보와 파일 제거 -----
+    // ----- 특정 이미지 정보와 파일 제거 -----
     const deleteFile = useCallback(async (target, bNum, fileDto) => {
 
         if (!window.confirm('이미지를 삭제하시겠습니까?')) { return; }
@@ -174,10 +159,26 @@ export function useBoard() {
             body: JSON.stringify(fileDto)
 
         }).then((res) => {
-            if (!res.json()) { throw new Error(res.status); }
+            if (!res.ok) { throw new Error(res.status); }
             alert('이미지가 삭제되었습니다.');
 
         }).catch((e) => { console.log(e); })
+
+    }, []);
+
+    // ----- 모든 이미지 파일 제거 -----
+    const deleteAllFile = useCallback(async (target, bNum) => {
+
+        const jwt = sessionStorage.getItem('jwt');
+
+        fetch(SERVER_URL + `deleteAllFile?target=${target}&boardNum=${bNum}&jwt=${jwt}`, {
+            method: 'DELETE'
+
+        }).then((res) => {
+            if (!res.ok) { throw new Error(res.status); }
+            return res.json();
+
+        }).catch((e) => { console.log(e); return false; })
 
     }, []);
 
@@ -191,6 +192,7 @@ export function useBoard() {
         submitFile,
 
         deleteBoard,
-        deleteFile
+        deleteFile,
+        deleteAllFile
     }
 }

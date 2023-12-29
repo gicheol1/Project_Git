@@ -6,30 +6,11 @@ import './BoardMU.css';
 import { Button } from '@mui/material';
 import { useBoard } from './useBoardMU';
 import { useCheckLogin } from 'js/useCheckLogin';
-import { async } from 'q';
 
 const BoardMU = ({ isLogin }) => {
 
     const navigate = useNavigate();
     const inputRef = useRef(null);
-
-    // 게시판 종류(공통)와 글 번호(수정 할 때)
-    const { target, boardNum } = useParams();
-
-    const {
-        getDetail,
-        getFile,
-
-        encodeFile,
-
-        submitDetail,
-        submitFile,
-
-        deleteBoard,
-        deleteFile
-    } = useBoard();
-
-    const { toLogin } = useCheckLogin();
 
     // 게시판 내용
     const [board, setBoard] = useState({
@@ -46,6 +27,25 @@ const BoardMU = ({ isLogin }) => {
 
     // 저장된 이미지
     const [imgList, setImgList] = useState([]);
+
+    // 게시판 종류(공통)와 글 번호(수정 할 때)
+    const { target, boardNum } = useParams();
+
+    const {
+        getDetail,
+        getFile,
+
+        encodeFile,
+
+        submitDetail,
+        submitFile,
+
+        deleteBoard,
+        deleteFile,
+        deleteAllFile
+    } = useBoard();
+
+    const { toLogin } = useCheckLogin();
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -71,7 +71,7 @@ const BoardMU = ({ isLogin }) => {
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // 게시판 저장
-    const onClickSetBoard = async () => {
+    const onCreateBoard = async () => {
 
         const saveBoard = async () => {
             submitDetail(target, board, boardNum).then((res) => {
@@ -94,6 +94,29 @@ const BoardMU = ({ isLogin }) => {
         setBtnDisable(true);
 
         saveBoard();
+
+        // 버튼 활성화
+        setBtnDisable(false);
+    }
+
+    // 게시판 삭제
+    const onDeleteBoard = async () => {
+
+        if (!window.confirm('정말로 게시판을 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
+
+        let boardDeleted = false;
+        let imageDeleted = false;
+
+        // 버튼 비활성화
+        setBtnDisable(true);
+
+        deleteBoard(target, boardNum).then(res => boardDeleted = res);
+        deleteAllFile(target, boardNum).then(res => imageDeleted = res);
+
+        if (!boardDeleted) { alert('삭제에 실패했습니다.'); return; }
+        else if (!imageDeleted) { alert('이미지 삭제에 실패했습니다.'); return; }
+
+        else { alert('게시판을 삭제했습니다.'); navigate(`/boardList/${target}`); }
 
         // 버튼 활성화
         setBtnDisable(false);
@@ -190,7 +213,7 @@ const BoardMU = ({ isLogin }) => {
                                     className="btn"
                                     variant="contained"
                                     disabled={btnDisable}
-                                    onClick={onClickSetBoard}
+                                    onClick={onCreateBoard}
                                 >
                                     저장
                                 </Button>
@@ -210,7 +233,7 @@ const BoardMU = ({ isLogin }) => {
                                     className="btn"
                                     variant="contained"
                                     disabled={btnDisable}
-                                    onClick={onClickSetBoard}
+                                    onClick={onCreateBoard}
                                 >
                                     수정
                                 </Button>
@@ -219,7 +242,7 @@ const BoardMU = ({ isLogin }) => {
                                     variant="contained"
                                     color="error"
                                     disabled={btnDisable}
-                                    onClick={() => { deleteBoard(target, boardNum) }}
+                                    onClick={onDeleteBoard}
                                 >
                                     삭제
                                 </Button>

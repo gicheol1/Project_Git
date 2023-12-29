@@ -134,8 +134,10 @@ function App() {
 				<Route path="/festivalDetail/:festivalNum" element={<FestivalDetail />} />
 				<Route path="/festivals" element={<Festivals />} />
 				<Route path="/festivals/:festivalNum" element={<Festivals />} />
+
 				{/* 최근 본 내역 */}
 				<Route path="/connectionlog" element={<ConnectionLog />} />
+
 				{/* 마이 페이지 */}
 				<Route path="/myPage" element={<MainPage />} />
 
@@ -143,8 +145,10 @@ function App() {
 
 				{/* 좋아요 누른 계시글 */}
 				<Route path="/likeclick" element={<Likeclick />} />
+
 				{/* OOO님의 마일리지 */}
 				<Route path="/mymilize" element={<Mymilize />} />
+
 				{/* 지역 */}
 				<Route path="/festival" element={<LocalFestival />} />
 
@@ -152,10 +156,13 @@ function App() {
 
 				{/* 예약정보, 예약정보 관리 */}
 				<Route path="/info" element={<ReservationInfo />} />
+
 				{/* 판매 정보 */}
 				<Route path="/saleinfo" element={<SaleInfo />} />
+
 				{/* 회원 정보 수정 */}
 				<Route path="/userDetail/:memId" element={<UserDetail />} />
+
 				{/* 내Q&A 현황, Q&A관리 */}
 				<Route path="/Qna" element={<QnaStatus />} />
 

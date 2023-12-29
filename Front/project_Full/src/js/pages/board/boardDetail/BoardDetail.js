@@ -39,6 +39,7 @@ const BoardDetail = ({ isLogin }) => {
 		submitComment,
 
 		deleteBoard,
+		deleteAllFile,
 
 		isOwnerBoard
 	} = useBoardDetail();
@@ -87,14 +88,21 @@ const BoardDetail = ({ isLogin }) => {
 
 	}
 
-	// 게시판 삭제하기
-	const onDeleteBoard = () => {
-		if (isLogin) {
-			deleteBoard(target, boardNum)
-		} else {
-			navigate(`/login`);
-		}
+	// 게시판 삭제
+	const onDeleteBoard = async () => {
 
+		if (!window.confirm('정말로 게시판을 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
+
+		let boardDeleted = false;
+		let imageDeleted = false;
+
+		deleteBoard(target, boardNum).then(res => boardDeleted = res);
+		deleteAllFile(target, boardNum).then(res => imageDeleted = res);
+
+		if (!boardDeleted) { alert('삭제에 실패했습니다.'); return; }
+		else if (!imageDeleted) { alert('이미지 삭제에 실패했습니다.'); return; }
+
+		else { alert('게시판을 삭제했습니다.'); navigate(`/boardList/${target}`); }
 	}
 
 	// ---------- ---------- ---------- ---------- ----------
@@ -109,16 +117,6 @@ const BoardDetail = ({ isLogin }) => {
 
 	// 답글대상 지정
 	const setRecoTarget = (recoNum) => {
-		// setNewComment(() => {
-		// 	const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
-		// 	const updatedComment = {
-		// 		...newComment,
-		// 		coNum: '',
-		// 		recoNum: recoTarget.coNum
-		// 	};
-		// 	return updatedComment;
-		// });
-
 		const recoTarget = commentList.find((comments) => comments.coNum === recoNum);
 		setNewComment({
 			...recoTarget,

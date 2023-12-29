@@ -12,6 +12,7 @@ import './LayOut.css';
 
 const LayOut = ({ isLogin, isAdmin, setIsLogin }) => {
 
+    // 해더에 마우스가 올라오면 
     const [isVisible, setIsVisible] = useState(false);
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦

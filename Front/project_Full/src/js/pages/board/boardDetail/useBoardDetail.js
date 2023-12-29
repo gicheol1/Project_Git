@@ -65,9 +65,9 @@ export function useBoardDetail() {
         }).catch((e) => { console.log(e); return undefined; })
     }, []);
 
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // ----- 게시판 댓글 추가-----
     const submitComment = useCallback(async (target, boardNum, newComment) => {
@@ -99,53 +99,44 @@ export function useBoardDetail() {
         })
     }, [])
 
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    // ----- 게시판 완전 삭제 -----
-    const deleteBoard = useCallback((target, boardNum) => {
+    // ----- 게시판 삭제 -----
+    const deleteBoard = useCallback(async (target, bNum) => {
 
-        if (!window.confirm('정말로 삭제하시겠습니까? 다시 복구할 수 없습니다!')) { return; }
+        fetch(SERVER_URL + `boardDelete?target=${target}&boardNum=${bNum}`, {
+            method: 'DELETE'
+
+        }).then((res) => {
+            if (!res.ok) { throw new Error(res.status); }
+
+            return res.json();
+
+        }).catch((e) => { console.log(e); return false; })
+
+    }, [])
+
+    // ----- 모든 이미지 파일 제거 -----
+    const deleteAllFile = useCallback(async (target, bNum) => {
 
         const jwt = sessionStorage.getItem('jwt');
-        if (jwt === undefined || jwt === '') {
-            alert('로그인이 필요합니다');
-            navigate(`/login`);
-            return;
-        }
 
-        // - 댓글 삭제 -
-        fetch(SERVER_URL + `deleteAllComm?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
+        fetch(SERVER_URL + `deleteAllFile?target=${target}&boardNum=${bNum}&jwt=${jwt}`, {
             method: 'DELETE'
 
-        }).then((response) => {
-            if (!response.ok) { throw new Error(response.status); }
+        }).then((res) => {
+            if (!res.ok) { throw new Error(res.status); }
+            return res.json();
 
-        }).catch((e) => { console.log(e); })
-
-        // - 파일 삭제 -
-        fetch(SERVER_URL + `deleteAllFile?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
-            method: 'DELETE'
-
-        }).then((response) => {
-            if (!response.ok) { throw new Error(response.status); }
-
-        }).catch((e) => { console.log(e); })
-
-        // - 게시판 삭제 -
-        fetch(SERVER_URL + `deleteBoard?target=${target}&boardNum=${boardNum}&jwt=${jwt}`, {
-            method: 'DELETE'
-
-        }).then((response) => {
-            if (!response.ok) { throw new Error(response.status); }
-
-            alert('성공적으로 삭제되었습니다.');
-            navigate(`/boardList/${target}`);
-
-        }).catch((e) => { console.log(e); })
+        }).catch((e) => { console.log(e); return false; })
 
     }, []);
+
+    // ========== ========== ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ========== ========== ==========
+    // ========== ========== ========== ========== ========== ========== ========== ========== ==========
 
     // ----- 댓글만 삭제 -----
     const deleteComment = useCallback((target, boardNum, coNum) => {
@@ -169,14 +160,13 @@ export function useBoardDetail() {
             console.log(e);
             alert('삭제에 실패했습니다.');
 
-
         })
 
     }, [])
 
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     // ----- 게시판 소유자 확인(게시판 수정, 삭제 제공) -----
     const isOwnerBoard = useCallback(async (target, boardNum) => {
@@ -214,9 +204,9 @@ export function useBoardDetail() {
         }).catch((e) => { console.log(e); return false; })
     }, [])
 
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
-    // ========== ========== ========== ========== ========== ========== ==========
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return {
         getDetail,
@@ -226,6 +216,7 @@ export function useBoardDetail() {
         submitComment,
 
         deleteBoard,
+        deleteAllFile,
         deleteComment,
 
         isOwnerBoard,
