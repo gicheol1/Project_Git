@@ -210,7 +210,8 @@ public class BoardController {
 			default:
 				return ResponseEntity.notFound().build();
 	    }
-		return ResponseEntity.ok().build();
+	    
+		return ResponseEntity.ok(true);
 	}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

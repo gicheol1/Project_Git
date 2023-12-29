@@ -21,25 +21,31 @@ const Login = ({ setIsLogin }) => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     // 로그인 버튼 클릭시
-    const onClickHandle = () => {
+    const onClickHandle = async () => {
 
-        login(account).then(res => {
+        const onLogin = async () => {
+            login(account).then(res => {
 
-            // 차단된 사용자인 경우(403)
-            if (res === 403) {
-                alert('차단된 사용자 입니다.');
-                setIsLogin(false);
-                return;
-            }
+                // 차단된 사용자인 경우(403)
+                if (res === 403) {
+                    alert('차단된 사용자 입니다.');
+                    setIsLogin(false);
+                    return;
+                }
 
-            if (res) {
-                setIsLogin(true);
-                navigate('/', { replace: true });
-            } else {
-                alert('아이니다 비밀번호를 다시 입력하세요');
-                setIsLogin(false);
-            }
-        })
+                if (res) {
+                    setIsLogin(res);
+                    navigate('/', { replace: true });
+                    return;
+                } else {
+                    alert('아이니다 비밀번호를 다시 입력하세요');
+                    setIsLogin(res);
+                    return;
+                }
+            });
+        }
+
+        onLogin();
 
     };
 

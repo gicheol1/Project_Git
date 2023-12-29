@@ -25,12 +25,12 @@ public class LoginService {
     // 로그인 시 토큰 생성 및 전달
     public String logInToken(AccountCredentials credentials) {
     	
-    	String _memId=credentials.getMemId();
-    	String _pw=credentials.getPw();
+    	String _memId = credentials.getMemId();
+    	String _pw = credentials.getPw();
 
         // 미가입자 이거나 비밀번호가 일치하지 않은 경우
         Optional<User> _user = userService.getUserById(_memId);
-        if (_user.isEmpty() || !passwordEncoder.matches(_pw, _user.get().getPw())) { return ""; }
+        if (_user.isEmpty() || !passwordEncoder.matches(_pw, _user.get().getPw())) { return "Failed"; }
         
         // 토큰 생성후 전달
         User user = _user.get();

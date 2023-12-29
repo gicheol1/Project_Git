@@ -6,7 +6,7 @@ export function useLogin() {
     // ----- 로그인 -----
     const login = useCallback(async (credentials) => {
 
-        return await fetch(`${SERVER_URL}login`, {
+        return await fetch(SERVER_URL + `login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
@@ -19,11 +19,12 @@ export function useLogin() {
             // 해더에서 토큰 받기
             const jwtToken = res.headers.get('Authorization');
 
-            if (jwtToken !== undefined || jwtToken !== '') {
+            if (jwtToken !== undefined && jwtToken !== 'Failed') {
                 sessionStorage.setItem('jwt', jwtToken);
-                return res.json();
+                return true;
+            }
 
-            } else { return false; }
+            return false;
 
         }).catch((e) => { console.log(e); return false; });
     }, []);

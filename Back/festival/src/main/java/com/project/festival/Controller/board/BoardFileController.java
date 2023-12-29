@@ -327,7 +327,6 @@ public class BoardFileController {
 				}
 				
 				fileService.deleteAllFileFree(boardNum);
-				
 				break;
 				
 			case "notic": 
@@ -338,7 +337,6 @@ public class BoardFileController {
 				}
 				
 				fileService.deleteAllFileNotic(boardNum);
-				
 				break;
 				
 			case "promotion": 
@@ -360,7 +358,6 @@ public class BoardFileController {
 				}
 				
 				fileService.deleteAllFileEvent(boardNum);
-				
 				break;
 				
 			case "qa": 
@@ -371,7 +368,6 @@ public class BoardFileController {
 				}
 				
 				fileService.deleteAllFileQA(boardNum);
-				
 				break;
 				
 			default:
