@@ -213,9 +213,11 @@ public class BoardCommentController {
  	) {
  		
  		if(!authService.isLogin(jwt)) { return ResponseEntity.ok(false); }
+		
+		// 관리자인 경우
+		if(jwtService.getAuthUser(jwt).get("role", String.class)=="ADMIN") {return ResponseEntity.ok(true);}
  		
  		String memId = jwtService.getAuthUser(jwt).get("memId", String.class);
- 		
  		boolean isOwner = false;
 
 		switch(target) {

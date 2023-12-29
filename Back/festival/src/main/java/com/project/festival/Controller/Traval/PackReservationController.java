@@ -25,7 +25,6 @@ import com.project.festival.Entity.TravalPack.Repo.PackReservationRepository;
 import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.JwtService;
-import com.project.festival.Service.UserService;
 import com.project.festival.Service.TravalPack.PackReservationService;
 
 import lombok.RequiredArgsConstructor;
@@ -44,8 +43,6 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 
 	private final JwtService jwtService;
 	private final AuthService authService;
-
-	private final UserService userService;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

@@ -49,7 +49,10 @@ public class SecurityConfig {
 		CorsConfiguration config = new CorsConfiguration();
 
         // 배포한 프론트 엔드 주소의 요청을 허용합니다.
-		config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+		config.setAllowedOrigins(Arrays.asList(
+			"http://localhost:3000"
+//			,"https://"
+		));
 		
 		// 모든 HTTP 메서드, 해더 허용
 		config.setAllowedMethods(Arrays.asList("*"));
@@ -84,6 +87,10 @@ public class SecurityConfig {
                 
                 // 그 외 모든 경로는 인증 필요
                 .anyRequest().authenticated()
+            )
+            
+            .formLogin(login -> login
+            		.loginPage("/login")
             )
             
             // 로그아웃 성공시 이동할 경로

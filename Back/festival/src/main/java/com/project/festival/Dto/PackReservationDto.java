@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.project.festival.Entity.User;
-import com.project.festival.Entity.TravalPack.TravalPack;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

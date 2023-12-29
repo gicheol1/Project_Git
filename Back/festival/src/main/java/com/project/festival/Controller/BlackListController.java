@@ -17,15 +17,12 @@ import com.project.festival.Dto.BlackListDto;
 import com.project.festival.Entity.BlackList;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.BlackListService;
-import com.project.festival.Service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 public class BlackListController {
-	
-	private final UserService userService;
 	
 	private final BlackListService blackService;
 

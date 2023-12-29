@@ -3,13 +3,9 @@ package com.project.festival.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.festival.Entity.Repo.UserRepo;
-import com.project.festival.Entity.TravalPack.Repo.TravalPackRepository;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

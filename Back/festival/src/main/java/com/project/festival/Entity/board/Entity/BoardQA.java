@@ -25,7 +25,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name="border_qa")
+@Table(name="board_qa")
 @Entity
 @Getter
 @Setter

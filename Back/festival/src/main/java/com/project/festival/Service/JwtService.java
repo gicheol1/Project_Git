@@ -80,7 +80,7 @@ public class JwtService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 토큰 저장
+	// 토큰 생성
     private void saveToken(String jti, User user) {
         Token token = new Token();
         token.setJti(jti);
@@ -115,21 +115,19 @@ public class JwtService {
     // 토큰에서 사용자 정보 가져오기(Request)
 	public Claims getAuthUser(HttpServletRequest request) {
 		
+		// 해더에서 토큰 받아오기
 		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (token != null) {
-            // JWT 토큰을 파싱하고 검증
+        	
+            // 압축된 토큰을 풀고 복호화 하여 저장된 내용을 받음
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
 
             Claims body = claims.getBody();
-
-            String bodyJson = body.toString();
-
-            if (bodyJson != null)
-                return body;
+            if (!body.isEmpty()) {return body;}
         }
         return null;
 	}
@@ -138,18 +136,15 @@ public class JwtService {
 	public Claims getAuthUser(String token) {
 
         if (token != null) {
-            // JWT 토큰을 파싱하고 검증
+        	
+            // 압축된 토큰을 풀고 복호화 하여 저장된 내용을 받음
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
 
             Claims body = claims.getBody();
-
-            String bodyJson = body.toString();
-
-            if (bodyJson != null)
-                return body;
+            if (!body.isEmpty()) {return body;}
         }
         return null;
 	}
@@ -186,7 +181,11 @@ public class JwtService {
     @Scheduled(fixedRate = 1 * 60 * 1000) // 1분마다 실행
     @Transactional // 데이터 무결성을 위한 트렌잭션 롤백 적용
     public void cleanupExpiredTokens() {
+    	
+    	// 현제 시간
         Date now = new Date();
+        
+        // 만료 시간이 현제 시간보다 늦은 데이터 삭제
         tokenRepository.deleteAllByExpirationDateBefore(now);
     }
 }
