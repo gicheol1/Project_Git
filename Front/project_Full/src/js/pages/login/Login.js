@@ -88,6 +88,7 @@ const Login = ({ setIsLogin }) => {
                     />
                     <TextField
                         id="outlined-basic"
+                        type="password"
                         variant="outlined"
                         label="비밀번호"
                         name="pw"

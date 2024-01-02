@@ -69,6 +69,7 @@ public class PackReservationDto { /* 패키지 여행 예약 DTO */
 		PackReservationDto PackReservationDto1 = new PackReservationDto();
 		PackReservationDto1.setMemId("admin");
 		PackReservationDto1.setPackNum(1L);
+		PackReservationDto1.setPrice((random.nextInt(39)+1)*1000);
 		PackReservationDto1.setStartDate(LocalDate.now());
 		PackReservationDto1.setDateCnt(start + "~" + end);
 		PackReservationDto1.setCount(random.nextInt(30));
@@ -83,6 +84,7 @@ public class PackReservationDto { /* 패키지 여행 예약 DTO */
 		PackReservationDto PackReservationDto2 = new PackReservationDto();
 		PackReservationDto2.setMemId("user1");
 		PackReservationDto2.setPackNum(2L);
+		PackReservationDto2.setPrice((random.nextInt(39)+1)*1000);
 		PackReservationDto2.setStartDate(LocalDate.of(2023, 10, 11));
 		PackReservationDto2.setDateCnt(start + "~" + end);
 		PackReservationDto2.setCount(random.nextInt(30));
@@ -97,6 +99,7 @@ public class PackReservationDto { /* 패키지 여행 예약 DTO */
 		PackReservationDto PackReservationDto3 = new PackReservationDto();
 		PackReservationDto3.setMemId("user2");
 		PackReservationDto3.setPackNum(3L);
+		PackReservationDto3.setPrice((random.nextInt(39)+1)*1000);
 		PackReservationDto3.setStartDate(LocalDate.of(2023, 10, 11));
 		PackReservationDto3.setDateCnt(start + "~" + end);
 		PackReservationDto3.setCount(random.nextInt(30));

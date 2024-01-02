@@ -37,7 +37,10 @@ const SingUp = () => {
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
-    const onClickSginUp = () => {
+    const onClickSginUp = async () => {
+
+        if (checkisNull()) { alert('필수 입력 사항을 입력하세요.'); return; }
+
         singUp(newUser).then((res) => {
             if (res) {
                 alert('회원 가입이 완료되었습니다.')
@@ -46,6 +49,14 @@ const SingUp = () => {
                 alert('회원 가입이 실패되었습니다. 다시시도하세요.');
             }
         });
+    }
+
+    const checkisNull = async () => {
+        for (const key in newUser) {
+            if (newUser[key] === undefined || newUser[key] === '') { return true; }
+        }
+
+        return false;
     }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
