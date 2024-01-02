@@ -39,7 +39,7 @@ const SingUp = () => {
 
     const onClickSginUp = async () => {
 
-        // if (checkisNull()) { alert('필수 입력 사항을 입력하세요.'); return; }
+        if (checkisNull()) { alert('필수 입력 사항을 입력하세요.'); return; }
 
         singUp(newUser).then((res) => {
             if (res) {
@@ -51,9 +51,8 @@ const SingUp = () => {
         });
     }
 
-    const checkisNull = async () => {
+    const checkisNull = () => {
         for (const key in newUser) {
-            console.log(key);
             if (key === 'addrOther') { continue; }
             if (newUser[key] === undefined || newUser[key] === '') { return true; }
         }
