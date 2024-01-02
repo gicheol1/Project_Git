@@ -50,7 +50,8 @@ public class SecurityConfig {
 
         // 배포한 프론트 엔드 주소의 요청을 허용합니다.
 		config.setAllowedOrigins(Arrays.asList(
-			"http://localhost:3000"
+			"http://localhost:3000",
+				"http://viva-la-fiesta-front.s3-website.ap-northeast-2.amazonaws.com"
 		));
 		
 		// 모든 HTTP 메서드, 해더 허용
