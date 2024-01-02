@@ -16,6 +16,7 @@ const PW = ({ newUser, setNewUser }) => {
     const onChangePWCheck = (e) => {
         if (e.target.value !== pw) {
             setIsCorrect('비밀번호가 일치하지 않습니다.');
+            setNewUser({ ...newUser, pw: '' })
 
         } else {
             setIsCorrect('비밀번호가 일치합니다.');
@@ -33,7 +34,7 @@ const PW = ({ newUser, setNewUser }) => {
                 <span className="inputLabel">비밀번호 : </span>
                 <input
                     style={{ flex: '1' }}
-                    type="text"
+                    type='password'
                     placeholder="비밀번호"
                     onChange={onChangePW}
                 />
@@ -42,7 +43,7 @@ const PW = ({ newUser, setNewUser }) => {
                 <span className="inputLabel">비밀번호 확인 : </span>
                 <input
                     style={{ flex: '1' }}
-                    type="text"
+                    type="password"
                     placeholder="비밀번호 확인"
                     onChange={onChangePWCheck}
                 />

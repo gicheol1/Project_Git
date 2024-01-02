@@ -36,7 +36,7 @@ const Email = ({ newUser, setNewUser }) => {
     // 입력한 이메일로 인증번호 전송
     const sendCode = () => {
 
-        if (isEmail) { setMessageEmail('유효하지 않은 이메일 형식입니다.'); return; }
+        if (isEmail(email)) { setMessageEmail('유효하지 않은 이메일 형식입니다.'); return; }
 
         setMessageEmail('인증번호 전송중...');
 

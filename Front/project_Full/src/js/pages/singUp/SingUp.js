@@ -17,9 +17,7 @@ import './SingUp.css';
 
 const SingUp = () => {
 
-    const [newUser, setNewUser] = useState('');
-
-    const { singUp } = useSingUp({
+    const [newUser, setNewUser] = useState({
         memId: '',
         pw: '',
         name: '',
@@ -31,13 +29,18 @@ const SingUp = () => {
         addrCode: ''
     });
 
+    const { singUp } = useSingUp();
+
     const navigate = useNavigate();
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
 
-    const onClickSginUp = () => {
+    const onClickSginUp = async () => {
+
+        // if (checkisNull()) { alert('필수 입력 사항을 입력하세요.'); return; }
+
         singUp(newUser).then((res) => {
             if (res) {
                 alert('회원 가입이 완료되었습니다.')
@@ -47,6 +50,18 @@ const SingUp = () => {
             }
         });
     }
+
+    const checkisNull = async () => {
+        for (const key in newUser) {
+            console.log(key);
+            if (key === 'addrOther') { continue; }
+            if (newUser[key] === undefined || newUser[key] === '') { return true; }
+        }
+
+        return false;
+    }
+
+    const onShow = () => { console.log(newUser) }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -68,6 +83,7 @@ const SingUp = () => {
             >
                 회원가입
             </Button>
+            <button onClick={onShow}>데이터 확인</button>
         </div>
     );
 }
