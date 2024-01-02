@@ -46,7 +46,7 @@ function TravelReservation() {
         fetch(SERVER_URL + `getTravalpack?packNum=${packNum}`)
             .then((response) => { return response.json(); })
             .then((data) => {
-                setTravalPack(data) // 번호(기본키)에 해당되는 여행 패키지 정보 
+                setTravalPack([data]) // 번호(기본키)에 해당되는 여행 패키지 정보 // 단일 객체 일 떄는 [] 필수
 
                 setReservationInfo({
                     price: data.price,
