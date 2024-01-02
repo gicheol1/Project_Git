@@ -131,9 +131,9 @@ public class FestivalApplication implements CommandLineRunner {
 //			"2023-12-15", "2024-01-21"
 //		));
 		
-		FilefestivalRepo.save(new FileFestival(1L, "festival/롯데월드 miracle winter", "롯데월드 miracle winter"));
-		FilefestivalRepo.save(new FileFestival(2L, "festival/ㅊ ㅊ-하다 페스티벌", "ㅊ ㅊ-하다 페스티벌"));
-		FilefestivalRepo.save(new FileFestival(3L, "festival/서울일러스트레이션페어V.16", "서울일러스트레이션페어V.16"));
+		FilefestivalRepo.save(new FileFestival(1L, "festival/롯데월드 miracle winter.png", "롯데월드 miracle winter"));
+		FilefestivalRepo.save(new FileFestival(2L, "festival/ㅊ ㅊ-하다 페스티벌.png", "ㅊ ㅊ-하다 페스티벌"));
+		FilefestivalRepo.save(new FileFestival(3L, "festival/서울일러스트레이션페어V.16.png", "서울일러스트레이션페어V.16"));
 		
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 		
