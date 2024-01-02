@@ -140,9 +140,7 @@ const Servicedown = () => {
     return false;
   }
 
-  const showDate = () => {
-    console.log(blackInfo);
-  }
+  // const showDate = () => { console.log(blackInfo); }
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -230,7 +228,7 @@ const Servicedown = () => {
           <button type="button" onClick={handleDelete}>삭제</button>
         </div>
       }
-      <button type="button" onClick={showDate}>데이터 확인</button>
+      {/* <button type="button" onClick={showDate}>데이터 확인</button> */}
     </div>
   );
 };

@@ -167,7 +167,7 @@ const Festivals = () => {
 		setBtnDisable(isFestivalComplete());
 	}
 
-	const showData = () => { console.log(festival); }
+	// const showData = () => { console.log(festival); }
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -353,7 +353,7 @@ const Festivals = () => {
 				</div>
 
 				<div>
-					<Button variant="contained" onClick={showData} >데이터 확인</Button>
+					{/* <Button variant="contained" onClick={showData} >데이터 확인</Button> */}
 				</div>
 			</div >
 		);

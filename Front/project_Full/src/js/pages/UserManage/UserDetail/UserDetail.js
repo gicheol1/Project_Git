@@ -81,9 +81,7 @@ const UserDetail = () => {
 
     }
 
-    const onShow = () => {
-        console.log(userDetail);
-    }
+    // const onShow = () => { console.log(userDetail); }
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -124,7 +122,7 @@ const UserDetail = () => {
                     <Button variant="contained" onClick={() => { onUpdate(); }} >수정</Button>
                     <Button variant="contained" color="error" style={{ marginLeft: '10px' }} onClick={() => { onDelete(userDetail.memId); }} >삭제</Button>
                 </div>
-                <Button variant="contained" onClick={() => { onShow(); }} >데이터 확인</Button>
+                {/* <Button variant="contained" onClick={() => { onShow(); }} >데이터 확인</Button> */}
             </div>
         );
     }
