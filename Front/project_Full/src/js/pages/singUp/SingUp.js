@@ -60,7 +60,7 @@ const SingUp = () => {
         return false;
     }
 
-    const onShow = () => { console.log(newUser) }
+    // const onShow = () => { console.log(newUser) }
 
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
     // ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -82,7 +82,7 @@ const SingUp = () => {
             >
                 회원가입
             </Button>
-            <button onClick={onShow}>데이터 확인</button>
+            {/* <button onClick={onShow}>데이터 확인</button> */}
         </div>
     );
 }
