@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>React App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  </head>
-  <style>
-    body{
-      background-image: url('./snow.gif');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
-  <!-- <body style="background-color: rgb(248, 249, 250);"> -->
-  <!-- <body style="background-color: red;"> -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=24abad7582ba34e0fef75efa7bb5d008&libraries=services"></script>
-    <div id="root"></div>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>구석구석 축제</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<style>
+  body {
+    background-image: url('./snow.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0;
+    padding: 0;
+  }
+</style>
+<!-- <body style="background-color: rgb(248, 249, 250);"> -->
+<!-- <body style="background-color: red;"> -->
+
+<body>
+  <!-- 카카오 맵 플랫폼에 등록을 위해서 개인 API 키 사용 -->
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f845cf68793c9577535e2a6af883d4a9&libraries=services"></script> 
+  <div id="root"></div>
+</body>
+
 </html>
