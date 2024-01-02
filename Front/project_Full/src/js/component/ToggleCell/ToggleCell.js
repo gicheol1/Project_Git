@@ -26,7 +26,10 @@ const ToggleCell = ({ value }) => {
     return (
         <div classname="togglefont" onClick={handleClick} style={{ cursor: 'pointer', float: 'left' }}>
             {/* 토글 상태에 따라 가격을 표시 */}
-            <p>{toggle ? `${formatPrice(value)}원` : `${value}원`}</p>
+            <p>{toggle ? `${formatPrice(value)}원` : `${value.toLocaleString()}원`}</p>
+            {/* toLocaleString(): 숫자를 해당 지역화된 형식으로 문자열로 변환하여 출력 
+                - 출력: "1,234,567.89" (예: 미국 로케일에서)
+            */}
         </div>
     );
 };
