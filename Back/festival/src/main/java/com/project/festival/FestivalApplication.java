@@ -23,6 +23,8 @@ import com.project.festival.Entity.board.Repository.BoardQARepo;
 import com.project.festival.Entity.board.RepositoryComm.CommentFreeRepo;
 import com.project.festival.Entity.festival.Festival;
 import com.project.festival.Entity.festival.FestivalRepo;
+import com.project.festival.Entity.festival.FileFestival;
+import com.project.festival.Entity.festival.FileFestivalRepo;
 import com.project.festival.Service.TravalPack.PackReservationService;
 import com.project.festival.Service.TravalPack.PaymentService;
 
@@ -41,6 +43,7 @@ public class FestivalApplication implements CommandLineRunner {
 
     /* 테스트용 축제 */
 	private final FestivalRepo festivalRepository;
+	private final FileFestivalRepo FilefestivalRepo;
 
     /* 테스트용 게시판과 댓글(자유) */
     private final BoardFreeRepo BFRepo;
@@ -127,6 +130,10 @@ public class FestivalApplication implements CommandLineRunner {
 //			"2023 광화문광장마켓","test5", "서울특별시 종로구 세종대로 175",
 //			"2023-12-15", "2024-01-21"
 //		));
+		
+		FilefestivalRepo.save(new FileFestival(1L, "festival/롯데월드 miracle winter.png", "롯데월드 miracle winter"));
+		FilefestivalRepo.save(new FileFestival(2L, "festival/ㅊ ㅊ-하다 페스티벌.png", "ㅊ ㅊ-하다 페스티벌"));
+		FilefestivalRepo.save(new FileFestival(3L, "festival/서울일러스트레이션페어V.16.png", "서울일러스트레이션페어V.16"));
 		
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 		

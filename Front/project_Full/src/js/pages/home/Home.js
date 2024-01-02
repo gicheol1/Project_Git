@@ -15,19 +15,40 @@ function Home() {
   const [imgList, setImgList] = useState([]);
 
   const handleDragStart = (e) => e.preventDefault();
+  let i = 1;
 
   // 슬라이드 애니메이션에 추가할 이미지 태그
   const items = [
-    <div>
-      {imgList.map((image, index) => (
+      imgList.map((image, index) => {
+        return(
+        <div>
         <img
-          key={`image ${index}`}
-          alt={`image ${image.orgName}`}
-          src={`data:image/png;base64,${image.imgFile}`}
-        />))
-      }
-    </div>
-  ];
+        key={`image ${index}`}
+        alt={`image ${image.orgName}`}
+        src={`data:image/png;base64,${image.imgFile}`}
+        />
+        <img
+        key={`image ${index}`}
+        alt={`image ${image.orgName}`}
+        src={`data:image/png;base64,${image.imgFile}`}
+        />
+        <img
+        key={`image ${index}`}
+        alt={`image ${image.orgName}`}
+        src={`data:image/png;base64,${image.imgFile}`}
+        />
+        </div>,
+        <div>
+          <img
+        key={`image ${index}`}
+        alt={`image ${image.orgName}`}
+        src={`data:image/png;base64,${image.imgFile}`}
+        />
+        </div>
+        )
+        })
+      
+    ];
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
