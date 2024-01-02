@@ -51,7 +51,9 @@ public class PackReservationController { /* 사용자 요청 처리(패키지 �
 	}
 	
 	@GetMapping("/getPackReservationMemId")
-	public List<PackReservation> getPackReservationMemId(@RequestParam String memId) {
+	public List<PackReservationDto> getPackReservationMemId(@RequestParam String memId) {
+		// - 숙소이름과 가격을 불러오기 위해 일반 테이블에서 DTO로 변경
+		// - 숙소이름과 가격이 필요없을 시 일반테이블로 복구
 		return packReservationService.getPackReservationMemId(memId);
 	}
 	
