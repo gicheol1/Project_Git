@@ -47,18 +47,40 @@ public class FileFestivalController {
 		@RequestParam Long festivalNum
 	) {
 		
+		FileDto fd = new FileDto();
+		
+		FileFestival files = fileFestivalService.getFile(festivalNum);
+		
+		try {
+			fd = modelMapper.map(files, FileDto.class);
+			fd.setImgFile(storageService.getImageFile(files.getFileName()));
+			
+		} catch (IOException e) { e.printStackTrace(); }
+		
+		return ResponseEntity.ok(fd);
+	}
+
+	// 축제 이미지 가져오기
+	@GetMapping("/getFileFestivalList")
+	public ResponseEntity<?> getFileFestivalList(
+		@RequestParam List<Long> festivalNum
+	) {
+		
 		List<FileDto> dto = new ArrayList<>();
 		
-		for(FileFestival files : fileFestivalService.getFiles(festivalNum)) {
-			try {
-				FileDto fd = modelMapper.map(files, FileDto.class);
-				fd.setImgFile(storageService.getImageFile(files.getFileName()));
-				dto.add(fd);
-				
-			} catch (IOException e) { e.printStackTrace(); continue; }
+		for(Long num : festivalNum) {
+			for(FileFestival files : fileFestivalService.getFiles(num)) {
+				try {
+					FileDto fd = modelMapper.map(files, FileDto.class);
+					fd.setImgFile(storageService.getImageFile(files.getFileName()));
+					dto.add(fd);
+					
+				} catch (IOException e) { e.printStackTrace(); continue; }
+			}
 		}
 		return ResponseEntity.ok(dto);
 	}
+	
 	//축제 이미지 전부 가져오기
 	@GetMapping("/getFileFestivalAll")
 	public ResponseEntity<?> getFileFestivalAll() {

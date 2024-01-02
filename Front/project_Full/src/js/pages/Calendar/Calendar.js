@@ -12,6 +12,12 @@ const Calendar = () => {
     const [CheckList, setCheck] = useState([]);
     const [TagList, setTag] = useState("");
     const [RegionList, setRegion] = useState("");
+    const [Img,setImg] = useState([]);
+    const [ImgList,setImgList] = useState([]);
+    let ImgNum =([]);
+    let i = 0;
+ 
+
 
     useEffect(() => {
         getFestival();
@@ -26,12 +32,41 @@ const Calendar = () => {
     }).then((response) => {
         if (response.ok) { return response.json();
         } else { throw new Error(response.status); }
-    }).then((data) => {setAddr(data); setCheck(data);})
+    }).then((data) => {setAddr(data); setCheck(data); getFestivalImgAll();})
     .catch((e) => {alert(e)})
 }
 
+const getFestivalImg = async (ImgNum) => {
+    fetch(SERVER_URL + `getFileFestivalList?festivalNum=${ImgNum}`, {
+      method: 'GET'
+    }).then((response) => {
+      if (!response.ok) { return []; }
+      return response.json();
+    }).then((data) => {
+        if(data!==undefined){
+            console.log(data);
+            setImg(data);
+    }
+    }).catch((e) => { console.log(e) })
+
+
+}
+
+  const getFestivalImgAll = () => {
+
+    fetch(SERVER_URL + 'getFileFestivalAll', {
+      method: 'GET'
+    }).then((response) => {
+      if (!response.ok) { return []; }
+      return response.json();
+    }).then((data) => {
+        setImg(data);
+        setImgList(data);
+    }).catch((e) => { console.log(e) });
+  }
+
 /* 체크박스(TAG) 작용 */
-const onCheckedItem = (Check,CheckName,CheckThis) =>{
+const onCheckedItem = async (Check,CheckName,CheckThis) =>{
     const checkboxes = document.getElementsByName('check');
 	for (let i = 0; i < checkboxes.length; i++) {
 	  if (checkboxes[i] !== CheckThis) {
@@ -39,30 +74,48 @@ const onCheckedItem = (Check,CheckName,CheckThis) =>{
 	  }
 	}
 
-    console.log(CheckName);
     if(Check){
         setTag(CheckName);
         if(RegionList === ""){
+            
             const camp = addrList.filter((data) => data.tag === CheckName);
             setCheck(camp);
+            camp.map((data) => {
+                ImgNum[i] = data.festivalNum;
+                i++;
+            }) 
+            getFestivalImg(ImgNum);
         }
         else{
             const camp = addrList.filter((data) => data.tag === CheckName && data.region === RegionList);
             setCheck(camp);
-
+            camp.map((data) => {
+                ImgNum[i] = data.festivalNum;
+                i++;
+            }) 
+            setImg();
+            getFestivalImg(ImgNum);
         }
     }
 
     else{
+        i=0;
         setTag("");
         if(RegionList === ""){ getFestival();}
         else{
             const camp = addrList.filter((data) => data.region === RegionList);
             setCheck(camp);
+            camp.map((data) => {
+                ImgNum[i] = data.festivalNum;
+                i++;
+            }) 
+            setImg();
+            getFestivalImg(ImgNum);
         }}}
 
 /* 셀렉트박스(지역) */
 const onSelectedItem = (Select) => {
+    i=0;
     if(Select === "X"){
         setRegion("");
         if(TagList==="")
@@ -70,6 +123,12 @@ const onSelectedItem = (Select) => {
         else{
             const camp = addrList.filter((data) => data.tag === TagList);
             setCheck(camp);
+            camp.map((data) => {
+                ImgNum[i] = data.festivalNum;
+                i++;
+            }) 
+            setImg();
+            getFestivalImg(ImgNum);
         }
     }
     else{
@@ -77,10 +136,23 @@ const onSelectedItem = (Select) => {
         if(TagList===""){
             const camp = addrList.filter((data) => data.region === Select);
             setCheck(camp);
+            camp.map((data) => {
+                ImgNum[i] = data.festivalNum;
+                i++;
+            }) 
+            setImg();
+            getFestivalImg(ImgNum);
         }
         else{
             const camp = addrList.filter((data) => data.region === Select && data.tag === TagList);
             setCheck(camp);
+            camp.map((data) => {
+                ImgNum[i] = data.festivalNum;
+                i++;
+            }) 
+            setImg();
+            getFestivalImg(ImgNum);
+
         }}}
 
 
@@ -145,8 +217,8 @@ const onSelectedItem = (Select) => {
                 /* 달력에 축제 기간 띄우기 */
                 events={CheckList.map((addr) => ({
                     title:`(` + addr.tag + `)` + addr.name,
-                    start:addr.endDate,
-                    end:addr.startDate,
+                    start:addr.startDate,
+                    end:addr.endDate,
 
                 }
                 ))}
@@ -155,13 +227,17 @@ const onSelectedItem = (Select) => {
             </div>
             <div className='boxGroup'>
                 
-                {CheckList.map(addr => 
+                {Img !== undefined ?
+                Img.map((image, index) => 
                     /* 축제 이름 비교해서 같은 사진 불러와서 출력 */
+
                      <span class="card">
-                         <h4>{addr.name}</h4>
-                         <img src={require("./img/"+addr.name+".png")}/>
+                         <img key={`image ${index}`}
+                        alt={`image ${image.orgName}`}
+                        src={`data:image/png;base64,${image.imgFile}`}
+                        />
                      </span>
-                )}
+                ):<></>}
             </div>
           </div>);
 }
