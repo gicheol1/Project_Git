@@ -63,7 +63,8 @@ public class TravalPackDto {
     
     /* TravalPackDto에서 사용할 랜덤축제명 */ 
     private static final String[] festivalnames = {
-    		"서울일러스트레이션페어V.16", "ㅊ ㅊ-하다 페스티벌", "롯데월드 miracle winter", "축제이름"
+    		"서울일러스트레이션페어V.16", "ㅊ ㅊ-하다 페스티벌", "롯데월드 miracle winter", 
+//    		"축제이름"
     };
     
     // - 랜덤한 축제 선택
