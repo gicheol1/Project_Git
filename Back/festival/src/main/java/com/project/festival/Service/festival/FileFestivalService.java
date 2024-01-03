@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.festival.Entity.festival.FileFestival;
 import com.project.festival.Entity.festival.FileFestivalRepo;
@@ -48,9 +49,11 @@ public class FileFestivalService {
 	}
 	
 	// 특정 이미지만 삭제
+	@Transactional
 	public void deleteFile(String fileName) {fileFestivalRepository.deleteByFileName(fileName);}
 	
 	// 축제 번호의 이미지 삭제
+	@Transactional
 	public void deleteAllFile(Long festivalNum) {fileFestivalRepository.deleteAllByFestivalNum(festivalNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

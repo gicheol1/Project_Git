@@ -13,7 +13,7 @@ export function useFestivals() {
     // 기존 축제 상세 정보
     const getFestival = useCallback(async (festivalNum) => {
 
-        return fetch(SERVER_URL + `getFeatival?festivalNum=${festivalNum}`, {
+        return fetch(SERVER_URL + `getFestival?festivalNum=${festivalNum}`, {
             method: 'GET'
 
         }).then((response) => {
@@ -25,9 +25,9 @@ export function useFestivals() {
     }, [])
 
     // 기존 첨부파일 이미지 가져오기
-    const getFileFeatival = useCallback(async (festivalNum) => {
+    const getFileFestival = useCallback(async (festivalNum) => {
 
-        return fetch(SERVER_URL + `getFileFeatival?festivalNum=${festivalNum}`, {
+        return fetch(SERVER_URL + `getFileFestival?festivalNum=${festivalNum}`, {
             method: 'GET'
 
         }).then((response) => {
@@ -67,7 +67,7 @@ export function useFestivals() {
     // 축제 추가/수정
     const submitFestival = async (festival) => {
 
-        return fetch(SERVER_URL + `submitFeatival`, {
+        return fetch(SERVER_URL + `submitFestival`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(festival)
@@ -90,7 +90,7 @@ export function useFestivals() {
             return;
         }
 
-        fetch(SERVER_URL + `submitFileFeatival?festivalNum=${festivalNum}`, {
+        fetch(SERVER_URL + `submitFileFestival?festivalNum=${festivalNum}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(fileList)
@@ -117,7 +117,7 @@ export function useFestivals() {
         if (jwt === undefined || jwt === '') { alert('로그인이 필요합니다'); return; }
 
         // ----- 저장된 축제 이미지 정보와 파일 제거 -----
-        fetch(SERVER_URL + `deleteAllFileFeatival?festivalNum=${festivalNum}`, {
+        fetch(SERVER_URL + `deleteAllFileFestival?festivalNum=${festivalNum}`, {
             method: 'DELETE'
 
         }).then((res) => {
@@ -126,7 +126,7 @@ export function useFestivals() {
         }).catch((e) => { console.log(e); alert("삭제에 실패하였습니다."); })
 
         // ----- 저장된 축제 정보 제거 -----
-        fetch(SERVER_URL + `deleteFeatival?festivalNum=${festivalNum}`, {
+        fetch(SERVER_URL + `deleteFestival?festivalNum=${festivalNum}`, {
             method: 'DELETE'
 
         }).then((res) => {
@@ -160,7 +160,7 @@ export function useFestivals() {
 
     return {
         getFestival,
-        getFileFeatival,
+        getFileFestival,
 
         encodeFile,
 

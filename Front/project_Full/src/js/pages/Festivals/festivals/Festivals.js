@@ -45,7 +45,8 @@ const Festivals = () => {
 		submitFileFestival,
 
 		deleteFestival,
-		deleteFile
+		deleteFile,
+		deleteAllFile
 
 	} = useFestivals();
 
@@ -343,7 +344,16 @@ const Festivals = () => {
 						onClick={festivalNum === undefined ?
 							() => { navigate('/festivalList'); }
 							:
-							() => { deleteFestival(festivalNum); }
+							() => {
+								deleteAllFile(festivalNum).then(res => {
+									if (res) {
+										deleteFestival(festivalNum).then(res => {
+											alert('삭제가 완료되었습니다.');
+											navigate('/festivalList');
+										})
+									}
+								});
+							}
 						}
 						color='error'
 						disabled={btnDisable}

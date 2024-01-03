@@ -14,13 +14,15 @@ const FestivalDetail = () => {
 
     // 축제 상세 정보
     const [detail, setDetail] = useState();
-    const [imgList, setImgList] = useState();
+    const [imgList, setImgList] = useState([]);
 
     const {
         getFestivalDetail,
-        getFileFeatival,
+        getFileFestival,
 
-        deleteFestival
+        deleteFestival,
+        deleteFileFestival
+
     } = useFestivalDetail();
 
     // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -38,10 +40,11 @@ const FestivalDetail = () => {
 
             setDetail(res);
 
-            getFileFeatival(festivalNum).then(res => {
-                setImgList(res);
-            })
         });
+
+        getFileFestival(festivalNum).then(res => {
+            setImgList([...imgList, res]);
+        })
 
     }, [festivalNum]);
 
@@ -80,7 +83,14 @@ const FestivalDetail = () => {
                             className="btn"
                             variant="contained"
                             color="error"
-                            onClick={() => deleteFestival()}
+                            onClick={async () => {
+                                deleteFileFestival(festivalNum).then(() => {
+                                    deleteFestival(festivalNum).then(() => {
+                                        alert('삭제되었습니다.');
+                                        navigate(`/festivalList`);
+                                    });
+                                });
+                            }}
                         >
                             삭제하기
                         </Button>
@@ -92,7 +102,7 @@ const FestivalDetail = () => {
                 {/* 이미지와 내용 */}
                 {imgList !== undefined && imgList.length !== 0 ?
                     imgList.map((images, index) => (
-                        images.orgName !== undefined ?
+                        images !== undefined ?
                             <img
                                 key={`image ${index}`}
                                 alt={`image ${images.orgName}`}

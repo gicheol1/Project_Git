@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.festival.Entity.board.File.FileEvent;
 import com.project.festival.Entity.board.File.FileFree;
@@ -41,8 +42,10 @@ public class BoardFileService {
 	public List<String> getNameFree(Long num) {return freeRepo.findFileNameByBoardNumOrderByFileNum(num);}
 	
 	public void setFileFree(FileFree fileFree) {freeRepo.save(fileFree);}
-	
+
+	@Transactional
 	public void deleteFileFree(String fileName) {freeRepo.deleteByFileName(fileName);}
+	@Transactional
 	public void deleteAllFileFree(Long boardNum) {freeRepo.deleteAllByBoardNum(boardNum);}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -54,8 +57,10 @@ public class BoardFileService {
 	public List<String> getNameNotic(Long num) {return noticRepo.findFileNameByBoardNumOrderByFileNum(num);}
 	
 	public void setFileNotic(FileNotic fileNotic) {noticRepo.save(fileNotic);}
-	
+
+	@Transactional
 	public void deleteFileNotic(String fileName) {noticRepo.deleteByFileName(fileName);}
+	@Transactional
 	public void deleteAllFileNotic(Long boardNum) {noticRepo.deleteAllByBoardNum(boardNum);}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -67,8 +72,10 @@ public class BoardFileService {
 	public List<String> getNamePromotion(Long num) {return promotionRepo.findFileNameByBoardNumOrderByFileNum(num);}
 	
 	public void setFilePromotion(FilePromotion filePromotion) {promotionRepo.save(filePromotion);}
-	
+
+	@Transactional
 	public void deleteFilePromotion(String fileName) {promotionRepo.deleteByFileName(fileName);}
+	@Transactional
 	public void deleteAllFilePromotion(Long boardNum) {promotionRepo.deleteAllByBoardNum(boardNum);}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -80,8 +87,10 @@ public class BoardFileService {
 	public List<String> getNameEvent(Long num) {return eventRepo.findFileNameByBoardNumOrderByFileNum(num);}
 	
 	public void setFileEvent(FileEvent fileEvent) {eventRepo.save(fileEvent);}
-	
+
+	@Transactional
 	public void deleteFileEvent(String fileName) {eventRepo.deleteByFileName(fileName);}
+	@Transactional
 	public void deleteAllFileEvent(Long boardNum) {eventRepo.deleteAllByBoardNum(boardNum);}
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -93,7 +102,9 @@ public class BoardFileService {
 	public List<String> getNameQA(Long num) {return qaRepo.findFileNameByBoardNumOrderByFileNum(num);}
 	
 	public void setFileQA(FileQA fileQA) {qaRepo.save(fileQA);}
-	
+
+	@Transactional
 	public void deleteFileQA(String fileName) {qaRepo.deleteByFileName(fileName);}
+	@Transactional
 	public void deleteAllFileQA(Long boardNum) {qaRepo.deleteAllByBoardNum(boardNum);}
 }

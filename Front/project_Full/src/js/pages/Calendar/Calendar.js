@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import './TravelCalendar.css';
@@ -15,28 +15,33 @@ const Calendar = () => {
     const [Img, setImg] = useState([]);
     const [ImgList, setImgList] = useState([]);
     let ImgNum = ([]);
-    let i = 0;
 
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
+    useEffect(() => { getFestival(); }, []);
 
-    useEffect(() => {
-        getFestival();
-    }, [])
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-    //-------------------------------------------------------------------
-    /* 페스티벌 DB 연동 */
+    /* 축제 목록 가져오기 */
     const getFestival = (Check) => {
         fetch(SERVER_URL + 'festivalAll', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         }).then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else { throw new Error(response.status); }
-        }).then((data) => { setAddr(data); setCheck(data); getFestivalImgAll(); })
-            .catch((e) => { alert(e) })
+            if (!response.ok) { throw new Error(response.status); }
+            return response.json();
+        }).then((data) => {
+            setAddr(data);
+            setCheck(data);
+            getFestivalImgAll();
+        }).catch((e) => { alert(e) })
     }
 
+    /* 각 축제 이미지 가져오기 */
     const getFestivalImg = async (ImgNum) => {
         fetch(SERVER_URL + `getFileFestivalList?festivalNum=${ImgNum}`, {
             method: 'GET'
@@ -45,14 +50,14 @@ const Calendar = () => {
             return response.json();
         }).then((data) => {
             if (data !== undefined) {
-                console.log(data);
+                // console.log(data);
                 setImg(data);
             }
         }).catch((e) => { console.log(e) })
 
-
     }
 
+    /* 모든 축제 이미지 가져오기 */
     const getFestivalImgAll = () => {
 
         fetch(SERVER_URL + 'getFileFestivalAll', {
@@ -65,6 +70,10 @@ const Calendar = () => {
             setImgList(data);
         }).catch((e) => { console.log(e) });
     }
+
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     /* 체크박스(TAG) 작용 */
     const onCheckedItem = async (Check, CheckName, CheckThis) => {
@@ -81,35 +90,24 @@ const Calendar = () => {
 
                 const camp = addrList.filter((data) => data.tag === CheckName);
                 setCheck(camp);
-                camp.map((data) => {
-                    ImgNum[i] = data.festivalNum;
-                    i++;
-                })
+                camp.map((data, idx) => { ImgNum[idx - 1] = data.festivalNum; })
                 getFestivalImg(ImgNum);
-            }
-            else {
+
+            } else {
                 const camp = addrList.filter((data) => data.tag === CheckName && data.region === RegionList);
                 setCheck(camp);
-                camp.map((data) => {
-                    ImgNum[i] = data.festivalNum;
-                    i++;
-                })
+                camp.map((data, idx) => { ImgNum[idx] = data.festivalNum; })
                 setImg();
                 getFestivalImg(ImgNum);
             }
-        }
 
-        else {
-            i = 0;
+        } else {
             setTag("");
             if (RegionList === "") { getFestival(); }
             else {
                 const camp = addrList.filter((data) => data.region === RegionList);
                 setCheck(camp);
-                camp.map((data) => {
-                    ImgNum[i] = data.festivalNum;
-                    i++;
-                })
+                camp.map((data, idx) => { ImgNum[idx] = data.festivalNum; })
                 setImg();
                 getFestivalImg(ImgNum);
             }
@@ -118,41 +116,28 @@ const Calendar = () => {
 
     /* 셀렉트박스(지역) */
     const onSelectedItem = (Select) => {
-        i = 0;
         if (Select === "X") {
             setRegion("");
-            if (TagList === "")
-                getFestival();
+            if (TagList === "") { getFestival(); }
             else {
                 const camp = addrList.filter((data) => data.tag === TagList);
                 setCheck(camp);
-                camp.map((data) => {
-                    ImgNum[i] = data.festivalNum;
-                    i++;
-                })
+                camp.map((data, idx) => { ImgNum[idx] = data.festivalNum; })
                 setImg();
                 getFestivalImg(ImgNum);
             }
-        }
-        else {
+        } else {
             setRegion(Select);
             if (TagList === "") {
                 const camp = addrList.filter((data) => data.region === Select);
                 setCheck(camp);
-                camp.map((data) => {
-                    ImgNum[i] = data.festivalNum;
-                    i++;
-                })
+                camp.map((data, idx) => { ImgNum[idx] = data.festivalNum; })
                 setImg();
                 getFestivalImg(ImgNum);
-            }
-            else {
+            } else {
                 const camp = addrList.filter((data) => data.region === Select && data.tag === TagList);
                 setCheck(camp);
-                camp.map((data) => {
-                    ImgNum[i] = data.festivalNum;
-                    i++;
-                })
+                camp.map((data, idx) => { ImgNum[idx] = data.festivalNum; })
                 setImg();
                 getFestivalImg(ImgNum);
 
@@ -160,8 +145,9 @@ const Calendar = () => {
         }
     }
 
-
-    //--------------------------------------------------------------------------
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+    // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
     return (
         <div className="App">
@@ -172,28 +158,32 @@ const Calendar = () => {
                     <input className="캠핑" type='checkbox' name="check"
                         onChange={(e) => {
                             onCheckedItem(e.target.checked, e.target.className, e.target);
-                        }} />
+                        }}
+                    />
                 </div>
                 <div className='cul'>
                     문화
                     <input className="문화" type='checkbox' name="check"
                         onChange={(e) => {
                             onCheckedItem(e.target.checked, e.target.className, e.target);
-                        }} />
+                        }}
+                    />
                 </div>
                 <div className='fes'>
                     축제
                     <input className="축제" type='checkbox' name="check"
                         onChange={(e) => {
                             onCheckedItem(e.target.checked, e.target.className, e.target);
-                        }} />
+                        }}
+                    />
                 </div>
                 <div className='mapshow'>
                     공연
                     <input className="공연/행사" type='checkbox' name="check"
                         onChange={(e) => {
                             onCheckedItem(e.target.checked, e.target.className, e.target);
-                        }} />
+                        }}
+                    />
                 </div>
 
                 <div className="calselectBox">
@@ -233,8 +223,9 @@ const Calendar = () => {
                 }
                 ))}
             />
-            <div className='line'>
-            </div>
+
+            <div className='line'></div>
+
             <div className='boxGroup'>
 
                 {Img !== undefined ?
@@ -247,7 +238,10 @@ const Calendar = () => {
                                 src={`data:image/png;base64,${image.imgFile}`}
                             />
                         </span>
-                    ) : <></>}
+                    )
+                    :
+                    <></>
+                }
             </div>
         </div>);
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.festival.Dto.FestivalDto;
 import com.project.festival.Entity.festival.Festival;
@@ -65,7 +66,8 @@ public class FestivalService {
 // ========== ========== ========== ========== ========== ========== ========== ==========
 // ========== ========== ========== ========== ========== ========== ========== ==========
 // ========== ========== ========== ========== ========== ========== ========== ==========
-	
+
+	@Transactional
 	public void deleteFestival(Long festivalNum) { festivalRepository.deleteByFestivalNum(festivalNum); }
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

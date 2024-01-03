@@ -60,7 +60,7 @@ public class FileFestivalController {
 		return ResponseEntity.ok(fd);
 	}
 
-	// 축제 이미지 가져오기
+	// 축제 이미지들 가져오기
 	@GetMapping("/getFileFestivalList")
 	public ResponseEntity<?> getFileFestivalList(
 		@RequestParam List<Long> festivalNum
@@ -133,7 +133,7 @@ public class FileFestivalController {
 	}
 	
 	// 축제 이미지 정보를 DB에 등록
-	@PostMapping("/submitFileFeatival")
+	@PostMapping("/submitFileFestival")
 	public ResponseEntity<?> submitFileFeatival(
 		@RequestParam Long festivalNum,
 		@RequestBody List<FileDto> dto
@@ -184,8 +184,8 @@ public class FileFestivalController {
 	}
 
 	// 축제의 모든 이미지 삭제
-	@DeleteMapping("/deleteAllFileFeatival")
-	public ResponseEntity<?> deleteAllFileFeatival(
+	@DeleteMapping("/deleteAllFileFestival")
+	public ResponseEntity<?> deleteAllFileFestival(
 		@RequestParam Long festivalNum
 	) {
 		

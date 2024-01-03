@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.festival.Entity.board.BoardDto;
 import com.project.festival.Entity.board.Entity.BoardEvent;
@@ -99,6 +100,7 @@ public class BoardService {
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
     
     // 게시판 삭제
+	@Transactional
     public void deleteFree(Long boardNum) { BFRepo.deleteById(boardNum); }
     
     // 소유자 확인
@@ -172,6 +174,7 @@ public class BoardService {
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     // 게시판 삭제
+	@Transactional
     public void deleteNotic(Long boardNum) { BNRepo.deleteById(boardNum); }
 
     // 소유자 확인
@@ -245,6 +248,7 @@ public class BoardService {
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     // 게시판 삭제
+	@Transactional
     public void deletePromotion(Long boardNum) { BPRepo.deleteById(boardNum); }
 
     // 소유자 확인
@@ -318,6 +322,7 @@ public class BoardService {
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     // 게시판 삭제
+	@Transactional
     public void deleteEvent(Long boardNum) { BERepo.deleteById(boardNum); }
 
     // 소유자 확인
@@ -394,6 +399,7 @@ public class BoardService {
 // ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
 
     // 게시판 삭제
+	@Transactional
     public void deleteQA(Long boardNum) { BQARepo.deleteById(boardNum); }
 
     // 소유자 확인

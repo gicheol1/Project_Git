@@ -67,6 +67,7 @@ public class PackReservationService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	/* 패키지 여행 예약 취소 */
+	@Transactional
 	public void cancelPackReservation(Long resNum) {
 		packReservationRepository.deleteById(resNum);
     }

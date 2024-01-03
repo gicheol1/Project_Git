@@ -47,6 +47,7 @@ public class TravalPackService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
 	// 패키지 여행 삭제
+	@Transactional
 	public void deleteTravalpack(Long packNum) {
 		packRepository.deleteById(packNum);
 	}

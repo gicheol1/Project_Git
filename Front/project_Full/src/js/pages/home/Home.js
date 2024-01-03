@@ -14,41 +14,38 @@ function Home() {
   // 슬라이드에 출력할 이미지 배열
   const [imgList, setImgList] = useState([]);
 
-  const handleDragStart = (e) => e.preventDefault();
-  let i = 1;
-
   // 슬라이드 애니메이션에 추가할 이미지 태그
   const items = [
-      imgList.map((image, index) => {
-        return(
+    imgList.map((image, index) => {
+      return (
         <div>
-        <img
-        key={`image ${index}`}
-        alt={`image ${image.orgName}`}
-        src={`data:image/png;base64,${image.imgFile}`}
-        />
-        <img
-        key={`image ${index}`}
-        alt={`image ${image.orgName}`}
-        src={`data:image/png;base64,${image.imgFile}`}
-        />
-        <img
-        key={`image ${index}`}
-        alt={`image ${image.orgName}`}
-        src={`data:image/png;base64,${image.imgFile}`}
-        />
+          <img
+            key={`image ${index}`}
+            alt={`image ${image.orgName}`}
+            src={`data:image/png;base64,${image.imgFile}`}
+          />
+          <img
+            key={`image ${index}`}
+            alt={`image ${image.orgName}`}
+            src={`data:image/png;base64,${image.imgFile}`}
+          />
+          <img
+            key={`image ${index}`}
+            alt={`image ${image.orgName}`}
+            src={`data:image/png;base64,${image.imgFile}`}
+          />
         </div>,
         <div>
           <img
-        key={`image ${index}`}
-        alt={`image ${image.orgName}`}
-        src={`data:image/png;base64,${image.imgFile}`}
-        />
+            key={`image ${index}`}
+            alt={`image ${image.orgName}`}
+            src={`data:image/png;base64,${image.imgFile}`}
+          />
         </div>
-        )
-        })
-      
-    ];
+      )
+    })
+
+  ];
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -118,13 +115,15 @@ function Home() {
           </div>
         </div>
       </div>
+      <img alt="" />
+
       <div class="col-md-7">
         <div class="h-100 p-5 bg-body-tertiary border rounded-3">
           <h4>특별한 순간을 예약하세요. 여행의 시작은 지금부터입니다!</h4>
-
           <button class="btn btn-outline-secondary" type="button" onClick={() => navigate(`/packreservationList`)}>패키지 보기</button>
         </div>
       </div>
+      <img alt="" />
     </div>
   );
 }

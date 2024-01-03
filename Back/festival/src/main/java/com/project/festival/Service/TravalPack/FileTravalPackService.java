@@ -37,9 +37,11 @@ public class FileTravalPackService {
 	}
 	
 	// 특정 이미지만 삭제
+	@Transactional
 	public void deleteFile(String fileName) {fileTravalPackRepo.deleteByFileName(fileName);}
 	
 	// 패키지 번호의 이미지 삭제
+	@Transactional
 	public void deleteAllFile(Long festivalNum) {fileTravalPackRepo.deleteAllByPackNum(festivalNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

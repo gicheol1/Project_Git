@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.festival.Entity.board.CommentDto;
 import com.project.festival.Entity.board.Comm.CommentEvent;
@@ -105,12 +106,14 @@ public class BoardCommService {
 	}
 	
 	// 댓글 삭제
+	@Transactional
 	public void deleteCommFreeByCoNum(Long boardNum, Long CoNum) {
 		CommentFree commFree = commFreeRepo.findById(CoNum).get();
 		commFree.setDeleted(true);
 		commFreeRepo.save(commFree);
 	}
-	
+
+	@Transactional
 	public void deleteAllCommFree(Long boardNum) {commFreeRepo.deleteByBoardNum(boardNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -180,13 +183,15 @@ public class BoardCommService {
 		CommentNotic commNotic = modelMapper.map(comm, CommentNotic.class);
 		commNoticRepo.save(commNotic);
 	}
-	
+
+	@Transactional
 	public void deleteCommNoticByCoNum(Long boardNum, Long CoNum) {
 		CommentNotic commNotic = commNoticRepo.findById(CoNum).get();
 		commNotic.setDeleted(true);
 		commNoticRepo.save(commNotic);
 	}
-	
+
+	@Transactional
 	public void deleteAllCommNotic(Long boardNum) {commNoticRepo.deleteByBoardNum(boardNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -258,13 +263,15 @@ public class BoardCommService {
 		commPromotionRepo.save(commPromotion);
 		
 	}
-	
+
+	@Transactional
 	public void deleteCommPromotionByCoNum(Long boardNum, Long CoNum) {
 		CommentPromotion commPromotion = commPromotionRepo.findById(CoNum).get();
 		commPromotion.setDeleted(true);
 		commPromotionRepo.save(commPromotion);
 	}
-	
+
+	@Transactional
 	public void deleteAllCommPromotion(Long boardNum) {commPromotionRepo.deleteByBoardNum(boardNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -334,13 +341,15 @@ public class BoardCommService {
 		CommentEvent commEvent = modelMapper.map(comm, CommentEvent.class);
 		commEventRepo.save(commEvent);
 	}
-	
+
+	@Transactional
 	public void deleteCommEventByCoNum(Long boardNum, Long CoNum) {
 		CommentEvent commEvent = commEventRepo.findById(CoNum).get();
 		commEvent.setDeleted(true);
 		commEventRepo.save(commEvent);
 	}
-	
+
+	@Transactional
 	public void deleteAllCommEvent(Long boardNum) {commEventRepo.deleteByBoardNum(boardNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -412,13 +421,15 @@ public class BoardCommService {
 		commQARepo.save(commQA);
 		
 	}
-	
+
+	@Transactional
 	public void deleteCommQAByCoNum(Long boardNum, Long CoNum) {
 		CommentQA commQA = commQARepo.findById(CoNum).get();
 		commQA.setDeleted(true);
 		commQARepo.save(commQA);
 	}
-	
+
+	@Transactional
 	public void deleteAllCommQA(Long boardNum) {commQARepo.deleteByBoardNum(boardNum);}
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

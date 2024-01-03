@@ -178,7 +178,7 @@ public class JwtService {
     //		initialDelay = 최초 실행시 지연시킬 밀리초(ms) 단위
     
     // 만료된 토큰 삭제
-    @Scheduled(fixedRate = 1 * 60 * 1000) // 1분마다 실행
+    @Scheduled(fixedRate = 1000 * 60 * 1) // 1분마다 실행
     @Transactional // 데이터 무결성을 위한 트렌잭션 롤백 적용
     public void cleanupExpiredTokens() {
     	
