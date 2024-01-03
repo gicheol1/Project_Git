@@ -5,6 +5,7 @@ import AliceCarousel from 'react-alice-carousel';
 import { useNavigate } from "react-router-dom";
 import { SERVER_URL } from 'js';
 import React, { useEffect, useState } from "react";
+import { ElectricalServices } from '@mui/icons-material';
 
 function Home() {
 
@@ -13,53 +14,26 @@ function Home() {
 
   // 슬라이드에 출력할 이미지 배열
   const [imgList, setImgList] = useState([]);
+  const [pack, setPack] = useState([]);
+
+  const handleDragStart = (e) => e.preventDefault();
+  let i =0;
 
   // 슬라이드 애니메이션에 추가할 이미지 태그
-  const items = [
-    imgList.map((image, index) => {
-      return (
-        <div>
-          <img
-            key={`image ${index}`}
-            alt={`image ${image.orgName}`}
-            src={`data:image/png;base64,${image.imgFile}`}
-          />
-          <img
-            key={`image ${index}`}
-            alt={`image ${image.orgName}`}
-            src={`data:image/png;base64,${image.imgFile}`}
-          />
-          <img
-            key={`image ${index}`}
-            alt={`image ${image.orgName}`}
-            src={`data:image/png;base64,${image.imgFile}`}
-          />
-        </div>,
-        <div>
-          <img
-            key={`image ${index}`}
-            alt={`image ${image.orgName}`}
-            src={`data:image/png;base64,${image.imgFile}`}
-          />
-        </div>
-      )
-    })
-
-  ];
-
+  
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-  useEffect(() => { getFestival(); }, [])
+  useEffect(() => { getFestival(); getPack(); }, [])
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
   // DB에 저장된 파일 이름으로 이미지 불러오기
-  const getFestival = () => {
-    fetch(SERVER_URL + 'getFileFestivalAll', {
+  const getPack = () => {
+    fetch(SERVER_URL + 'getTravalpackAll', {
       method: 'GET'
 
     }).then((response) => {
@@ -69,11 +43,47 @@ function Home() {
       return response.json();
 
     }).then((data) => {
-      setImgList(data);
-      console.log(data);
+
+      i = Math.round(Math.random() * data.length);
+      if(i===0) i++
+        fetch(SERVER_URL + `getFileTravalPack?packNum=${i}`, {
+          method: 'GET'
+        }).then((response) => {
+          if (!response.ok) { return []; }
+          return response.json();
+        }).then((data) => {
+          setPack(data);
+        }).catch((e) => { console.log(e) });
 
     }).catch((e) => { console.log(e) });
   }
+
+  const getFestival = () => {
+    fetch(SERVER_URL + 'festivalAll', {
+      method: 'GET'
+
+    }).then((response) => {
+
+      if (!response.ok) { return []; }
+
+      return response.json();
+
+    }).then((data) => {
+      i = Math.round(Math.random() * data.length);
+      if(i===0) i++
+        fetch(SERVER_URL + `getFileFestival?festivalNum=${i+3}`, {
+          method: 'GET'
+        }).then((response) => {
+          if (!response.ok) { return []; }
+          return response.json();
+        }).then((data) => {
+          setImgList(data);
+        }).catch((e) => { console.log(e) });
+
+    }).catch((e) => { console.log(e) });
+  }
+
+ 
 
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
   // ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -91,22 +101,6 @@ function Home() {
         </div>
       </div>
 
-      <div class="imgGroup">
-        {/* 슬라이드 애니메이션 */}
-        <AliceCarousel
-          autoPlay
-          autoPlayStrategy="none"
-          autoPlayInterval={2000}
-          animationDuration={7000}
-          animationType="slide"
-          infinite
-          touchTracking={false}
-          disableDotsControls
-          disableButtonsControls
-          items={items}
-        />
-      </div>
-
       <div class="row align-items-md-stretch">
         <div class="col-md-6">
           <div class="h-100 p-5 text-bg-dark rounded-3">
@@ -114,16 +108,21 @@ function Home() {
             <button class="btn btn-outline-light" type="button" onClick={() => navigate(`/calendar`)}>축제 보기</button>
           </div>
         </div>
+        <div class="Homeimg">
+          <img src={`data:image/png;base64,${imgList.imgFile}`}/>
+          </div>
       </div>
-      <img alt="" />
-
       <div class="col-md-7">
         <div class="h-100 p-5 bg-body-tertiary border rounded-3">
           <h4>특별한 순간을 예약하세요. 여행의 시작은 지금부터입니다!</h4>
+
           <button class="btn btn-outline-secondary" type="button" onClick={() => navigate(`/packreservationList`)}>패키지 보기</button>
         </div>
       </div>
-      <img alt="" />
+      <div class="Homeimg2">
+        <img src={`data:image/png;base64,${pack.imgFile}`}/>
+      </div>
+      
     </div>
   );
 }

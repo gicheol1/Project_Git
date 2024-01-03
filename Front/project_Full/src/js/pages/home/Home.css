@@ -35,3 +35,29 @@
 .container-xl {
   margin-top: 20px;
 }
+
+.Homeimg{
+  margin-top: 30px;
+  float: left;
+  width:40%;
+  height: 200px;
+}
+
+.Homeimg > img{
+  width:100%;
+  height: 110%;
+  object-fit:fill;
+}
+
+.Homeimg2{
+  margin-top: -190px;
+  float: left;
+  width:38%;
+  height: 200px;
+}
+
+.Homeimg2 > img{
+  width:100%;
+  height: 95%;
+  object-fit:fill;
+}
