@@ -35,7 +35,7 @@ const TravalPackAdd = () => {
         price: '',
         smoke: 'O',
         text: '',
-        festival: '선택안함',
+        festivalname: '선택안함',
         reservation: 'YES',
     });
 
@@ -210,7 +210,7 @@ const TravalPackAdd = () => {
                 />
             </div>
             <p>축제 이름</p>
-            <select value={packInfo.festival} onChange={(e)=>{ setPackInfo({ ...packInfo, festival: e.target.value }); }} className='select-form'>
+            <select value={packInfo.festival} onChange={(e)=>{ setPackInfo({ ...packInfo, festivalname: e.target.value }); }} className='select-form'>
                 <option className="fesSelectBox" key="선택안함" value="선택안함">선택안함</option>
             {addr.map((data) => 
                 <option className="fesSelectBox" key={data.name} value={data.name}>{data.name}</option>
