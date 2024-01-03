@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.festival.Dto.FileDto;
 import com.project.festival.Entity.TravalPack.FileTravalPack;
+import com.project.festival.Entity.festival.FileFestival;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.FireBaseService;
 import com.project.festival.Service.TravalPack.FileTravalPackService;
@@ -36,6 +38,8 @@ public class FileTravalPackController {
 	private final AuthService authService;
 	
 	private final ModelMapper modelMapper;
+	
+	Random rand = new Random();
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -57,6 +61,28 @@ public class FileTravalPackController {
 				
 			} catch (IOException e) { e.printStackTrace(); continue; }
 		}
+		
+		return ResponseEntity.ok(dto.size() != 0 ? dto : null);
+	}
+
+	// 랜덤한 축제 이미지 가져오기
+	@GetMapping("/getFileTravalPackRandom")
+	public ResponseEntity<?> getFileTravalPackRandom(
+		@RequestParam Long packNum
+	) {
+		
+		FileDto dto = new FileDto();
+		
+		List<FileTravalPack> files = fileTravalPackService.getFiles(packNum);
+		if(files.size()==0) {return ResponseEntity.ok(null);}
+		
+		FileTravalPack fileTravalPack = files.get(rand.nextInt(files.size()));
+		
+		try {
+			dto = modelMapper.map(fileTravalPack, FileDto.class);
+			dto.setImgFile(storageService.getImageFile(fileTravalPack.getFileName()));
+			
+		} catch (IOException e) { e.printStackTrace(); }
 		
 		return ResponseEntity.ok(dto);
 	}

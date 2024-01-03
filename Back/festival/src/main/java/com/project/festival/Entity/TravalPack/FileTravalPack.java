@@ -30,5 +30,14 @@ public class FileTravalPack {
 	
 	// 원본 이름
 	private String orgName;
+	
+// ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
+	public FileTravalPack(Long packNum, String fileName, String orgName) {
+		super();
+		this.packNum = packNum;
+		this.fileName = fileName;
+		this.orgName = orgName;
+	}
 
 }

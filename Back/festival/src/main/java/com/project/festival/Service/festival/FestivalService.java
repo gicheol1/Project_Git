@@ -28,6 +28,8 @@ public class FestivalService {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 	
 	public List<Festival> getFestivalAll() { return festivalRepository.findAll(); }
+
+	public List<Long> getFestivalAllNumber() { return festivalRepository.findAllFestivalNumBy(); }
 	
 	public List<Festival> getFestivalPage(Pageable pageable) {
 		return festivalRepository.findAllByOrderByFestivalNumDesc(pageable).getContent();

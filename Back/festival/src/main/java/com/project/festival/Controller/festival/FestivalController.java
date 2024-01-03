@@ -32,6 +32,12 @@ public class FestivalController {
 		return ResponseEntity.ok(festivalService.getFestivalAll());
 	}
 
+	// 모든 축제 번호 가져오기
+	@GetMapping("/festivalAllNumber")
+	public ResponseEntity<?> getFeativalAllNumber() {
+		return ResponseEntity.ok(festivalService.getFestivalAllNumber());
+	}
+
 	// 페이지 별 축제 10개씩 가져오기
 	@GetMapping("/festivalPage")
 	public ResponseEntity<?> getFestivalPage(@RequestParam int page){

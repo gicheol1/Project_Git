@@ -30,9 +30,15 @@ public class TravalPackController {
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-	// 패키지 여행 전체 조회
+	// 모든 패키지 여행 전체 조회
 	@GetMapping("/getTravalpackAll")
 	private List<TravalPack> getTravalpackAll() { return (List<TravalPack>) packRepository.findAll(); }
+
+	// 모든 패키지 여행 번호 가져오기
+	@GetMapping("/getTravalpackAllNumber")
+	public ResponseEntity<?> getTravalpackAllNumber() {
+		return ResponseEntity.ok(packRepository.findAllPackNumBy());
+	}
 
 	// 패키지 여행 세부조회(번호를 통한 조회)
 	@GetMapping("/getTravalpack")

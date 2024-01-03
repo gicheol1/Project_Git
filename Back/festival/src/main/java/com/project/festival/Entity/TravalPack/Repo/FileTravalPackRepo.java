@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.festival.Entity.TravalPack.FileTravalPack;
-import com.project.festival.Entity.festival.FileFestival;
 
 public interface FileTravalPackRepo extends JpaRepository<FileTravalPack, Long> {
 	

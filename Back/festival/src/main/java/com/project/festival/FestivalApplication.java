@@ -15,6 +15,8 @@ import com.project.festival.Entity.BlackList;
 import com.project.festival.Entity.User;
 import com.project.festival.Entity.Repo.BlackListRepo;
 import com.project.festival.Entity.Repo.UserRepo;
+import com.project.festival.Entity.TravalPack.FileTravalPack;
+import com.project.festival.Entity.TravalPack.Repo.FileTravalPackRepo;
 import com.project.festival.Entity.board.Comm.CommentFree;
 import com.project.festival.Entity.board.Entity.BoardFree;
 import com.project.festival.Entity.board.Entity.BoardQA;
@@ -54,6 +56,8 @@ public class FestivalApplication implements CommandLineRunner {
 	
     /* 테스트용 계정의 비밀번호 암호화 */
 	private final PasswordEncoder passwordEncoder;
+	
+	private final FileTravalPackRepo fileTravalPackRepo;
 	
 	/* 테스트용 결제 내역 생성 */
 	private final PaymentService paymentService;
@@ -199,6 +203,11 @@ public class FestivalApplication implements CommandLineRunner {
 		
 		/* (테스트용) 결재내역 생성 */
 		paymentService.creatDefaultPaymemt();
+		
+		fileTravalPackRepo.save(new FileTravalPack(2L, "travalPack/고양이1.png", "고양이1"));
+		fileTravalPackRepo.save(new FileTravalPack(3L, "travalPack/고양이2.png", "고양이2"));
+		fileTravalPackRepo.save(new FileTravalPack(4L, "travalPack/고양이3.png", "고양이3"));
+		fileTravalPackRepo.save(new FileTravalPack(5L, "travalPack/고양이4.png", "고양이4"));
 		
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
         

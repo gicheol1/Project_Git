@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -36,6 +37,8 @@ public class FileFestivalController {
 	private final AuthService authService;
 	
 	private final ModelMapper modelMapper;
+	
+	Random rand = new Random();
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -60,6 +63,28 @@ public class FileFestivalController {
 		return ResponseEntity.ok(fd);
 	}
 
+	// 랜덤한 축제 이미지 가져오기
+	@GetMapping("/getFileFestivalRandom")
+	public ResponseEntity<?> getFileFestivalRandom(
+		@RequestParam Long festivalNum
+	) {
+		
+		FileDto dto = new FileDto();
+		
+		List<FileFestival> files = fileFestivalService.getFiles(festivalNum);
+		if(files.size()==0) {return ResponseEntity.ok(null);}
+		
+		FileFestival fileFestival = files.get(rand.nextInt(files.size()));
+		
+		try {
+			dto = modelMapper.map(fileFestival, FileDto.class);
+			dto.setImgFile(storageService.getImageFile(fileFestival.getFileName()));
+			
+		} catch (IOException e) { e.printStackTrace(); }
+		
+		return ResponseEntity.ok(dto);
+	}
+
 	// 축제 이미지들 가져오기
 	@GetMapping("/getFileFestivalList")
 	public ResponseEntity<?> getFileFestivalList(
@@ -78,7 +103,7 @@ public class FileFestivalController {
 				} catch (IOException e) { e.printStackTrace(); continue; }
 			}
 		}
-		return ResponseEntity.ok(dto);
+		return ResponseEntity.ok(dto.size() != 0 ? dto : null);
 	}
 	
 	//축제 이미지 전부 가져오기
