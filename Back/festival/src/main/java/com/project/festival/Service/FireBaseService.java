@@ -1,6 +1,5 @@
 package com.project.festival.Service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
@@ -20,6 +19,8 @@ import com.project.festival.Dto.FileDto;
 @Service
 public class FireBaseService {
     private final String BUCKET = "festivaltest-937ab.appspot.com";
+    
+    // 파일 절대경로 설정
     private final Resource resource = new ClassPathResource("festivaltest-firebase-adminsdk.json");
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -30,7 +31,7 @@ public class FireBaseService {
     public String getImageFile(
     	String fileName
 	) throws IOException {
-        // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
+        // FireBase 연동을 위해 인증 파일을 InputStream으로 읽어옴
         InputStream serviceAccount = resource.getInputStream();
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 
@@ -57,7 +58,7 @@ public class FireBaseService {
  		FileDto dto
      ) throws IOException {
      	
-         // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
+         // FireBase 연동을 위해 인증 파일을 InputStream으로 읽어옴
          InputStream serviceAccount = resource.getInputStream();
          GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 
@@ -86,7 +87,7 @@ public class FireBaseService {
     	FileDto dto
 	) throws IOException {
     	
-        // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
+        // FireBase 연동을 위해 인증 파일을 InputStream으로 읽어옴
         InputStream serviceAccount = resource.getInputStream();
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 

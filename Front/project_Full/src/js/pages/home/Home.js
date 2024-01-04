@@ -11,95 +11,95 @@ function Home() {
 	// 페이지 이동을 위한 함수   
 	const navigate = useNavigate();
 
-	// 슬라이드에 출력할 이미지 배열
+	// 이미지 배열
 	const [festivalImg, setFestivalImg] = useState();
 	const [packImg, setPackImg] = useState();
 
 	const { getPackNumber, getFilePack, getFestivalNumber, getFileFestival } = useHome();
 
-	// 슬라이드 애니메이션에 추가할 이미지 태그
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+
+	useEffect(() => { getFestivalImg(); getPackImg(); }, []);
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-	useEffect(() => { getFestivalImg(); getPackImg(); }, [])
+	// 슬라이드에 이미지를 출력할 태그들
+	const itemFestival = festivalImg !== undefined ? festivalImg.map((image, index) => {
+		return (
+			<div>
+				<img
+					key={`imageFestival ${index}`}
+					alt={`image ${image.orgName}`}
+					src={`data:image/png;base64,${image.imgFile}`}
+				/>
+			</div>
+		)
+	}) : undefined;
+
+	const itemPack = packImg !== undefined ? packImg.map((image, index) => {
+		return (
+			<div>
+				<img
+					key={`imagePackage ${index}`}
+					alt={`image ${image.orgName}`}
+					src={`data:image/png;base64,${image.imgFile}`}
+				/>
+			</div>
+		)
+	}) : undefined;
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
-	// const itemFestival = [
-	// 	festivalImg.map((image, index) => {
-	// 		return (
-	// 			<div>
-	// 				<img
-	// 					key={`imageFestival ${index}`}
-	// 					alt={`image ${image.orgName}`}
-	// 					src={`data:image/png;base64,${image.imgFile}`}
-	// 				/>
-	// 			</div>
-	// 		)
-	// 	})
-	// ];
-
-	// const itemPack = [
-	// 	packImg.map((image, index) => {
-	// 		return (
-	// 			<div>
-	// 				<img
-	// 					key={`imagePackage ${index}`}
-	// 					alt={`image ${image.orgName}`}
-	// 					src={`data:image/png;base64,${image.imgFile}`}
-	// 				/>
-	// 			</div>
-	// 		)
-	// 	})
-	// ];
-
-	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
-
-	// DB에 저장된 파일 이름으로
-	// 축제와 패키지 여행 이미지 불러오기
+	// 축제 이미지 불러오기
 	const getFestivalImg = async () => {
 		const list = await getFestivalNumber();
 
 		// 등록된 축제가 없는 경우
 		if (list === undefined || list.length === 0) { return; }
 
+		let newImages = []; // 새 이미지를 저장할 배열
+
 		for (const num of list) {
 			const res = await getFileFestival(num);
 
 			if (res !== undefined) {
-				if (festivalImg === undefined) {
-					setFestivalImg(p => [res]);
-				} else {
-					setFestivalImg(p => [...festivalImg, res]);
-				}
+				newImages.push(res); // 새 이미지를 배열에 추가
 			}
 		}
+
+		setFestivalImg(prevImages => prevImages ? [...prevImages, ...newImages] : newImages);
 	}
 
+	// 패키지 여행 이미지 불러오기
 	const getPackImg = async () => {
 		const list = await getPackNumber();
 
 		// 등록된 패키지 여행이 없는 경우
 		if (list === undefined || list.length === 0) { return; }
 
+		let newImages = []; // 새 이미지를 저장할 배열
+
 		for (const num of list) {
 			const res = await getFilePack(num);
 
 			if (res !== undefined) {
-				if (packImg === undefined) {
-					setPackImg(p => [res]);
-				} else {
-					setPackImg(p => [...packImg, res]);
-				}
+				newImages.push(res); // 새 이미지를 배열에 추가
 			}
 		}
+
+		setPackImg(prevImages => prevImages ? [...prevImages, ...newImages] : newImages);
 	}
+
+	// const onShow = () => {
+	// 	console.log(festivalImg);
+	// 	console.log(packImg);
+	// }
 
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
@@ -108,6 +108,8 @@ function Home() {
 	return (
 
 		<div class="container-xl">
+
+			{/* <button onClick={onShow}>데이터 확인</button> */}
 
 			<div class="p-5 mb-4 bg-body-tertiary rounded-3">
 				<div class="container-fluid py-5">
@@ -125,17 +127,35 @@ function Home() {
 					</div>
 				</div>
 				<div class="Homeimg">
-					{/* <img src={`data:image/png;base64,${festivalImg[0].imgFile}`} alt={festivalImg[0].orgName} /> */}
-					{/* {festivalImg !== undefined ?
-						festivalImg.map((img, idx) => {
-							<img key={`imgFestival_${idx}`} src={`data:image/png;base64,${img.imgFile}`} alt={img.orgName} />
-						})
+					{festivalImg !== undefined ?
+						<div class="imgGroup">
+							<AliceCarousel
+								autoPlay
+								autoPlayStrategy="none"
+								autoPlayInterval={2000}
+								animationDuration={7000}
+								animationType="slide"
+								infinite
+								touchTracking={false}
+								disableDotsControls
+								disableButtonsControls
+								items={itemFestival}
+							/>
+						</div>
 						:
 						<></>
-					} */}
+					}
 				</div>
-				{/* {festivalImg !== undefined ?
+			</div>
+			<div class="col-md-7">
+				<div class="h-100 p-5 bg-body-tertiary border rounded-3">
+					<h4>특별한 순간을 예약하세요. 여행의 시작은 지금부터입니다!</h4>
 
+					<button class="btn btn-outline-secondary" type="button" onClick={() => navigate(`/packreservationList`)}>패키지 보기</button>
+				</div>
+			</div>
+			<div class="Homeimg2">
+				{packImg !== undefined ?
 					<div class="imgGroup">
 						<AliceCarousel
 							autoPlay
@@ -147,29 +167,12 @@ function Home() {
 							touchTracking={false}
 							disableDotsControls
 							disableButtonsControls
-							items={itemFestival}
+							items={itemPack}
 						/>
 					</div>
 					:
 					<></>
-				} */}
-			</div>
-			<div class="col-md-7">
-				<div class="h-100 p-5 bg-body-tertiary border rounded-3">
-					<h4>특별한 순간을 예약하세요. 여행의 시작은 지금부터입니다!</h4>
-
-					<button class="btn btn-outline-secondary" type="button" onClick={() => navigate(`/packreservationList`)}>패키지 보기</button>
-				</div>
-			</div>
-			<div class="Homeimg2">
-				{/* <img src={`data:image/png;base64,${packImg[0].imgFile}`} alt={packImg[0].orgName} /> */}
-				{/* {packImg !== undefined ?
-					packImg.map((img, idx) => {
-						<img key={`imgPackage_${idx}`} src={`data:image/png;base64,${img.imgFile}`} alt={img.orgName} />
-					})
-					:
-					<></>
-				} */}
+				}
 			</div>
 
 		</div>

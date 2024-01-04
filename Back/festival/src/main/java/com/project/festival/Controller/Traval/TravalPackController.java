@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class TravalPackController {
 	private final TravalPackService packService;
 	private final TravalPackRepository packRepository;
+	
+	private final ModelMapper modelMapper;
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -32,7 +35,17 @@ public class TravalPackController {
 
 	// 모든 패키지 여행 전체 조회
 	@GetMapping("/getTravalpackAll")
-	private List<TravalPack> getTravalpackAll() { return (List<TravalPack>) packRepository.findAll(); }
+	private List<TravalPackDto> getTravalpackAll() {
+		
+		List<TravalPackDto> dto = new ArrayList<>();
+		
+		for(TravalPack tp : packRepository.findAll()) {
+			TravalPackDto tpd = modelMapper.map(tp, TravalPackDto.class);
+			dto.add(tpd);
+		}
+		
+		return dto;
+	}
 
 	// 모든 패키지 여행 번호 가져오기
 	@GetMapping("/getTravalpackAllNumber")

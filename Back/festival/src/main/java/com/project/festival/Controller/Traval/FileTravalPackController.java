@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.festival.Dto.FileDto;
 import com.project.festival.Entity.TravalPack.FileTravalPack;
-import com.project.festival.Entity.festival.FileFestival;
 import com.project.festival.Service.AuthService;
 import com.project.festival.Service.FireBaseService;
 import com.project.festival.Service.TravalPack.FileTravalPackService;

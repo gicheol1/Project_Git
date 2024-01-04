@@ -169,33 +169,32 @@ function TravelPackList({ isAdmin }) {
 
     // 데이터 가져오기
     const getTravalPacks = async () => {
-
         const result = await getTravalpack();
 
         if (!result) { alert('여행 패키지를 불러오는데 실패했습니다.'); return; }
 
-        result.map(async (res) => {
-            getFilePack(res.packNum).then((img) => {
-                if (img === undefined) {
-                    setTravalPack([...TravalPack, { ...res }]); // 수정된 전체 데이터   
-                    setOriginalTravalPack([...originalTravalPack, { ...res }]); // 다시불러오는 전체데이터
-                } else {
-                    setTravalPack([...TravalPack, { ...res, ...img }]); // 수정된 전체 데이터   
-                    setOriginalTravalPack([...originalTravalPack, { ...res, ...img }]); // 다시불러오는 전체데이터
-                }
-            })
-        })
+        let updatedPacks = []; // 수정된 여행 패키지 데이터를 담을 배열
+        let updatedOriginalPacks = []; // 다시 불러오는 여행 패키지 데이터를 담을 배열
+
+        for (const res of result) {
+            const img = await getFilePack(res.packNum);
+
+            if (img === undefined) {
+                updatedPacks.push({ ...res });
+                updatedOriginalPacks.push({ ...res });
+            } else {
+                updatedPacks.push({ ...res, ...img });
+                updatedOriginalPacks.push({ ...res, ...img });
+            }
+        }
+
+        setTravalPack(prevPacks => prevPacks ? [...prevPacks, ...updatedPacks] : updatedPacks);
+        setOriginalTravalPack(prevOriginalPacks => prevOriginalPacks ? [...prevOriginalPacks, ...updatedOriginalPacks] : updatedOriginalPacks);
+
+        // setTravalPack(result);
+        // setOriginalTravalPack(result);
 
         setLoading(false);
-
-        // getTravalpack().then((res) => {
-        //     if (!res) { alert('여행 패키지를 불러오는데 실패했습니다.'); return; }
-
-        //     setTravalPack(res); // 수정된 전체 데이터   
-        //     setOriginalTravalPack(res); // 다시불러오는 전체데이터
-        //     setLoading(false);
-
-        // });
     }
 
     const getFestivals = async () => {
@@ -206,14 +205,6 @@ function TravelPackList({ isAdmin }) {
 
         setFestivalAll(result); // 전체 데이터를 그대로 설정
         setLoading(false);
-
-        // getFestival().then((res) => {
-        //     if (!res) { alert('축제 목록을 불러오는데 실패했습니다.'); return; }
-
-        //     setFestivalAll(res); // 전체 데이터를 그대로 설정
-        //     setLoading(false);
-
-        // });
     }
 
     /* 행의 예약하기 버튼 클릭시 여행 예약 페이지로 이동(로그인이 안되어 있으면 로그인창으로 보내기)*/
@@ -259,12 +250,27 @@ function TravelPackList({ isAdmin }) {
 
                 return (
                     <div className="image-cell">
-                        {/* 테스트용 이미지 */}
+                        {params.row.imgFile === undefined ?
+                            <img class="custom-image"
+                                src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                                alt="축제이미지"
+                                onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                            />
+                            :
+
+                            <img class="custom-image"
+                                src={`data:image/png;base64,${params.row.imgFile}`}
+                                alt={params.row.orgFile}
+                                onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                            />
+                        }
+                        {/*
                         <img class="custom-image"
                             src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
                             alt="축제이미지"
                             onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
                         />
+                */}
 
                         <ModalComponent
                             showModal={modalOpenMap[params.row.packNum]}
@@ -327,7 +333,6 @@ function TravelPackList({ isAdmin }) {
     }
 
     const onShow = () => {
-
         console.log(TravalPack);
         console.log(originalTravalPack);
     }
@@ -347,7 +352,9 @@ function TravelPackList({ isAdmin }) {
     } else {
         return (
             <div>
+
                 <button onClick={onShow}>데이터 확인</button>
+
                 {/* 패키지 여행 목록 */}
                 <div className="PackageTravelList">
 

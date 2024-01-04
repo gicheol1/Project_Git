@@ -1,6 +1,7 @@
 import { SERVER_URL } from "js/component/constants";
 
 export function useHome() {
+
     const getPackNumber = () => {
         return fetch(SERVER_URL + 'getTravalpackAllNumber', {
             method: 'GET'
