@@ -30,25 +30,21 @@ function Home() {
 	// 슬라이드에 이미지를 출력할 태그들
 	const itemFestival = festivalImg !== undefined ? festivalImg.map((image, index) => {
 		return (
-			<div>
-				<img
-					key={`imageFestival ${index}`}
-					alt={`image ${image.orgName}`}
-					src={`data:image/png;base64,${image.imgFile}`}
-				/>
-			</div>
+			<img className='slide-img'
+				key={`imageFestival ${index}`}
+				alt={`image ${image.orgName}`}
+				src={`data:image/png;base64,${image.imgFile}`}
+			/>
 		)
 	}) : undefined;
 
 	const itemPack = packImg !== undefined ? packImg.map((image, index) => {
 		return (
-			<div>
-				<img
-					key={`imagePackage ${index}`}
-					alt={`image ${image.orgName}`}
-					src={`data:image/png;base64,${image.imgFile}`}
-				/>
-			</div>
+			<img className='slide-img'
+				key={`imagePackage ${index}`}
+				alt={`image ${image.orgName}`}
+				src={`data:image/png;base64,${image.imgFile}`}
+			/>
 		)
 	}) : undefined;
 
@@ -141,9 +137,7 @@ function Home() {
 								disableButtonsControls
 								items={itemFestival}
 							/>
-						</div>
-						:
-						<></>
+						</div> : <></>
 					}
 				</div>
 			</div>
@@ -156,7 +150,7 @@ function Home() {
 			</div>
 			<div class="Homeimg2">
 				{packImg !== undefined ?
-					<div class="imgGroup">
+					<div class="imgGroup2">
 						<AliceCarousel
 							autoPlay
 							autoPlayStrategy="none"
@@ -168,10 +162,9 @@ function Home() {
 							disableDotsControls
 							disableButtonsControls
 							items={itemPack}
+							autoPlayDirection='rtl'
 						/>
-					</div>
-					:
-					<></>
+					</div> : <></>
 				}
 			</div>
 

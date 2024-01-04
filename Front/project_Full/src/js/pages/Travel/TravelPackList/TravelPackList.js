@@ -332,10 +332,10 @@ function TravelPackList({ isAdmin }) {
         });
     }
 
-    const onShow = () => {
-        console.log(TravalPack);
-        console.log(originalTravalPack);
-    }
+    // const onShow = () => {
+    //     console.log(TravalPack);
+    //     console.log(originalTravalPack);
+    // }
 
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -353,7 +353,7 @@ function TravelPackList({ isAdmin }) {
         return (
             <div>
 
-                <button onClick={onShow}>데이터 확인</button>
+                {/* <button onClick={onShow}>데이터 확인</button> */}
 
                 {/* 패키지 여행 목록 */}
                 <div className="PackageTravelList">
