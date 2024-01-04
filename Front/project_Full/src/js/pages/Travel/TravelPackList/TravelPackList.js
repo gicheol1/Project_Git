@@ -136,7 +136,7 @@ function TravelPackList({ isAdmin }) {
     const { modalOpenMap, handleModalOpen, handleModalClose } = ModalFunction();
 
     // Spring Boot 연동 함수
-    const { getTravalpack, getFestival, deleteTravalpack } = useTravelPackList();
+    const { getTravalpack, getFestival, getFilePack, deleteTravalpack } = useTravelPackList();
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -144,23 +144,8 @@ function TravelPackList({ isAdmin }) {
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행의 전체 정보, 축제정보 불러오기 */
     useEffect(() => {
-
-        getTravalpack().then((res) => {
-            if (!res) { alert('여행 패키지를 불러오는데 실패했습니다.'); return; }
-
-            setTravalPack(res); // 수정된 전체 데이터   
-            setOriginalTravalPack(res); // 다시불러오는 전체데이터
-            setLoading(false);
-
-        })
-
-        getFestival().then((res) => {
-            if (!res) { alert('축제 목록을 불러오는데 실패했습니다.'); return; }
-
-            setFestivalAll(res); // 전체 데이터를 그대로 설정
-            setLoading(false);
-
-        })
+        getTravalPacks();
+        getFestivals();
 
     }, []);
 
@@ -181,6 +166,55 @@ function TravelPackList({ isAdmin }) {
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+
+    // 데이터 가져오기
+    const getTravalPacks = async () => {
+
+        const result = await getTravalpack();
+
+        if (!result) { alert('여행 패키지를 불러오는데 실패했습니다.'); return; }
+
+        result.map(async (res) => {
+            getFilePack(res.packNum).then((img) => {
+                if (img === undefined) {
+                    setTravalPack([...TravalPack, { ...res }]); // 수정된 전체 데이터   
+                    setOriginalTravalPack([...originalTravalPack, { ...res }]); // 다시불러오는 전체데이터
+                } else {
+                    setTravalPack([...TravalPack, { ...res, ...img }]); // 수정된 전체 데이터   
+                    setOriginalTravalPack([...originalTravalPack, { ...res, ...img }]); // 다시불러오는 전체데이터
+                }
+            })
+        })
+
+        setLoading(false);
+
+        // getTravalpack().then((res) => {
+        //     if (!res) { alert('여행 패키지를 불러오는데 실패했습니다.'); return; }
+
+        //     setTravalPack(res); // 수정된 전체 데이터   
+        //     setOriginalTravalPack(res); // 다시불러오는 전체데이터
+        //     setLoading(false);
+
+        // });
+    }
+
+    const getFestivals = async () => {
+
+        const result = await getFestival();
+
+        if (!result) { alert('축제 목록을 불러오는데 실패했습니다.'); return; }
+
+        setFestivalAll(result); // 전체 데이터를 그대로 설정
+        setLoading(false);
+
+        // getFestival().then((res) => {
+        //     if (!res) { alert('축제 목록을 불러오는데 실패했습니다.'); return; }
+
+        //     setFestivalAll(res); // 전체 데이터를 그대로 설정
+        //     setLoading(false);
+
+        // });
+    }
 
     /* 행의 예약하기 버튼 클릭시 여행 예약 페이지로 이동(로그인이 안되어 있으면 로그인창으로 보내기)*/
     const handleCellClick = (params) => {
@@ -292,6 +326,12 @@ function TravelPackList({ isAdmin }) {
         });
     }
 
+    const onShow = () => {
+
+        console.log(TravalPack);
+        console.log(originalTravalPack);
+    }
+
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -307,7 +347,7 @@ function TravelPackList({ isAdmin }) {
     } else {
         return (
             <div>
-
+                <button onClick={onShow}>데이터 확인</button>
                 {/* 패키지 여행 목록 */}
                 <div className="PackageTravelList">
 

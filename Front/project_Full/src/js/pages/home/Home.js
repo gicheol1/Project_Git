@@ -4,6 +4,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useHome } from './useHome';
+import AliceCarousel from 'react-alice-carousel';
 
 function Home() {
 
@@ -28,6 +29,38 @@ function Home() {
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
 
+	// const itemFestival = [
+	// 	festivalImg.map((image, index) => {
+	// 		return (
+	// 			<div>
+	// 				<img
+	// 					key={`imageFestival ${index}`}
+	// 					alt={`image ${image.orgName}`}
+	// 					src={`data:image/png;base64,${image.imgFile}`}
+	// 				/>
+	// 			</div>
+	// 		)
+	// 	})
+	// ];
+
+	// const itemPack = [
+	// 	packImg.map((image, index) => {
+	// 		return (
+	// 			<div>
+	// 				<img
+	// 					key={`imagePackage ${index}`}
+	// 					alt={`image ${image.orgName}`}
+	// 					src={`data:image/png;base64,${image.imgFile}`}
+	// 				/>
+	// 			</div>
+	// 		)
+	// 	})
+	// ];
+
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+	// ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦ ▦▦▦▦▦▦▦▦▦▦
+
 	// DB에 저장된 파일 이름으로
 	// 축제와 패키지 여행 이미지 불러오기
 	const getFestivalImg = async () => {
@@ -39,11 +72,12 @@ function Home() {
 		for (const num of list) {
 			const res = await getFileFestival(num);
 
-			// console.log(res);
-
 			if (res !== undefined) {
-				setFestivalImg(res);
-				break; // 이미지를 받으면 중지
+				if (festivalImg === undefined) {
+					setFestivalImg(p => [res]);
+				} else {
+					setFestivalImg(p => [...festivalImg, res]);
+				}
 			}
 		}
 	}
@@ -57,11 +91,12 @@ function Home() {
 		for (const num of list) {
 			const res = await getFilePack(num);
 
-			// console.log(res);
-
 			if (res !== undefined) {
-				setPackImg(res);
-				break; // 이미지를 받으면 중지
+				if (packImg === undefined) {
+					setPackImg(p => [res]);
+				} else {
+					setPackImg(p => [...packImg, res]);
+				}
 			}
 		}
 	}
@@ -90,8 +125,34 @@ function Home() {
 					</div>
 				</div>
 				<div class="Homeimg">
-					{festivalImg !== undefined && (<img src={`data:image/png;base64,${festivalImg.imgFile}`} />)}
+					{/* <img src={`data:image/png;base64,${festivalImg[0].imgFile}`} alt={festivalImg[0].orgName} /> */}
+					{/* {festivalImg !== undefined ?
+						festivalImg.map((img, idx) => {
+							<img key={`imgFestival_${idx}`} src={`data:image/png;base64,${img.imgFile}`} alt={img.orgName} />
+						})
+						:
+						<></>
+					} */}
 				</div>
+				{/* {festivalImg !== undefined ?
+
+					<div class="imgGroup">
+						<AliceCarousel
+							autoPlay
+							autoPlayStrategy="none"
+							autoPlayInterval={2000}
+							animationDuration={7000}
+							animationType="slide"
+							infinite
+							touchTracking={false}
+							disableDotsControls
+							disableButtonsControls
+							items={itemFestival}
+						/>
+					</div>
+					:
+					<></>
+				} */}
 			</div>
 			<div class="col-md-7">
 				<div class="h-100 p-5 bg-body-tertiary border rounded-3">
@@ -101,7 +162,14 @@ function Home() {
 				</div>
 			</div>
 			<div class="Homeimg2">
-				{packImg !== undefined && (<img src={`data:image/png;base64,${packImg.imgFile}`} />)}
+				{/* <img src={`data:image/png;base64,${packImg[0].imgFile}`} alt={packImg[0].orgName} /> */}
+				{/* {packImg !== undefined ?
+					packImg.map((img, idx) => {
+						<img key={`imgPackage_${idx}`} src={`data:image/png;base64,${img.imgFile}`} alt={img.orgName} />
+					})
+					:
+					<></>
+				} */}
 			</div>
 
 		</div>
