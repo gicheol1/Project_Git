@@ -21,6 +21,18 @@ export function useTravelPackList() {
         ).catch(err => { console.error(err); return false; });
     }, [])
 
+    const getFilePack = useCallback(async (packNum) => {
+        return fetch(SERVER_URL + `getFileTravalPackRandom?packNum=${packNum}`, {
+            method: 'GET'
+
+        }).then((response) => {
+
+            if (!response.ok) { return undefined; }
+            return response.json();
+
+        }).catch((e) => { console.log(e); return undefined; });
+    }, [])
+
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -34,5 +46,5 @@ export function useTravelPackList() {
         ).catch(err => { console.error(err); return false; })
     }, [])
 
-    return { getTravalpack, getFestival, deleteTravalpack }
+    return { getTravalpack, getFestival, getFilePack, deleteTravalpack }
 }

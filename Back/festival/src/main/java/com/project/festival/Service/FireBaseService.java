@@ -2,8 +2,11 @@ package com.project.festival.Service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Base64;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.google.auth.oauth2.GoogleCredentials;
@@ -17,7 +20,7 @@ import com.project.festival.Dto.FileDto;
 @Service
 public class FireBaseService {
     private final String BUCKET = "festivaltest-937ab.appspot.com";
-    private final String ACCOUNT = "src/main/resources/festivaltest-firebase-adminsdk.json";
+    private final Resource resource = new ClassPathResource("festivaltest-firebase-adminsdk.json");
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -28,7 +31,7 @@ public class FireBaseService {
     	String fileName
 	) throws IOException {
         // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
-        FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
+        InputStream serviceAccount = resource.getInputStream();
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 
         // FireBase Storage 객체 생성
@@ -55,7 +58,7 @@ public class FireBaseService {
      ) throws IOException {
      	
          // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
-         FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
+         InputStream serviceAccount = resource.getInputStream();
          GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 
          // FireBase Storage 객체 생성
@@ -84,7 +87,7 @@ public class FireBaseService {
 	) throws IOException {
     	
         // FireBase 연동을 위해 인증 파일을 FileInputStream으로 읽어옴
-        FileInputStream serviceAccount = new FileInputStream(ACCOUNT);
+        InputStream serviceAccount = resource.getInputStream();
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
 
         // FireBase Storage 객체 생성
