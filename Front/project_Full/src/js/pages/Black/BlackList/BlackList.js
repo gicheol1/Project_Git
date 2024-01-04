@@ -39,7 +39,6 @@ const BlackList = () => {
 
   // 차단 해제
   const onDelete = async (blackNum) => {
-
     if (!window.confirm('차단 해제 삭제하시겠습니까?')) { return; }
 
     deleteBlackList(blackNum).then((res) => {
@@ -95,7 +94,7 @@ const BlackList = () => {
                   <TableCell className='table-cell' align="center" width={30}>{black.banEndDate === null ? `무기한` : black.banEndDate}</TableCell>
                   <TableCell className='table-cell' align="center" width={150}>
                     <Button variant="contained" onClick={() => { toChangeInfo(black.blackNum); }} >수정</Button>
-                    <Button variant="contained" color="error" style={{ marginLeft: '10px' }} onClick={() => { onDelete(black.blackNum); }} >삭제</Button>
+                    <Button variant="contained" color="error" style={{ marginLeft: '10px' }} onClick={() => { onDelete(black.blackId); }} >삭제</Button>
                   </TableCell>
                 </TableRow>
               ))

@@ -122,7 +122,7 @@ public class FestivalApplication implements CommandLineRunner {
 		
 		festivalRepository.save(new Festival(
 			"서울일러스트레이션페어V.16", "test3", "서울 강남구",
-			"2023-12-21", "2023-12-24", "공연/행사", "서울"
+			"2023-12-21", "2023-12-24", "공연행사", "서울"
 		));
 //	
 //		festivalRepository.save(new Festival(

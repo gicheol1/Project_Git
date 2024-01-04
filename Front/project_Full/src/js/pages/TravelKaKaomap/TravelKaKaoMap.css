@@ -73,7 +73,7 @@
 
 .mapshow > .공연행사{
   position: absolute;
-  margin-left: -18px;
+  margin-left: 0px;
   height: 15px;
   margin-top:8px;
   accent-color: skyblue;

@@ -257,6 +257,22 @@ const Festivals = () => {
 				<div className="form-group">
 					<label style={{ marginRight: '30px' }}>태그</label>
 					<div style={{ display: 'flex' }}>
+						<label>캠핑</label>
+						<input
+							value="캠핑"
+							type='radio'
+							name="tag"
+							onChange={handleChange}
+							checked={festival.tag === "캠핑"}
+						/>
+						<label>문화</label>
+						<input
+							value="문화"
+							type='radio'
+							name="tag"
+							onChange={handleChange}
+							checked={festival.tag === "문화"}
+						/>
 						<label>축제</label>
 						<input className='fes-button'
 							value="축제"
@@ -267,12 +283,13 @@ const Festivals = () => {
 						/>
 						<label>공연/행사</label>
 						<input
-							value="공연/행사"
+							value="공연행사"
 							type='radio'
 							name="tag"
 							onChange={handleChange}
-							checked={festival.tag === "공연/행사"}
+							checked={festival.tag === "공연행사"}
 						/>
+						
 					</div>
 
 				</div>
