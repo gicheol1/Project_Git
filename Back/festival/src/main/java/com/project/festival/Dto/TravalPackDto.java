@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.project.festival.Constant.Reservation;
+import com.project.festival.Entity.festival.FileFestival;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -50,9 +51,9 @@ public class TravalPackDto {
             "서울특별시 강북구 도봉로 114", "서울특별시 강북구 도봉로 253", "서울특별시 강북구 도봉로 374", "서울특별시 강북구 삼각산로 43",
             "서울특별시 강북구 삼각산로20길", "서울특별시 강북구 삼양로 689", "서울특별시 강북구 삼양로19길 47", "서울특별시 강북구 삼양로19길 141",
             "전라북도 전주시 완산구 전라감영로 55", "전라북도 전주시 완산구 전라감영로 75", "전라북도 전주시 완산구 전라감영1길 1", "전라북도 전주시 완산구 전라감영1길 2",
-            "전라북도 전주시 완산구 전라감영1길 3-2", "전라북도 전주시 완산구 전라감영1길 3-4", "전라북도 전주시 완산구 전라감영1길 3-6", "전라북도 전주시 완산구 전라감영1길 4",
-            "전라북도 전주시 완산구 전라감영1길 5", "전라북도 전주시 완산구 전라감영1길 6", "전라북도 전주시 완산구 전라감영1길 7", "전라북도 전주시 완산구 전라감영1길 7-1",
-            "전라북도 전주시 완산구 전라감영1길 7-4", "전라북도 전주시 완산구 전라감영1길 7-7", "전라북도 전주시 완산구 전라감영1길 9", "전라북도 전주시 완산구 전라감영1길 10",
+//            "전라북도 전주시 완산구 전라감영1길 3-2", "전라북도 전주시 완산구 전라감영1길 3-4", "전라북도 전주시 완산구 전라감영1길 3-6", "전라북도 전주시 완산구 전라감영1길 4",
+//            "전라북도 전주시 완산구 전라감영1길 5", "전라북도 전주시 완산구 전라감영1길 6", "전라북도 전주시 완산구 전라감영1길 7", "전라북도 전주시 완산구 전라감영1길 7-1",
+//            "전라북도 전주시 완산구 전라감영1길 7-4", "전라북도 전주시 완산구 전라감영1길 7-7", "전라북도 전주시 완산구 전라감영1길 9", "전라북도 전주시 완산구 전라감영1길 10",
     };
     
     // - 랜덤한 주소 선택
@@ -63,8 +64,13 @@ public class TravalPackDto {
     
     /* TravalPackDto에서 사용할 랜덤축제명 */ 
     private static final String[] festivalnames = {
-    		"서울일러스트레이션페어V.16", "ㅊ ㅊ-하다 페스티벌", "롯데월드 miracle winter", 
-//    		"축제이름"
+    		"성북 책모꼬지","제44회 서울무용제","서울거리공연 구석구석 라이브","한국의집 고호재","성북청춘불패영화제","예술고시촌 로컬페스티벌","2023 문화가 흐르는 예술마당","K-핸드메이드페어 2024",
+    		"대한민국 우리술 대축제","ㅊㅊ-하다 페스티벌","경상북도사과홍보행사","2023년 유니버설디자인 공감주간","제 15회 언리미티드 에디션 서울아트북페어 2023",
+    		"제3회 금천패션영화제","2023 광화문 책마당","한강불빛공연 드론 라이트쇼","양재 아트 살롱","월드판소리페스티벌",
+    		"무브살롱 시즌2 펫토피아","중구 도심산업 페스타","서울디자인 2023","양재플라워페스타","유림공원","2023 대전빵축제",
+    		"대전동구 문화재야행","K-Hyo 페스타","서구힐링 아트페스티벌","대구 음식산업 박람회","E world 일루미네이션",
+    		"PumpKin Festa","Dance ChampionShip","대구 인터네이션 오페라 페스티벌","통영수산식품대전","2023 International Ki Sports Festival","2023 글로벌 영도커피페스티벌"
+    		
     };
     
     // - 랜덤한 축제 선택
@@ -143,7 +149,7 @@ public class TravalPackDto {
 		}
 
 		// 패키지 여행 숙소(2박 3일) 목록 2
-		for (int i = 11; i <= 20; i++) {
+		for (int i = 11; i <= 15; i++) {
 			TravalPackDto TravalPack4 = new TravalPackDto();
 			TravalPack4.setName("패키지 여행 숙소 테스트" + i);
 			TravalPack4.setPrice(random.nextInt(20000));
@@ -164,25 +170,25 @@ public class TravalPackDto {
 		}
 
 		// 패키지 여행 숙소(당일) 목록 3
-		for (int i = 21; i <= 26; i++) {
-			TravalPackDto TravalPack5 = new TravalPackDto();
-			TravalPack5.setName("패키지 여행 숙소 테스트" + i);
-			TravalPack5.setPrice(random.nextInt(20000));
-			TravalPack5.setStartDate(LocalDate.of(2024, 1, random.nextInt(29) + 1)); // 1 ~ 30까지 랜덤 일
-			LocalDate startDate5 = TravalPack5.getStartDate(); // 시작일 가져오기
-			LocalDate endDate5 = startDate5.plusDays(0); // 시작일로부터 2일 후를 종료일로 설정
-			TravalPack5.setEndDate(endDate5); // 종료일 설정
-			TravalPack5.setSingupDate(LocalDate.now());
-			TravalPack5.setCount(20 + i);
-			TravalPack5.setSmoke("금연실");
-			TravalPack5.setPerson(11 + i);
-			TravalPack5.setReservation(Reservation.NO);
-			TravalPack5.setAddress(getRandomRoadAddress());
-			TravalPack5.setText("상새내용" + i);
-			TravalPack5.setFestivalname(getRandomfestivalnames());
-			
-			TravalPackList.add(TravalPack5);
-		}
+//		for (int i = 21; i <= 26; i++) {
+//			TravalPackDto TravalPack5 = new TravalPackDto();
+//			TravalPack5.setName("패키지 여행 숙소 테스트" + i);
+//			TravalPack5.setPrice(random.nextInt(20000));
+//			TravalPack5.setStartDate(LocalDate.of(2024, 1, random.nextInt(29) + 1)); // 1 ~ 30까지 랜덤 일
+//			LocalDate startDate5 = TravalPack5.getStartDate(); // 시작일 가져오기
+//			LocalDate endDate5 = startDate5.plusDays(0); // 시작일로부터 2일 후를 종료일로 설정
+//			TravalPack5.setEndDate(endDate5); // 종료일 설정
+//			TravalPack5.setSingupDate(LocalDate.now());
+//			TravalPack5.setCount(20 + i);
+//			TravalPack5.setSmoke("금연실");
+//			TravalPack5.setPerson(11 + i);
+//			TravalPack5.setReservation(Reservation.NO);
+//			TravalPack5.setAddress(getRandomRoadAddress());
+//			TravalPack5.setText("상새내용" + i);
+//			TravalPack5.setFestivalname(getRandomfestivalnames());
+//			
+//			TravalPackList.add(TravalPack5);
+//		}
 
 		return TravalPackList;
 	}
