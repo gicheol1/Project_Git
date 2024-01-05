@@ -45,7 +45,6 @@ function Sidebar() {
 				</div>
 				<h3 className='side-title'>{member.name}님</h3>
 				<div className='link-container'>
-					<Link to="/info" className="link">예약정보</Link>
 					<Link to="/saleinfo" className="link">판매 정보</Link>
 					<Link to={`/userDetail/${member.memId}`} className="link">회원정보 수정</Link>
 					<Link to="/Qna" className="link">내 Q&A 현황</Link>

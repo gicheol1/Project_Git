@@ -46,10 +46,10 @@ function Sidecare() {
 				</div>
 				<h3 className='side-title'>{member.name}님</h3>
 				<div className='link-container'>
-					<Link to="/info" className="link">예약 정보 관리</Link>
 					<Link to="/saleInfo" className="link">판매 정보 관리</Link>
 					<Link to="/qna" className="link">Q&A 관리</Link>
 					<Link to="/festivals" className="link">축제 관리</Link>
+					<Link to="/travalpackadd" className="link">패키지관리</Link>
 					<Link to="/user" className="link">유저 관리</Link>
 					<Link to="/blackList" className="link">블랙 리스트</Link>
 					<Link to={`/adminInfo/${member.memId}`} className="link">관리자 정보 수정</Link>
