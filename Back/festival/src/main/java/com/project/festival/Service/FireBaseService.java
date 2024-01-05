@@ -18,10 +18,10 @@ import com.project.festival.Dto.FileDto;
 
 @Service
 public class FireBaseService {
-    private final String BUCKET = "festivaltest-937ab.appspot.com";
+    private final String BUCKET = "viva-festival.appspot.com";
     
     // 파일 절대경로 설정
-    private final Resource resource = new ClassPathResource("festivaltest-firebase-adminsdk.json");
+    private final Resource resource = new ClassPathResource("viva-festival-firebase-adminsdk.json");
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒

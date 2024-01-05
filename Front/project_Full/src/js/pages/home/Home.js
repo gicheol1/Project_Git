@@ -141,33 +141,34 @@ function Home() {
 					}
 				</div>
 			</div>
-			<div class="col-md-7">
-				<div class="h-100 p-5 bg-body-tertiary border rounded-3">
-					<h4>특별한 순간을 예약하세요. 여행의 시작은 지금부터입니다!</h4>
+			<div>
+				<div class="col-md-7">
+					<div class="h-100 p-5 bg-body-tertiary border rounded-3">
+						<h4>특별한 순간을 예약하세요. 여행의 시작은 지금부터입니다!</h4>
 
-					<button class="btn btn-outline-secondary" type="button" onClick={() => navigate(`/packreservationList`)}>패키지 보기</button>
+						<button class="btn btn-outline-secondary" type="button" onClick={() => navigate(`/packreservationList`)}>패키지 보기</button>
+					</div>
+				</div>
+				<div class="Homeimg2">
+					{packImg !== undefined ?
+						<div class="imgGroup2">
+							<AliceCarousel
+								autoPlay
+								autoPlayStrategy="none"
+								autoPlayInterval={2000}
+								animationDuration={7000}
+								animationType="slide"
+								infinite
+								touchTracking={false}
+								disableDotsControls
+								disableButtonsControls
+								items={itemPack}
+								autoPlayDirection='rtl'
+							/>
+						</div> : <></>
+					}
 				</div>
 			</div>
-			<div class="Homeimg2">
-				{packImg !== undefined ?
-					<div class="imgGroup2">
-						<AliceCarousel
-							autoPlay
-							autoPlayStrategy="none"
-							autoPlayInterval={2000}
-							animationDuration={7000}
-							animationType="slide"
-							infinite
-							touchTracking={false}
-							disableDotsControls
-							disableButtonsControls
-							items={itemPack}
-							autoPlayDirection='rtl'
-						/>
-					</div> : <></>
-				}
-			</div>
-
 		</div>
 	);
 }
