@@ -113,7 +113,7 @@ public class FileTravalPackController {
 			
 			fd.setContentType(file.getContentType());
 			fd.setFileName(sb.toString());
-			fd.setOrgName(file.getName());
+			fd.setOrgName(orgName);
 			
 		} catch (IOException e) { e.printStackTrace(); }
 	
