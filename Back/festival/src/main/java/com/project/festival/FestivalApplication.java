@@ -377,33 +377,33 @@ public class FestivalApplication implements CommandLineRunner {
 		FilefestivalRepo.save(new FileFestival(6L, "festival/예술고시촌 로컬페스티벌.png", "예술고시촌 로컬페스티벌"));
 		FilefestivalRepo.save(new FileFestival(7L, "festival/2023 문화가 흐르는 예술마당.png", "2023 문화가 흐르는 예술마당"));
 		FilefestivalRepo.save(new FileFestival(8L, "festival/K-핸드메이드페어 2024.png", "K-핸드메이드페어 2024"));
-		FilefestivalRepo.save(new FileFestival(9L, "대한민국 우리술 대축제.png", "대한민국 우리술 대축제"));
-		FilefestivalRepo.save(new FileFestival(10L, "ㅊㅊ-하다 페스티벌.png", "ㅊㅊ-하다 페스티벌"));
-		FilefestivalRepo.save(new FileFestival(11L, "경상북도사과홍보행사.png", "경상북도사과홍보행사"));
-		FilefestivalRepo.save(new FileFestival(12L, "2023년 유니버설디자인 공감주간.png", "2023년 유니버설디자인 공감주간"));
-		FilefestivalRepo.save(new FileFestival(13L, "제 15회 언리미티드 에디션 서울아트북페어 2023.png", "제 15회 언리미티드 에디션 서울아트북페어 2023"));
-		FilefestivalRepo.save(new FileFestival(14L, "제3회 금천패션영화제.png", "제3회 금천패션영화제"));
-		FilefestivalRepo.save(new FileFestival(15L, "2023 광화문 책마당.png", "2023 광화문 책마당"));
-		FilefestivalRepo.save(new FileFestival(16L, "한강불빛공연 드론 라이트쇼.png", "한강불빛공연 드론 라이트쇼"));
-		FilefestivalRepo.save(new FileFestival(17L, "양재 아트 살롱.png", "양재 아트 살롱"));
-		FilefestivalRepo.save(new FileFestival(18L, "월드판소리페스티벌.png", "월드판소리페스티벌"));
-		FilefestivalRepo.save(new FileFestival(19L, "무브살롱 시즌2 펫토피아.png", "무브살롱 시즌2 펫토피아"));
-		FilefestivalRepo.save(new FileFestival(20L, "중구 도심산업 페스타.png", "중구 도심산업 페스타"));
-		FilefestivalRepo.save(new FileFestival(21L, "서울디자인 2023.png", "서울디자인 2023"));
-		FilefestivalRepo.save(new FileFestival(22L, "양재플라워페스타.png", "양재플라워페스타"));
-		FilefestivalRepo.save(new FileFestival(23L, "유림공원.png", "유림공원"));
-		FilefestivalRepo.save(new FileFestival(24L, "2023 대전빵축제.png", "2023 대전빵축제"));
-		FilefestivalRepo.save(new FileFestival(25L, "대전동구 문화재야행.png", "대전동구 문화재야행"));
-		FilefestivalRepo.save(new FileFestival(26L, "K-Hyo 페스타.png", "K-Hyo 페스타"));
-		FilefestivalRepo.save(new FileFestival(27L, "서구힐링 아트페스티벌.png", "서구힐링 아트페스티벌"));
-		FilefestivalRepo.save(new FileFestival(28L, "대구 음식산업 박람회.png", "대구 음식산업 박람회"));
-		FilefestivalRepo.save(new FileFestival(29L, "E world 일루미네이션.png", "E world 일루미네이션"));
-		FilefestivalRepo.save(new FileFestival(30L, "PumpKin Festa.png", "PumpKin Festa"));
-		FilefestivalRepo.save(new FileFestival(31L, "Dance ChampionShip.png", "Dance ChampionShip"));
-		FilefestivalRepo.save(new FileFestival(32L, "대구 인터네이션 오페라 페스티벌.png", "대구 인터네이션 오페라 페스티벌"));
-		FilefestivalRepo.save(new FileFestival(32L, "통영수산식품대전.png", "통영수산식품대전"));
-		FilefestivalRepo.save(new FileFestival(33L, "2023 International Ki Sports Festival.png", "2023 International Ki Sports Festival"));
-		FilefestivalRepo.save(new FileFestival(34L, "2023 글로벌 영도커피페스티벌.png", "2023 글로벌 영도커피페스티벌"));
+		FilefestivalRepo.save(new FileFestival(9L, "festival/대한민국 우리술 대축제.png", "대한민국 우리술 대축제"));
+		FilefestivalRepo.save(new FileFestival(10L, "festival/ㅊㅊ-하다 페스티벌.png", "ㅊㅊ-하다 페스티벌"));
+		FilefestivalRepo.save(new FileFestival(11L, "festival/경상북도사과홍보행사.png", "경상북도사과홍보행사"));
+		FilefestivalRepo.save(new FileFestival(12L, "festival/2023년 유니버설디자인 공감주간.png", "2023년 유니버설디자인 공감주간"));
+		FilefestivalRepo.save(new FileFestival(13L, "festival/제 15회 언리미티드 에디션 서울아트북페어 2023.png", "제 15회 언리미티드 에디션 서울아트북페어 2023"));
+		FilefestivalRepo.save(new FileFestival(14L, "festival/제3회 금천패션영화제.png", "제3회 금천패션영화제"));
+		FilefestivalRepo.save(new FileFestival(15L, "festival/2023 광화문 책마당.png", "2023 광화문 책마당"));
+		FilefestivalRepo.save(new FileFestival(16L, "festival/한강불빛공연 드론 라이트쇼.png", "한강불빛공연 드론 라이트쇼"));
+		FilefestivalRepo.save(new FileFestival(17L, "festival/양재 아트 살롱.png", "양재 아트 살롱"));
+		FilefestivalRepo.save(new FileFestival(18L, "festival/월드판소리페스티벌.png", "월드판소리페스티벌"));
+		FilefestivalRepo.save(new FileFestival(19L, "festival/무브살롱 시즌2 펫토피아.png", "무브살롱 시즌2 펫토피아"));
+		FilefestivalRepo.save(new FileFestival(20L, "festival/중구 도심산업 페스타.png", "중구 도심산업 페스타"));
+		FilefestivalRepo.save(new FileFestival(21L, "festival/서울디자인 2023.png", "서울디자인 2023"));
+		FilefestivalRepo.save(new FileFestival(22L, "festival/양재플라워페스타.png", "양재플라워페스타"));
+		FilefestivalRepo.save(new FileFestival(23L, "festival/유림공원.png", "유림공원"));
+		FilefestivalRepo.save(new FileFestival(24L, "festival/2023 대전빵축제.png", "2023 대전빵축제"));
+		FilefestivalRepo.save(new FileFestival(25L, "festival/대전동구 문화재야행.png", "대전동구 문화재야행"));
+		FilefestivalRepo.save(new FileFestival(26L, "festival/K-Hyo 페스타.png", "K-Hyo 페스타"));
+		FilefestivalRepo.save(new FileFestival(27L, "festival/서구힐링 아트페스티벌.png", "서구힐링 아트페스티벌"));
+		FilefestivalRepo.save(new FileFestival(28L, "festival/대구 음식산업 박람회.png", "대구 음식산업 박람회"));
+		FilefestivalRepo.save(new FileFestival(29L, "festival/E world 일루미네이션.png", "E world 일루미네이션"));
+		FilefestivalRepo.save(new FileFestival(30L, "festival/PumpKin Festa.png", "PumpKin Festa"));
+		FilefestivalRepo.save(new FileFestival(31L, "festival/Dance ChampionShip.png", "Dance ChampionShip"));
+		FilefestivalRepo.save(new FileFestival(32L, "festival/대구 인터네이션 오페라 페스티벌.png", "대구 인터네이션 오페라 페스티벌"));
+		FilefestivalRepo.save(new FileFestival(32L, "festival/통영수산식품대전.png", "통영수산식품대전"));
+		FilefestivalRepo.save(new FileFestival(33L, "festival/2023 International Ki Sports Festival.png", "2023 International Ki Sports Festival"));
+		FilefestivalRepo.save(new FileFestival(34L, "festival/2023 글로벌 영도커피페스티벌.png", "2023 글로벌 영도커피페스티벌"));
 
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 		
@@ -470,10 +470,22 @@ public class FestivalApplication implements CommandLineRunner {
 		/* (테스트용) 결재내역 생성 */
 		paymentService.creatDefaultPaymemt();
 		
-		fileTravalPackRepo.save(new FileTravalPack(2L, "travalPack/고양이1.png", "고양이1"));
-		fileTravalPackRepo.save(new FileTravalPack(3L, "travalPack/고양이2.png", "고양이2"));
-		fileTravalPackRepo.save(new FileTravalPack(4L, "travalPack/고양이3.png", "고양이3"));
-		fileTravalPackRepo.save(new FileTravalPack(5L, "travalPack/고양이4.png", "고양이4"));
+		fileTravalPackRepo.save(new FileTravalPack(1L, "travalPack/패키지사진1.png", "패키지사진1"));
+		fileTravalPackRepo.save(new FileTravalPack(2L, "travalPack/패키지사진2.png", "패키지사진2"));
+		fileTravalPackRepo.save(new FileTravalPack(3L, "travalPack/패키지사진3.png", "패키지사진3"));
+		fileTravalPackRepo.save(new FileTravalPack(4L, "travalPack/패키지사진4.png", "패키지사진4"));
+		fileTravalPackRepo.save(new FileTravalPack(5L, "travalPack/패키지사진5.png", "패키지사진5"));
+		fileTravalPackRepo.save(new FileTravalPack(6L, "travalPack/패키지사진6.png", "패키지사진6"));
+		fileTravalPackRepo.save(new FileTravalPack(7L, "travalPack/패키지사진7.png", "패키지사진7"));
+		fileTravalPackRepo.save(new FileTravalPack(8L, "travalPack/패키지사진8.png", "패키지사진8"));
+		fileTravalPackRepo.save(new FileTravalPack(9L, "travalPack/패키지사진9.png", "패키지사진9"));
+		fileTravalPackRepo.save(new FileTravalPack(10L, "travalPack/패키지사진10.png", "패키지사진10"));
+		fileTravalPackRepo.save(new FileTravalPack(11L, "travalPack/패키지사진11.png", "패키지사진11"));
+		fileTravalPackRepo.save(new FileTravalPack(12L, "travalPack/패키지사진12.png", "패키지사진12"));
+		fileTravalPackRepo.save(new FileTravalPack(13L, "travalPack/패키지사진13.png", "패키지사진13"));
+		fileTravalPackRepo.save(new FileTravalPack(14L, "travalPack/패키지사진14.png", "패키지사진14"));
+		fileTravalPackRepo.save(new FileTravalPack(15L, "travalPack/패키지사진15.png", "패키지사진15"));
+		
 		
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
         
