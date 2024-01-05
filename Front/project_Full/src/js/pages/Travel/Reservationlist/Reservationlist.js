@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import "./Reservationlist.css";
+import { useReservationlist } from './useReservationlist';
 
 /* 여행 예약 3번*/
 /* - 패키지 여행 예약 내역 목록 페이지*/
@@ -21,7 +22,7 @@ function Reservationlist() {
 
     const [Packreservation, setPackreservation] = useState([]); // 패키지 여행 예약 목록
 
-    const { checkIsLogin, toLogin } = useCheckLogin(); // 로그인 체크
+    const { toLogin } = useCheckLogin(); // 로그인 체크
 
     const [userName, setUserName] = useState(''); // 회원 이름 
 
@@ -37,57 +38,54 @@ function Reservationlist() {
         handlePageChange     // 페이지 변경을 처리하는 함수
     } = usePagination(Packreservation); // 패키지 예약 정보
 
+    const { getUser, getReservations, getFilePack, cancelReservation } = useReservationlist
+
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
+    /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 회원이 예약한 패키지여행 예약 목록 불러오기 */
     useEffect(() => {
-
-        const jwt = sessionStorage.getItem('jwt');
-
-        if (jwt === undefined || jwt === '') {
-            if (!checkIsLogin()) {
-                toLogin();
-            }
-        }
-
-        fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' })
-            .then(response => { return response.json() })
-            .then(data => {
-
-                /* 회원이 예약한 패키지 여행 내역 데이터 가져오기 */
-                fetch(SERVER_URL + `packreservation/getPackReservationMemId?memId=${data.memId}`, { method: 'GET' })
-                    .then(response => response.json())
-                    .then(data => { console.log(data[0]); setPackreservation(data); })
-                    .catch(err => { console.error(err); });
-
-                /* >로그인한 회원의 이름을 출력하기위한 코드 */
-                // 회원의 이름을 가져온다고 가정하고, data에 이름이 담겨있다고 가정합니다.
-                const memberName = data.name; // data에서 이름 필드를 가져온다
-                setUserName(memberName);
-
-            }).catch(err => console.error(err));
-
-
+        if (!getData()) { toLogin(); }
     }, []);
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
 
-    /* 패키지 여행 예약 취소 */
-    const handleCancel = (resNum) => {
-        fetch(SERVER_URL + `packreservation/${resNum}`, { method: 'DELETE' })
+    /* 회원정보 가져오기 */
+    const getData = async (resNum) => {
+        const user = await getUser(resNum);
 
-            .then(response => {
-                if (response.ok) {
-                    const updatedPackreservation = Packreservation.filter(deletetravalpack => deletetravalpack.resNum !== resNum);
-                    setPackreservation(updatedPackreservation);
-                    alert('패키지 여행 예약 번호 ' + resNum + '번 이 성공적으로 삭제되었습니다.');
+        if (user === undefined || user === false) { return false; }
+
+        const result = await getReservations(user.memId);
+
+        if (result === undefined) {
+
+            for (const res of result) {
+                const img = await getFilePack(res.packNum);
+
+                if (img === undefined) {
+                    setPackreservation(prevPacks => prevPacks ? [...prevPacks, { ...res }] : { ...res });
                 } else {
-                    alert('패키지 여행 예약을 삭제하는 중 오류가 발생했습니다.');
+                    setPackreservation(prevPacks => prevPacks ? [...prevPacks, { ...res, ...img }] : { ...res, ...img });
                 }
-            })
-            .catch(err => alert(err))
+            }
+        }
+    };
+
+    /* 패키지 여행 예약 취소 */
+    const handleCancel = async (resNum) => {
+        const res = await cancelReservation(resNum);
+
+        if (res.ok) {
+            const updatedPackreservation = Packreservation.filter(deletetravalpack => deletetravalpack.resNum !== resNum);
+            setPackreservation(updatedPackreservation);
+            alert('패키지 여행 예약 번호 ' + resNum + '번 이 성공적으로 삭제되었습니다.');
+        } else {
+            alert('패키지 여행 예약을 삭제하는 중 오류가 발생했습니다.');
+        }
     };
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -102,12 +100,20 @@ function Reservationlist() {
             width: 300,
             renderCell: (params) => (
                 <div className="image-cell">
-                    {/* 테스트용 이미지 */}
-                    <img className="custom-image"
-                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
-                        alt="축제이미지"
-                        onClick={() => handleModalOpen(params.row.resNum)} // 모달 열기 함수 호출
-                    />
+                    {params.row.imgFile === undefined ?
+                        <img class="custom-image"
+                            src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                            alt="축제이미지"
+                            onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                        />
+                        :
+
+                        <img class="custom-image"
+                            src={`data:image/png;base64,${params.row.imgFile}`}
+                            alt={params.row.orgFile}
+                            onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                        />
+                    }
 
                     {/* 부트 스트랩의 모달 폼 */}
                     <ModalComponent
