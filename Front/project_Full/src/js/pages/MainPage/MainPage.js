@@ -45,7 +45,7 @@ function MainPage() {
     fetch(SERVER_URL + `getUser?jwt=${jwt}`, { method: 'GET' })
       .then(response => response.json())
       .then(data => {
-
+        setRegion(data.addrRoad);
       }).catch(err => console.error(err));
 
     /* 회원이 예약한 패키지 여행 내역 데이터 가져오기 */
