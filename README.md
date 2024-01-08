@@ -1,3 +1,15 @@
+https://viva-la-fiestas.com/
+
+테스트용 계정
+
+ - 관리자
+ID : admin
+Password: admin
+
+ - 사용자(user10 ~ user15는 차단됨)
+ID : user1, user2, ..., user15
+Password : user1, user2, ..., user15
+
 ===== 12.26 ~ 12.29 =====
 
  - 블랙 리스트, 축제, 페키지, 회원 관리 기능 및 페이지 구현
