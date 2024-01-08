@@ -18,10 +18,15 @@ import com.project.festival.Dto.FileDto;
 
 @Service
 public class FireBaseService {
-    private final String BUCKET = "viva-festival.appspot.com";
+//    private final String BUCKET = "viva-festival.appspot.com";
     
     // 파일 절대경로 설정
-    private final Resource resource = new ClassPathResource("viva-festival-firebase-adminsdk.json");
+//    private final Resource resource = new ClassPathResource("viva-festival-firebase-adminsdk.json");
+
+    private final String BUCKET = "viva-la-fiestas-21056.appspot.com";
+    
+    // 파일 절대경로 설정
+    private final Resource resource = new ClassPathResource("viva-la-fiestas-21056-firebase-adminsdk-9betd-c77c420530.json");
 	
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 // ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
