@@ -51,8 +51,9 @@ const TravelKaKaoMap = () => {
 
 		}).then((data) => {
 			setAddr(data);
-			showMap(data);
-
+			
+			const randomLat = Math.ceil(Math.random() * data.length);
+			showMap(data[randomLat-1]);
 
 		}).catch((e) => {
 			alert(e)
@@ -72,15 +73,38 @@ const TravelKaKaoMap = () => {
 
 		if (Check) {
 			setCheck(Check1);
+			console.log(Check1);
 			if (RegionList === "") {/* 지역셀렉트 박스가 NUll값일때  */
 				const camp = addrList.filter((data) => data.tag === Check1); /* 체크박스 값이랑 같은 값만 추출*/
-				showMap(camp);
-				console.log(camp);
+				if(camp.length !== 0){
+				const randomLat = Math.ceil(Math.random() * camp.length);
+				for(let i in camp){
+					if(randomLat==i){
+						showMap(camp[i]);
+					}
+				}
+				}
+				
+				else{
+					getFestival();
+					alert("데이터가 없습니다.");
+				}
 
 			} else {
 				const camp = addrList.filter((data) => data.tag === Check1 && data.region === RegionList); /* 체크박스 값이랑 셀렉트 박스 값 추출*/
-				showMap(camp);
-
+				if(camp.length !== 0){
+					const randomLat = Math.ceil(Math.random() * camp.length);
+					for(let i in camp){
+						if(randomLat==i){
+							showMap(camp[i]);
+						}
+					}
+					
+				}
+				else{
+					getFestival();
+					alert("데이터가 없습니다.");
+				}
 			}
 		}
 
@@ -88,22 +112,46 @@ const TravelKaKaoMap = () => {
 		else {
 			setCheck("");
 			if (RegionList === "")
-				getFestival();
+			{	getFestival();
+				alert("데이터가 없습니다.");
+			}
 			else {
 				const camp = addrList.filter((data) => data.region === RegionList);
-				showMap(camp)
+				if(camp.length !== 0){
+					const randomLat = Math.ceil(Math.random() * camp.length);
+					for(let i in camp){
+						if(randomLat==i){
+							showMap(camp[i]);
+						}
+					}
+					
+				}
 			}
 		}
 	}
+
+
+
+
 	/* 지역 셀렉트 박스 */
 	const onSelectedItem = (Select) => {
 		if (Select === "X") {
 			setRegion("");
-			if (CheckList === "")
+			if (CheckList === ""){
 				getFestival();
+				alert("데이터가 없습니다.");
+			}
 			else {
 				const camp = addrList.filter((data) => data.tag === CheckList);
-				showMap(camp)
+				if(camp.length !== 0){
+					const randomLat = Math.ceil(Math.random() * camp.length);
+					for(let i in camp){
+						if(randomLat==i){
+							showMap(camp[i]);
+						}
+					}
+					
+				}
 			}
 
 		}
@@ -111,29 +159,71 @@ const TravelKaKaoMap = () => {
 			setRegion(Select);
 			if (CheckList === "") {
 				const camp = addrList.filter((data) => data.region === Select);
-				showMap(camp)
+				if(camp.length !== 0){
+					const randomLat = Math.ceil(Math.random() * camp.length);
+					for(let i in camp){
+						if(randomLat==i){
+							showMap(camp[i]);
+						}
+					}
+					
+				}
 			}
 			else {
 				const camp = addrList.filter((data) => data.tag === CheckList && data.region === Select);
-				showMap(camp)
+				if(camp.length !== 0){
+					const randomLat = Math.ceil(Math.random() * camp.length);
+					for(let i in camp){
+						if(randomLat==i){
+							showMap(camp[i]);
+						}
+					}
+					
+				}
 			}
 		}
 	}
 	/* 지도표시 버튼을 눌렀을 경우 */
 	const result = () => {
-		if (CheckList === "" && RegionList === "")
+		if (CheckList === "" && RegionList === ""){
 			getFestival();
+			alert("데이터가 없습니다.");
+		}
 		else if (CheckList === "" && RegionList !== "") {
 			const camp = addrList.filter((data) => data.region === RegionList);
-			showMap(camp)
+			if(camp.length !== 0){
+				const randomLat = Math.ceil(Math.random() * camp.length);
+				for(let i in camp){
+					if(randomLat==i){
+						showMap(camp[i]);
+					}
+				}
+				
+			}
 		}
 		else if (CheckList !== "" && RegionList === "") {
 			const camp = addrList.filter((data) => data.tag === CheckList);
-			showMap(camp)
+			if(camp.length !== 0){
+				const randomLat = Math.ceil(Math.random() * camp.length);
+				for(let i in camp){
+					if(randomLat==i){
+						showMap(camp[i]);
+					}
+				}
+				
+			}
 		}
 		else if (CheckList !== "" && RegionList !== "") {
 			const camp = addrList.filter((data) => data.tag === CheckList && data.region === RegionList);
-			showMap(camp)
+			if(camp.length !== 0){
+				const randomLat = Math.ceil(Math.random() * camp.length);
+				for(let i in camp){
+					if(randomLat==i){
+						showMap(camp[i]);
+					}
+				}
+				
+			}
 		}
 	}
 	/* 검색 텍스트 박스*/
@@ -164,7 +254,15 @@ const TravelKaKaoMap = () => {
 					console.log(item, item.name);
 
 					const camp = addrList.filter((data) => data.name === item.name);
-					showMap(camp);
+					if(camp.length !== 0){
+						const randomLat = Math.ceil(Math.random() * camp.length);
+						for(let i in camp){
+							if(randomLat==i){
+								showMap(camp[i]);
+							}
+						}
+						
+					}
 
 				}
 			})
@@ -195,10 +293,8 @@ const TravelKaKaoMap = () => {
 		// 지도를 생성 
 		const map = new kakao.maps.Map(mapContainer, mapOption);
 
-		data.map(addr => {
-
 			// 주소로 좌표를 검색
-			geocoder.addressSearch(addr.location, function (result, status) {
+			geocoder.addressSearch(data.location, function (result, status) {
 
 				// 정상적으로 검색이 완료됐으면 
 				if (status === kakao.maps.services.Status.OK) {
@@ -209,6 +305,7 @@ const TravelKaKaoMap = () => {
 					let marker = new kakao.maps.Marker({
 						map: map,
 						position: coords
+						
 					});
 
 					// 인포윈도우로 장소에 대한 설명을 표시
@@ -216,10 +313,10 @@ const TravelKaKaoMap = () => {
 						content:
 							`<div style="width:250px;text-align:center;padding:1px 0;">` +
 							`<p>` +
-							`${addr.name}` +
+							`${data.name}` +
 							`</p>` +
 							`<p>` +
-							`${addr.startDate} ~ ${addr.endDate}` +
+							`${data.startDate} ~ ${data.endDate}` +
 							`</p>` +
 							`</div>`
 					});
@@ -231,7 +328,7 @@ const TravelKaKaoMap = () => {
 			});
 
 			return null;
-		});
+
 	}
 
 	// ===== ===== ===== ===== ===== ===== ===== ===== =====
