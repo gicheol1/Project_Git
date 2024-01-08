@@ -86,6 +86,10 @@ const TravelKaKaoMap = () => {
 				}
 				
 				else{
+					const checkboxes = document.getElementsByName('check')
+					for (let i = 0; i < checkboxes.length; i++) {
+							checkboxes[i].checked = false
+					}
 					getFestival();
 					alert("데이터가 없습니다.");
 				}
@@ -102,6 +106,10 @@ const TravelKaKaoMap = () => {
 					
 				}
 				else{
+					const checkboxes = document.getElementsByName('check')
+					for (let i = 0; i < checkboxes.length; i++) {
+							checkboxes[i].checked = false
+					}
 					getFestival();
 					alert("데이터가 없습니다.");
 				}
@@ -112,7 +120,12 @@ const TravelKaKaoMap = () => {
 		else {
 			setCheck("");
 			if (RegionList === "")
-			{	getFestival();
+			{	
+				const checkboxes = document.getElementsByName('check')
+					for (let i = 0; i < checkboxes.length; i++) {
+							checkboxes[i].checked = false
+					}
+				getFestival();
 				alert("데이터가 없습니다.");
 			}
 			else {
@@ -138,6 +151,10 @@ const TravelKaKaoMap = () => {
 		if (Select === "X") {
 			setRegion("");
 			if (CheckList === ""){
+				const checkboxes = document.getElementsByName('check')
+					for (let i = 0; i < checkboxes.length; i++) {
+							checkboxes[i].checked = false
+					}
 				getFestival();
 				alert("데이터가 없습니다.");
 			}
@@ -186,6 +203,10 @@ const TravelKaKaoMap = () => {
 	/* 지도표시 버튼을 눌렀을 경우 */
 	const result = () => {
 		if (CheckList === "" && RegionList === ""){
+			const checkboxes = document.getElementsByName('check')
+					for (let i = 0; i < checkboxes.length; i++) {
+							checkboxes[i].checked = false
+					}
 			getFestival();
 			alert("데이터가 없습니다.");
 		}
