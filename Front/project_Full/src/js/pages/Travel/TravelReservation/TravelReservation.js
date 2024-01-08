@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
 import './TravelReservation.css';
+import { useTravelReservation } from './useTravelReservation';
 
 /* 여행 예약 2번*/
 /* - 여행 패키지 예약 페이지(날짜와 상품갯수 선택) */
@@ -35,7 +36,9 @@ function TravelReservation() {
         startDate: festivallist.startDate,
         endDate: festivallist.endDate
     }));
-    console.log(FestivalfilteredData);
+
+
+    const { getTravalpack, getFilePack } = useTravelReservation();
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -43,19 +46,18 @@ function TravelReservation() {
 
     /* 벡엔드에 Controller(컨트롤러)에서 설정한 패키지여행 번호에 맞는 상세정보, 축제 정보 불러오기 */
     useEffect(() => {
-        fetch(SERVER_URL + `getTravalpack?packNum=${packNum}`)
-            .then((response) => { return response.json(); })
-            .then((data) => {
-                setTravalPack([data]) // 번호(기본키)에 해당되는 여행 패키지 정보 // 단일 객체 일 떄는 [] 필수
 
-                setReservationInfo({
-                    price: data.price,
-                    startDate: data.startDate,
-                    dateCnt: `${data.startDate} ~ ${data.endDate}`,
-                    count: count
-                });
-            })
-            .catch((err) => console.error(err));
+        getTravalpack(packNum).then((data) => {
+            getFilePack(packNum).then((img) => {
+
+                if (img === undefined) {
+                    setTravalPack(p => [{ ...data }]);
+                } else {
+                    setTravalPack(p => [{ ...data, ...img }]);
+                }
+                setReservationInfo({ ...data });
+            });
+        });
 
         fetch(SERVER_URL + "festivalAll", { method: 'GET' })
             .then(response => response.json())
@@ -142,15 +144,22 @@ function TravelReservation() {
 
             renderCell: (params) => {
                 const festivalData1 = FestivalfilteredData.find(festivallist => festivallist.name === params.row.festivalname);
-
                 return (
                     <div className="image-cell">
-                        {/* 테스트용 이미지 */}
-                        <img class="custom-image"
-                            src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
-                            alt="축제이미지"
-                            onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
-                        />
+                        {params.row.imgFile === undefined ?
+                            <img class="custom-image"
+                                src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                                alt="축제이미지"
+                                onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                            />
+                            :
+
+                            <img class="custom-image"
+                                src={`data:image/png;base64,${params.row.imgFile}`}
+                                alt={params.row.orgFile}
+                                onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                            />
+                        }
 
                         <ModalComponent
                             showModal={modalOpenMap[params.row.packNum]}
@@ -243,7 +252,7 @@ function TravelReservation() {
                         <input className='date'
                             type="text"
                             name="dateCnt"
-                            value={reservationInfo.dateCnt}
+                            value={`${reservationInfo.startDate} ~ ${reservationInfo.endDate}`}
                             onChange={handleInputChange}
                             readOnly
                         />

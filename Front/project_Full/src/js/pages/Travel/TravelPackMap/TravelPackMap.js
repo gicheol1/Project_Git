@@ -100,7 +100,7 @@ const TravelPackMap = ({ packNum }) => {
 	return (
 		<div className='reservation-map'>
 			{/* 패키지 여행의 위치를 지도에 표시 */}
-			<div id="map" style={{ width: "100%", height: "50vh", border: "3px solid #ccc"}}>
+			<div id="map" style={{ width: "100%", height: "50vh", border: "3px solid #ccc" }}>
 			</div>
 		</div>
 	);

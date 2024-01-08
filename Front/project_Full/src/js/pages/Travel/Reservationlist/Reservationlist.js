@@ -38,7 +38,7 @@ function Reservationlist() {
         handlePageChange     // 페이지 변경을 처리하는 함수
     } = usePagination(Packreservation); // 패키지 예약 정보
 
-    const { getUser, getReservations, getFilePack, cancelReservation } = useReservationlist
+    const { getUser, getReservations, getFilePack, cancelReservation } = useReservationlist();
 
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -59,17 +59,20 @@ function Reservationlist() {
 
         if (user === undefined || user === false) { return false; }
 
+        setUserName(user.name);
         const result = await getReservations(user.memId);
 
-        if (result === undefined) {
+        if (result !== undefined) {
+
+            console.log(result);
 
             for (const res of result) {
                 const img = await getFilePack(res.packNum);
 
                 if (img === undefined) {
-                    setPackreservation(prevPacks => prevPacks ? [...prevPacks, { ...res }] : { ...res });
+                    setPackreservation(p => p !== undefined ? [...p, { ...res }] : [{ ...res }]);
                 } else {
-                    setPackreservation(prevPacks => prevPacks ? [...prevPacks, { ...res, ...img }] : { ...res, ...img });
+                    setPackreservation(p => p !== undefined ? [...p, { ...res, ...img }] : [{ ...res, ...img }]);
                 }
             }
         }

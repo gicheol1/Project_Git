@@ -53,14 +53,30 @@ function Proceedpayment() {
             .then(response => response.json())
             .then(data => {
 
-                console.log(data); // 패키지여행의 데이터를 잘가져오는지 확인
-
                 // data에서 "travalPack"을 추출하고 그 안의 "price"(가격)와 예약한 인원 수 "count"(인원 수)를 곱한 값 
                 const packreservation = data.price * data.count;
-                console.log("최종 패키지 여행의 가격:" + packreservation)
 
                 // 패키지 여행의 가격값을 입력폼에 출력
                 setPaymentInfo({ payamount: packreservation, });
+
+                fetch(SERVER_URL + `getFileTravalPackRandom?packNum=${data.packNum}`, {
+                    method: 'GET'
+
+                }).then((response) => {
+
+                    if (!response.ok) { return undefined; }
+                    return response.json();
+
+                }).then((img) => {
+
+                    if (img === undefined) {
+                        setPackreservation(p => [{ ...data }]);
+                    } else {
+                        setPackreservation(p => [{ ...data, ...img }]);
+                    }
+
+                }).catch((e) => { console.log(e); return undefined; });
+
 
                 // 패키지 여행 예약 목록 state 업데이트
                 setPackreservation([data]);
@@ -131,12 +147,20 @@ function Proceedpayment() {
             width: 300,
             renderCell: (params) => (
                 <div className="image-cell">
-                    {/* 테스트용 이미지 */}
-                    <img className="custom-image"
-                        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
-                        alt="축제이미지"
-                        onClick={() => handleModalOpen(params.row.resNum)} // 모달 열기 함수 호출
-                    />
+                    {params.row.imgFile === undefined ?
+                        <img class="custom-image"
+                            src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=9046601&filePath=L2Rpc2sxL25ld2RhdGEvMjAxNC8yMS9DTFM2L2FzYWRhbFBob3RvXzI0MTRfMjAxNDA0MTY=&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+                            alt="축제이미지"
+                            onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                        />
+                        :
+
+                        <img class="custom-image"
+                            src={`data:image/png;base64,${params.row.imgFile}`}
+                            alt={params.row.orgFile}
+                            onClick={() => handleModalOpen(params.row.packNum)} // 모달 열기 함수 호출
+                        />
+                    }
 
                     {/* 부트 스트랩의 모달 폼 */}
                     <ModalComponent
@@ -204,7 +228,7 @@ function Proceedpayment() {
     }, [paymentInfo.payamount]);
 
     console.log("결제 위젯에 값이 들어갔는지 확인용(패키지 여행 * 인원 수 가격): " + paymentInfo.payamount);
-    /* --------------------------------------------------------------------------------- */   
+    /* --------------------------------------------------------------------------------- */
 
     /* 화면 출력 */
     /* ▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤▤ */
@@ -244,9 +268,9 @@ function Proceedpayment() {
                         <div className='widget-style' id="payment-widget" />
                     </div>
                     <div className='pay-user'>
-                        <h2 className='user-name'><BadgeIcon fontSize='large'/> 성명 : {member.name}</h2>
-                        <h2 className='user-phone'><ContactPhoneIcon fontSize='large'/> 휴대폰 번호 : {member.phonNum}</h2>
-                        <h2 className='user-email'><EmailIcon fontSize='large'/> 회원 이메일 : {member.email}</h2>
+                        <h2 className='user-name'><BadgeIcon fontSize='large' /> 성명 : {member.name}</h2>
+                        <h2 className='user-phone'><ContactPhoneIcon fontSize='large' /> 휴대폰 번호 : {member.phonNum}</h2>
+                        <h2 className='user-email'><EmailIcon fontSize='large' /> 회원 이메일 : {member.email}</h2>
                     </div>
                 </div>
                 <button className='payment-button' onClick={handleButtonClick}>
